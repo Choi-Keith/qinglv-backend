@@ -1,0 +1,40 @@
+syntax  = "v1"
+
+info (
+    title: "角色服务"
+    desc: "角色服务"
+    author: "choi"
+    email: "1278028801@qq.com"
+    version: "v1"
+)
+
+type Role{
+    ID int64 `json:"id"`
+    UserId int64 `json:"userId"`
+    Name string `json:"name"`
+    CreatedAt int64 `json:"createdAt"`
+    UpdatedAt int64 `json:"updatedAt"`
+}
+
+type RoleReq {
+    Name string `json:"name"`
+}
+
+type Resp {
+    Role Role `json:"role"`
+}
+
+
+type (
+    RoleListReq {
+        UserId int64 `json:"userId"`
+        Name string `json:"name"`
+        PageNum int `json:"pageNum"`
+        PageSize int `json:"pageSize"`
+    }
+    RoleListResp {
+        List []Role `json:"list"`
+        IsEnd bool `json:"isEnd"`
+        Total bool `json:"total"`
+    }
+)

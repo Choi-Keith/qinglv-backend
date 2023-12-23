@@ -1,0 +1,40 @@
+syntax = "v1"
+
+info (
+    title: "关注服务"
+    desc: "我关注的用户"
+    author: "choi"
+    email: "1278028801@qq.com"
+    version: "v1"
+)
+
+type Following {
+    Id int64 `json:"id"`
+    UserId int64 `json:"userId"`
+    FollowingId int64 `json:"followingId"`
+    CreatedAt int64 `json:"createdAt"`
+    UpdatedAt int64 `json:"updatedAt"`
+}
+
+type AddFollowingReq{
+    UserId int64 `json:"userId"`
+}
+
+type  DelFollowingReq {
+    UserId int64 `json:"userId"`
+}
+
+type (
+    FollowingListReq {
+        UserId int64 `json:"userId"`
+        FollowId int64 `json:"followId"`
+        PageNum int `json:"pageNum"`
+        PageSize int `json:"pageSize"`
+    }
+    FollowingListResp {
+        List []Following `json:"list"`
+        IsEnd bool `json:"isEnd"`
+        Total bool `json:"total"`
+    }
+)
+

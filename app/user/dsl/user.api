@@ -1,0 +1,113 @@
+syntax = "v1"
+
+info(
+	title: "用户服务"
+	desc: "用户服务"
+	author: "choi"
+	email: "1278028801@qq.com"
+	version: "v1"
+)
+
+
+type EmailReq {
+    Email string `json:"email"`
+}
+
+type PhoneReq {
+    Phone string `json:"phone"`
+}
+
+type (
+    RegisterReq {
+        Nickname string `json:"nickname"`
+        Email string `json:"email"`
+        Password string `json:"password"`
+        RePassword string `json:"rePassword"`
+    }
+    RegisterResp {
+        Id int64 `json:"id"`
+    }
+)
+
+
+type (
+    LoginReq {
+        Email string `json:"email"`
+        Password string `json:"password"`
+        CaptchId string `json:"captchId"`
+        CaptchCode string `json:"captchCode"`
+        VerifyCode string `json:"VerifyCode"`
+    }
+    LoginResp {
+        AccessToken string   `json:"accessToken"`
+        RefreshToken string `json:"refressToken"`
+        ExpireAt int64 `json:"refreshAt"`
+    }
+)
+
+
+type (
+    PasswordReq {
+        OldPassword string `json:"oldPassword"`
+        NewPassword string `json:"newPassword"`
+        RePassword string `json:"rePassword"`
+    }
+)
+
+type User {
+    Id int64 `json:"id"`
+    Role Role `json:"role"`
+    RoleId int64 `json:"roleId"`
+    Nickname string `json:"nickname"`
+    Email string `json:"email"`
+    WeChat string `json:"weChat"`
+    Motto string `json:"motto"`
+    Avatar string `json:"avatar"`
+    ProfileBg string `json:"profileBg"`
+    Age int `json:"age,range=[0:120]"`
+    Gender int `json:"gender,options=[0,1],default=0"`
+    Location string `json:"location"`
+    Status int `json:"status"`
+    Level int `json:"level"`
+    Score int `json:"score"`
+    CreatedAt int64 `json:"createdAt"`
+    UpdatedAt int64 `json:"updatedAt"`
+}
+
+
+type (
+    UserListReq {
+        Account string `json:"account"`
+        Nickname string `json:"nickname"`
+        Email string `json:"email"`
+        Phone string `json:"phone"`
+        WeChat string `json:"weChat"`
+        PageNum int `json:"pageNum"`
+        PageSize int `json:"pageSize"`
+    }
+    
+    UserListResp {
+        List []User `json:"list"`
+        IsEnd bool `json:"isEnd"`
+        Total bool `json:"total"`
+    }
+)
+
+type (
+    UserReq {
+        Account string `json:"account"`
+        Nickname string `json:"nickname"`
+        RoldId int64 `json:"roleId"`
+        Motto string `json:"motto"`
+        Age int `json:"age,range=[0:120]"`
+        Gender int `json:"gender,options=[0,1],default=0"`
+        Location string `json:"location"`
+        Status int `json:"status"`
+        Level int `json:"level"`
+        Score int `json:"score"`
+    }
+    UserResp {
+        User User   `json:"user"`
+    }
+)
+

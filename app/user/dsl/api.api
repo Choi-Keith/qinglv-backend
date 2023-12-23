@@ -1,0 +1,148 @@
+syntax = "v1"
+
+import (
+	"role.api"
+	"user.api"
+	"following.api"
+	"follower.api"
+)
+
+// no need login
+@server(
+	prefix: /user/v1
+	group: user
+)
+service user {
+	@doc "register"
+	@handler register
+	post /user/register (RegisterReq) returns (RegisterResp)
+
+	@doc "login"
+	@handler login
+	post /user/login (LoginReq) returns (LoginResp)
+
+	@doc "user list"
+	@handler getUserList
+	get /user (UserListReq) returns (UserListResp)
+
+	@doc "user detail by id"
+	@handler getUserByID
+	get /user/:id  returns (UserResp)
+}
+
+// need login
+@server(
+	prefix: /user/v1
+	group: user
+	jwt: JWTAuth
+)
+service user {
+	@doc "update password"
+	@handler updatePassword
+	put /user/password (PasswordReq)
+
+	@doc "update email"
+	@handler updateEmail
+	put /user/email (EmailReq)
+
+	@doc "update phone"
+	@handler updatePhone
+	put /user/phone (PhoneReq)
+
+	@doc "update user info"
+	@handler updateUser
+	put /user/:id (User) returns (UserResp)
+
+	@doc "delete user"
+	@handler delUser
+	delete /user/:id
+
+}
+
+// no need login
+@server(
+	prefix: /user/v1
+	group: role
+	maxBytes: 1048576
+)
+service user {
+
+	@doc "role list"
+	@handler getRoleList
+	get /role (RoleListReq) returns (RoleListResp)
+
+	@doc "role detail"
+	@handler getRoleByID
+	get /role/:id
+}
+
+@server(
+	prefix: /user/v1
+	group: role
+	jwt: JWTAuth
+)
+service user {
+
+	@doc "create role"
+	@handler addRole
+	post /role (RoleReq)
+
+	@doc "update role"
+	@handler updateRole
+	put /role/:id (Role)
+
+	@doc "delete role"
+	@handler delRole
+	delete /role/:id
+}
+
+@server(
+	prefix: /user/v1
+	group: following
+)
+service user {
+	@doc "following list"
+	@handler getFollowingList
+	get /following (FollowingListReq) returns (FollowingListResp)
+}
+
+@server(
+	prefix: /user/v1
+	group: following
+	jwt: JWTAuth
+)
+service user {
+	@doc "add following"
+	@handler addFollowing
+	post /following (AddFollowingReq)
+
+	@doc "cancel following"
+	@handler delFollower
+	delete /following (DelFollowingReq)
+}
+
+@server(
+	prefix: /user/v1
+	group: follower
+)
+service user {
+	@doc "follower list"
+	@handler getFollowerList
+	get /follower (FollowerListReq) returns (FollowerListResp)
+}
+
+@server(
+	prefix: /user/v1
+	group: follower
+	jwt: JWTAuth
+)
+service user {
+
+	@doc "add follower"
+	@handler addFollower
+	post /follower (AddFollowerReq)
+
+	@doc "cancel follower"
+	@handler delFollower
+	delete /follower (DelFollowerReq)
+}
