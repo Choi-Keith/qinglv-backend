@@ -4,8 +4,8 @@ package rpc;
 option go_package="./user";
 
 message User {
-  int64 id = 1;
-  int64 roleId = 2;
+  uint64 id = 1;
+  uint64 roleId = 2;
   string nickname = 3;
   string email = 4;
   string phone = 5;

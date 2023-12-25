@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"net/http"
 
 	"qinglv-backend/app/user/api/internal/config"
@@ -30,11 +29,11 @@ func main() {
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 	}))
 	defer server.Stop()
-	logx.SetLevel(logx.ErrorLevel)
+	logx.SetLevel(logx.DebugLevel)
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 
-	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
+	logx.Debugf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
 }

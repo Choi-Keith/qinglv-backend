@@ -3,7 +3,24 @@ Host: 0.0.0.0
 Port: 8888
 
 
-#jwtAuth
+#jwtAuth five days
 JwtAuth:
-  AccessSecret: ae0536f9-6450-4606-8e13-5a19ed505da0
+  AccessSecret: 18c9fbed038
   AccessExpire: 86400
+  RefreshSecret: 18c9fe63475
+  RefreshExpire: 432000
+
+Log:
+  ServiceName: coreApiLogger
+  Mode: file
+  Path: /home/data/logs/core/api
+  Level: info
+  Compress: false
+  KeepDays: 7
+  StackCoolDownMillis: 100
+
+Captcha:
+  KeyLong: 5
+  ImgWidth: 240
+  ImgHeight: 80
+  Driver: digit

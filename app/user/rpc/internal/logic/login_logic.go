@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"qinglv-backend/app/user/rpc/internal/svc"
-	"qinglv-backend/app/user/rpc/rpc"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
