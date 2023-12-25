@@ -2,11 +2,11 @@
 package types
 
 type Role struct {
-	ID        int64  `json:"id"`
-	UserId    int64  `json:"userId"`
+	ID        uint64 `json:"id"`
+	UserId    uint64 `json:"userId"`
 	Name      string `json:"name"`
-	CreatedAt int64  `json:"createdAt"`
-	UpdatedAt int64  `json:"updatedAt"`
+	CreatedAt uint64 `json:"createdAt"`
+	UpdatedAt uint64 `json:"updatedAt"`
 }
 
 type RoleReq struct {
@@ -18,7 +18,7 @@ type Resp struct {
 }
 
 type RoleListReq struct {
-	UserId   int64  `json:"userId"`
+	UserId   uint64 `json:"userId"`
 	Name     string `json:"name"`
 	PageNum  int    `json:"pageNum"`
 	PageSize int    `json:"pageSize"`
@@ -46,7 +46,7 @@ type RegisterReq struct {
 }
 
 type RegisterResp struct {
-	Id int64 `json:"id"`
+	Id uint64 `json:"id"`
 }
 
 type LoginReq struct {
@@ -60,7 +60,7 @@ type LoginReq struct {
 type LoginResp struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refressToken"`
-	ExpireAt     int64  `json:"refreshAt"`
+	ExpireAt     uint64 `json:"refreshAt"`
 }
 
 type PasswordReq struct {
@@ -70,9 +70,9 @@ type PasswordReq struct {
 }
 
 type User struct {
-	Id        int64  `json:"id"`
+	Id        uint64 `json:"id"`
 	Role      Role   `json:"role"`
-	RoleId    int64  `json:"roleId"`
+	RoleId    uint64 `json:"roleId"`
 	Nickname  string `json:"nickname"`
 	Email     string `json:"email"`
 	WeChat    string `json:"weChat"`
@@ -85,8 +85,8 @@ type User struct {
 	Status    int    `json:"status"`
 	Level     int    `json:"level"`
 	Score     int    `json:"score"`
-	CreatedAt int64  `json:"createdAt"`
-	UpdatedAt int64  `json:"updatedAt"`
+	CreatedAt uint64 `json:"createdAt"`
+	UpdatedAt uint64 `json:"updatedAt"`
 }
 
 type UserListReq struct {
@@ -108,7 +108,7 @@ type UserListResp struct {
 type UserReq struct {
 	Account  string `json:"account"`
 	Nickname string `json:"nickname"`
-	RoldId   int64  `json:"roleId"`
+	RoldId   uint64 `json:"roleId"`
 	Motto    string `json:"motto"`
 	Age      int    `json:"age,range=[0:120]"`
 	Gender   int    `json:"gender,options=[0,1],default=0"`
@@ -123,26 +123,26 @@ type UserResp struct {
 }
 
 type Following struct {
-	Id          int64 `json:"id"`
-	UserId      int64 `json:"userId"`
-	FollowingId int64 `json:"followingId"`
-	CreatedAt   int64 `json:"createdAt"`
-	UpdatedAt   int64 `json:"updatedAt"`
+	Id          uint64 `json:"id"`
+	UserId      uint64 `json:"userId"`
+	FollowingId uint64 `json:"followingId"`
+	CreatedAt   uint64 `json:"createdAt"`
+	UpdatedAt   uint64 `json:"updatedAt"`
 }
 
 type AddFollowingReq struct {
-	UserId int64 `json:"userId"`
+	UserId uint64 `json:"userId"`
 }
 
 type DelFollowingReq struct {
-	UserId int64 `json:"userId"`
+	UserId uint64 `json:"userId"`
 }
 
 type FollowingListReq struct {
-	UserId   int64 `json:"userId"`
-	FollowId int64 `json:"followId"`
-	PageNum  int   `json:"pageNum"`
-	PageSize int   `json:"pageSize"`
+	UserId   uint64 `json:"userId"`
+	FollowId uint64 `json:"followId"`
+	PageNum  int    `json:"pageNum"`
+	PageSize int    `json:"pageSize"`
 }
 
 type FollowingListResp struct {
@@ -152,30 +152,59 @@ type FollowingListResp struct {
 }
 
 type Follower struct {
-	Id         int64 `json:"id"`
-	UserId     int64 `json:"userId"`
-	FollowerId int64 `json:"followerId"`
-	CreatedAt  int64 `json:"createdAt"`
-	UpdatedAt  int64 `json:"updatedAt"`
+	Id         uint64 `json:"id"`
+	UserId     uint64 `json:"userId"`
+	FollowerId uint64 `json:"followerId"`
+	CreatedAt  uint64 `json:"createdAt"`
+	UpdatedAt  uint64 `json:"updatedAt"`
 }
 
 type AddFollowerReq struct {
-	UserId int64 `json:"userId"`
+	UserId uint64 `json:"userId"`
 }
 
 type DelFollowerReq struct {
-	UserId int64 `json:"userId"`
+	UserId uint64 `json:"userId"`
 }
 
 type FollowerListReq struct {
-	UserId     int64 `json:"userId"`
-	FollowerId int64 `json:"followerId"`
-	PageNum    int   `json:"pageNum"`
-	PageSize   int   `json:"pageSize"`
+	UserId     uint64 `json:"userId"`
+	FollowerId uint64 `json:"followerId"`
+	PageNum    int    `json:"pageNum"`
+	PageSize   int    `json:"pageSize"`
 }
 
 type FollowerListResp struct {
 	List  []Follower `json:"list"`
 	IsEnd bool       `json:"isEnd"`
 	Total bool       `json:"total"`
+}
+
+type Blacklist struct {
+	Id          uint64 `json:"id"`
+	UserId      uint64 `json:"userId"`
+	BlackListId uint64 `json:"blackListId"`
+	CreatedAt   uint64 `json:"createdAt"`
+	UpdatedAt   uint64 `json:"updatedAt"`
+}
+
+type AddBlacklistReq struct {
+	UserId uint64 `json:"userId"`
+}
+
+type DelBlacklistReq struct {
+	UserId uint64 `json:"userId"`
+}
+
+type BlacklistListReq struct {
+	UserId      uint64 `json:"userId"`
+	BlacklistId uint64 `json:"BlacklistId"`
+	PageNum     int    `json:"pageNum"`
+	PageSize    int    `json:"pageSize"`
+}
+
+type BlacklistListResp struct {
+	List  []Blacklist `json:"list"`
+	IsEnd bool        `json:"isEnd"`
+	Total bool        `json:"total"`
 }
