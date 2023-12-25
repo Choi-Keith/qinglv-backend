@@ -9,11 +9,11 @@ info (
 )
 
 type Role{
-    ID int64 `json:"id"`
-    UserId int64 `json:"userId"`
+    ID uint64 `json:"id"`
+    UserId uint64 `json:"userId"`
     Name string `json:"name"`
-    CreatedAt int64 `json:"createdAt"`
-    UpdatedAt int64 `json:"updatedAt"`
+    CreatedAt uint64 `json:"createdAt"`
+    UpdatedAt uint64 `json:"updatedAt"`
 }
 
 type RoleReq {
@@ -27,7 +27,7 @@ type Resp {
 
 type (
     RoleListReq {
-        UserId int64 `json:"userId"`
+        UserId uint64 `json:"userId"`
         Name string `json:"name"`
         PageNum int `json:"pageNum"`
         PageSize int `json:"pageSize"`

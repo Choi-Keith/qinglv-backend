@@ -5,6 +5,7 @@ import (
 	"user.api"
 	"following.api"
 	"follower.api"
+	"blacklist.api"
 )
 
 // no need login
@@ -145,4 +146,30 @@ service user {
 	@doc "cancel follower"
 	@handler delFollower
 	delete /follower (DelFollowerReq)
+}
+
+@server(
+	prefix: /user/v1
+	group: blacklist
+)
+service user {
+	@doc "blacklist list"
+	@handler getBlacklistList
+	get /blacklist (BlacklistListReq) returns (BlacklistListResp)
+}
+
+@server(
+	prefix: /user/v1
+	group: blacklist
+	jwt: JWTAuth
+)
+service user {
+
+	@doc "add blacklist"
+	@handler addBlacklist
+	post /blacklist (AddBlacklistReq)
+
+	@doc "cancel blacklist"
+	@handler delBlacklist
+	delete /blacklist (DelBlacklistReq)
 }
