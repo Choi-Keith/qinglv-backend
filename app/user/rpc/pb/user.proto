@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package rpc;
+package user;
 option go_package="./user";
 
-message User {
+message UserItem {
   uint64 id = 1;
   uint64 roleId = 2;
   string nickname = 3;
@@ -19,8 +19,8 @@ message User {
   string location = 13;
   int32 level = 14;
   int32 score = 15;
-  int64 createdAt = 16;
-  int64 updatedAt = 17;
+  uint64 createdAt = 16;
+  uint64 updatedAt = 17;
 }
 
 message RegisterReq {
@@ -31,7 +31,7 @@ message RegisterReq {
 }
 
 message RegisterResp {
-  User user = 1;
+  UserItem user = 1;
 }
 
 message LoginReq {
@@ -48,15 +48,15 @@ message LoginResp {
 }
 
 message GetUserInfoReq {
-  int64 id = 1;
+  uint64 id = 1;
 }
 
 message GetUserInfoResp {
-  User user = 1;
+  UserItem user = 1;
 }
 
 
-service Rpc {
+service User {
   rpc Register(RegisterReq) returns(RegisterResp);
   rpc Login(LoginReq) returns(LoginResp);
   rpc GetUserInfo(GetUserInfoReq) returns(GetUserInfoResp);

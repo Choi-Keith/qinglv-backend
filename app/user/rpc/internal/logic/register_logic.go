@@ -5,7 +5,6 @@ import (
 
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
-	"qinglv-backend/pkg/uuid"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,8 +25,6 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 
 func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, error) {
 	// todo: add your logic here and delete this line
-	id := uuid.NewUUID("user")
-	logx.Debugf("id: %v", id)
 
 	return &user.RegisterResp{}, nil
 }

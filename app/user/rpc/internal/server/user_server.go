@@ -11,28 +11,28 @@ import (
 	"qinglv-backend/app/user/rpc/user"
 )
 
-type RpcServer struct {
+type UserServer struct {
 	svcCtx *svc.ServiceContext
-	user.UnimplementedRpcServer
+	user.UnimplementedUserServer
 }
 
-func NewRpcServer(svcCtx *svc.ServiceContext) *RpcServer {
-	return &RpcServer{
+func NewUserServer(svcCtx *svc.ServiceContext) *UserServer {
+	return &UserServer{
 		svcCtx: svcCtx,
 	}
 }
 
-func (s *RpcServer) Register(ctx context.Context, in *user.RegisterReq) (*user.RegisterResp, error) {
+func (s *UserServer) Register(ctx context.Context, in *user.RegisterReq) (*user.RegisterResp, error) {
 	l := logic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
 
-func (s *RpcServer) Login(ctx context.Context, in *user.LoginReq) (*user.LoginResp, error) {
+func (s *UserServer) Login(ctx context.Context, in *user.LoginReq) (*user.LoginResp, error) {
 	l := logic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
 }
 
-func (s *RpcServer) GetUserInfo(ctx context.Context, in *user.GetUserInfoReq) (*user.GetUserInfoResp, error) {
+func (s *UserServer) GetUserInfo(ctx context.Context, in *user.GetUserInfoReq) (*user.GetUserInfoResp, error) {
 	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)
 }
