@@ -2,8 +2,8 @@
 package types
 
 type Role struct {
-	ID        uint64 `json:"id"`
-	UserId    uint64 `json:"userId"`
+	ID        uint64 `json:"id,string"`
+	UserId    uint64 `json:"userId,string"`
 	Name      string `json:"name"`
 	CreatedAt uint64 `json:"createdAt"`
 	UpdatedAt uint64 `json:"updatedAt"`
@@ -18,7 +18,7 @@ type Resp struct {
 }
 
 type RoleListReq struct {
-	UserId   uint64 `json:"userId"`
+	UserId   uint64 `json:"userId,string"`
 	Name     string `json:"name"`
 	PageNum  int    `json:"pageNum"`
 	PageSize int    `json:"pageSize"`
@@ -46,13 +46,13 @@ type RegisterReq struct {
 }
 
 type RegisterResp struct {
-	Id uint64 `json:"id"`
+	Id uint64 `json:"id,string"`
 }
 
 type LoginReq struct {
 	Email      string `json:"email"`
 	Password   string `json:"password"`
-	CaptchId   string `json:"captchId"`
+	CaptchId   string `json:"captchId,string"`
 	CaptchCode string `json:"captchCode"`
 	VerifyCode string `json:"VerifyCode"`
 }
@@ -70,9 +70,9 @@ type PasswordReq struct {
 }
 
 type User struct {
-	Id        uint64 `json:"id"`
+	Id        uint64 `json:"id,string"`
 	Role      Role   `json:"role"`
-	RoleId    uint64 `json:"roleId"`
+	RoleId    uint64 `json:"roleId,string"`
 	Nickname  string `json:"nickname"`
 	Email     string `json:"email"`
 	WeChat    string `json:"weChat"`
@@ -108,7 +108,7 @@ type UserListResp struct {
 type UserReq struct {
 	Account  string `json:"account"`
 	Nickname string `json:"nickname"`
-	RoldId   uint64 `json:"roleId"`
+	RoldId   uint64 `json:"roleId,string"`
 	Motto    string `json:"motto"`
 	Age      int    `json:"age,range=[0:120]"`
 	Gender   int    `json:"gender,options=[0,1],default=0"`
@@ -123,24 +123,24 @@ type UserResp struct {
 }
 
 type Following struct {
-	Id          uint64 `json:"id"`
-	UserId      uint64 `json:"userId"`
-	FollowingId uint64 `json:"followingId"`
+	Id          uint64 `json:"id,string"`
+	UserId      uint64 `json:"userId,string"`
+	FollowingId uint64 `json:"followingId,string"`
 	CreatedAt   uint64 `json:"createdAt"`
 	UpdatedAt   uint64 `json:"updatedAt"`
 }
 
 type AddFollowingReq struct {
-	UserId uint64 `json:"userId"`
+	UserId uint64 `json:"userId,string"`
 }
 
 type DelFollowingReq struct {
-	UserId uint64 `json:"userId"`
+	UserId uint64 `json:"userId,string"`
 }
 
 type FollowingListReq struct {
-	UserId   uint64 `json:"userId"`
-	FollowId uint64 `json:"followId"`
+	UserId   uint64 `json:"userId,string"`
+	FollowId uint64 `json:"followId,string"`
 	PageNum  int    `json:"pageNum"`
 	PageSize int    `json:"pageSize"`
 }
@@ -152,24 +152,24 @@ type FollowingListResp struct {
 }
 
 type Follower struct {
-	Id         uint64 `json:"id"`
-	UserId     uint64 `json:"userId"`
-	FollowerId uint64 `json:"followerId"`
+	Id         uint64 `json:"id,string"`
+	UserId     uint64 `json:"userId,string"`
+	FollowerId uint64 `json:"followerId,string"`
 	CreatedAt  uint64 `json:"createdAt"`
 	UpdatedAt  uint64 `json:"updatedAt"`
 }
 
 type AddFollowerReq struct {
-	UserId uint64 `json:"userId"`
+	UserId uint64 `json:"userId,string"`
 }
 
 type DelFollowerReq struct {
-	UserId uint64 `json:"userId"`
+	UserId uint64 `json:"userId,string"`
 }
 
 type FollowerListReq struct {
-	UserId     uint64 `json:"userId"`
-	FollowerId uint64 `json:"followerId"`
+	UserId     uint64 `json:"userId,string"`
+	FollowerId uint64 `json:"followerId,string"`
 	PageNum    int    `json:"pageNum"`
 	PageSize   int    `json:"pageSize"`
 }
@@ -181,24 +181,24 @@ type FollowerListResp struct {
 }
 
 type Blacklist struct {
-	Id          uint64 `json:"id"`
-	UserId      uint64 `json:"userId"`
-	BlackListId uint64 `json:"blackListId"`
+	Id          uint64 `json:"id,string"`
+	UserId      uint64 `json:"userId,string"`
+	BlackListId uint64 `json:"blackListId,string"`
 	CreatedAt   uint64 `json:"createdAt"`
 	UpdatedAt   uint64 `json:"updatedAt"`
 }
 
 type AddBlacklistReq struct {
-	UserId uint64 `json:"userId"`
+	UserId uint64 `json:"userId,string"`
 }
 
 type DelBlacklistReq struct {
-	UserId uint64 `json:"userId"`
+	UserId uint64 `json:"userId,string"`
 }
 
 type BlacklistListReq struct {
-	UserId      uint64 `json:"userId"`
-	BlacklistId uint64 `json:"BlacklistId"`
+	UserId      uint64 `json:"userId,string"`
+	BlacklistId uint64 `json:"BlacklistId,string"`
 	PageNum     int    `json:"pageNum"`
 	PageSize    int    `json:"pageSize"`
 }

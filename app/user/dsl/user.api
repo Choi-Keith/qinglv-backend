@@ -25,7 +25,7 @@ type (
         RePassword string `json:"rePassword"`
     }
     RegisterResp {
-        Id uint64 `json:"id"`
+        Id uint64 `json:"id,string"`
     }
 )
 
@@ -34,7 +34,7 @@ type (
     LoginReq {
         Email string `json:"email"`
         Password string `json:"password"`
-        CaptchId string `json:"captchId"`
+        CaptchId string `json:"captchId,string"`
         CaptchCode string `json:"captchCode"`
         VerifyCode string `json:"VerifyCode"`
     }
@@ -55,9 +55,9 @@ type (
 )
 
 type User {
-    Id uint64 `json:"id"`
+    Id uint64 `json:"id,string"`
     Role Role `json:"role"`
-    RoleId uint64 `json:"roleId"`
+    RoleId uint64 `json:"roleId,string"`
     Nickname string `json:"nickname"`
     Email string `json:"email"`
     WeChat string `json:"weChat"`
@@ -97,7 +97,7 @@ type (
     UserReq {
         Account string `json:"account"`
         Nickname string `json:"nickname"`
-        RoldId uint64 `json:"roleId"`
+        RoldId uint64 `json:"roleId,string"`
         Motto string `json:"motto"`
         Age int `json:"age,range=[0:120]"`
         Gender int `json:"gender,options=[0,1],default=0"`
