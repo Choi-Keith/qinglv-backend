@@ -15,3 +15,11 @@
 
 在rpc目录下生成rpc服务
 `goctl rpc protoc order.proto --go_out=. --go-grpc_out=. --zrpc_out=. --style=go_zero`
+
+请求rpc服务
+`grpcurl -d '{"nickname": "keith"}' -plaintext 127.0.0.1:8080 user.User.Register`
+
+
+
+
+docker run -p 6379:6379 --name redis -v /usr/src/software/redis/redis.conf:/etc/redis/redis.conf  -v /usr/src/software/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes
