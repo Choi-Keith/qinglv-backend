@@ -21,13 +21,17 @@ message UserItem {
   int32 score = 15;
   uint64 createdAt = 16;
   uint64 updatedAt = 17;
+  int32 authType = 18;
 }
 
 message RegisterReq {
-  string email = 1;
-  string authType = 2;
+  uint64 id = 1;
+  uint64 roleId = 2;
   string nickname = 3;
-  string password = 4;
+  string email = 4;
+  string password = 5;
+  string phone = 6;
+  int32 authType = 7;
 }
 
 message RegisterResp {

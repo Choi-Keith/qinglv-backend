@@ -3,11 +3,19 @@ module qinglv-backend
 go 1.20
 
 require (
+	github.com/Masterminds/squirrel v1.5.4
 	github.com/golang-jwt/jwt/v5 v5.2.0
+	github.com/pkg/errors v0.9.1
 	github.com/sony/sonyflake v1.2.0
 	github.com/zeromicro/go-zero v1.6.0
 	google.golang.org/grpc v1.60.1
 	google.golang.org/protobuf v1.31.0
+)
+
+require (
+	github.com/go-sql-driver/mysql v1.7.1 // indirect
+	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
+	github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0 // indirect
 )
 
 require (
