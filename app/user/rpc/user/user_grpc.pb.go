@@ -19,18 +19,32 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_Register_FullMethodName    = "/user.User/Register"
-	User_Login_FullMethodName       = "/user.User/Login"
-	User_GetUserInfo_FullMethodName = "/user.User/GetUserInfo"
+	User_GetRoleInfo_FullMethodName           = "/user.User/GetRoleInfo"
+	User_Register_FullMethodName              = "/user.User/Register"
+	User_Login_FullMethodName                 = "/user.User/Login"
+	User_GetUserInfo_FullMethodName           = "/user.User/GetUserInfo"
+	User_GetUserInfoByNickname_FullMethodName = "/user.User/GetUserInfoByNickname"
+	User_GetUserInfoByEmail_FullMethodName    = "/user.User/GetUserInfoByEmail"
+	User_GetUserList_FullMethodName           = "/user.User/GetUserList"
 )
 
 // UserClient is the client API for User service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
+	// group: role
+	GetRoleInfo(ctx context.Context, in *GetRoleInfoReq, opts ...grpc.CallOption) (*GetRoleInfoResp, error)
+	// group: user
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
+	// group: user
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	// group: user
 	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
+	// group: user
+	GetUserInfoByNickname(ctx context.Context, in *GetUserInfoNicknameReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
+	// group: user
+	GetUserInfoByEmail(ctx context.Context, in *GetUserInfoEmailReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
+	GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
 }
 
 type userClient struct {
@@ -39,6 +53,15 @@ type userClient struct {
 
 func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
+}
+
+func (c *userClient) GetRoleInfo(ctx context.Context, in *GetRoleInfoReq, opts ...grpc.CallOption) (*GetRoleInfoResp, error) {
+	out := new(GetRoleInfoResp)
+	err := c.cc.Invoke(ctx, User_GetRoleInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *userClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
@@ -68,13 +91,50 @@ func (c *userClient) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts .
 	return out, nil
 }
 
+func (c *userClient) GetUserInfoByNickname(ctx context.Context, in *GetUserInfoNicknameReq, opts ...grpc.CallOption) (*GetUserInfoResp, error) {
+	out := new(GetUserInfoResp)
+	err := c.cc.Invoke(ctx, User_GetUserInfoByNickname_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetUserInfoByEmail(ctx context.Context, in *GetUserInfoEmailReq, opts ...grpc.CallOption) (*GetUserInfoResp, error) {
+	out := new(GetUserInfoResp)
+	err := c.cc.Invoke(ctx, User_GetUserInfoByEmail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error) {
+	out := new(GetUserListResp)
+	err := c.cc.Invoke(ctx, User_GetUserList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
 type UserServer interface {
+	// group: role
+	GetRoleInfo(context.Context, *GetRoleInfoReq) (*GetRoleInfoResp, error)
+	// group: user
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
+	// group: user
 	Login(context.Context, *LoginReq) (*LoginResp, error)
+	// group: user
 	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error)
+	// group: user
+	GetUserInfoByNickname(context.Context, *GetUserInfoNicknameReq) (*GetUserInfoResp, error)
+	// group: user
+	GetUserInfoByEmail(context.Context, *GetUserInfoEmailReq) (*GetUserInfoResp, error)
+	GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -82,6 +142,9 @@ type UserServer interface {
 type UnimplementedUserServer struct {
 }
 
+func (UnimplementedUserServer) GetRoleInfo(context.Context, *GetRoleInfoReq) (*GetRoleInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoleInfo not implemented")
+}
 func (UnimplementedUserServer) Register(context.Context, *RegisterReq) (*RegisterResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
@@ -90,6 +153,15 @@ func (UnimplementedUserServer) Login(context.Context, *LoginReq) (*LoginResp, er
 }
 func (UnimplementedUserServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUserServer) GetUserInfoByNickname(context.Context, *GetUserInfoNicknameReq) (*GetUserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfoByNickname not implemented")
+}
+func (UnimplementedUserServer) GetUserInfoByEmail(context.Context, *GetUserInfoEmailReq) (*GetUserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfoByEmail not implemented")
+}
+func (UnimplementedUserServer) GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -102,6 +174,24 @@ type UnsafeUserServer interface {
 
 func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
 	s.RegisterService(&User_ServiceDesc, srv)
+}
+
+func _User_GetRoleInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoleInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetRoleInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetRoleInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetRoleInfo(ctx, req.(*GetRoleInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _User_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -158,6 +248,60 @@ func _User_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GetUserInfoByNickname_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInfoNicknameReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserInfoByNickname(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetUserInfoByNickname_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserInfoByNickname(ctx, req.(*GetUserInfoNicknameReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetUserInfoByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInfoEmailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserInfoByEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetUserInfoByEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserInfoByEmail(ctx, req.(*GetUserInfoEmailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetUserList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserList(ctx, req.(*GetUserListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -165,6 +309,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "user.User",
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetRoleInfo",
+			Handler:    _User_GetRoleInfo_Handler,
+		},
 		{
 			MethodName: "Register",
 			Handler:    _User_Register_Handler,
@@ -176,6 +324,18 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserInfo",
 			Handler:    _User_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "GetUserInfoByNickname",
+			Handler:    _User_GetUserInfoByNickname_Handler,
+		},
+		{
+			MethodName: "GetUserInfoByEmail",
+			Handler:    _User_GetUserInfoByEmail_Handler,
+		},
+		{
+			MethodName: "GetUserList",
+			Handler:    _User_GetUserList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

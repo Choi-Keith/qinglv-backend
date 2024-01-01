@@ -3,6 +3,23 @@ syntax = "proto3";
 package user;
 option go_package="./user";
 
+
+message RoleItem {
+    uint64 id = 1;
+    string name = 2;
+    uint64 createdAt = 3;
+    uint64 updatedAt = 4;
+}
+
+message GetRoleInfoReq {
+    uint64 id = 1;
+}
+
+message GetRoleInfoResp {
+    RoleItem Role = 1;
+}
+
+
 message UserItem {
   uint64 id = 1;
   uint64 roleId = 2;
@@ -59,9 +76,43 @@ message GetUserInfoResp {
   UserItem user = 1;
 }
 
+message GetUserInfoNicknameReq{
+  string nickname = 1;
+}
+
+message GetUserInfoEmailReq {
+  string email = 1;
+}
+
+message GetUserListReq {
+  int32 pageNum = 1;
+  int32 pageSize = 2;
+  string nickname = 3;
+  string email = 4;
+  int32 status = 5;
+}
+
+message GetUserListResp {
+  uint64 total = 1;
+  repeated UserItem data = 2;
+}
 
 service User {
+  // group: user
   rpc Register(RegisterReq) returns(RegisterResp);
+  // group: user
   rpc Login(LoginReq) returns(LoginResp);
+  // group: user
   rpc GetUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
+  // group: user
+  rpc GetUserInfoByNickname(GetUserInfoNicknameReq) returns(GetUserInfoResp);
+  // group: user
+  rpc GetUserInfoByEmail(GetUserInfoEmailReq) returns(GetUserInfoResp);
+  rpc GetUserList(GetUserListReq) returns(GetUserListResp);
+}
+
+
+service Role {
+  // group: role
+  rpc GetRoleInfo(GetRoleInfoReq) returns(GetRoleInfoResp);
 }
