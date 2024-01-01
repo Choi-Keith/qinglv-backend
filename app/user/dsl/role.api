@@ -29,8 +29,8 @@ type (
     RoleListReq {
         UserId uint64 `json:"userId,string"`
         Name string `json:"name"`
-        PageNum int `json:"pageNum"`
-        PageSize int `json:"pageSize"`
+        PageNum int `json:"pageNum" validate:"required,gt=0"`
+        PageSize int `json:"pageSize" validate:"required,gt=0"`
     }
     RoleListResp {
         List []Role `json:"list"`

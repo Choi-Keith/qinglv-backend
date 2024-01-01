@@ -1,7 +1,7 @@
 syntax = "v1"
 
 import (
-	"role.api"
+	//"role.api"
 	"user.api"
 	"following.api"
 	"follower.api"
@@ -9,9 +9,9 @@ import (
 )
 
 // no need login
-@server(
+@server (
 	prefix: /user/v1
-	group: user
+	group:  user
 )
 service user {
 	@doc "register"
@@ -28,14 +28,14 @@ service user {
 
 	@doc "user detail by id"
 	@handler getUserByID
-	get /user/:id  returns (UserResp)
+	get /user/:id returns (UserResp)
 }
 
 // need login
-@server(
+@server (
 	prefix: /user/v1
-	group: user
-	jwt: JWTAuth
+	group:  user
+	jwt:    JWTAuth
 )
 service user {
 	@doc "update password"
@@ -57,17 +57,15 @@ service user {
 	@doc "delete user"
 	@handler delUser
 	delete /user/:id
-
 }
 
 // no need login
-@server(
-	prefix: /user/v1
-	group: role
+@server (
+	prefix:   /user/v1
+	group:    role
 	maxBytes: 1048576
 )
 service user {
-
 	@doc "role list"
 	@handler getRoleList
 	get /role (RoleListReq) returns (RoleListResp)
@@ -77,13 +75,12 @@ service user {
 	get /role/:id
 }
 
-@server(
+@server (
 	prefix: /user/v1
-	group: role
-	jwt: JWTAuth
+	group:  role
+	jwt:    JWTAuth
 )
 service user {
-
 	@doc "create role"
 	@handler addRole
 	post /role (RoleReq)
@@ -97,9 +94,9 @@ service user {
 	delete /role/:id
 }
 
-@server(
+@server (
 	prefix: /user/v1
-	group: following
+	group:  following
 )
 service user {
 	@doc "following list"
@@ -107,10 +104,10 @@ service user {
 	get /following (FollowingListReq) returns (FollowingListResp)
 }
 
-@server(
+@server (
 	prefix: /user/v1
-	group: following
-	jwt: JWTAuth
+	group:  following
+	jwt:    JWTAuth
 )
 service user {
 	@doc "add following"
@@ -118,13 +115,13 @@ service user {
 	post /following (AddFollowingReq)
 
 	@doc "cancel following"
-	@handler delFollower
+	@handler delFollowing
 	delete /following (DelFollowingReq)
 }
 
-@server(
+@server (
 	prefix: /user/v1
-	group: follower
+	group:  follower
 )
 service user {
 	@doc "follower list"
@@ -132,13 +129,12 @@ service user {
 	get /follower (FollowerListReq) returns (FollowerListResp)
 }
 
-@server(
+@server (
 	prefix: /user/v1
-	group: follower
-	jwt: JWTAuth
+	group:  follower
+	jwt:    JWTAuth
 )
 service user {
-
 	@doc "add follower"
 	@handler addFollower
 	post /follower (AddFollowerReq)
@@ -148,28 +144,28 @@ service user {
 	delete /follower (DelFollowerReq)
 }
 
-@server(
+@server (
 	prefix: /user/v1
-	group: blacklist
+	group:  blacklist
 )
 service user {
 	@doc "blacklist list"
-	@handler getBlacklistList
-	get /blacklist (BlacklistListReq) returns (BlacklistListResp)
+	@handler getBlacklist
+	get /blacklist (BlacklistReq) returns (BlacklistResp)
 }
 
-@server(
+@server (
 	prefix: /user/v1
-	group: blacklist
-	jwt: JWTAuth
+	group:  blacklist
+	jwt:    JWTAuth
 )
 service user {
-
 	@doc "add blacklist"
 	@handler addBlacklist
-	post /blacklist (AddBlacklistReq)
+	post /blacklist (AddBlackItemReq)
 
 	@doc "cancel blacklist"
 	@handler delBlacklist
-	delete /blacklist (DelBlacklistReq)
+	delete /blacklist (DelBlackItemReq)
 }
+

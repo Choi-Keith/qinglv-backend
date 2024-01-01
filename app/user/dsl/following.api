@@ -1,40 +1,40 @@
 syntax = "v1"
 
 info (
-    title: "关注服务"
-    desc: "我关注的用户"
-    author: "choi"
-    email: "1278028801@qq.com"
-    version: "v1"
+	title:   "关注服务"
+	desc:    "我关注的用户"
+	author:  "choi"
+	email:   "1278028801@qq.com"
+	version: "v1"
 )
 
 type Following {
-    Id uint64 `json:"id,string"`
-    UserId uint64 `json:"userId,string"`
-    FollowingId uint64 `json:"followingId,string"`
-    CreatedAt uint64 `json:"createdAt"`
-    UpdatedAt uint64 `json:"updatedAt"`
+	Id          uint64 `json:"id,string"`
+	UserId      uint64 `json:"userId,string"`
+	FollowingId uint64 `json:"followingId,string"`
+	CreatedAt   uint64 `json:"createdAt"`
+	UpdatedAt   uint64 `json:"updatedAt"`
 }
 
-type AddFollowingReq{
-    UserId uint64 `json:"userId,string"`
+type AddFollowingReq {
+	UserId uint64 `json:"userId,string"`
 }
 
-type  DelFollowingReq {
-    UserId uint64 `json:"userId,string"`
+type DelFollowingReq {
+	UserId uint64 `json:"userId,string"`
 }
 
 type (
-    FollowingListReq {
-        UserId uint64 `json:"userId,string"`
-        FollowId uint64 `json:"followId,string"`
-        PageNum int `json:"pageNum"`
-        PageSize int `json:"pageSize"`
-    }
-    FollowingListResp {
-        List []Following `json:"list"`
-        IsEnd bool `json:"isEnd"`
-        Total bool `json:"total"`
-    }
+	FollowingListReq {
+		UserId   uint64 `json:"userId,string"`
+		FollowId uint64 `json:"followId,string"`
+        PageNum int `json:"pageNum" validate:"required,gt=0"`
+        PageSize int `json:"pageSize" validate:"required,gt=0"`
+	}
+	FollowingListResp {
+		List  []Following `json:"list"`
+		IsEnd bool        `json:"isEnd"`
+		Total bool        `json:"total"`
+	}
 )
 

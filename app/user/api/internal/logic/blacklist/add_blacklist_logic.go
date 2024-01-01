@@ -23,7 +23,7 @@ func NewAddBlacklistLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddB
 	}
 }
 
-func (l *AddBlacklistLogic) AddBlacklist(req *types.AddBlacklistReq) error {
+func (l *AddBlacklistLogic) AddBlacklist(req *types.AddBlackItemReq) error {
 	// todo: add your logic here and delete this line
 
 	return nil

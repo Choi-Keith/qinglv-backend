@@ -1,4 +1,4 @@
-package following
+package blacklist
 
 import (
 	"context"
@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DelFollowerLogic struct {
+type GetBlacklistLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewDelFollowerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelFollowerLogic {
-	return &DelFollowerLogic{
+func NewGetBlacklistLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetBlacklistLogic {
+	return &GetBlacklistLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DelFollowerLogic) DelFollower(req *types.DelFollowingReq) error {
+func (l *GetBlacklistLogic) GetBlacklist(req *types.BlacklistReq) (resp *types.BlacklistResp, err error) {
 	// todo: add your logic here and delete this line
 
-	return nil
+	return
 }

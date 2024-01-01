@@ -18,24 +18,9 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodPost,
-				Path:    "/user/register",
-				Handler: user.RegisterHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/login",
-				Handler: user.LoginHandler(serverCtx),
-			},
-			{
 				Method:  http.MethodGet,
-				Path:    "/user",
-				Handler: user.GetUserListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/:id",
-				Handler: user.GetUserByIDHandler(serverCtx),
+				Path:    "/blacklist",
+				Handler: blacklist.GetBlacklistHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/user/v1"),
@@ -44,29 +29,70 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodPut,
-				Path:    "/user/password",
-				Handler: user.UpdatePasswordHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/email",
-				Handler: user.UpdateEmailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/phone",
-				Handler: user.UpdatePhoneHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/:id",
-				Handler: user.UpdateUserHandler(serverCtx),
+				Method:  http.MethodPost,
+				Path:    "/blacklist",
+				Handler: blacklist.AddBlacklistHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodDelete,
-				Path:    "/user/:id",
-				Handler: user.DelUserHandler(serverCtx),
+				Path:    "/blacklist",
+				Handler: blacklist.DelBlacklistHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/user/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/follower",
+				Handler: follower.GetFollowerListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/user/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/follower",
+				Handler: follower.AddFollowerHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/follower",
+				Handler: follower.DelFollowerHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/user/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/following",
+				Handler: following.GetFollowingListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/user/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/following",
+				Handler: following.AddFollowingHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/following",
+				Handler: following.DelFollowingHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
@@ -116,36 +142,23 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/following",
-				Handler: following.GetFollowingListHandler(serverCtx),
+				Path:    "/user",
+				Handler: user.GetUserListHandler(serverCtx),
 			},
-		},
-		rest.WithPrefix("/user/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/following",
-				Handler: following.AddFollowingHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/following",
-				Handler: following.DelFollowerHandler(serverCtx),
-			},
-		},
-		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
-		rest.WithPrefix("/user/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/follower",
-				Handler: follower.GetFollowerListHandler(serverCtx),
+				Path:    "/user/:id",
+				Handler: user.GetUserByIDHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/login",
+				Handler: user.LoginHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/register",
+				Handler: user.RegisterHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/user/v1"),
@@ -154,42 +167,29 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodPost,
-				Path:    "/follower",
-				Handler: follower.AddFollowerHandler(serverCtx),
+				Method:  http.MethodPut,
+				Path:    "/user/:id",
+				Handler: user.UpdateUserHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodDelete,
-				Path:    "/follower",
-				Handler: follower.DelFollowerHandler(serverCtx),
-			},
-		},
-		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
-		rest.WithPrefix("/user/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/blacklist",
-				Handler: blacklist.GetBlacklistListHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/user/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/blacklist",
-				Handler: blacklist.AddBlacklistHandler(serverCtx),
+				Path:    "/user/:id",
+				Handler: user.DelUserHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodDelete,
-				Path:    "/blacklist",
-				Handler: blacklist.DelBlacklistHandler(serverCtx),
+				Method:  http.MethodPut,
+				Path:    "/user/email",
+				Handler: user.UpdateEmailHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/user/password",
+				Handler: user.UpdatePasswordHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/user/phone",
+				Handler: user.UpdatePhoneHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
