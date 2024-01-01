@@ -3,9 +3,12 @@ package response
 import (
 	"net/http"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
-
 	"qinglv-backend/common/xerr"
+
+	"github.com/pkg/errors"
+	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/rest/httpx"
+	status "google.golang.org/grpc/status"
 )
 
 type Resp struct {
@@ -34,20 +37,46 @@ func OkWithData(w http.ResponseWriter, data interface{}) {
 	httpx.OkJson(w, resp)
 }
 
-func Fail(w http.ResponseWriter, status int, code int, msg string) {
-	resp := &Resp{
-		Code:    code,
-		Message: msg,
-		Data:    struct{}{},
+func Fail(w http.ResponseWriter, httpCode int, err error) {
+	logx.Errorf("Failed: %v\n", err)
+	causeErr := errors.Cause(err)
+	var resp *Resp
+	if e, ok := causeErr.(xerr.CodeMsg); ok {
+		// 如果是自定义错误类型
+		resp = &Resp{
+			Code:    e.GetErrCode(),
+			Message: e.GetErrMsg(),
+			Data:    struct{}{},
+		}
+
+	} else {
+		if gstatus, ok := status.FromError(causeErr); ok {
+			// grpc错误
+			grpcCode := int(gstatus.Code())
+			if xerr.IsCodeErr(grpcCode) {
+				resp = &Resp{
+					Code:    grpcCode,
+					Message: gstatus.Message(),
+					Data:    struct{}{},
+				}
+			}
+		} else {
+			resp = &Resp{
+				Code:    http.StatusBadRequest,
+				Message: err.Error(),
+				Data:    struct{}{},
+			}
+		}
 	}
 
-	httpx.WriteJson(w, status, resp)
+	httpx.WriteJson(w, httpCode, resp)
+
 }
 
-func FailCodeMsg(w http.ResponseWriter, status int, err xerr.CodeMsg) {
-	Fail(w, status, err.Code, err.Msg)
+func FailCodeMsg(w http.ResponseWriter, httpCode int, err error) {
+	Fail(w, httpCode, err)
 }
 
-func ParamsFail(w http.ResponseWriter, code int, msg string) {
-	Fail(w, http.StatusBadRequest, code, msg)
+func ParamsFail(w http.ResponseWriter, err error) {
+	Fail(w, http.StatusBadRequest, err)
 }

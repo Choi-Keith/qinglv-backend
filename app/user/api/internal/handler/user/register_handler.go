@@ -3,17 +3,24 @@ package user
 import (
 	"net/http"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"qinglv-backend/app/user/api/internal/logic/user"
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
+	"qinglv-backend/common/response"
+	"qinglv-backend/pkg/validate"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.RegisterReq
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.ParamsFail(w, err)
+			return
+		}
+		if err := validate.Validate(req); err != nil {
+			response.ParamsFail(w, err)
 			return
 		}
 
@@ -22,7 +29,7 @@ func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			response.OkWithData(w, resp)
 		}
 	}
 }
