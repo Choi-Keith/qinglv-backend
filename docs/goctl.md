@@ -14,7 +14,7 @@
 `goctl model mysql datasource -url="root:@tcp(43.139.228.81:3306)/q_user" -table="user"  -dir="./model/user" -cache=true --style=go_zero --strict=true --home /home/ubuntu/backend/qinglv-backend/goctl/1.5.6`
 
 在rpc目录下生成rpc服务
-`goctl rpc protoc order.proto --go_out=. --go-grpc_out=. --zrpc_out=. --style=go_zero`
+`goctl rpc protoc ./pb/user.proto --go_out=. --go-grpc_out=. --zrpc_out=. --style=go_zero`
 
 请求rpc服务
 `grpcurl -d '{"nickname": "keith"}' -plaintext 127.0.0.1:8080 user.User.Register`

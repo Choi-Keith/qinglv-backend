@@ -5,7 +5,6 @@ import (
 	"qinglv-backend/app/user/rpc/internal/model/user"
 
 	"github.com/zeromicro/go-zero/core/stores/redis"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type ServiceContext struct {
@@ -15,9 +14,9 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	sqlConn := sqlx.NewMysql(c.Mysql.Datasource)
+	// sqlConn := sqlx.NewMysql(c.Mysql.Datasource)
 	return &ServiceContext{
-		Config:    c,
-		UserModel: user.NewUserModel(sqlConn, c.Cache),
+		Config: c,
+		// UserModel: user.NewUserModel(sqlConn, c.Cache),
 	}
 }

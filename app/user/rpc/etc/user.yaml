@@ -5,15 +5,12 @@ Etcd:
   Hosts:
   - 127.0.0.1:2379
   Key: user.rpc
-
 Mysql:
   Datasource: xxx:xxx@tcp(127.0.0.1:3306)/q_user?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
-
-Redis:
+Cache:
   Host: 127.0.0.1:6379
-  Pass: xxx
+  Pass: xxxx
   Key: user-rpc
-
 JWT:
-  AccessSecret: qinglv-backend
+  AccessSecret: xxxx
   AccessExpire: 86400

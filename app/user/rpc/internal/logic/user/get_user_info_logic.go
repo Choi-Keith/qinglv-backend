@@ -1,49 +1,33 @@
-package logic
+package user
 
 import (
 	"context"
-	"database/sql"
 
-	userModel "qinglv-backend/app/user/rpc/internal/model/user"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type RegisterLogic struct {
+type GetUserInfoLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegisterLogic {
-	return &RegisterLogic{
+func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserInfoLogic {
+	return &GetUserInfoLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, error) {
+func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoReq) (*user.GetUserInfoResp, error) {
 	// todo: add your logic here and delete this line
-	registerUser := &userModel.User{
-		Id:       in.Id,
-		RoleId:   in.RoleId,
-		Nickname: in.Nickname,
-		Email:    in.Email,
-		Phone:    sql.NullString{String: in.Phone, Valid: false},
-		AuthType: int64(in.AuthType),
-	}
-	resp, err := l.svcCtx.UserModel.Insert(l.ctx, nil, registerUser)
+	userItem, err := l.svcCtx.UserModel.FindOne(l.ctx, in.Id)
 	if err != nil {
-		logx.Errorf("register user failed: %v", err)
-		return nil, err
-	}
-	id, _ := resp.LastInsertId()
-	userItem, err := l.svcCtx.UserModel.FindOne(l.ctx, uint64(id))
-	if err != nil {
-		logx.Errorf("register user failed: %v", err)
+		logx.Errorf("Get UserInfo failed:%v\n", err)
 		return nil, err
 	}
 	item := &user.UserItem{
@@ -65,7 +49,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 		UpdatedAt: uint64(userItem.UpdatedAt.Unix()),
 		AuthType:  int32(userItem.AuthType),
 	}
-	return &user.RegisterResp{
+	return &user.GetUserInfoResp{
 		User: item,
 	}, nil
 }

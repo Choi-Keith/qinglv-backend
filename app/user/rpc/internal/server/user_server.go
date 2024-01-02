@@ -6,7 +6,8 @@ package server
 import (
 	"context"
 
-	"qinglv-backend/app/user/rpc/internal/logic"
+	userLogic "qinglv-backend/app/user/rpc/internal/logic/user"
+	roleLogic "qinglv-backend/app/user/rpc/internal/logic/role"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
 )
@@ -22,38 +23,43 @@ func NewUserServer(svcCtx *svc.ServiceContext) *UserServer {
 	}
 }
 
+// group: role
+func (s *UserServer) GetRoleInfo(ctx context.Context, in *user.GetRoleInfoReq) (*user.GetRoleInfoResp, error) {
+	l := roleLogic.NewGetRoleInfoLogic(ctx, s.svcCtx)
+	return l.GetRoleInfo(in)
+}
 
 // group: user
 func (s *UserServer) Register(ctx context.Context, in *user.RegisterReq) (*user.RegisterResp, error) {
-	l := logic.NewRegisterLogic(ctx, s.svcCtx)
+	l := userLogic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
 
 // group: user
 func (s *UserServer) Login(ctx context.Context, in *user.LoginReq) (*user.LoginResp, error) {
-	l := logic.NewLoginLogic(ctx, s.svcCtx)
+	l := userLogic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
 }
 
 // group: user
 func (s *UserServer) GetUserInfo(ctx context.Context, in *user.GetUserInfoReq) (*user.GetUserInfoResp, error) {
-	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
+	l := userLogic.NewGetUserInfoLogic(ctx, s.svcCtx)
 	return l.GetUserInfo(in)
 }
 
 // group: user
 func (s *UserServer) GetUserInfoByNickname(ctx context.Context, in *user.GetUserInfoNicknameReq) (*user.GetUserInfoResp, error) {
-	l := logic.NewGetUserInfoByNicknameLogic(ctx, s.svcCtx)
+	l := userLogic.NewGetUserInfoByNicknameLogic(ctx, s.svcCtx)
 	return l.GetUserInfoByNickname(in)
 }
 
 // group: user
 func (s *UserServer) GetUserInfoByEmail(ctx context.Context, in *user.GetUserInfoEmailReq) (*user.GetUserInfoResp, error) {
-	l := logic.NewGetUserInfoByEmailLogic(ctx, s.svcCtx)
+	l := userLogic.NewGetUserInfoByEmailLogic(ctx, s.svcCtx)
 	return l.GetUserInfoByEmail(in)
 }
 
 func (s *UserServer) GetUserList(ctx context.Context, in *user.GetUserListReq) (*user.GetUserListResp, error) {
-	l := logic.NewGetUserListLogic(ctx, s.svcCtx)
+	l := userLogic.NewGetUserListLogic(ctx, s.svcCtx)
 	return l.GetUserList(in)
 }
