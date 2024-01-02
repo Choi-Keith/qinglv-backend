@@ -1,8 +1,0 @@
-Name: user
-Host: 0.0.0.0
-Port: 8000
-
-JWTAuth:
-  AccessSecret: qignlv-backend
-  AccessExpire: 86400
-
