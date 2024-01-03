@@ -28,8 +28,8 @@ type (
 	FollowingListReq {
 		UserId   uint64 `json:"userId,string"`
 		FollowId uint64 `json:"followId,string"`
-        PageNum int `json:"pageNum" validate:"required,gt=0"`
-        PageSize int `json:"pageSize" validate:"required,gt=0"`
+		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
+		PageSize int    `json:"pageSize" validate:"required,gt=0"`
 	}
 	FollowingListResp {
 		List  []Following `json:"list"`

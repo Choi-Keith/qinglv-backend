@@ -80,7 +80,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindSum(ctx context.Context,bui
 
     builder = builder.Columns("IFNULL(SUM(" + field + "),0)")
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).ToSql()
 	if err != nil {
 		return 0, err
 	}
@@ -105,7 +105,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindCount(ctx context.Context, 
 
 	builder = builder.Columns("COUNT(" + field + ")")
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).ToSql()
 	if err != nil {
 		return 0, err
 	}
@@ -132,7 +132,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindAll(ctx context.Context,bui
 		builder = builder.OrderBy(orderBy)
 	}
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).ToSql()
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +164,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindPageListByPage(ctx context.
 	}
 	offset := (page - 1) * pageSize
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).Offset(uint64(offset)).Limit(uint64(pageSize)).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).Offset(uint64(offset)).Limit(uint64(pageSize)).ToSql()
 	if err != nil {
 		return nil, err
 	}
@@ -202,7 +202,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindPageListByPageWithTotal(ctx
 	}
 	offset := (page - 1) * pageSize
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).Offset(uint64(offset)).Limit(uint64(pageSize)).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).Offset(uint64(offset)).Limit(uint64(pageSize)).ToSql()
 	if err != nil {
 		return nil,total, err
 	}
@@ -227,7 +227,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindPageListByIdDESC(ctx contex
 		builder = builder.Where(" id < ? " , preMinId)
 	}
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).OrderBy("id DESC").Limit(uint64(pageSize)).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).OrderBy("id DESC").Limit(uint64(pageSize)).ToSql()
 	if err != nil {
 		return nil, err
 	}
@@ -252,7 +252,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindPageListByIdASC(ctx context
 		builder = builder.Where(" id > ? " , preMaxId)
 	}
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).OrderBy("id ASC").Limit(uint64(pageSize)).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).OrderBy("id ASC").Limit(uint64(pageSize)).ToSql()
 	if err != nil {
 		return nil, err
 	}

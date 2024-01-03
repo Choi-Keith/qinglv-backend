@@ -24,11 +24,11 @@ func main() {
 	logConf := logx.LogConf{
 		Mode:  "console",
 		Stat:  false,
-		Level: "error",
+		Level: "debug",
 	}
 	logx.MustSetup(logConf)
 
-	server := rest.MustNewServer(c.RestConf)
+	server := rest.MustNewServer(c.RestConf, rest.WithCors("127.0.0.1"))
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)

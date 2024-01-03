@@ -10,6 +10,7 @@ import (
 	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
@@ -20,6 +21,13 @@ var configFile = flag.String("f", "etc/user.yaml", "the config file")
 
 func main() {
 	flag.Parse()
+
+	logConf := logx.LogConf{
+		Mode:  "console",
+		Stat:  false,
+		Level: "debug",
+	}
+	logx.MustSetup(logConf)
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
@@ -32,6 +40,7 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+	// s.AddUnaryInterceptors(rpcserver.LoggerInterceptor)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

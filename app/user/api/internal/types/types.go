@@ -117,6 +117,7 @@ type PhoneReq struct {
 }
 
 type RegisterReq struct {
+	RoleId     uint64 `json:"roleId,string"`
 	Nickname   string `json:"nickname" validate:"required,max=50"`
 	Email      string `json:"email" validate:"required,email,max=50"`
 	Password   string `json:"password" validate:"required,min=6,max=50"`
@@ -124,7 +125,7 @@ type RegisterReq struct {
 }
 
 type RegisterResp struct {
-	Id uint64 `json:"id,string"`
+	User User `json:"user"`
 }
 
 type Resp struct {

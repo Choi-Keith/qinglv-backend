@@ -3,33 +3,47 @@ package user
 import (
 	"context"
 
+	userModel "qinglv-backend/app/user/rpc/internal/model/user"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetUserInfoLogic struct {
+type GetUserInfoByParamsLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserInfoLogic {
-	return &GetUserInfoLogic{
+func NewGetUserInfoByParamsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserInfoByParamsLogic {
+	return &GetUserInfoByParamsLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoReq) (*user.GetUserInfoResp, error) {
+// group: user
+func (l *GetUserInfoByParamsLogic) GetUserInfoByParams(in *user.GetUserInfoByParamsReq) (*user.GetUserInfoByParamsResp, error) {
 	// todo: add your logic here and delete this line
-	userItem, err := l.svcCtx.UserModel.FindOne(l.ctx, in.Id)
+	GetUserInfoByParamsReq := &userModel.User{
+		Id:       in.Id,
+		Nickname: in.Nickname,
+		Email:    in.Email,
+	}
+	userItem, err := l.svcCtx.UserModel.FindOneByParams(l.ctx, *GetUserInfoByParamsReq)
 	if err != nil {
-		logx.Errorf("Get UserInfo failed:%v\n", err)
+		logx.Errorf("[Rpc Logic] GetUserInfoByParams failed: %v\n", err)
 		return nil, err
 	}
+	if userItem == nil {
+		return &user.GetUserInfoByParamsResp{
+			User: nil,
+		}, nil
+	}
+	logx.Debugf("[Rpc] GetUserInfoByParams item: %+v\n", userItem)
+
 	item := &user.UserItem{
 		Id:        userItem.Id,
 		RoleId:    userItem.RoleId,
@@ -49,7 +63,7 @@ func (l *GetUserInfoLogic) GetUserInfo(in *user.GetUserInfoReq) (*user.GetUserIn
 		UpdatedAt: uint64(userItem.UpdatedAt.Unix()),
 		AuthType:  int32(userItem.AuthType),
 	}
-	return &user.GetUserInfoResp{
+	return &user.GetUserInfoByParamsResp{
 		User: item,
 	}, nil
 }

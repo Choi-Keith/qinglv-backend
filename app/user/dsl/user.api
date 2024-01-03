@@ -8,38 +8,35 @@ info (
 	version: "v1"
 )
 
-
-type Role{
-    ID uint64 `json:"id,string"`
-    UserId uint64 `json:"userId,string"`
-    Name string `json:"name"`
-    CreatedAt uint64 `json:"createdAt"`
-    UpdatedAt uint64 `json:"updatedAt"`
+type Role {
+	ID        uint64 `json:"id,string"`
+	UserId    uint64 `json:"userId,string"`
+	Name      string `json:"name"`
+	CreatedAt uint64 `json:"createdAt"`
+	UpdatedAt uint64 `json:"updatedAt"`
 }
 
 type RoleReq {
-    Name string `json:"name" validate:"required,max=50"`
+	Name string `json:"name" validate:"required,max=50"`
 }
 
 type Resp {
-    Role Role `json:"role"`
+	Role Role `json:"role"`
 }
 
-
 type (
-    RoleListReq {
-        UserId uint64 `json:"userId,string,optional"`
-        Name string `json:"name,optional"`
-        PageNum int `json:"pageNum"`
-        PageSize int `json:"pageSize"`
-    }
-    RoleListResp {
-        List []Role `json:"list"`
-        IsEnd bool `json:"isEnd"`
-        Total bool `json:"total"`
-    }
+	RoleListReq {
+		UserId   uint64 `json:"userId,string,optional"`
+		Name     string `json:"name,optional"`
+		PageNum  int    `json:"pageNum"`
+		PageSize int    `json:"pageSize"`
+	}
+	RoleListResp {
+		List  []Role `json:"list"`
+		IsEnd bool   `json:"isEnd"`
+		Total bool   `json:"total"`
+	}
 )
-
 
 type EmailReq {
 	Email string `json:"email" validate:"email,max=50"`
@@ -51,15 +48,36 @@ type PhoneReq {
 
 type (
 	RegisterReq {
+		RoleId     uint64 `json:"roleId,string"`
 		Nickname   string `json:"nickname" validate:"required,max=50"`
 		Email      string `json:"email" validate:"required,email,max=50"`
 		Password   string `json:"password" validate:"required,min=6,max=50"`
 		RePassword string `json:"rePassword" validate:"required,min=6,max=50,eqfield=Password"`
 	}
 	RegisterResp {
-		Id uint64 `json:"id,string"`
+		User User `json:"user"`
 	}
 )
+
+type User {
+	Id        uint64 `json:"id"`
+	Role      Role   `json:"role"`
+	RoleId    uint64 `json:"roleId"`
+	Nickname  string `json:"nickname"`
+	Email     string `json:"email"`
+	WeChat    string `json:"weChat"`
+	Motto     string `json:"motto"`
+	Avatar    string `json:"avatar"`
+	ProfileBg string `json:"profileBg"`
+	Age       int    `json:"age,range=[0:120]"`
+	Gender    int    `json:"gender,options=[0,1],default=0"`
+	Location  string `json:"location"`
+	Status    int    `json:"status"`
+	Level     int    `json:"level"`
+	Score     int    `json:"score"`
+	CreatedAt uint64 `json:"createdAt"`
+	UpdatedAt uint64 `json:"updatedAt"`
+}
 
 type (
 	LoginReq {
@@ -84,25 +102,7 @@ type (
 	}
 )
 
-type User {
-	Id        uint64 `json:"id"`
-	Role      Role   `json:"role"`
-	RoleId    uint64 `json:"roleId"`
-	Nickname  string `json:"nickname"`
-	Email     string `json:"email"`
-	WeChat    string `json:"weChat"`
-	Motto     string `json:"motto"`
-	Avatar    string `json:"avatar"`
-	ProfileBg string `json:"profileBg"`
-	Age       int    `json:"age,range=[0:120]"`
-	Gender    int    `json:"gender,options=[0,1],default=0"`
-	Location  string `json:"location"`
-	Status    int    `json:"status"`
-	Level     int    `json:"level"`
-	Score     int    `json:"score"`
-	CreatedAt uint64 `json:"createdAt"`
-	UpdatedAt uint64 `json:"updatedAt"`
-}
+
 
 type (
 	UserListReq {

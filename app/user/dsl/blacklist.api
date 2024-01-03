@@ -1,40 +1,40 @@
-    syntax = "v1"
+syntax = "v1"
 
-    info (
-        title: "屏蔽服务"
-        desc: "我屏蔽的用户"
-        author: "choi"
-        email: "1278028801@qq.com"
-        version: "v1"
-    )
+info (
+	title:   "屏蔽服务"
+	desc:    "我屏蔽的用户"
+	author:  "choi"
+	email:   "1278028801@qq.com"
+	version: "v1"
+)
 
-    type BlackItem {
-        Id uint64 `json:"id,string"`
-        UserId uint64 `json:"userId,string"`
-        BlackId uint64 `json:"blackId,string"`
-        CreatedAt uint64 `json:"createdAt"`
-        UpdatedAt uint64 `json:"updatedAt"`
-    }
+type BlackItem {
+	Id        uint64 `json:"id,string"`
+	UserId    uint64 `json:"userId,string"`
+	BlackId   uint64 `json:"blackId,string"`
+	CreatedAt uint64 `json:"createdAt"`
+	UpdatedAt uint64 `json:"updatedAt"`
+}
 
-    type AddBlackItemReq{
-        UserId uint64 `json:"userId,string"`
-    }
+type AddBlackItemReq {
+	UserId uint64 `json:"userId,string"`
+}
 
-    type  DelBlackItemReq {
-        UserId uint64 `json:"userId,string"`
-    }
+type DelBlackItemReq {
+	UserId uint64 `json:"userId,string"`
+}
 
-    type (
-        BlacklistReq {
-            UserId uint64 `json:"userId,string"`
-            BlackIId uint64 `json:"BlackId,string"`
-            PageNum int `json:"pageNum" validate:"required,gt=0"`
-            PageSize int `json:"pageSize" validate:"required,gt=0"`
-        }
-        BlacklistResp {
-            List []BlackItem `json:"list"`
-            IsEnd bool `json:"isEnd"`
-            Total bool `json:"total"`
-        }
-    )
+type (
+	BlacklistReq {
+		UserId   uint64 `json:"userId,string"`
+		BlackIId uint64 `json:"BlackId,string"`
+		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
+		PageSize int    `json:"pageSize" validate:"required,gt=0"`
+	}
+	BlacklistResp {
+		List  []BlackItem `json:"list"`
+		IsEnd bool        `json:"isEnd"`
+		Total bool        `json:"total"`
+	}
+)
 

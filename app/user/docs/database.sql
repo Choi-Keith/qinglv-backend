@@ -36,6 +36,7 @@ CREATE TABLE `user` (
 CREATE TABLE `role` (
     `id` bigint(20) unsigned NOT NULL COMMENT '角色id',
     `name` varchar(64) NOT NULL COMMENT '角色名称',
+    `created_at` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
     `deleted_at` timestamp DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
     `is_del` tinyint(1) NOT NULL DEFAULT '0',

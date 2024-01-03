@@ -1,40 +1,40 @@
-syntax  = "v1"
+syntax = "v1"
 
 info (
-    title: "角色服务"
-    desc: "角色服务"
-    author: "choi"
-    email: "1278028801@qq.com"
-    version: "v1"
+	title:   "角色服务"
+	desc:    "角色服务"
+	author:  "choi"
+	email:   "1278028801@qq.com"
+	version: "v1"
 )
 
-type Role{
-    ID uint64 `json:"id,string"`
-    UserId uint64 `json:"userId,string"`
-    Name string `json:"name"`
-    CreatedAt uint64 `json:"createdAt"`
-    UpdatedAt uint64 `json:"updatedAt"`
+type Role {
+	ID        uint64 `json:"id,string"`
+	UserId    uint64 `json:"userId,string"`
+	Name      string `json:"name"`
+	CreatedAt uint64 `json:"createdAt"`
+	UpdatedAt uint64 `json:"updatedAt"`
 }
 
 type RoleReq {
-    Name string `json:"name"`
+	Name string `json:"name"`
 }
 
 type Resp {
-    Role Role `json:"role"`
+	Role Role `json:"role"`
 }
 
-
 type (
-    RoleListReq {
-        UserId uint64 `json:"userId,string"`
-        Name string `json:"name"`
-        PageNum int `json:"pageNum" validate:"required,gt=0"`
-        PageSize int `json:"pageSize" validate:"required,gt=0"`
-    }
-    RoleListResp {
-        List []Role `json:"list"`
-        IsEnd bool `json:"isEnd"`
-        Total bool `json:"total"`
-    }
+	RoleListReq {
+		UserId   uint64 `json:"userId,string"`
+		Name     string `json:"name"`
+		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
+		PageSize int    `json:"pageSize" validate:"required,gt=0"`
+	}
+	RoleListResp {
+		List  []Role `json:"list"`
+		IsEnd bool   `json:"isEnd"`
+		Total bool   `json:"total"`
+	}
 )
+

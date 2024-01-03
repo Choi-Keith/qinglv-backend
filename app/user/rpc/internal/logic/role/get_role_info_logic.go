@@ -26,6 +26,19 @@ func NewGetRoleInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRo
 // group: role
 func (l *GetRoleInfoLogic) GetRoleInfo(in *user.GetRoleInfoReq) (*user.GetRoleInfoResp, error) {
 	// todo: add your logic here and delete this line
+	roleItem, err := l.svcCtx.RoleModel.FindOne(l.ctx, in.Id)
+	if err != nil {
+		logx.Errorf("[Rpc Logic] GetRoleInfo failed: %v\n", err)
+		return nil, err
+	}
+	item := &user.RoleItem{
+		Id:        roleItem.Id,
+		Name:      roleItem.Name,
+		CreatedAt: uint64(roleItem.CreatedAt.Unix()),
+		UpdatedAt: uint64(roleItem.UpdatedAt.Unix()),
+	}
 
-	return &user.GetRoleInfoResp{}, nil
+	return &user.GetRoleInfoResp{
+		Role: item,
+	}, nil
 }

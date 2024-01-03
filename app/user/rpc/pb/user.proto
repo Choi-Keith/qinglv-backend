@@ -68,21 +68,16 @@ message LoginResp {
   int64 expireAt = 3;
 }
 
-message GetUserInfoReq {
+message GetUserInfoByParamsReq{
   uint64 id = 1;
+  string nickname = 2;
+  string email = 3;
 }
 
-message GetUserInfoResp {
+message GetUserInfoByParamsResp {
   UserItem user = 1;
 }
 
-message GetUserInfoNicknameReq{
-  string nickname = 1;
-}
-
-message GetUserInfoEmailReq {
-  string email = 1;
-}
 
 message GetUserListReq {
   int32 pageNum = 1;
@@ -105,11 +100,8 @@ service User {
   // group: user
   rpc Login(LoginReq) returns(LoginResp);
   // group: user
-  rpc GetUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
+  rpc GetUserInfoByParams(GetUserInfoByParamsReq) returns(GetUserInfoByParamsResp);
   // group: user
-  rpc GetUserInfoByNickname(GetUserInfoNicknameReq) returns(GetUserInfoResp);
-  // group: user
-  rpc GetUserInfoByEmail(GetUserInfoEmailReq) returns(GetUserInfoResp);
   rpc GetUserList(GetUserListReq) returns(GetUserListResp);
 }
 

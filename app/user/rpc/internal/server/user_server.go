@@ -6,8 +6,8 @@ package server
 import (
 	"context"
 
-	userLogic "qinglv-backend/app/user/rpc/internal/logic/user"
 	roleLogic "qinglv-backend/app/user/rpc/internal/logic/role"
+	userLogic "qinglv-backend/app/user/rpc/internal/logic/user"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
 )
@@ -42,23 +42,12 @@ func (s *UserServer) Login(ctx context.Context, in *user.LoginReq) (*user.LoginR
 }
 
 // group: user
-func (s *UserServer) GetUserInfo(ctx context.Context, in *user.GetUserInfoReq) (*user.GetUserInfoResp, error) {
-	l := userLogic.NewGetUserInfoLogic(ctx, s.svcCtx)
-	return l.GetUserInfo(in)
+func (s *UserServer) GetUserInfoByParams(ctx context.Context, in *user.GetUserInfoByParamsReq) (*user.GetUserInfoByParamsResp, error) {
+	l := userLogic.NewGetUserInfoByParamsLogic(ctx, s.svcCtx)
+	return l.GetUserInfoByParams(in)
 }
 
 // group: user
-func (s *UserServer) GetUserInfoByNickname(ctx context.Context, in *user.GetUserInfoNicknameReq) (*user.GetUserInfoResp, error) {
-	l := userLogic.NewGetUserInfoByNicknameLogic(ctx, s.svcCtx)
-	return l.GetUserInfoByNickname(in)
-}
-
-// group: user
-func (s *UserServer) GetUserInfoByEmail(ctx context.Context, in *user.GetUserInfoEmailReq) (*user.GetUserInfoResp, error) {
-	l := userLogic.NewGetUserInfoByEmailLogic(ctx, s.svcCtx)
-	return l.GetUserInfoByEmail(in)
-}
-
 func (s *UserServer) GetUserList(ctx context.Context, in *user.GetUserListReq) (*user.GetUserListResp, error) {
 	l := userLogic.NewGetUserListLogic(ctx, s.svcCtx)
 	return l.GetUserList(in)

@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/common/response"
 	"qinglv-backend/pkg/validate"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
@@ -27,6 +28,7 @@ func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		l := user.NewRegisterLogic(r.Context(), svcCtx)
 		resp, err := l.Register(&req)
 		if err != nil {
+			logx.Errorf("[Api handler] register failed: %+v\n", err)
 			response.FailCodeMsg(w, http.StatusBadRequest, err)
 		} else {
 			response.OkWithData(w, resp)

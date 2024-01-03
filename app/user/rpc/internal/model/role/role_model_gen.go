@@ -56,6 +56,7 @@ type (
 	Role struct {
 		Id        uint64    `db:"id"`         // 角色id
 		Name      string    `db:"name"`       // 角色名称
+		CreatedAt time.Time `db:"created_at"` // 创建时间
 		UpdatedAt time.Time `db:"updated_at"` // 修改时间
 		DeletedAt time.Time `db:"deleted_at"` // 删除时间
 		IsDel     int64     `db:"is_del"`
