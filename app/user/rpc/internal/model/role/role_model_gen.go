@@ -23,8 +23,8 @@ import (
 var (
 	roleFieldNames          = builder.RawFieldNames(&Role{})
 	roleRows                = strings.Join(roleFieldNames, ",")
-	roleRowsExpectAutoSet   = strings.Join(stringx.Remove(roleFieldNames, "`create_time`", "`update_time`"), ",")
-	roleRowsWithPlaceHolder = strings.Join(stringx.Remove(roleFieldNames, "`id`", "`create_time`", "`update_time`"), "=?,") + "=?"
+	roleRowsExpectAutoSet   = strings.Join(stringx.Remove(roleFieldNames, "`created_at`", "`updated_at`"), ",")
+	roleRowsWithPlaceHolder = strings.Join(stringx.Remove(roleFieldNames, "`id`", "`created_at`", "`updated_at`"), "=?,") + "=?"
 
 	cacheQUserRoleIdPrefix = "cache:qUser:role:id:"
 )
@@ -88,7 +88,7 @@ func (m *defaultRoleModel) FindOne(ctx context.Context, id uint64) (*Role, error
 	qUserRoleIdKey := fmt.Sprintf("%s%v", cacheQUserRoleIdPrefix, id)
 	var resp Role
 	err := m.QueryRowCtx(ctx, &resp, qUserRoleIdKey, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) error {
-		query := fmt.Sprintf("select %s from %s where `id` = ? and del_state = ? limit 1", roleRows, m.table)
+		query := fmt.Sprintf("select %s from %s where `id` = ? and is_del = ? limit 1", roleRows, m.table)
 		return conn.QueryRowCtx(ctx, v, query, id, globalKey.DelStateNo)
 	})
 	switch err {
@@ -159,7 +159,7 @@ func (m *defaultRoleModel) FindSum(ctx context.Context, builder squirrel.SelectB
 
 	builder = builder.Columns("IFNULL(SUM(" + field + "),0)")
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).ToSql()
 	if err != nil {
 		return 0, err
 	}
@@ -182,7 +182,7 @@ func (m *defaultRoleModel) FindCount(ctx context.Context, builder squirrel.Selec
 
 	builder = builder.Columns("COUNT(" + field + ")")
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).ToSql()
 	if err != nil {
 		return 0, err
 	}
@@ -207,7 +207,7 @@ func (m *defaultRoleModel) FindAll(ctx context.Context, builder squirrel.SelectB
 		builder = builder.OrderBy(orderBy)
 	}
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).ToSql()
 	if err != nil {
 		return nil, err
 	}
@@ -237,7 +237,7 @@ func (m *defaultRoleModel) FindPageListByPage(ctx context.Context, builder squir
 	}
 	offset := (page - 1) * pageSize
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).Offset(uint64(offset)).Limit(uint64(pageSize)).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).Offset(uint64(offset)).Limit(uint64(pageSize)).ToSql()
 	if err != nil {
 		return nil, err
 	}
@@ -272,7 +272,7 @@ func (m *defaultRoleModel) FindPageListByPageWithTotal(ctx context.Context, buil
 	}
 	offset := (page - 1) * pageSize
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).Offset(uint64(offset)).Limit(uint64(pageSize)).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).Offset(uint64(offset)).Limit(uint64(pageSize)).ToSql()
 	if err != nil {
 		return nil, total, err
 	}
@@ -295,7 +295,7 @@ func (m *defaultRoleModel) FindPageListByIdDESC(ctx context.Context, builder squ
 		builder = builder.Where(" id < ? ", preMinId)
 	}
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).OrderBy("id DESC").Limit(uint64(pageSize)).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).OrderBy("id DESC").Limit(uint64(pageSize)).ToSql()
 	if err != nil {
 		return nil, err
 	}
@@ -318,7 +318,7 @@ func (m *defaultRoleModel) FindPageListByIdASC(ctx context.Context, builder squi
 		builder = builder.Where(" id > ? ", preMaxId)
 	}
 
-	query, values, err := builder.Where("del_state = ?", globalKey.DelStateNo).OrderBy("id ASC").Limit(uint64(pageSize)).ToSql()
+	query, values, err := builder.Where("is_del = ?", globalKey.DelStateNo).OrderBy("id ASC").Limit(uint64(pageSize)).ToSql()
 	if err != nil {
 		return nil, err
 	}
@@ -359,7 +359,7 @@ func (m *defaultRoleModel) formatPrimary(primary interface{}) string {
 	return fmt.Sprintf("%s%v", cacheQUserRoleIdPrefix, primary)
 }
 func (m *defaultRoleModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary interface{}) error {
-	query := fmt.Sprintf("select %s from %s where `id` = ? and del_state = ? limit 1", roleRows, m.table)
+	query := fmt.Sprintf("select %s from %s where `id` = ? and is_del = ? limit 1", roleRows, m.table)
 	return conn.QueryRowCtx(ctx, v, query, primary, globalKey.DelStateNo)
 }
 

@@ -10,27 +10,25 @@ import (
 
 	"time"
 
-	"qinglv-backend/common/globalKey"
-
 	"github.com/Masterminds/squirrel"
 	"github.com/pkg/errors"
-	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/core/stringx"
+	"qinglv-backend/common/globalKey"
 )
 
 var (
 	userFieldNames          = builder.RawFieldNames(&User{})
 	userRows                = strings.Join(userFieldNames, ",")
-	userRowsExpectAutoSet   = strings.Join(stringx.Remove(userFieldNames, "`create_time`", "`update_time`"), ",")
-	userRowsWithPlaceHolder = strings.Join(stringx.Remove(userFieldNames, "`id`", "`create_time`", "`update_time`"), "=?,") + "=?"
+	userRowsExpectAutoSet   = strings.Join(stringx.Remove(userFieldNames, "`created_at`", "`updated_at`"), ",")
+	userRowsWithPlaceHolder = strings.Join(stringx.Remove(userFieldNames, "`id`", "`created_at`", "`updated_at`"), "=?,") + "=?"
 
 	cacheQUserUserIdPrefix     = "cache:qUser:user:id:"
-	cacheQUserUserNicknamePrefix = "cache:qUser:user:nickname:"
 	cacheQUserUserEmailPrefix  = "cache:qUser:user:email:"
+	cacheQUserUserNicknamePrefix = "cache:qUser:user:nickname:"
 	cacheQUserUserPhonePrefix  = "cache:qUser:user:phone:"
 	cacheQUserUserWeChatPrefix = "cache:qUser:user:weChat:"
 )
@@ -39,11 +37,10 @@ type (
 	userModel interface {
 		Insert(ctx context.Context, session sqlx.Session, data *User) (sql.Result, error)
 		FindOne(ctx context.Context, id uint64) (*User, error)
-		FindOneByNickname(ctx context.Context, nickname string) (*User, error)
 		FindOneByEmail(ctx context.Context, email string) (*User, error)
 		FindOneByPhone(ctx context.Context, phone sql.NullString) (*User, error)
 		FindOneByWeChat(ctx context.Context, weChat sql.NullString) (*User, error)
-		FindOneByParams(ctx context.Context, params User) (*User, error)
+		FindOneByParams(ctx context.Context, param User) (*User, error)
 		Update(ctx context.Context, session sqlx.Session, data *User) (sql.Result, error)
 		UpdateWithVersion(ctx context.Context, session sqlx.Session, data *User) error
 		Trans(ctx context.Context, fn func(context context.Context, session sqlx.Session) error) error
@@ -74,10 +71,10 @@ type (
 		WeChat    sql.NullString `db:"we_chat"`    // 微信号
 		AuthType  int64          `db:"auth_type"`  // 注册方式:1邮件注册；2手机号注册
 		Phone     sql.NullString `db:"phone"`      // 手机号
-		Password  sql.NullString `db:"password"`   // 密码
-		Avatar    sql.NullString `db:"avatar"`     // 头像
+		Password  string         `db:"password"`   // 密码
+		Avatar    string         `db:"avatar"`     // 头像
 		ProfileBg sql.NullString `db:"profile_bg"` // 个人主页背景图
-		Status    sql.NullInt64  `db:"status"`     // 状态
+		Status    int64          `db:"status"`     // 状态:0正常，1审核中，2已注销
 		Location  sql.NullString `db:"location"`   // 位置
 		Age       sql.NullInt64  `db:"age"`        // 年龄
 		Gender    sql.NullInt64  `db:"gender"`     // 性别
@@ -106,11 +103,11 @@ func (m *defaultUserModel) Insert(ctx context.Context, session sqlx.Session, dat
 	qUserUserPhoneKey := fmt.Sprintf("%s%v", cacheQUserUserPhonePrefix, data.Phone)
 	qUserUserWeChatKey := fmt.Sprintf("%s%v", cacheQUserUserWeChatPrefix, data.WeChat)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Email, data.AuthType, data.Password, data.Avatar)
+			return session.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.IsDel, data.Version)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Email, data.AuthType, data.Password, data.Avatar)
+		return conn.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.IsDel, data.Version)
 	}, qUserUserEmailKey, qUserUserIdKey, qUserUserPhoneKey, qUserUserWeChatKey)
 }
 
@@ -131,18 +128,16 @@ func (m *defaultUserModel) FindOne(ctx context.Context, id uint64) (*User, error
 	}
 }
 
-func (m *defaultUserModel) FindOneByNickname(ctx context.Context, nickname string) (*User, error) {
-	qUserUserNicknameKey := fmt.Sprintf("%s%v", cacheQUserUserNicknamePrefix, nickname)
+func (m *defaultUserModel) FindOneByEmail(ctx context.Context, email string) (*User, error) {
+	qUserUserEmailKey := fmt.Sprintf("%s%v", cacheQUserUserEmailPrefix, email)
 	var resp User
-	err := m.QueryRowIndexCtx(ctx, &resp, qUserUserNicknameKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) (i interface{}, e error) {
-		query := fmt.Sprintf("select %s from %s where `nickname` = ? and is_del = ? limit 1", userRows, m.table)
-		if err := conn.QueryRowCtx(ctx, &resp, query, nickname, globalKey.DelStateNo); err != nil {
+	err := m.QueryRowIndexCtx(ctx, &resp, qUserUserEmailKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) (i interface{}, e error) {
+		query := fmt.Sprintf("select %s from %s where `email` = ? and is_del = ? limit 1", userRows, m.table)
+		if err := conn.QueryRowCtx(ctx, &resp, query, email, globalKey.DelStateNo); err != nil {
 			return nil, err
 		}
 		return resp.Id, nil
 	}, m.queryPrimary)
-	logx.Errorf("[Rpc FindOneByNickname] FindOneByNickname: %+v\n", err)
-
 	switch err {
 	case nil:
 		return &resp, nil
@@ -153,13 +148,12 @@ func (m *defaultUserModel) FindOneByNickname(ctx context.Context, nickname strin
 	}
 }
 
-func (m *defaultUserModel) FindOneByEmail(ctx context.Context, email string) (*User, error) {
-	qUserUserEmailKey := fmt.Sprintf("%s%v", cacheQUserUserEmailPrefix, email)
+func (m *defaultUserModel) FindOneByNickname(ctx context.Context, nickname string) (*User, error) {
+	qUserUserNicknameKey := fmt.Sprintf("%s%v", cacheQUserUserNicknamePrefix, nickname)
 	var resp User
-
-	err := m.QueryRowIndexCtx(ctx, &resp, qUserUserEmailKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) (i interface{}, e error) {
-		query := fmt.Sprintf("select %s from %s where `email` = ? and is_del = ? limit 1", userRows, m.table)
-		if err := conn.QueryRowCtx(ctx, &resp, query, email, globalKey.DelStateNo); err != nil {
+	err := m.QueryRowIndexCtx(ctx, &resp, qUserUserNicknameKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) (i interface{}, e error) {
+		query := fmt.Sprintf("select %s from %s where `nickname` = ? and is_del = ? limit 1", userRows, m.table)
+		if err := conn.QueryRowCtx(ctx, &resp, query, nickname, globalKey.DelStateNo); err != nil {
 			return nil, err
 		}
 		return resp.Id, nil
@@ -188,7 +182,7 @@ func (m *defaultUserModel) FindOneByPhone(ctx context.Context, phone sql.NullStr
 	case nil:
 		return &resp, nil
 	case sqlc.ErrNotFound:
-		return nil, nil
+		return nil, ErrNotFound
 	default:
 		return nil, err
 	}
@@ -218,7 +212,6 @@ func (m *defaultUserModel) FindOneByParams(ctx context.Context, param User) (*Us
 	if  param.Email != "" {
 		resp, err := m.FindOneByEmail(ctx, param.Email)
 		if err != nil {
-			logx.Errorf("[Rpc Model] FindOneByParams failed: %+v\n", err)
 			return nil, err
 		}
 		return resp, nil

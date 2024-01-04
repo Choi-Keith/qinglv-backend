@@ -23,7 +23,7 @@ func NewGetUserByIDLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserByIDLogic) GetUserByID() (resp *types.UserResp, err error) {
+func (l *GetUserByIDLogic) GetUserByID() (resp *types.User, err error) {
 	// todo: add your logic here and delete this line
 
 	return

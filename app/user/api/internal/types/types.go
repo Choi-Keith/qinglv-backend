@@ -102,7 +102,7 @@ type LoginReq struct {
 
 type LoginResp struct {
 	AccessToken  string `json:"accessToken"`
-	RefreshToken string `json:"refressToken"`
+	RefreshAfter uint64 `json:"refreshAfter"`
 	ExpireAt     uint64 `json:"refreshAt"`
 }
 
@@ -122,14 +122,6 @@ type RegisterReq struct {
 	Email      string `json:"email" validate:"required,email,max=50"`
 	Password   string `json:"password" validate:"required,min=6,max=50"`
 	RePassword string `json:"rePassword" validate:"required,min=6,max=50,eqfield=Password"`
-}
-
-type RegisterResp struct {
-	User User `json:"user"`
-}
-
-type Resp struct {
-	Role Role `json:"role"`
 }
 
 type Role struct {
@@ -202,8 +194,4 @@ type UserReq struct {
 	Status   int    `json:"status,options=[0,1,2]" validate:"oneof=0,1,2"`
 	Level    int    `json:"level" validate:"number,gte=0,lte=10"`
 	Score    int    `json:"score" validate:"number,gte=0`
-}
-
-type UserResp struct {
-	User User `json:"user"`
 }

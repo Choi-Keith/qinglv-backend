@@ -17,11 +17,16 @@ require (
 )
 
 require (
+	github.com/clbanning/mxj v1.8.4 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
 	github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/mozillazg/go-httpheader v0.4.0 // indirect
+	github.com/tencentyun/cos-go-sdk-v5 v0.7.45 // indirect
 )
 
 require (

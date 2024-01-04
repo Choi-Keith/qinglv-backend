@@ -16,7 +16,7 @@ import (
 service user {
 	@doc "register"
 	@handler register
-	post /user/register (RegisterReq) returns (RegisterResp)
+	post /user/register (RegisterReq) returns (User)
 
 	@doc "login"
 	@handler login
@@ -28,7 +28,7 @@ service user {
 
 	@doc "user detail by id"
 	@handler getUserByID
-	get /user/:id returns (UserResp)
+	get /user/:id returns (User)
 }
 
 // need login
@@ -52,7 +52,7 @@ service user {
 
 	@doc "update user info"
 	@handler updateUser
-	put /user/:id (User) returns (UserResp)
+	put /user/:id (User) returns (User)
 
 	@doc "delete user"
 	@handler delUser
@@ -72,7 +72,7 @@ service user {
 
 	@doc "role detail"
 	@handler getRoleByID
-	get /role/:id
+	get /role/:id returns (Role)
 }
 
 @server (

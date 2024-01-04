@@ -52,15 +52,15 @@ func (l *GetUserInfoByParamsLogic) GetUserInfoByParams(in *user.GetUserInfoByPar
 		Phone:     userItem.Phone.String,
 		WeChat:    userItem.WeChat.String,
 		Motto:     userItem.Motto.String,
-		Avatar:    userItem.Avatar.String,
+		Avatar:    userItem.Avatar,
 		ProfileBg: userItem.ProfileBg.String,
 		Age:       int32(userItem.Age.Int64),
 		Gender:    int32(userItem.Gender.Int64),
 		Location:  userItem.Location.String,
 		Level:     int32(userItem.Level),
 		Score:     int32(userItem.Score),
-		CreatedAt: uint64(userItem.CreatedAt.Unix()),
-		UpdatedAt: uint64(userItem.UpdatedAt.Unix()),
+		CreatedAt: uint64(userItem.CreatedAt.Unix() * 1000),
+		UpdatedAt: uint64(userItem.UpdatedAt.Unix() * 1000),
 		AuthType:  int32(userItem.AuthType),
 	}
 	return &user.GetUserInfoByParamsResp{

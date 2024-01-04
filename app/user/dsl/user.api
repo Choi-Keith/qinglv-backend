@@ -20,10 +20,6 @@ type RoleReq {
 	Name string `json:"name" validate:"required,max=50"`
 }
 
-type Resp {
-	Role Role `json:"role"`
-}
-
 type (
 	RoleListReq {
 		UserId   uint64 `json:"userId,string,optional"`
@@ -53,9 +49,6 @@ type (
 		Email      string `json:"email" validate:"required,email,max=50"`
 		Password   string `json:"password" validate:"required,min=6,max=50"`
 		RePassword string `json:"rePassword" validate:"required,min=6,max=50,eqfield=Password"`
-	}
-	RegisterResp {
-		User User `json:"user"`
 	}
 )
 
@@ -89,7 +82,7 @@ type (
 	}
 	LoginResp {
 		AccessToken  string `json:"accessToken"`
-		RefreshToken string `json:"refressToken"`
+		RefreshAfter uint64  `json:"refreshAfter"`
 		ExpireAt     uint64 `json:"refreshAt"`
 	}
 )
@@ -131,9 +124,6 @@ type (
 		Status   int    `json:"status,options=[0,1,2]" validate:"oneof=0,1,2"`
 		Level    int    `json:"level" validate:"number,gte=0,lte=10"`
 		Score    int    `json:"score" validate:"number,gte=0`
-	}
-	UserResp {
-		User User `json:"user"`
 	}
 )
 

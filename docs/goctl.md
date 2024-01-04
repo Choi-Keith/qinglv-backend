@@ -11,10 +11,14 @@
 `goctl api go -api *.api -dir ../api  --style=go_zero --home ../../../goctl`
 
 在rpc internal下生成model
-`goctl model mysql datasource -url="root:@tcp(43.139.228.81:3306)/q_user" -table="user"  -dir="./model/user" -cache=true --style=go_zero --strict=true --home /home/ubuntu/backend/qinglv-backend/goctl/1.5.6`
+`goctl model mysql datasource -url="root:xxx@tcp(43.139.228.81:3306)/q_user" -table="user"  -dir="./model/user" -cache=true --style=go_zero --strict=true --home /home/ubuntu/backend/qinglv-backend/goctl/1.5.6`
+
+在docker运行redis
+`sudo docker run --restart=always -d -p 16379:6379 -v /home/ubuntu/redis/data:/data:rw  --name redis redis:latest --requirepass xxx`
 
 在rpc目录下生成rpc服务
 `goctl rpc protoc ./pb/user.proto --go_out=. --go-grpc_out=. --zrpc_out=. --style=go_zero`
 
 请求rpc服务
 `grpcurl -d '{"nickname": "keith"}' -plaintext 127.0.0.1:8080 user.User.Register`
+

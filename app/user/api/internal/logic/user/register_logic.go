@@ -28,7 +28,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterResp, err error) {
+func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err error) {
 	// todo: add your logic here and delete this line
 	userResp, err := l.svcCtx.UserRpc.GetUserInfoByParams(l.ctx, &user_client.GetUserInfoByParamsReq{
 		Nickname: req.Nickname,
@@ -48,14 +48,18 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 		Email:    req.Email,
 		Password: password,
 		RoleId:   req.RoleId,
+		Nickname: req.Nickname,
 		AuthType: 1,
 	})
+	var userDetail types.User
+	logx.Debugf("[Api User] Register registerResp: %+v\n", registerResp.User)
 	if err != nil {
 		logx.Errorf("[Api Logic] Register failed: %+v\n", err)
 		return nil, err
 	}
-	if err := copier.Copy(&resp.User, &registerResp.User); err != nil {
+	if err := copier.Copy(&userDetail, registerResp.User); err != nil {
 		logx.Errorf("[Api Logic] Register copy failed: %+v\n", err)
+		return nil, err
 	}
 
 	roleItem, err := l.svcCtx.UserRpc.GetRoleInfo(l.ctx, &user_client.GetRoleInfoReq{
@@ -63,10 +67,12 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 	})
 	if err != nil {
 		logx.Errorf("[Api Logic] Register roleItem failed: %+v\n", err)
+		return nil, err
 	}
-	if err := copier.Copy(&resp.User.Role, roleItem); err != nil {
+	if err := copier.Copy(&userDetail.Role, roleItem.Role); err != nil {
 		logx.Errorf("[Api Logic] Register copy failed: %+v\n", err)
+		return nil, err
 	}
 
-	return
+	return &userDetail, nil
 }
