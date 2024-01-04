@@ -25,10 +25,10 @@ type RoleItem struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	CreatedAt uint64 `protobuf:"varint,3,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt uint64 `protobuf:"varint,4,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
+	Id        uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
+	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name"`
+	CreatedAt uint64 `protobuf:"varint,3,opt,name=createdAt,proto3" json:"createdAt"`
+	UpdatedAt uint64 `protobuf:"varint,4,opt,name=updatedAt,proto3" json:"updatedAt"`
 }
 
 func (x *RoleItem) Reset() {
@@ -96,7 +96,7 @@ type GetRoleInfoReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
 }
 
 func (x *GetRoleInfoReq) Reset() {
@@ -143,7 +143,7 @@ type GetRoleInfoResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Role *RoleItem `protobuf:"bytes,1,opt,name=Role,proto3" json:"Role,omitempty"`
+	Role *RoleItem `protobuf:"bytes,1,opt,name=Role,proto3" json:"Role"`
 }
 
 func (x *GetRoleInfoResp) Reset() {
@@ -190,24 +190,24 @@ type UserItem struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	RoleId    uint64 `protobuf:"varint,2,opt,name=roleId,proto3" json:"roleId,omitempty"`
-	Nickname  string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname,omitempty"`
-	Email     string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
-	Phone     string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty"`
-	WeChat    string `protobuf:"bytes,6,opt,name=weChat,proto3" json:"weChat,omitempty"`
-	Motto     string `protobuf:"bytes,7,opt,name=motto,proto3" json:"motto,omitempty"`
-	Avatar    string `protobuf:"bytes,8,opt,name=avatar,proto3" json:"avatar,omitempty"`
-	ProfileBg string `protobuf:"bytes,9,opt,name=profileBg,proto3" json:"profileBg,omitempty"`
-	Age       int32  `protobuf:"varint,10,opt,name=age,proto3" json:"age,omitempty"`
-	Gender    int32  `protobuf:"varint,11,opt,name=gender,proto3" json:"gender,omitempty"`
-	Status    int32  `protobuf:"varint,12,opt,name=status,proto3" json:"status,omitempty"`
-	Location  string `protobuf:"bytes,13,opt,name=location,proto3" json:"location,omitempty"`
-	Level     int32  `protobuf:"varint,14,opt,name=level,proto3" json:"level,omitempty"`
-	Score     int32  `protobuf:"varint,15,opt,name=score,proto3" json:"score,omitempty"`
-	CreatedAt uint64 `protobuf:"varint,16,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
-	UpdatedAt uint64 `protobuf:"varint,17,opt,name=updatedAt,proto3" json:"updatedAt,omitempty"`
-	AuthType  int32  `protobuf:"varint,18,opt,name=authType,proto3" json:"authType,omitempty"`
+	Id        uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
+	RoleId    uint64 `protobuf:"varint,2,opt,name=roleId,proto3" json:"roleId"`
+	Nickname  string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname"`
+	Email     string `protobuf:"bytes,4,opt,name=email,proto3" json:"email"`
+	Phone     string `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone"`
+	WeChat    string `protobuf:"bytes,6,opt,name=weChat,proto3" json:"weChat"`
+	Motto     string `protobuf:"bytes,7,opt,name=motto,proto3" json:"motto"`
+	Avatar    string `protobuf:"bytes,8,opt,name=avatar,proto3" json:"avatar"`
+	ProfileBg string `protobuf:"bytes,9,opt,name=profileBg,proto3" json:"profileBg"`
+	Age       int32  `protobuf:"varint,10,opt,name=age,proto3" json:"age"`
+	Gender    int32  `protobuf:"varint,11,opt,name=gender,proto3" json:"gender"`
+	Status    int32  `protobuf:"varint,12,opt,name=status,proto3" json:"status"`
+	Location  string `protobuf:"bytes,13,opt,name=location,proto3" json:"location"`
+	Level     int32  `protobuf:"varint,14,opt,name=level,proto3" json:"level"`
+	Score     int32  `protobuf:"varint,15,opt,name=score,proto3" json:"score"`
+	CreatedAt uint64 `protobuf:"varint,16,opt,name=createdAt,proto3" json:"createdAt"`
+	UpdatedAt uint64 `protobuf:"varint,17,opt,name=updatedAt,proto3" json:"updatedAt"`
+	AuthType  int32  `protobuf:"varint,18,opt,name=authType,proto3" json:"authType"`
 }
 
 func (x *UserItem) Reset() {
@@ -373,13 +373,13 @@ type RegisterReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	RoleId   uint64 `protobuf:"varint,2,opt,name=roleId,proto3" json:"roleId,omitempty"`
-	Nickname string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname,omitempty"`
-	Email    string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
-	Password string `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
-	Phone    string `protobuf:"bytes,6,opt,name=phone,proto3" json:"phone,omitempty"`
-	AuthType int32  `protobuf:"varint,7,opt,name=authType,proto3" json:"authType,omitempty"`
+	Id       uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
+	RoleId   uint64 `protobuf:"varint,2,opt,name=roleId,proto3" json:"roleId"`
+	Nickname string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname"`
+	Email    string `protobuf:"bytes,4,opt,name=email,proto3" json:"email"`
+	Password string `protobuf:"bytes,5,opt,name=password,proto3" json:"password"`
+	Phone    string `protobuf:"bytes,6,opt,name=phone,proto3" json:"phone"`
+	AuthType int32  `protobuf:"varint,7,opt,name=authType,proto3" json:"authType"`
 }
 
 func (x *RegisterReq) Reset() {
@@ -468,7 +468,7 @@ type RegisterResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User *UserItem `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User *UserItem `protobuf:"bytes,1,opt,name=user,proto3" json:"user"`
 }
 
 func (x *RegisterResp) Reset() {
@@ -515,10 +515,10 @@ type LoginReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Email    string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	Phone    string `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
-	Nickname string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname,omitempty"`
-	Password string `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
+	Email    string `protobuf:"bytes,1,opt,name=email,proto3" json:"email"`
+	Phone    string `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone"`
+	Nickname string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname"`
+	Password string `protobuf:"bytes,4,opt,name=password,proto3" json:"password"`
 }
 
 func (x *LoginReq) Reset() {
@@ -586,9 +586,9 @@ type LoginResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AccessToken  string `protobuf:"bytes,1,opt,name=accessToken,proto3" json:"accessToken,omitempty"`
-	RefreshToken string `protobuf:"bytes,2,opt,name=refreshToken,proto3" json:"refreshToken,omitempty"`
-	ExpireAt     int64  `protobuf:"varint,3,opt,name=expireAt,proto3" json:"expireAt,omitempty"`
+	AccessToken  string `protobuf:"bytes,1,opt,name=accessToken,proto3" json:"accessToken"`
+	RefreshToken string `protobuf:"bytes,2,opt,name=refreshToken,proto3" json:"refreshToken"`
+	ExpireAt     int64  `protobuf:"varint,3,opt,name=expireAt,proto3" json:"expireAt"`
 }
 
 func (x *LoginResp) Reset() {
@@ -649,9 +649,9 @@ type GetUserInfoByParamsReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id       uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Nickname string `protobuf:"bytes,2,opt,name=nickname,proto3" json:"nickname,omitempty"`
-	Email    string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Id       uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
+	Nickname string `protobuf:"bytes,2,opt,name=nickname,proto3" json:"nickname"`
+	Email    string `protobuf:"bytes,3,opt,name=email,proto3" json:"email"`
 }
 
 func (x *GetUserInfoByParamsReq) Reset() {
@@ -712,7 +712,7 @@ type GetUserInfoByParamsResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	User *UserItem `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User *UserItem `protobuf:"bytes,1,opt,name=user,proto3" json:"user"`
 }
 
 func (x *GetUserInfoByParamsResp) Reset() {
@@ -759,11 +759,11 @@ type GetUserListReq struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PageNum  int32  `protobuf:"varint,1,opt,name=pageNum,proto3" json:"pageNum,omitempty"`
-	PageSize int32  `protobuf:"varint,2,opt,name=pageSize,proto3" json:"pageSize,omitempty"`
-	Nickname string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname,omitempty"`
-	Email    string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
-	Status   int32  `protobuf:"varint,5,opt,name=status,proto3" json:"status,omitempty"`
+	PageNum  int32  `protobuf:"varint,1,opt,name=pageNum,proto3" json:"pageNum"`
+	PageSize int32  `protobuf:"varint,2,opt,name=pageSize,proto3" json:"pageSize"`
+	Nickname string `protobuf:"bytes,3,opt,name=nickname,proto3" json:"nickname"`
+	Email    string `protobuf:"bytes,4,opt,name=email,proto3" json:"email"`
+	Status   int32  `protobuf:"varint,5,opt,name=status,proto3" json:"status"`
 }
 
 func (x *GetUserListReq) Reset() {
@@ -838,8 +838,8 @@ type GetUserListResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Total uint64      `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
-	Data  []*UserItem `protobuf:"bytes,2,rep,name=data,proto3" json:"data,omitempty"`
+	Total uint64      `protobuf:"varint,1,opt,name=total,proto3" json:"total"`
+	Data  []*UserItem `protobuf:"bytes,2,rep,name=data,proto3" json:"data"`
 }
 
 func (x *GetUserListResp) Reset() {
