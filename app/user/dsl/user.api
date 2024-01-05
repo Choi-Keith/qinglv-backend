@@ -73,6 +73,15 @@ type User {
 }
 
 type (
+	VerifyEmailReq {
+		Code string `json:"code"`
+	}
+	VerifyEmailResp {
+		VerifyResult bool `json:"verifyResult"`
+	}
+)
+
+type (
 	LoginReq {
 		Email      string `json:"email" validate:"required,email,max=50"`
 		Password   string `json:"password" validate:"required,min=6,max=50"`

@@ -12,3 +12,5 @@ var DelStateYes int64 = 1 //已删除
 var DateTimeFormatTplStandardDateTime = "Y-m-d H:i:s"
 var DateTimeFormatTplStandardDate = "Y-m-d"
 var DateTimeFormatTplStandardTime = "H:i:s"
+
+var VerifyEmailCodePrefixKey = "cache:qUser:email:verify:code:"

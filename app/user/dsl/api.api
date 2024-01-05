@@ -18,6 +18,10 @@ service user {
 	@handler register
 	post /user/register (RegisterReq) returns (User)
 
+	@doc "verify email"
+	@handler verifyEmail
+	get /user/email/verify (VerifyEmailReq) returns (VerifyEmailResp)
+
 	@doc "login"
 	@handler login
 	post /user/login (LoginReq) returns (LoginResp)

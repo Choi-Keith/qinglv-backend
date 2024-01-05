@@ -52,15 +52,11 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 		AuthType: 1,
 	})
 	var userDetail types.User
-	logx.Debugf("[Api User] Register registerResp: %+v\n", registerResp.User)
 	if err != nil {
 		logx.Errorf("[Api Logic] Register failed: %+v\n", err)
 		return nil, err
 	}
-	if err := copier.Copy(&userDetail, registerResp.User); err != nil {
-		logx.Errorf("[Api Logic] Register copy failed: %+v\n", err)
-		return nil, err
-	}
+	_ = copier.Copy(&userDetail, registerResp.User)
 
 	roleItem, err := l.svcCtx.UserRpc.GetRoleInfo(l.ctx, &user_client.GetRoleInfoReq{
 		Id: req.RoleId,
@@ -69,10 +65,6 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 		logx.Errorf("[Api Logic] Register roleItem failed: %+v\n", err)
 		return nil, err
 	}
-	if err := copier.Copy(&userDetail.Role, roleItem.Role); err != nil {
-		logx.Errorf("[Api Logic] Register copy failed: %+v\n", err)
-		return nil, err
-	}
-
+	_ = copier.Copy(&userDetail.Role, roleItem.Role)
 	return &userDetail, nil
 }

@@ -1,0 +1,30 @@
+package user
+
+import (
+	"context"
+
+	"qinglv-backend/app/user/api/internal/svc"
+	"qinglv-backend/app/user/api/internal/types"
+
+	"github.com/zeromicro/go-zero/core/logx"
+)
+
+type VerifyEmailLogic struct {
+	logx.Logger
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+}
+
+func NewVerifyEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *VerifyEmailLogic {
+	return &VerifyEmailLogic{
+		Logger: logx.WithContext(ctx),
+		ctx:    ctx,
+		svcCtx: svcCtx,
+	}
+}
+
+func (l *VerifyEmailLogic) VerifyEmail(req *types.VerifyEmailReq) (resp *types.VerifyEmailResp, err error) {
+	// todo: add your logic here and delete this line
+
+	return
+}

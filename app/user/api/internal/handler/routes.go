@@ -151,6 +151,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.GetUserByIDHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodGet,
+				Path:    "/user/email/verify",
+				Handler: user.VerifyEmailHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/user/login",
 				Handler: user.LoginHandler(serverCtx),

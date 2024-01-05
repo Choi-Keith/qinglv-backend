@@ -21,6 +21,7 @@ CREATE TABLE `user` (
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `last_login_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近一次登录时间',
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
     PRIMARY KEY (`id`),

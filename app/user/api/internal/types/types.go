@@ -195,3 +195,11 @@ type UserReq struct {
 	Level    int    `json:"level" validate:"number,gte=0,lte=10"`
 	Score    int    `json:"score" validate:"number,gte=0`
 }
+
+type VerifyEmailReq struct {
+	Code string `json:"code"`
+}
+
+type VerifyEmailResp struct {
+	VerifyResult bool `json:"verifyResult"`
+}

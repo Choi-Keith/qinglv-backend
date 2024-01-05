@@ -1,17 +1,26 @@
 package email
 
 import (
+	"fmt"
+
 	"gopkg.in/gomail.v2"
 )
 
-func Send(toUser string, subject string, content string) error {
+type SMTPOptions struct {
+	Host string
+	Port int
+	User string
+	Pass string
+}
+
+func Send(smtp SMTPOptions, toUser, subject, content string) error {
 	m := gomail.NewMessage()
-	m.SetHeader("From", "1278028801@qq.com")
+	m.SetHeader("From", smtp.User)
 	m.SetHeader("To", toUser)
 	m.SetHeader("Subject", subject)
-	// fmt.Printf("Send, %+v, %+v\n", toUser, content)
+	fmt.Printf("Send, smtp:%+v, toUser:%+v, subject: %+v\n", smtp, toUser, content)
 
 	m.SetBody("text/html", content)
-	d := gomail.NewDialer("xxx", 465, "xxx", "xxx")
+	d := gomail.NewDialer(smtp.Host, smtp.Port, smtp.User, smtp.Pass)
 	return d.DialAndSend(m)
 }
