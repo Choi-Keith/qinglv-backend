@@ -26,8 +26,8 @@ type DelFollowingReq {
 
 type (
 	FollowingListReq {
-		UserId   uint64 `json:"userId,string"`
-		FollowId uint64 `json:"followId,string"`
+		UserId   uint64 `form:"userId,string,optional"`
+		FollowId uint64 `form:"followId,string,optional"`
 		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
 		PageSize int    `json:"pageSize" validate:"required,gt=0"`
 	}

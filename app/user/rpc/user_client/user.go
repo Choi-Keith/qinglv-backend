@@ -24,7 +24,11 @@ type (
 	RegisterReq             = user.RegisterReq
 	RegisterResp            = user.RegisterResp
 	RoleItem                = user.RoleItem
+	UpdateEmailStatusReq    = user.UpdateEmailStatusReq
+	UpdateEmailStatusResp   = user.UpdateEmailStatusResp
 	UserItem                = user.UserItem
+	VerifyRegisterCodeReq   = user.VerifyRegisterCodeReq
+	VerifyRegisterCodeResp  = user.VerifyRegisterCodeResp
 
 	User interface {
 		// group: role
@@ -37,6 +41,10 @@ type (
 		GetUserInfoByParams(ctx context.Context, in *GetUserInfoByParamsReq, opts ...grpc.CallOption) (*GetUserInfoByParamsResp, error)
 		// group: user
 		GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
+		// group: email
+		VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
+		// group: email
+		UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
 	}
 
 	defaultUser struct {
@@ -78,4 +86,16 @@ func (m *defaultUser) GetUserInfoByParams(ctx context.Context, in *GetUserInfoBy
 func (m *defaultUser) GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.GetUserList(ctx, in, opts...)
+}
+
+// group: email
+func (m *defaultUser) VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.VerifyRegisterCode(ctx, in, opts...)
+}
+
+// group: email
+func (m *defaultUser) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateEmailStatus(ctx, in, opts...)
 }

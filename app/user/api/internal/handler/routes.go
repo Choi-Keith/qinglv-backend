@@ -142,6 +142,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
+				Path:    "/email/verify",
+				Handler: user.VerifyEmailHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/login",
+				Handler: user.LoginHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: user.RegisterHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
 				Path:    "/user",
 				Handler: user.GetUserListHandler(serverCtx),
 			},
@@ -149,21 +164,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/user/:id",
 				Handler: user.GetUserByIDHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/email/verify",
-				Handler: user.VerifyEmailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/login",
-				Handler: user.LoginHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/register",
-				Handler: user.RegisterHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/user/v1"),
@@ -173,6 +173,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPut,
+				Path:    "/email",
+				Handler: user.UpdateEmailHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/password",
+				Handler: user.UpdatePasswordHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/phone",
+				Handler: user.UpdatePhoneHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
 				Path:    "/user/:id",
 				Handler: user.UpdateUserHandler(serverCtx),
 			},
@@ -180,21 +195,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodDelete,
 				Path:    "/user/:id",
 				Handler: user.DelUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/email",
-				Handler: user.UpdateEmailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/password",
-				Handler: user.UpdatePasswordHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/phone",
-				Handler: user.UpdatePhoneHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),

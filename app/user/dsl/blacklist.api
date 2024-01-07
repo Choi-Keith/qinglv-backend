@@ -26,8 +26,8 @@ type DelBlackItemReq {
 
 type (
 	BlacklistReq {
-		UserId   uint64 `json:"userId,string"`
-		BlackIId uint64 `json:"BlackId,string"`
+		UserId   uint64 `form:"userId,string,optional"`
+		BlackIId uint64 `form:"BlackId,string,optional"`
 		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
 		PageSize int    `json:"pageSize" validate:"required,gt=0"`
 	}

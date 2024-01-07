@@ -24,6 +24,8 @@ const (
 	User_Login_FullMethodName               = "/user.User/Login"
 	User_GetUserInfoByParams_FullMethodName = "/user.User/GetUserInfoByParams"
 	User_GetUserList_FullMethodName         = "/user.User/GetUserList"
+	User_VerifyRegisterCode_FullMethodName  = "/user.User/VerifyRegisterCode"
+	User_UpdateEmailStatus_FullMethodName   = "/user.User/UpdateEmailStatus"
 )
 
 // UserClient is the client API for User service.
@@ -40,6 +42,10 @@ type UserClient interface {
 	GetUserInfoByParams(ctx context.Context, in *GetUserInfoByParamsReq, opts ...grpc.CallOption) (*GetUserInfoByParamsResp, error)
 	// group: user
 	GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
+	// group: email
+	VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
+	// group: email
+	UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
 }
 
 type userClient struct {
@@ -95,6 +101,24 @@ func (c *userClient) GetUserList(ctx context.Context, in *GetUserListReq, opts .
 	return out, nil
 }
 
+func (c *userClient) VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
+	out := new(VerifyRegisterCodeResp)
+	err := c.cc.Invoke(ctx, User_VerifyRegisterCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
+	out := new(UpdateEmailStatusResp)
+	err := c.cc.Invoke(ctx, User_UpdateEmailStatus_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -109,6 +133,10 @@ type UserServer interface {
 	GetUserInfoByParams(context.Context, *GetUserInfoByParamsReq) (*GetUserInfoByParamsResp, error)
 	// group: user
 	GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error)
+	// group: email
+	VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error)
+	// group: email
+	UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -130,6 +158,12 @@ func (UnimplementedUserServer) GetUserInfoByParams(context.Context, *GetUserInfo
 }
 func (UnimplementedUserServer) GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
+}
+func (UnimplementedUserServer) VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyRegisterCode not implemented")
+}
+func (UnimplementedUserServer) UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmailStatus not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -234,6 +268,42 @@ func _User_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_VerifyRegisterCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyRegisterCodeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).VerifyRegisterCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_VerifyRegisterCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).VerifyRegisterCode(ctx, req.(*VerifyRegisterCodeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateEmailStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateEmailStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateEmailStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateEmailStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateEmailStatus(ctx, req.(*UpdateEmailStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,6 +330,14 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserList",
 			Handler:    _User_GetUserList_Handler,
+		},
+		{
+			MethodName: "VerifyRegisterCode",
+			Handler:    _User_VerifyRegisterCode_Handler,
+		},
+		{
+			MethodName: "UpdateEmailStatus",
+			Handler:    _User_UpdateEmailStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

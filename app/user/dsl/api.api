@@ -1,7 +1,6 @@
 syntax = "v1"
 
 import (
-	//"role.api"
 	"user.api"
 	"following.api"
 	"follower.api"
@@ -16,15 +15,15 @@ import (
 service user {
 	@doc "register"
 	@handler register
-	post /user/register (RegisterReq) returns (User)
+	post /register (RegisterReq) returns (User)
 
 	@doc "verify email"
 	@handler verifyEmail
-	get /user/email/verify (VerifyEmailReq) returns (VerifyEmailResp)
+	get /email/verify (VerifyEmailReq) returns (VerifyEmailResp)
 
 	@doc "login"
 	@handler login
-	post /user/login (LoginReq) returns (LoginResp)
+	post /login (LoginReq) returns (LoginResp)
 
 	@doc "user list"
 	@handler getUserList
@@ -44,15 +43,15 @@ service user {
 service user {
 	@doc "update password"
 	@handler updatePassword
-	put /user/password (PasswordReq)
+	put /password (PasswordReq)
 
 	@doc "update email"
 	@handler updateEmail
-	put /user/email (EmailReq)
+	put /email (EmailReq)
 
 	@doc "update phone"
 	@handler updatePhone
-	put /user/phone (PhoneReq)
+	put /phone (PhoneReq)
 
 	@doc "update user info"
 	@handler updateUser

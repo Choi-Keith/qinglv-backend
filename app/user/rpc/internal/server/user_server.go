@@ -8,6 +8,7 @@ import (
 
 	roleLogic "qinglv-backend/app/user/rpc/internal/logic/role"
 	userLogic "qinglv-backend/app/user/rpc/internal/logic/user"
+	emailLogic "qinglv-backend/app/user/rpc/internal/logic/email"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
 )
@@ -51,4 +52,16 @@ func (s *UserServer) GetUserInfoByParams(ctx context.Context, in *user.GetUserIn
 func (s *UserServer) GetUserList(ctx context.Context, in *user.GetUserListReq) (*user.GetUserListResp, error) {
 	l := userLogic.NewGetUserListLogic(ctx, s.svcCtx)
 	return l.GetUserList(in)
+}
+
+// group: email
+func (s *UserServer) VerifyRegisterCode(ctx context.Context, in *user.VerifyRegisterCodeReq) (*user.VerifyRegisterCodeResp, error) {
+	l := emailLogic.NewVerifyRegisterCodeLogic(ctx, s.svcCtx)
+	return l.VerifyRegisterCode(in)
+}
+
+// group: email
+func (s *UserServer) UpdateEmailStatus(ctx context.Context, in *user.UpdateEmailStatusReq) (*user.UpdateEmailStatusResp, error) {
+	l := userLogic.NewUpdateEmailStatusLogic(ctx, s.svcCtx)
+	return l.UpdateEmailStatus(in)
 }

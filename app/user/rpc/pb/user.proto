@@ -3,6 +3,14 @@ syntax = "proto3";
 package user;
 option go_package="./user";
 
+message VerifyRegisterCodeReq {
+    string code = 1;
+}
+
+message VerifyRegisterCodeResp {
+    string codeContent = 1;
+}
+
 
 message RoleItem {
     uint64 id = 1;
@@ -38,7 +46,9 @@ message UserItem {
   int32 score = 15;
   uint64 createdAt = 16;
   uint64 updatedAt = 17;
-  int32 authType = 18;
+  uint64 lastLoginTime = 18;
+  int32 authType = 19;
+  int32 mailStatus = 20;
 }
 
 message RegisterReq {
@@ -92,6 +102,14 @@ message GetUserListResp {
   repeated UserItem data = 2;
 }
 
+message UpdateEmailStatusReq {
+  uint64 userId = 1;
+  int32 mailStatus = 2;
+}
+message UpdateEmailStatusResp {
+  string pong = 1;
+}
+
 service User {
   // group: role
   rpc GetRoleInfo(GetRoleInfoReq) returns(GetRoleInfoResp);
@@ -103,5 +121,10 @@ service User {
   rpc GetUserInfoByParams(GetUserInfoByParamsReq) returns(GetUserInfoByParamsResp);
   // group: user
   rpc GetUserList(GetUserListReq) returns(GetUserListResp);
+  // group: email
+  rpc VerifyRegisterCode(VerifyRegisterCodeReq) returns(VerifyRegisterCodeResp);
+  // group: email
+  rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
+
 }
 

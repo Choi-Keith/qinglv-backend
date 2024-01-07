@@ -38,6 +38,7 @@ type (
 		Insert(ctx context.Context, session sqlx.Session, data *User) (sql.Result, error)
 		FindOne(ctx context.Context, id uint64) (*User, error)
 		FindOneByEmail(ctx context.Context, email string) (*User, error)
+		FindOneByNickname(ctx context.Context, nickname string) (*User, error)
 		FindOneByPhone(ctx context.Context, phone sql.NullString) (*User, error)
 		FindOneByWeChat(ctx context.Context, weChat sql.NullString) (*User, error)
 		FindOneByParams(ctx context.Context, param User) (*User, error)
@@ -62,29 +63,31 @@ type (
 	}
 
 	User struct {
-		Id        uint64         `db:"id"`         // 用户id
-		RoleId    uint64         `db:"role_id"`    // 角色id
-		Account   string         `db:"account"`    // 账号
-		Nickname  string         `db:"nickname"`   // 昵称
-		Motto     sql.NullString `db:"motto"`      // 个性签名
-		Email     string         `db:"email"`      // 邮箱
-		WeChat    sql.NullString `db:"we_chat"`    // 微信号
-		AuthType  int64          `db:"auth_type"`  // 注册方式:1邮件注册；2手机号注册
-		Phone     sql.NullString `db:"phone"`      // 手机号
-		Password  string         `db:"password"`   // 密码
-		Avatar    string         `db:"avatar"`     // 头像
-		ProfileBg sql.NullString `db:"profile_bg"` // 个人主页背景图
-		Status    int64          `db:"status"`     // 状态:0正常，1审核中，2已注销
-		Location  sql.NullString `db:"location"`   // 位置
-		Age       sql.NullInt64  `db:"age"`        // 年龄
-		Gender    sql.NullInt64  `db:"gender"`     // 性别
-		Level     int64          `db:"level"`      // 等级
-		Score     int64          `db:"score"`      // 积分
-		CreatedAt time.Time      `db:"created_at"` // 创建时间
-		UpdatedAt time.Time      `db:"updated_at"` // 修改时间
-		DeletedAt time.Time      `db:"deleted_at"` // 删除时间
-		IsDel     int64          `db:"is_del"`
-		Version   int64          `db:"version"` // 版本号
+		Id            uint64         `db:"id"`          // 用户id
+		RoleId        uint64         `db:"role_id"`     // 角色id
+		Account       string         `db:"account"`     // 账号
+		Nickname      string         `db:"nickname"`    // 昵称
+		Motto         sql.NullString `db:"motto"`       // 个性签名
+		Email         string         `db:"email"`       // 邮箱
+		AuthType      int64          `db:"auth_type"`   // 注册方式:1邮件注册；2手机号注册
+		MailStatus    int64          `db:"mail_status"` // 邮箱是否可用：0不可用， 1可用
+		WeChat        sql.NullString `db:"we_chat"`     // 微信号
+		Phone         sql.NullString `db:"phone"`       // 手机号
+		Password      string         `db:"password"`    // 密码
+		Avatar        string         `db:"avatar"`      // 头像
+		ProfileBg     sql.NullString `db:"profile_bg"`  // 个人主页背景图
+		Status        sql.NullInt64  `db:"status"`      // 状态
+		Location      sql.NullString `db:"location"`    // 位置
+		Age           sql.NullInt64  `db:"age"`         // 年龄
+		Gender        sql.NullInt64  `db:"gender"`      // 性别
+		Level         int64          `db:"level"`       // 等级
+		Score         int64          `db:"score"`       // 积分
+		CreatedAt     time.Time      `db:"created_at"`  // 创建时间
+		UpdatedAt     time.Time      `db:"updated_at"`  // 修改时间
+		DeletedAt     time.Time      `db:"deleted_at"`  // 删除时间
+		LastLoginTime time.Time      `db:"last_login_time"`
+		IsDel         int64          `db:"is_del"`
+		Version       int64          `db:"version"` // 版本号
 	}
 )
 
@@ -103,11 +106,11 @@ func (m *defaultUserModel) Insert(ctx context.Context, session sqlx.Session, dat
 	qUserUserPhoneKey := fmt.Sprintf("%s%v", cacheQUserUserPhonePrefix, data.Phone)
 	qUserUserWeChatKey := fmt.Sprintf("%s%v", cacheQUserUserWeChatPrefix, data.WeChat)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.IsDel, data.Version)
+			return session.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.AuthType, data.MailStatus, data.WeChat, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.IsDel, data.Version)
+		return conn.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.AuthType, data.MailStatus, data.WeChat, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version)
 	}, qUserUserEmailKey, qUserUserIdKey, qUserUserPhoneKey, qUserUserWeChatKey)
 }
 
@@ -238,9 +241,9 @@ func (m *defaultUserModel) Update(ctx context.Context, session sqlx.Session, new
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, userRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
+			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.AuthType, newData.MailStatus, newData.WeChat, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id)
 		}
-		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
+		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.AuthType, newData.MailStatus, newData.WeChat, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id)
 	}, qUserUserEmailKey, qUserUserIdKey, qUserUserPhoneKey, qUserUserWeChatKey)
 }
 
@@ -263,9 +266,9 @@ func (m *defaultUserModel) UpdateWithVersion(ctx context.Context, session sqlx.S
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, userRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
+			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.AuthType, newData.MailStatus, newData.WeChat, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
+		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.AuthType, newData.MailStatus, newData.WeChat, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id, oldVersion)
 	}, qUserUserEmailKey, qUserUserIdKey, qUserUserPhoneKey, qUserUserWeChatKey)
 	if err != nil {
 		return err

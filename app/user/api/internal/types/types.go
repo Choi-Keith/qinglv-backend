@@ -22,8 +22,8 @@ type BlackItem struct {
 }
 
 type BlacklistReq struct {
-	UserId   uint64 `json:"userId,string"`
-	BlackIId uint64 `json:"BlackId,string"`
+	UserId   uint64 `form:"userId,string,optional"`
+	BlackIId uint64 `form:"BlackId,string,optional"`
 	PageNum  int    `json:"pageNum" validate:"required,gt=0"`
 	PageSize int    `json:"pageSize" validate:"required,gt=0"`
 }
@@ -59,8 +59,8 @@ type Follower struct {
 }
 
 type FollowerListReq struct {
-	UserId     uint64 `json:"userId,string"`
-	FollowerId uint64 `json:"followerId,string"`
+	UserId     uint64 `form:"userId,string,optional"`
+	FollowerId uint64 `form:"followerId,string,optional"`
 	PageNum    int    `json:"pageNum" validate:"required,gt=0"`
 	PageSize   int    `json:"pageSize" validate:"required,gt=0"`
 }
@@ -80,8 +80,8 @@ type Following struct {
 }
 
 type FollowingListReq struct {
-	UserId   uint64 `json:"userId,string"`
-	FollowId uint64 `json:"followId,string"`
+	UserId   uint64 `form:"userId,string,optional"`
+	FollowId uint64 `form:"followId,string,optional"`
 	PageNum  int    `json:"pageNum" validate:"required,gt=0"`
 	PageSize int    `json:"pageSize" validate:"required,gt=0"`
 }
@@ -126,17 +126,15 @@ type RegisterReq struct {
 
 type Role struct {
 	ID        uint64 `json:"id,string"`
-	UserId    uint64 `json:"userId,string"`
 	Name      string `json:"name"`
 	CreatedAt uint64 `json:"createdAt"`
 	UpdatedAt uint64 `json:"updatedAt"`
 }
 
 type RoleListReq struct {
-	UserId   uint64 `json:"userId,string,optional"`
-	Name     string `json:"name,optional"`
-	PageNum  int    `json:"pageNum"`
-	PageSize int    `json:"pageSize"`
+	Name     string `form:"name,optional"`
+	PageNum  int    `form:"pageNum"`
+	PageSize int    `form:"pageSize"`
 }
 
 type RoleListResp struct {
@@ -150,32 +148,34 @@ type RoleReq struct {
 }
 
 type User struct {
-	Id        uint64 `json:"id"`
-	Role      Role   `json:"role"`
-	RoleId    uint64 `json:"roleId"`
-	Nickname  string `json:"nickname"`
-	Email     string `json:"email"`
-	WeChat    string `json:"weChat"`
-	Motto     string `json:"motto"`
-	Avatar    string `json:"avatar"`
-	ProfileBg string `json:"profileBg"`
-	Age       int    `json:"age,range=[0:120]"`
-	Gender    int    `json:"gender,options=[0,1],default=0"`
-	Location  string `json:"location"`
-	Status    int    `json:"status"`
-	Level     int    `json:"level"`
-	Score     int    `json:"score"`
-	CreatedAt uint64 `json:"createdAt"`
-	UpdatedAt uint64 `json:"updatedAt"`
+	Id            uint64 `json:"id"`
+	Role          Role   `json:"role"`
+	RoleId        uint64 `json:"roleId"`
+	Nickname      string `json:"nickname"`
+	Email         string `json:"email"`
+	WeChat        string `json:"weChat"`
+	Motto         string `json:"motto"`
+	Avatar        string `json:"avatar"`
+	ProfileBg     string `json:"profileBg"`
+	Age           int    `json:"age,range=[0:120]"`
+	Gender        int    `json:"gender,options=[0,1],default=0"`
+	Location      string `json:"location"`
+	Status        int    `json:"status"`
+	Level         int    `json:"level"`
+	Score         int    `json:"score"`
+	MailStatus    int    `json:"mailStatus"`
+	LastLoginTime uint64 `json:"lastLoginTime"`
+	CreatedAt     uint64 `json:"createdAt"`
+	UpdatedAt     uint64 `json:"updatedAt"`
 }
 
 type UserListReq struct {
-	Nickname string `json:"nickname,optional"`
-	Email    string `json:"email,optional"`
-	Phone    string `json:"phone,optional"`
-	WeChat   string `json:"weChat,optional"`
-	PageNum  int    `json:"pageNum" validate:"required,gt=0"`
-	PageSize int    `json:"pageSize" validate:"required,gt=0"`
+	Nickname string `form:"nickname,optional"`
+	Email    string `form:"email,optional"`
+	Phone    string `form:"phone,optional"`
+	WeChat   string `form:"weChat,optional"`
+	PageNum  int    `form:"pageNum" validate:"required,gt=0"`
+	PageSize int    `form:"pageSize" validate:"required,gt=0"`
 }
 
 type UserListResp struct {
@@ -197,7 +197,7 @@ type UserReq struct {
 }
 
 type VerifyEmailReq struct {
-	Code string `json:"code"`
+	Code string `form:"code"`
 }
 
 type VerifyEmailResp struct {

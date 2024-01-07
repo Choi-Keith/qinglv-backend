@@ -10,7 +10,6 @@ info (
 
 type Role {
 	ID        uint64 `json:"id,string"`
-	UserId    uint64 `json:"userId,string"`
 	Name      string `json:"name"`
 	CreatedAt uint64 `json:"createdAt"`
 	UpdatedAt uint64 `json:"updatedAt"`
@@ -22,10 +21,9 @@ type RoleReq {
 
 type (
 	RoleListReq {
-		UserId   uint64 `json:"userId,string,optional"`
-		Name     string `json:"name,optional"`
-		PageNum  int    `json:"pageNum"`
-		PageSize int    `json:"pageSize"`
+		Name     string `form:"name,optional"`
+		PageNum  int    `form:"pageNum"`
+		PageSize int    `form:"pageSize"`
 	}
 	RoleListResp {
 		List  []Role `json:"list"`
@@ -53,28 +51,30 @@ type (
 )
 
 type User {
-	Id        uint64 `json:"id"`
-	Role      Role   `json:"role"`
-	RoleId    uint64 `json:"roleId"`
-	Nickname  string `json:"nickname"`
-	Email     string `json:"email"`
-	WeChat    string `json:"weChat"`
-	Motto     string `json:"motto"`
-	Avatar    string `json:"avatar"`
-	ProfileBg string `json:"profileBg"`
-	Age       int    `json:"age,range=[0:120]"`
-	Gender    int    `json:"gender,options=[0,1],default=0"`
-	Location  string `json:"location"`
-	Status    int    `json:"status"`
-	Level     int    `json:"level"`
-	Score     int    `json:"score"`
-	CreatedAt uint64 `json:"createdAt"`
-	UpdatedAt uint64 `json:"updatedAt"`
+	Id            uint64 `json:"id"`
+	Role          Role   `json:"role"`
+	RoleId        uint64 `json:"roleId"`
+	Nickname      string `json:"nickname"`
+	Email         string `json:"email"`
+	WeChat        string `json:"weChat"`
+	Motto         string `json:"motto"`
+	Avatar        string `json:"avatar"`
+	ProfileBg     string `json:"profileBg"`
+	Age           int    `json:"age,range=[0:120]"`
+	Gender        int    `json:"gender,options=[0,1],default=0"`
+	Location      string `json:"location"`
+	Status        int    `json:"status"`
+	Level         int    `json:"level"`
+	Score         int    `json:"score"`
+	MailStatus    int    `json:"mailStatus"`
+	LastLoginTime uint64 `json:"lastLoginTime"`
+	CreatedAt     uint64 `json:"createdAt"`
+	UpdatedAt     uint64 `json:"updatedAt"`
 }
 
 type (
 	VerifyEmailReq {
-		Code string `json:"code"`
+		Code string `form:"code"`
 	}
 	VerifyEmailResp {
 		VerifyResult bool `json:"verifyResult"`
@@ -91,7 +91,7 @@ type (
 	}
 	LoginResp {
 		AccessToken  string `json:"accessToken"`
-		RefreshAfter uint64  `json:"refreshAfter"`
+		RefreshAfter uint64 `json:"refreshAfter"`
 		ExpireAt     uint64 `json:"refreshAt"`
 	}
 )
@@ -104,16 +104,14 @@ type (
 	}
 )
 
-
-
 type (
 	UserListReq {
-		Nickname string `json:"nickname,optional"`
-		Email    string `json:"email,optional"`
-		Phone    string `json:"phone,optional"`
-		WeChat   string `json:"weChat,optional"`
-		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
-		PageSize int    `json:"pageSize" validate:"required,gt=0"`
+		Nickname string `form:"nickname,optional"`
+		Email    string `form:"email,optional"`
+		Phone    string `form:"phone,optional"`
+		WeChat   string `form:"weChat,optional"`
+		PageNum  int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	UserListResp {
 		List  []User `json:"list"`

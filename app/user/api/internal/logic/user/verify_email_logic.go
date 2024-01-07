@@ -2,9 +2,12 @@ package user
 
 import (
 	"context"
+	"encoding/json"
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
+	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/common/schema"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,6 +28,24 @@ func NewVerifyEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Verif
 
 func (l *VerifyEmailLogic) VerifyEmail(req *types.VerifyEmailReq) (resp *types.VerifyEmailResp, err error) {
 	// todo: add your logic here and delete this line
-
-	return
+	verifyRegisterCodeResp, err := l.svcCtx.UserRpc.VerifyRegisterCode(l.ctx, &user_client.VerifyRegisterCodeReq{
+		Code: req.Code,
+	})
+	if err != nil {
+		return nil, err
+	}
+	codeContent := new(schema.EmailContent)
+	if err := json.Unmarshal([]byte(verifyRegisterCodeResp.CodeContent), codeContent); err != nil {
+		return nil, err
+	}
+	_, err = l.svcCtx.UserRpc.UpdateEmailStatus(l.ctx, &user_client.UpdateEmailStatusReq{
+		UserId:     codeContent.UserId,
+		MailStatus: 1,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &types.VerifyEmailResp{
+		VerifyResult: true,
+	}, nil
 }

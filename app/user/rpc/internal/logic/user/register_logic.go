@@ -10,6 +10,7 @@ import (
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/common/globalKey"
+	"qinglv-backend/common/schema"
 	"qinglv-backend/pkg/email"
 	"qinglv-backend/pkg/gavatar"
 	"qinglv-backend/pkg/template"
@@ -45,6 +46,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	registerUser.Avatar = avatar
 	registerUser.AuthType = int64(in.AuthType)
 	registerUser.DeletedAt = time.Now()
+	registerUser.LastLoginTime = time.Now()
 	registerUser.Version = 1
 	_, err := l.svcCtx.UserModel.Insert(l.ctx, nil, registerUser)
 	if err != nil {
@@ -58,32 +60,29 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 		return nil, err
 	}
 	item := &user.UserItem{
-		Id:        userItem.Id,
-		RoleId:    userItem.RoleId,
-		Nickname:  userItem.Nickname,
-		Email:     userItem.Email,
-		Phone:     userItem.Phone.String,
-		WeChat:    userItem.WeChat.String,
-		Motto:     userItem.Motto.String,
-		Avatar:    userItem.Avatar,
-		ProfileBg: userItem.ProfileBg.String,
-		Age:       int32(userItem.Age.Int64),
-		Gender:    int32(userItem.Gender.Int64),
-		Location:  userItem.Location.String,
-		Level:     int32(userItem.Level),
-		Score:     int32(userItem.Score),
-		CreatedAt: uint64(userItem.CreatedAt.Unix() * 1000),
-		UpdatedAt: uint64(userItem.UpdatedAt.Unix() * 1000),
-		AuthType:  int32(userItem.AuthType),
+		Id:            userItem.Id,
+		RoleId:        userItem.RoleId,
+		Nickname:      userItem.Nickname,
+		Email:         userItem.Email,
+		MailStatus:    int32(userItem.MailStatus),
+		Phone:         userItem.Phone.String,
+		WeChat:        userItem.WeChat.String,
+		Motto:         userItem.Motto.String,
+		Avatar:        userItem.Avatar,
+		ProfileBg:     userItem.ProfileBg.String,
+		Age:           int32(userItem.Age.Int64),
+		Gender:        int32(userItem.Gender.Int64),
+		Location:      userItem.Location.String,
+		Level:         int32(userItem.Level),
+		Score:         int32(userItem.Score),
+		CreatedAt:     uint64(userItem.CreatedAt.Unix() * 1000),
+		UpdatedAt:     uint64(userItem.UpdatedAt.Unix() * 1000),
+		LastLoginTime: uint64(userItem.LastLoginTime.Unix() * 1000),
+		AuthType:      int32(userItem.AuthType),
 	}
 	return &user.RegisterResp{
 		User: item,
 	}, nil
-}
-
-type EmailContent struct {
-	UserId uint64 `json:"userId,string"`
-	Email  string `json:"email"`
 }
 
 func (l *RegisterLogic) SendAndSaveRegisterCode(userId uint64, toUser string) {
@@ -91,7 +90,7 @@ func (l *RegisterLogic) SendAndSaveRegisterCode(userId uint64, toUser string) {
 	port := l.svcCtx.Config.Website.Port
 	smtp := l.svcCtx.Config.SMTP
 	code := uuid.New()
-	verifyEmailURL := fmt.Sprintf("http://%s:%d/email/verfiy?code=%s", host, port, code)
+	verifyEmailURL := fmt.Sprintf("http://%s:%d/email/verify?code=%s", host, port, code)
 	body, err := template.GenerateVerifyBody(verifyEmailURL)
 	if err != nil {
 		logx.Errorf("[User SendAndSaveRegisterCode] GenerateVerifyBody failed: %+v\n", err)
@@ -101,19 +100,14 @@ func (l *RegisterLogic) SendAndSaveRegisterCode(userId uint64, toUser string) {
 	}
 
 	key := fmt.Sprintf("%s%s", globalKey.VerifyEmailCodePrefixKey, code)
-	codeContent := &EmailContent{
+	codeContent := &schema.EmailContent{
 		UserId: userId,
 		Email:  toUser,
 	}
 	codeContentStr, _ := json.Marshal(codeContent)
-	expireAt := 3 * 60 * time.Second
+	expireAt := 10 * 60
 	if err := l.svcCtx.RedisClient.Setex(key, string(codeContentStr), int(expireAt)); err != nil {
 		logx.Errorf("[User SendAndSaveRegisterCode] Setex failed: %+v\n", err)
 	}
 
-}
-
-func (l *RegisterLogic) VerifyRegisterCode(code string) (string, error) {
-	key := fmt.Sprintf("%s%s", globalKey.VerifyEmailCodePrefixKey, code)
-	return l.svcCtx.RedisClient.Get(key)
 }

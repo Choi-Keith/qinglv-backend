@@ -28,7 +28,7 @@ func main() {
 	}
 	logx.MustSetup(logConf)
 
-	server := rest.MustNewServer(c.RestConf, rest.WithCors("127.0.0.1"))
+	server := rest.MustNewServer(c.RestConf, rest.WithCors("*"))
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
