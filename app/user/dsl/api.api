@@ -21,6 +21,10 @@ service user {
 	@handler verifyEmail
 	get /email/verify (VerifyEmailReq) returns (VerifyEmailResp)
 
+	@doc "login captcha"
+	@handler loginCaptcha
+	get /login/captcha returns (LoginCaptchaResp)
+
 	@doc "login"
 	@handler login
 	post /login (LoginReq) returns (LoginResp)

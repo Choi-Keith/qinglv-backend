@@ -92,12 +92,16 @@ type FollowingListResp struct {
 	Total bool        `json:"total"`
 }
 
+type LoginCaptchaResp struct {
+	CaptchaCode string `json:"captchaCode"`
+	CaptchaImg  string `json:"captchaImg"`
+}
+
 type LoginReq struct {
-	Email      string `json:"email" validate:"required,email,max=50"`
-	Password   string `json:"password" validate:"required,min=6,max=50"`
-	CaptchId   string `json:"captchId,string"`
-	CaptchCode string `json:"captchCode"`
-	VerifyCode string `json:"VerifyCode"`
+	Email        string `json:"email" validate:"required,email,max=50"`
+	Password     string `json:"password" validate:"required,min=6,max=50"`
+	CaptchaCode  string `json:"captchaCode"`
+	CaptchaValue string `json:"captchaValue"`
 }
 
 type LoginResp struct {

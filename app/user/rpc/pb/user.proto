@@ -3,6 +3,8 @@ syntax = "proto3";
 package user;
 option go_package="./user";
 
+message Empty{}
+
 message VerifyRegisterCodeReq {
     string code = 1;
 }
@@ -49,6 +51,7 @@ message UserItem {
   uint64 lastLoginTime = 18;
   int32 authType = 19;
   int32 mailStatus = 20;
+  string password = 21;
 }
 
 message RegisterReq {
@@ -109,6 +112,18 @@ message UpdateEmailStatusReq {
 message UpdateEmailStatusResp {
   string pong = 1;
 }
+message GenerateCaptchaResp{
+  string key = 1;
+  string base64Img = 2;
+}
+message VerifyCaptchaReq {
+  string key = 1;
+  string captcha = 2;
+}
+message VerifyCaptchaResp {
+  bool isCorrect = 1;
+}
+
 
 service User {
   // group: role
@@ -125,6 +140,10 @@ service User {
   rpc VerifyRegisterCode(VerifyRegisterCodeReq) returns(VerifyRegisterCodeResp);
   // group: email
   rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
+  // group: captcha
+  rpc GenerateCaptcha(Empty) returns(GenerateCaptchaResp);
+  // group: captcha
+  rpc VerifyCaptcha(VerifyCaptchaReq) returns(VerifyCaptchaResp);
 
 }
 

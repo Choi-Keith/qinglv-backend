@@ -13,6 +13,8 @@ import (
 )
 
 type (
+	Empty                   = user.Empty
+	GenerateCaptchaResp     = user.GenerateCaptchaResp
 	GetRoleInfoReq          = user.GetRoleInfoReq
 	GetRoleInfoResp         = user.GetRoleInfoResp
 	GetUserInfoByParamsReq  = user.GetUserInfoByParamsReq
@@ -27,6 +29,8 @@ type (
 	UpdateEmailStatusReq    = user.UpdateEmailStatusReq
 	UpdateEmailStatusResp   = user.UpdateEmailStatusResp
 	UserItem                = user.UserItem
+	VerifyCaptchaReq        = user.VerifyCaptchaReq
+	VerifyCaptchaResp       = user.VerifyCaptchaResp
 	VerifyRegisterCodeReq   = user.VerifyRegisterCodeReq
 	VerifyRegisterCodeResp  = user.VerifyRegisterCodeResp
 
@@ -45,6 +49,10 @@ type (
 		VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
 		// group: email
 		UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
+		// group: captcha
+		GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error)
+		// group: captcha
+		VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error)
 	}
 
 	defaultUser struct {
@@ -98,4 +106,16 @@ func (m *defaultUser) VerifyRegisterCode(ctx context.Context, in *VerifyRegister
 func (m *defaultUser) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.UpdateEmailStatus(ctx, in, opts...)
+}
+
+// group: captcha
+func (m *defaultUser) GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GenerateCaptcha(ctx, in, opts...)
+}
+
+// group: captcha
+func (m *defaultUser) VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.VerifyCaptcha(ctx, in, opts...)
 }

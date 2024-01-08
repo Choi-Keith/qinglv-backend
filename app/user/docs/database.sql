@@ -12,7 +12,7 @@ CREATE TABLE `user` (
     `password` varchar(128) NOT NULL COMMENT '密码',
     `avatar` varchar(128) NOT NULL COMMENT '头像',
     `profile_bg` varchar(128) COMMENT '个人主页背景图',
-    `status` int(6) COMMENT '状态',
+    `status` int(6) NOT NULL DEFAULT 1 COMMENT '状态:0已注销，1正常',
     `location` text COMMENT '位置',
     `age` int(10) COMMENT '年龄',
     `gender` int(6) COMMENT '性别',

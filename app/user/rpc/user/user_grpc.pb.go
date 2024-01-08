@@ -26,6 +26,8 @@ const (
 	User_GetUserList_FullMethodName         = "/user.User/GetUserList"
 	User_VerifyRegisterCode_FullMethodName  = "/user.User/VerifyRegisterCode"
 	User_UpdateEmailStatus_FullMethodName   = "/user.User/UpdateEmailStatus"
+	User_GenerateCaptcha_FullMethodName     = "/user.User/GenerateCaptcha"
+	User_VerifyCaptcha_FullMethodName       = "/user.User/VerifyCaptcha"
 )
 
 // UserClient is the client API for User service.
@@ -46,6 +48,10 @@ type UserClient interface {
 	VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
 	// group: email
 	UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
+	// group: captcha
+	GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error)
+	// group: captcha
+	VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error)
 }
 
 type userClient struct {
@@ -119,6 +125,24 @@ func (c *userClient) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatu
 	return out, nil
 }
 
+func (c *userClient) GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error) {
+	out := new(GenerateCaptchaResp)
+	err := c.cc.Invoke(ctx, User_GenerateCaptcha_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error) {
+	out := new(VerifyCaptchaResp)
+	err := c.cc.Invoke(ctx, User_VerifyCaptcha_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -137,6 +161,10 @@ type UserServer interface {
 	VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error)
 	// group: email
 	UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error)
+	// group: captcha
+	GenerateCaptcha(context.Context, *Empty) (*GenerateCaptchaResp, error)
+	// group: captcha
+	VerifyCaptcha(context.Context, *VerifyCaptchaReq) (*VerifyCaptchaResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -164,6 +192,12 @@ func (UnimplementedUserServer) VerifyRegisterCode(context.Context, *VerifyRegist
 }
 func (UnimplementedUserServer) UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmailStatus not implemented")
+}
+func (UnimplementedUserServer) GenerateCaptcha(context.Context, *Empty) (*GenerateCaptchaResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerateCaptcha not implemented")
+}
+func (UnimplementedUserServer) VerifyCaptcha(context.Context, *VerifyCaptchaReq) (*VerifyCaptchaResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyCaptcha not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -304,6 +338,42 @@ func _User_UpdateEmailStatus_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GenerateCaptcha_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GenerateCaptcha(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GenerateCaptcha_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GenerateCaptcha(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_VerifyCaptcha_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyCaptchaReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).VerifyCaptcha(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_VerifyCaptcha_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).VerifyCaptcha(ctx, req.(*VerifyCaptchaReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +408,14 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateEmailStatus",
 			Handler:    _User_UpdateEmailStatus_Handler,
+		},
+		{
+			MethodName: "GenerateCaptcha",
+			Handler:    _User_GenerateCaptcha_Handler,
+		},
+		{
+			MethodName: "VerifyCaptcha",
+			Handler:    _User_VerifyCaptcha_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
