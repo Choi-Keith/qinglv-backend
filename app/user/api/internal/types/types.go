@@ -207,3 +207,7 @@ type VerifyEmailReq struct {
 type VerifyEmailResp struct {
 	VerifyResult bool `json:"verifyResult"`
 }
+
+type GetUserByIdReq struct {
+	Id uint64 `path:"id,string"`
+}

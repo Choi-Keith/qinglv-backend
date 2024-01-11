@@ -168,7 +168,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodGet,
 				Path:    "/user/:id",
-				Handler: user.GetUserByIDHandler(serverCtx),
+				Handler: user.GetUserByIdHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/user/v1"),

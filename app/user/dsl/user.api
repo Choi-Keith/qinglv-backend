@@ -81,19 +81,20 @@ type (
 	}
 )
 
+type getUserByIdReq {
+	Id uint64 `path:"id,string"`
+}
+
 type (
 	LoginCaptchaResp {
 		CaptchaCode string `json:"captchaCode"`
-		CaptchaImg string `json:"captchaImg"` 
+		CaptchaImg  string `json:"captchaImg"`
 	}
 	LoginReq {
-		Email      string `json:"email" validate:"required,email,max=50"`
-		Password   string `json:"password" validate:"required,min=6,max=50"`
-		CaptchaCode string `json:"captchaCode"`
+		Email        string `json:"email" validate:"required,email,max=50"`
+		Password     string `json:"password" validate:"required,min=6,max=50"`
+		CaptchaCode  string `json:"captchaCode"`
 		CaptchaValue string `json:"captchaValue"`
-	}
-	GetUserByIdReq {
-		Id uint64 `path:"id"`
 	}
 	LoginResp {
 		AccessToken  string `json:"accessToken"`
