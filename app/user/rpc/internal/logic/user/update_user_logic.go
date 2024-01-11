@@ -26,6 +26,5 @@ func NewUpdateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 // group: user
 func (l *UpdateUserLogic) UpdateUser(in *user.UpdateUserReq) (*user.UpdateUserResp, error) {
 	// todo: add your logic here and delete this line
-
 	return &user.UpdateUserResp{}, nil
 }

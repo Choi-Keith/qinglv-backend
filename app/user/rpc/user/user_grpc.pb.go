@@ -27,6 +27,7 @@ const (
 	User_GetUserById_FullMethodName        = "/user.User/GetUserById"
 	User_GetUserList_FullMethodName        = "/user.User/GetUserList"
 	User_DeleteUser_FullMethodName         = "/user.User/DeleteUser"
+	User_BanUser_FullMethodName            = "/user.User/BanUser"
 	User_UpdateUser_FullMethodName         = "/user.User/UpdateUser"
 	User_UpdatePassword_FullMethodName     = "/user.User/UpdatePassword"
 	User_UpdateEmailStatus_FullMethodName  = "/user.User/UpdateEmailStatus"
@@ -55,6 +56,8 @@ type UserClient interface {
 	GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
 	// group: user
 	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
+	// group: user
+	BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error)
 	// group: user
 	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 	// group: user
@@ -149,6 +152,15 @@ func (c *userClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...
 	return out, nil
 }
 
+func (c *userClient) BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error) {
+	out := new(BanUserResp)
+	err := c.cc.Invoke(ctx, User_BanUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error) {
 	out := new(UpdateUserResp)
 	err := c.cc.Invoke(ctx, User_UpdateUser_FullMethodName, in, out, opts...)
@@ -224,6 +236,8 @@ type UserServer interface {
 	// group: user
 	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error)
 	// group: user
+	BanUser(context.Context, *BanUserReq) (*BanUserResp, error)
+	// group: user
 	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error)
 	// group: user
 	UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error)
@@ -265,6 +279,9 @@ func (UnimplementedUserServer) GetUserList(context.Context, *GetUserListReq) (*G
 }
 func (UnimplementedUserServer) DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedUserServer) BanUser(context.Context, *BanUserReq) (*BanUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BanUser not implemented")
 }
 func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
@@ -441,6 +458,24 @@ func _User_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_BanUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BanUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).BanUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_BanUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).BanUser(ctx, req.(*BanUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _User_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateUserReq)
 	if err := dec(in); err != nil {
@@ -587,6 +622,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteUser",
 			Handler:    _User_DeleteUser_Handler,
+		},
+		{
+			MethodName: "BanUser",
+			Handler:    _User_BanUser_Handler,
 		},
 		{
 			MethodName: "UpdateUser",

@@ -13,6 +13,8 @@ import (
 )
 
 type (
+	BanUserReq             = user.BanUserReq
+	BanUserResp            = user.BanUserResp
 	CheckEmailExistReq     = user.CheckEmailExistReq
 	CheckEmailExistResp    = user.CheckEmailExistResp
 	CheckNicknameExistReq  = user.CheckNicknameExistReq
@@ -61,6 +63,8 @@ type (
 		GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
 		// group: user
 		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
+		// group: user
+		BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error)
 		// group: user
 		UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 		// group: user
@@ -132,6 +136,12 @@ func (m *defaultUser) GetUserList(ctx context.Context, in *GetUserListReq, opts 
 func (m *defaultUser) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.DeleteUser(ctx, in, opts...)
+}
+
+// group: user
+func (m *defaultUser) BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.BanUser(ctx, in, opts...)
 }
 
 // group: user

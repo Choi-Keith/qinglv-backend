@@ -127,6 +127,12 @@ message DeleteUserReq{
 message DeleteUserResp {
   string pong = 1;
 }
+message BanUserReq {
+  uint64 userId = 1;
+}
+message BanUserResp {
+  string pong = 1;
+}
 
 message UpdateUserReq{
   string userId = 1;
@@ -186,6 +192,8 @@ service User {
   rpc GetUserList(GetUserListReq) returns(GetUserListResp);
   // group: user
   rpc DeleteUser(DeleteUserReq) returns(DeleteUserResp);
+  // group: user
+  rpc BanUser(BanUserReq) returns(BanUserResp);
   // group: user
   rpc UpdateUser(UpdateUserReq) returns(UpdateUserResp);
   // group: user

@@ -56,6 +56,8 @@ func (s *UserServer) CheckEmailExist(ctx context.Context, in *user.CheckEmailExi
 }
 
 // group: user
+
+// group: user
 func (s *UserServer) GetUserList(ctx context.Context, in *user.GetUserListReq) (*user.GetUserListResp, error) {
 	l := userLogic.NewGetUserListLogic(ctx, s.svcCtx)
 	return l.GetUserList(in)
@@ -65,6 +67,12 @@ func (s *UserServer) GetUserList(ctx context.Context, in *user.GetUserListReq) (
 func (s *UserServer) DeleteUser(ctx context.Context, in *user.DeleteUserReq) (*user.DeleteUserResp, error) {
 	l := userLogic.NewDeleteUserLogic(ctx, s.svcCtx)
 	return l.DeleteUser(in)
+}
+
+// group: user
+func (s *UserServer) BanUser(ctx context.Context, in *user.BanUserReq) (*user.BanUserResp, error) {
+	l := userLogic.NewBanUserLogic(ctx, s.svcCtx)
+	return l.BanUser(in)
 }
 
 // group: user
