@@ -13,6 +13,10 @@ type AddFollowingReq struct {
 	UserId uint64 `json:"userId,string"`
 }
 
+type BanUserReq struct {
+	Id uint64 `path:"id,string"`
+}
+
 type BlackItem struct {
 	Id        uint64 `json:"id,string"`
 	UserId    uint64 `json:"userId,string"`

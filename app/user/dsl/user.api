@@ -85,6 +85,10 @@ type getUserByIdReq {
 	Id uint64 `path:"id,string"`
 }
 
+type BanUserReq {
+	Id uint64 `path:"id,string"`
+}
+
 type (
 	LoginCaptchaResp {
 		CaptchaCode string `json:"captchaCode"`

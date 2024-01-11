@@ -44,6 +44,4 @@ func (l *GetUserByIdLogic) GetUserById(req *types.GetUserByIdReq) (resp *types.U
 	}
 	_ = copier.Copy(&userDetail.Role, roleItem.Role)
 	return &userDetail, nil
-
-	return
 }

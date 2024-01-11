@@ -2,9 +2,13 @@ package user
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
+
+	"qinglv-backend/app/user/api/internal/svc"
+	"qinglv-backend/app/user/api/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"qinglv-backend/app/user/api/internal/svc"
 )
 
 type BanUserLogic struct {
@@ -21,8 +25,15 @@ func NewBanUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *BanUserLo
 	}
 }
 
-func (l *BanUserLogic) BanUser() error {
+func (l *BanUserLogic) BanUser(req *types.BanUserReq) error {
 	// todo: add your logic here and delete this line
+	roleId, err := l.ctx.Value("roleId").(json.Number).Int64()
+	if err != nil {
+		return err
+	}
+	if roleId != 1 && roleId != 2 {
+		return errors.New("没有权限")
+	}
 
 	return nil
 }

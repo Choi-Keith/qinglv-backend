@@ -55,7 +55,7 @@ service user {
 
 	@doc "ban user"
 	@handler banUser
-	put /user/ban/:id
+	put /user/ban/:id (BanUserReq)
 
 	@doc "update email"
 	@handler updateEmail

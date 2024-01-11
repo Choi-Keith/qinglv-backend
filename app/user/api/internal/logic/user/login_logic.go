@@ -66,7 +66,13 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 
 	secretKey := l.svcCtx.Config.JWTAuth.AccessSecret
 	seconds := l.svcCtx.Config.JWTAuth.AccessExpire
-	token, err := jwtx.NewJwtToken(secretKey, seconds, jwtx.WithOption("userId", userResp.User.Id), jwtx.WithOption("email", userResp.User.Email))
+	token, err := jwtx.NewJwtToken(
+		secretKey,
+		seconds,
+		jwtx.WithOption("userId", userResp.User.Id),
+		jwtx.WithOption("roleId", userResp.User.RoleId),
+		jwtx.WithOption("email", userResp.User.Email),
+	)
 	if err != nil {
 		return nil, err
 	}
