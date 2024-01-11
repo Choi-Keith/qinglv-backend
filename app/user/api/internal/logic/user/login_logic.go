@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
@@ -30,35 +29,44 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
 	// todo: add your logic here and delete this line
-	result, _ := l.svcCtx.UserRpc.GetUserInfoByParams(l.ctx, &user_client.GetUserInfoByParamsReq{
+	userResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user_client.CheckEmailExistReq{
 		Email: req.Email,
 	})
-	if result == nil {
-		return nil, errors.New(fmt.Sprintf("不存在邮箱为%s的用户", req.Email))
+	if err != nil {
+		return nil, err
 	}
-	if result.User.MailStatus == 0 {
+	logx.Debugf("[User] Login Password: %s\n", userResp.User.Password)
+
+	if !userResp.IsExist {
+		return nil, errors.New("邮箱或密码错误，请重新输入")
+	}
+	if userResp.User.MailStatus == 0 {
 		return nil, errors.New("该邮箱不可用，请重新注册")
 	}
-	if result.User.Status != 1 {
+	if userResp.User.Status != 1 {
 		return nil, errors.New("该用户已被注销")
 	}
 	verifyCaptchaResp, err := l.svcCtx.UserRpc.VerifyCaptcha(l.ctx, &user_client.VerifyCaptchaReq{
 		Key:     req.CaptchaCode,
 		Captcha: req.CaptchaValue,
 	})
+	logx.Debugf("[User] Login verifyCaptchaResp: %+v\n", verifyCaptchaResp)
 	if err != nil {
 		return nil, err
 	}
 	if !verifyCaptchaResp.IsCorrect {
 		return nil, errors.New("验证码错误")
 	}
-	isEqual := password.VerifyPassword(req.Password, result.User.Password)
+	isEqual := password.VerifyPassword(userResp.User.Password, req.Password)
 	if !isEqual {
-		return nil, errors.New("密码错误，请重新输入")
+		logx.Errorf("[User] Login isEqual: %v\n", isEqual)
+		return nil, errors.New("邮箱或密码错误，请重新输入")
 	}
+	logx.Debugf("[User] Login isEqual: %+v\n", isEqual)
+
 	secretKey := l.svcCtx.Config.JWTAuth.AccessSecret
 	seconds := l.svcCtx.Config.JWTAuth.AccessExpire
-	token, err := jwtx.NewJwtToken(secretKey, seconds, jwtx.WithOption("userId", result.User.Id), jwtx.WithOption("email", result.User.Email))
+	token, err := jwtx.NewJwtToken(secretKey, seconds, jwtx.WithOption("userId", userResp.User.Id), jwtx.WithOption("email", userResp.User.Email))
 	if err != nil {
 		return nil, err
 	}

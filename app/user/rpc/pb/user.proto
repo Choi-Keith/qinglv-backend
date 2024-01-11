@@ -81,14 +81,22 @@ message LoginResp {
   int64 expireAt = 3;
 }
 
-message GetUserInfoByParamsReq{
-  uint64 id = 1;
-  string nickname = 2;
-  string email = 3;
+message CheckNicknameExistReq{
+  string nickname = 1;
 }
 
-message GetUserInfoByParamsResp {
-  UserItem user = 1;
+message CheckEmailExistReq {
+  string email = 1;
+}
+
+message CheckEmailExistResp {
+  bool isExist = 1;
+  UserItem user = 2;
+}
+
+message CheckNicknameExistResp {
+  bool isExist = 1;
+  UserItem user = 2;
 }
 
 
@@ -104,6 +112,26 @@ message GetUserListResp {
   uint64 total = 1;
   repeated UserItem data = 2;
 }
+
+
+message DeleteUserReq{
+  uint64 userId = 1;
+}
+message DeleteUserResp {
+  string pong = 1;
+}
+
+message UpdateUserReq{
+  string userId = 1;
+  UserItem user = 2;
+}
+
+message UpdateUserResp {
+  string pong = 1;
+}
+
+
+
 
 message UpdateEmailStatusReq {
   uint64 userId = 1;
@@ -124,6 +152,15 @@ message VerifyCaptchaResp {
   bool isCorrect = 1;
 }
 
+message UpdatePasswordReq {
+  string oldPassword = 1;
+  string newPassword = 2;
+}
+
+message UpdatePasswordResp {
+  string pong = 1;
+}
+
 
 service User {
   // group: role
@@ -133,13 +170,23 @@ service User {
   // group: user
   rpc Login(LoginReq) returns(LoginResp);
   // group: user
-  rpc GetUserInfoByParams(GetUserInfoByParamsReq) returns(GetUserInfoByParamsResp);
+  rpc CheckNicknameExist(CheckNicknameExistReq) returns(CheckNicknameExistResp);
+  // group: user
+  rpc CheckEmailExist(CheckEmailExistReq) returns(CheckEmailExistResp);
   // group: user
   rpc GetUserList(GetUserListReq) returns(GetUserListResp);
+  // group: user
+  rpc DeleteUser(DeleteUserReq) returns(DeleteUserResp);
+  // group: user
+  rpc UpdateUser(UpdateUserReq) returns(UpdateUserResp);
+  // group: user
+  rpc UpdatePassword(UpdatePasswordReq) returns(UpdatePasswordResp);
+  // group: user
+  rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
+
   // group: email
   rpc VerifyRegisterCode(VerifyRegisterCodeReq) returns(VerifyRegisterCodeResp);
-  // group: email
-  rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
+
   // group: captcha
   rpc GenerateCaptcha(Empty) returns(GenerateCaptchaResp);
   // group: captcha

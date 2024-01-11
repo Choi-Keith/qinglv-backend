@@ -1,6 +1,7 @@
 package jwtx
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -34,4 +35,15 @@ func NewJwtToken(secretKey string, seconds int64, opt ...Option) (string, error)
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = claims
 	return token.SignedString([]byte(secretKey))
+}
+
+func ParseToken(tokenString, secretKey string) ([]Option, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &jwt.MapClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretKey), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	fmt.Printf("token claims: %+v\n", token.Claims)
+	return nil, nil
 }

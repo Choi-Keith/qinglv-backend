@@ -30,17 +30,34 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err error) {
 	// todo: add your logic here and delete this line
-	userResp, err := l.svcCtx.UserRpc.GetUserInfoByParams(l.ctx, &user_client.GetUserInfoByParamsReq{
-		Nickname: req.Nickname,
-		Email:    req.Email,
+	checkEmailExistResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user_client.CheckEmailExistReq{
+		Email: req.Email,
 	})
 	if err != nil {
 		return nil, err
 	}
-	if userResp.User != nil {
-		return nil, errors.New("邮箱或昵称已存在，请重新输入")
+	if checkEmailExistResp.IsExist {
+		if checkEmailExistResp.User.MailStatus == 1 {
+			return nil, errors.New("邮箱已存在，请重新输入")
+		}
+		if checkEmailExistResp.User.MailStatus == 0 {
+			_, err := l.svcCtx.UserRpc.DeleteUser(l.ctx, &user_client.DeleteUserReq{
+				UserId: checkEmailExistResp.User.Id,
+			})
+			if err != nil {
+				return nil, err
+			}
+		}
 	}
-
+	checkNicknameExistResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user_client.CheckNicknameExistReq{
+		Nickname: req.Nickname,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if checkNicknameExistResp.IsExist {
+		return nil, errors.New("昵称已存在，请重新输入")
+	}
 	id := snowflake.MustID()
 	password, _ := password.EncryptPassword(req.Password)
 	registerResp, err := l.svcCtx.UserRpc.Register(l.ctx, &user_client.RegisterReq{
@@ -53,7 +70,6 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 	})
 	var userDetail types.User
 	if err != nil {
-		logx.Errorf("[Api Logic] Register failed: %+v\n", err)
 		return nil, err
 	}
 	_ = copier.Copy(&userDetail, registerResp.User)
@@ -62,7 +78,6 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 		Id: req.RoleId,
 	})
 	if err != nil {
-		logx.Errorf("[Api Logic] Register roleItem failed: %+v\n", err)
 		return nil, err
 	}
 	_ = copier.Copy(&userDetail.Role, roleItem.Role)

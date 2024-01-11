@@ -1,9 +1,13 @@
 package password
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"github.com/zeromicro/go-zero/core/logx"
+	"golang.org/x/crypto/bcrypt"
+)
 
-func VerifyPassword(LoginPass, UserPass string) bool {
+func VerifyPassword(UserPass, LoginPass string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(UserPass), []byte(LoginPass))
+	logx.Debugf("err:%v\n", err)
 	return err == nil
 }
 

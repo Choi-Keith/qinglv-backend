@@ -19,15 +19,19 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_GetRoleInfo_FullMethodName         = "/user.User/GetRoleInfo"
-	User_Register_FullMethodName            = "/user.User/Register"
-	User_Login_FullMethodName               = "/user.User/Login"
-	User_GetUserInfoByParams_FullMethodName = "/user.User/GetUserInfoByParams"
-	User_GetUserList_FullMethodName         = "/user.User/GetUserList"
-	User_VerifyRegisterCode_FullMethodName  = "/user.User/VerifyRegisterCode"
-	User_UpdateEmailStatus_FullMethodName   = "/user.User/UpdateEmailStatus"
-	User_GenerateCaptcha_FullMethodName     = "/user.User/GenerateCaptcha"
-	User_VerifyCaptcha_FullMethodName       = "/user.User/VerifyCaptcha"
+	User_GetRoleInfo_FullMethodName        = "/user.User/GetRoleInfo"
+	User_Register_FullMethodName           = "/user.User/Register"
+	User_Login_FullMethodName              = "/user.User/Login"
+	User_CheckNicknameExist_FullMethodName = "/user.User/CheckNicknameExist"
+	User_CheckEmailExist_FullMethodName    = "/user.User/CheckEmailExist"
+	User_GetUserList_FullMethodName        = "/user.User/GetUserList"
+	User_DeleteUser_FullMethodName         = "/user.User/DeleteUser"
+	User_UpdateUser_FullMethodName         = "/user.User/UpdateUser"
+	User_UpdatePassword_FullMethodName     = "/user.User/UpdatePassword"
+	User_VerifyRegisterCode_FullMethodName = "/user.User/VerifyRegisterCode"
+	User_UpdateEmailStatus_FullMethodName  = "/user.User/UpdateEmailStatus"
+	User_GenerateCaptcha_FullMethodName    = "/user.User/GenerateCaptcha"
+	User_VerifyCaptcha_FullMethodName      = "/user.User/VerifyCaptcha"
 )
 
 // UserClient is the client API for User service.
@@ -41,9 +45,17 @@ type UserClient interface {
 	// group: user
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	// group: user
-	GetUserInfoByParams(ctx context.Context, in *GetUserInfoByParamsReq, opts ...grpc.CallOption) (*GetUserInfoByParamsResp, error)
+	CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error)
+	// group: user
+	CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error)
 	// group: user
 	GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
+	// group: user
+	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
+	// group: user
+	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
+	// group: user
+	UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
 	// group: email
 	VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
 	// group: email
@@ -89,9 +101,18 @@ func (c *userClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallO
 	return out, nil
 }
 
-func (c *userClient) GetUserInfoByParams(ctx context.Context, in *GetUserInfoByParamsReq, opts ...grpc.CallOption) (*GetUserInfoByParamsResp, error) {
-	out := new(GetUserInfoByParamsResp)
-	err := c.cc.Invoke(ctx, User_GetUserInfoByParams_FullMethodName, in, out, opts...)
+func (c *userClient) CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error) {
+	out := new(CheckNicknameExistResp)
+	err := c.cc.Invoke(ctx, User_CheckNicknameExist_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error) {
+	out := new(CheckEmailExistResp)
+	err := c.cc.Invoke(ctx, User_CheckEmailExist_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -101,6 +122,33 @@ func (c *userClient) GetUserInfoByParams(ctx context.Context, in *GetUserInfoByP
 func (c *userClient) GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error) {
 	out := new(GetUserListResp)
 	err := c.cc.Invoke(ctx, User_GetUserList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error) {
+	out := new(DeleteUserResp)
+	err := c.cc.Invoke(ctx, User_DeleteUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error) {
+	out := new(UpdateUserResp)
+	err := c.cc.Invoke(ctx, User_UpdateUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error) {
+	out := new(UpdatePasswordResp)
+	err := c.cc.Invoke(ctx, User_UpdatePassword_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -154,9 +202,17 @@ type UserServer interface {
 	// group: user
 	Login(context.Context, *LoginReq) (*LoginResp, error)
 	// group: user
-	GetUserInfoByParams(context.Context, *GetUserInfoByParamsReq) (*GetUserInfoByParamsResp, error)
+	CheckNicknameExist(context.Context, *CheckNicknameExistReq) (*CheckNicknameExistResp, error)
+	// group: user
+	CheckEmailExist(context.Context, *CheckEmailExistReq) (*CheckEmailExistResp, error)
 	// group: user
 	GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error)
+	// group: user
+	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error)
+	// group: user
+	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error)
+	// group: user
+	UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error)
 	// group: email
 	VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error)
 	// group: email
@@ -181,11 +237,23 @@ func (UnimplementedUserServer) Register(context.Context, *RegisterReq) (*Registe
 func (UnimplementedUserServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedUserServer) GetUserInfoByParams(context.Context, *GetUserInfoByParamsReq) (*GetUserInfoByParamsResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfoByParams not implemented")
+func (UnimplementedUserServer) CheckNicknameExist(context.Context, *CheckNicknameExistReq) (*CheckNicknameExistResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckNicknameExist not implemented")
+}
+func (UnimplementedUserServer) CheckEmailExist(context.Context, *CheckEmailExistReq) (*CheckEmailExistResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckEmailExist not implemented")
 }
 func (UnimplementedUserServer) GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
+}
+func (UnimplementedUserServer) DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedUserServer) UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePassword not implemented")
 }
 func (UnimplementedUserServer) VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyRegisterCode not implemented")
@@ -266,20 +334,38 @@ func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_GetUserInfoByParams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserInfoByParamsReq)
+func _User_CheckNicknameExist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckNicknameExistReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).GetUserInfoByParams(ctx, in)
+		return srv.(UserServer).CheckNicknameExist(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_GetUserInfoByParams_FullMethodName,
+		FullMethod: User_CheckNicknameExist_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetUserInfoByParams(ctx, req.(*GetUserInfoByParamsReq))
+		return srv.(UserServer).CheckNicknameExist(ctx, req.(*CheckNicknameExistReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_CheckEmailExist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckEmailExistReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).CheckEmailExist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_CheckEmailExist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).CheckEmailExist(ctx, req.(*CheckEmailExistReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -298,6 +384,60 @@ func _User_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).GetUserList(ctx, req.(*GetUserListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DeleteUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteUser(ctx, req.(*DeleteUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateUser(ctx, req.(*UpdateUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdatePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePasswordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdatePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdatePassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdatePassword(ctx, req.(*UpdatePasswordReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -394,12 +534,28 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_Login_Handler,
 		},
 		{
-			MethodName: "GetUserInfoByParams",
-			Handler:    _User_GetUserInfoByParams_Handler,
+			MethodName: "CheckNicknameExist",
+			Handler:    _User_CheckNicknameExist_Handler,
+		},
+		{
+			MethodName: "CheckEmailExist",
+			Handler:    _User_CheckEmailExist_Handler,
 		},
 		{
 			MethodName: "GetUserList",
 			Handler:    _User_GetUserList_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _User_DeleteUser_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _User_UpdateUser_Handler,
+		},
+		{
+			MethodName: "UpdatePassword",
+			Handler:    _User_UpdatePassword_Handler,
 		},
 		{
 			MethodName: "VerifyRegisterCode",

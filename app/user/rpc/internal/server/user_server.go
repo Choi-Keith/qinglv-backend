@@ -6,6 +6,7 @@ package server
 import (
 	"context"
 
+	captchaLogic "qinglv-backend/app/user/rpc/internal/logic/captcha"
 	roleLogic "qinglv-backend/app/user/rpc/internal/logic/role"
 	userLogic "qinglv-backend/app/user/rpc/internal/logic/user"
 	emailLogic "qinglv-backend/app/user/rpc/internal/logic/email"
@@ -43,15 +44,39 @@ func (s *UserServer) Login(ctx context.Context, in *user.LoginReq) (*user.LoginR
 }
 
 // group: user
-func (s *UserServer) GetUserInfoByParams(ctx context.Context, in *user.GetUserInfoByParamsReq) (*user.GetUserInfoByParamsResp, error) {
-	l := userLogic.NewGetUserInfoByParamsLogic(ctx, s.svcCtx)
-	return l.GetUserInfoByParams(in)
+func (s *UserServer) CheckNicknameExist(ctx context.Context, in *user.CheckNicknameExistReq) (*user.CheckNicknameExistResp, error) {
+	l := userLogic.NewCheckNicknameExistLogic(ctx, s.svcCtx)
+	return l.CheckNicknameExist(in)
+}
+
+// group: user
+func (s *UserServer) CheckEmailExist(ctx context.Context, in *user.CheckEmailExistReq) (*user.CheckEmailExistResp, error) {
+	l := userLogic.NewCheckEmailExistLogic(ctx, s.svcCtx)
+	return l.CheckEmailExist(in)
 }
 
 // group: user
 func (s *UserServer) GetUserList(ctx context.Context, in *user.GetUserListReq) (*user.GetUserListResp, error) {
 	l := userLogic.NewGetUserListLogic(ctx, s.svcCtx)
 	return l.GetUserList(in)
+}
+
+// group: user
+func (s *UserServer) DeleteUser(ctx context.Context, in *user.DeleteUserReq) (*user.DeleteUserResp, error) {
+	l := userLogic.NewDeleteUserLogic(ctx, s.svcCtx)
+	return l.DeleteUser(in)
+}
+
+// group: user
+func (s *UserServer) UpdateUser(ctx context.Context, in *user.UpdateUserReq) (*user.UpdateUserResp, error) {
+	l := userLogic.NewUpdateUserLogic(ctx, s.svcCtx)
+	return l.UpdateUser(in)
+}
+
+// group: user
+func (s *UserServer) UpdatePassword(ctx context.Context, in *user.UpdatePasswordReq) (*user.UpdatePasswordResp, error) {
+	l := userLogic.NewUpdatePasswordLogic(ctx, s.svcCtx)
+	return l.UpdatePassword(in)
 }
 
 // group: email
@@ -64,4 +89,16 @@ func (s *UserServer) VerifyRegisterCode(ctx context.Context, in *user.VerifyRegi
 func (s *UserServer) UpdateEmailStatus(ctx context.Context, in *user.UpdateEmailStatusReq) (*user.UpdateEmailStatusResp, error) {
 	l := userLogic.NewUpdateEmailStatusLogic(ctx, s.svcCtx)
 	return l.UpdateEmailStatus(in)
+}
+
+// group: captcha
+func (s *UserServer) GenerateCaptcha(ctx context.Context, in *user.Empty) (*user.GenerateCaptchaResp, error) {
+	l := captchaLogic.NewGenerateCaptchaLogic(ctx, s.svcCtx)
+	return l.GenerateCaptcha(in)
+}
+
+// group: captcha
+func (s *UserServer) VerifyCaptcha(ctx context.Context, in *user.VerifyCaptchaReq) (*user.VerifyCaptchaResp, error) {
+	l := captchaLogic.NewVerifyCaptchaLogic(ctx, s.svcCtx)
+	return l.VerifyCaptcha(in)
 }

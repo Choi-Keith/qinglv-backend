@@ -26,11 +26,11 @@ var (
 	userRowsExpectAutoSet   = strings.Join(stringx.Remove(userFieldNames, "`created_at`", "`updated_at`"), ",")
 	userRowsWithPlaceHolder = strings.Join(stringx.Remove(userFieldNames, "`id`", "`created_at`", "`updated_at`"), "=?,") + "=?"
 
-	cacheQUserUserIdPrefix     = "cache:qUser:user:id:"
-	cacheQUserUserEmailPrefix  = "cache:qUser:user:email:"
+	cacheQUserUserIdPrefix       = "cache:qUser:user:id:"
+	cacheQUserUserEmailPrefix    = "cache:qUser:user:email:"
 	cacheQUserUserNicknamePrefix = "cache:qUser:user:nickname:"
-	cacheQUserUserPhonePrefix  = "cache:qUser:user:phone:"
-	cacheQUserUserWeChatPrefix = "cache:qUser:user:weChat:"
+	cacheQUserUserPhonePrefix    = "cache:qUser:user:phone:"
+	cacheQUserUserWeChatPrefix   = "cache:qUser:user:weChat:"
 )
 
 type (
@@ -41,7 +41,6 @@ type (
 		FindOneByNickname(ctx context.Context, nickname string) (*User, error)
 		FindOneByPhone(ctx context.Context, phone sql.NullString) (*User, error)
 		FindOneByWeChat(ctx context.Context, weChat sql.NullString) (*User, error)
-		FindOneByParams(ctx context.Context, param User) (*User, error)
 		Update(ctx context.Context, session sqlx.Session, data *User) (sql.Result, error)
 		UpdateWithVersion(ctx context.Context, session sqlx.Session, data *User) error
 		Trans(ctx context.Context, fn func(context context.Context, session sqlx.Session) error) error
@@ -63,29 +62,29 @@ type (
 	}
 
 	User struct {
-		Id            uint64         `db:"id"`          // 用户id
-		RoleId        uint64         `db:"role_id"`     // 角色id
-		Account       string         `db:"account"`     // 账号
-		Nickname      string         `db:"nickname"`    // 昵称
-		Motto         sql.NullString `db:"motto"`       // 个性签名
-		Email         string         `db:"email"`       // 邮箱
-		AuthType      int64          `db:"auth_type"`   // 注册方式:1邮件注册；2手机号注册
-		MailStatus    int64          `db:"mail_status"` // 邮箱是否可用：0不可用， 1可用
-		WeChat        sql.NullString `db:"we_chat"`     // 微信号
-		Phone         sql.NullString `db:"phone"`       // 手机号
-		Password      string         `db:"password"`    // 密码
-		Avatar        string         `db:"avatar"`      // 头像
-		ProfileBg     sql.NullString `db:"profile_bg"`  // 个人主页背景图
-		Status        sql.NullInt64  `db:"status"`      // 状态
-		Location      sql.NullString `db:"location"`    // 位置
-		Age           sql.NullInt64  `db:"age"`         // 年龄
-		Gender        sql.NullInt64  `db:"gender"`      // 性别
-		Level         int64          `db:"level"`       // 等级
-		Score         int64          `db:"score"`       // 积分
-		CreatedAt     time.Time      `db:"created_at"`  // 创建时间
-		UpdatedAt     time.Time      `db:"updated_at"`  // 修改时间
-		DeletedAt     time.Time      `db:"deleted_at"`  // 删除时间
-		LastLoginTime time.Time      `db:"last_login_time"`
+		Id            uint64         `db:"id"`              // 用户id
+		RoleId        uint64         `db:"role_id"`         // 角色id
+		Account       string         `db:"account"`         // 账号
+		Nickname      string         `db:"nickname"`        // 昵称
+		Motto         sql.NullString `db:"motto"`           // 个性签名
+		Email         string         `db:"email"`           // 邮箱
+		WeChat        sql.NullString `db:"we_chat"`         // 微信号
+		AuthType      int64          `db:"auth_type"`       // 注册方式:1邮件注册；2手机号注册
+		Phone         sql.NullString `db:"phone"`           // 手机号
+		Password      string         `db:"password"`        // 密码
+		Avatar        string         `db:"avatar"`          // 头像
+		ProfileBg     sql.NullString `db:"profile_bg"`      // 个人主页背景图
+		Status        int64          `db:"status"`          // 状态:0已注销，1正常
+		MailStatus    int64          `db:"mail_status"`     // 状态:0未激活，1正常
+		Location      sql.NullString `db:"location"`        // 位置
+		Age           sql.NullInt64  `db:"age"`             // 年龄
+		Gender        sql.NullInt64  `db:"gender"`          // 性别
+		Level         int64          `db:"level"`           // 等级
+		Score         int64          `db:"score"`           // 积分
+		CreatedAt     time.Time      `db:"created_at"`      // 创建时间
+		UpdatedAt     time.Time      `db:"updated_at"`      // 修改时间
+		DeletedAt     time.Time      `db:"deleted_at"`      // 删除时间
+		LastLoginTime time.Time      `db:"last_login_time"` // 最近一次登录时间
 		IsDel         int64          `db:"is_del"`
 		Version       int64          `db:"version"` // 版本号
 	}
@@ -103,15 +102,16 @@ func (m *defaultUserModel) Insert(ctx context.Context, session sqlx.Session, dat
 	data.IsDel = globalKey.DelStateNo
 	qUserUserEmailKey := fmt.Sprintf("%s%v", cacheQUserUserEmailPrefix, data.Email)
 	qUserUserIdKey := fmt.Sprintf("%s%v", cacheQUserUserIdPrefix, data.Id)
+	qUserUserNicknameKey := fmt.Sprintf("%s%v", cacheQUserUserNicknamePrefix, data.Nickname)
 	qUserUserPhoneKey := fmt.Sprintf("%s%v", cacheQUserUserPhonePrefix, data.Phone)
 	qUserUserWeChatKey := fmt.Sprintf("%s%v", cacheQUserUserWeChatPrefix, data.WeChat)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.AuthType, data.MailStatus, data.WeChat, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version)
+			return session.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.MailStatus, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.AuthType, data.MailStatus, data.WeChat, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version)
-	}, qUserUserEmailKey, qUserUserIdKey, qUserUserPhoneKey, qUserUserWeChatKey)
+		return conn.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.MailStatus, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version)
+	}, qUserUserEmailKey, qUserUserIdKey, qUserUserNicknameKey, qUserUserPhoneKey, qUserUserWeChatKey)
 }
 
 func (m *defaultUserModel) FindOne(ctx context.Context, id uint64) (*User, error) {
@@ -145,7 +145,7 @@ func (m *defaultUserModel) FindOneByEmail(ctx context.Context, email string) (*U
 	case nil:
 		return &resp, nil
 	case sqlc.ErrNotFound:
-		return nil, nil
+		return nil, ErrNotFound
 	default:
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func (m *defaultUserModel) FindOneByNickname(ctx context.Context, nickname strin
 	case nil:
 		return &resp, nil
 	case sqlc.ErrNotFound:
-		return nil, nil
+		return nil, ErrNotFound
 	default:
 		return nil, err
 	}
@@ -211,24 +211,6 @@ func (m *defaultUserModel) FindOneByWeChat(ctx context.Context, weChat sql.NullS
 	}
 }
 
-func (m *defaultUserModel) FindOneByParams(ctx context.Context, param User) (*User, error) {
-	if  param.Email != "" {
-		resp, err := m.FindOneByEmail(ctx, param.Email)
-		if err != nil {
-			return nil, err
-		}
-		return resp, nil
-	}
-	if  param.Nickname != "" {
-		resp,err := m.FindOneByNickname(ctx, param.Nickname)
-		if err != nil {
-			return nil, err
-		}
-		return resp, nil
-	}
-	return nil, errors.New("没有找到相关用户")
-}
-
 func (m *defaultUserModel) Update(ctx context.Context, session sqlx.Session, newData *User) (sql.Result, error) {
 	data, err := m.FindOne(ctx, newData.Id)
 	if err != nil {
@@ -236,15 +218,16 @@ func (m *defaultUserModel) Update(ctx context.Context, session sqlx.Session, new
 	}
 	qUserUserEmailKey := fmt.Sprintf("%s%v", cacheQUserUserEmailPrefix, data.Email)
 	qUserUserIdKey := fmt.Sprintf("%s%v", cacheQUserUserIdPrefix, data.Id)
+	qUserUserNicknameKey := fmt.Sprintf("%s%v", cacheQUserUserNicknamePrefix, data.Nickname)
 	qUserUserPhoneKey := fmt.Sprintf("%s%v", cacheQUserUserPhonePrefix, data.Phone)
 	qUserUserWeChatKey := fmt.Sprintf("%s%v", cacheQUserUserWeChatPrefix, data.WeChat)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, userRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.AuthType, newData.MailStatus, newData.WeChat, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id)
+			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id)
 		}
-		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.AuthType, newData.MailStatus, newData.WeChat, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id)
-	}, qUserUserEmailKey, qUserUserIdKey, qUserUserPhoneKey, qUserUserWeChatKey)
+		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id)
+	}, qUserUserEmailKey, qUserUserIdKey, qUserUserNicknameKey, qUserUserPhoneKey, qUserUserWeChatKey)
 }
 
 func (m *defaultUserModel) UpdateWithVersion(ctx context.Context, session sqlx.Session, newData *User) error {
@@ -261,15 +244,16 @@ func (m *defaultUserModel) UpdateWithVersion(ctx context.Context, session sqlx.S
 	}
 	qUserUserEmailKey := fmt.Sprintf("%s%v", cacheQUserUserEmailPrefix, data.Email)
 	qUserUserIdKey := fmt.Sprintf("%s%v", cacheQUserUserIdPrefix, data.Id)
+	qUserUserNicknameKey := fmt.Sprintf("%s%v", cacheQUserUserNicknamePrefix, data.Nickname)
 	qUserUserPhoneKey := fmt.Sprintf("%s%v", cacheQUserUserPhonePrefix, data.Phone)
 	qUserUserWeChatKey := fmt.Sprintf("%s%v", cacheQUserUserWeChatPrefix, data.WeChat)
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, userRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.AuthType, newData.MailStatus, newData.WeChat, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id, oldVersion)
+			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.AuthType, newData.MailStatus, newData.WeChat, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id, oldVersion)
-	}, qUserUserEmailKey, qUserUserIdKey, qUserUserPhoneKey, qUserUserWeChatKey)
+		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Id, oldVersion)
+	}, qUserUserEmailKey, qUserUserIdKey, qUserUserNicknameKey, qUserUserPhoneKey, qUserUserWeChatKey)
 	if err != nil {
 		return err
 	}
@@ -494,6 +478,7 @@ func (m *defaultUserModel) Delete(ctx context.Context, session sqlx.Session, id 
 
 	qUserUserEmailKey := fmt.Sprintf("%s%v", cacheQUserUserEmailPrefix, data.Email)
 	qUserUserIdKey := fmt.Sprintf("%s%v", cacheQUserUserIdPrefix, id)
+	qUserUserNicknameKey := fmt.Sprintf("%s%v", cacheQUserUserNicknamePrefix, data.Nickname)
 	qUserUserPhoneKey := fmt.Sprintf("%s%v", cacheQUserUserPhonePrefix, data.Phone)
 	qUserUserWeChatKey := fmt.Sprintf("%s%v", cacheQUserUserWeChatPrefix, data.WeChat)
 	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
@@ -502,7 +487,7 @@ func (m *defaultUserModel) Delete(ctx context.Context, session sqlx.Session, id 
 			return session.ExecCtx(ctx, query, id)
 		}
 		return conn.ExecCtx(ctx, query, id)
-	}, qUserUserEmailKey, qUserUserIdKey, qUserUserPhoneKey, qUserUserWeChatKey)
+	}, qUserUserEmailKey, qUserUserIdKey, qUserUserNicknameKey, qUserUserPhoneKey, qUserUserWeChatKey)
 	return err
 }
 func (m *defaultUserModel) formatPrimary(primary interface{}) string {

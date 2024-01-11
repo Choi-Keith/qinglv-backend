@@ -13,26 +13,34 @@ import (
 )
 
 type (
-	Empty                   = user.Empty
-	GenerateCaptchaResp     = user.GenerateCaptchaResp
-	GetRoleInfoReq          = user.GetRoleInfoReq
-	GetRoleInfoResp         = user.GetRoleInfoResp
-	GetUserInfoByParamsReq  = user.GetUserInfoByParamsReq
-	GetUserInfoByParamsResp = user.GetUserInfoByParamsResp
-	GetUserListReq          = user.GetUserListReq
-	GetUserListResp         = user.GetUserListResp
-	LoginReq                = user.LoginReq
-	LoginResp               = user.LoginResp
-	RegisterReq             = user.RegisterReq
-	RegisterResp            = user.RegisterResp
-	RoleItem                = user.RoleItem
-	UpdateEmailStatusReq    = user.UpdateEmailStatusReq
-	UpdateEmailStatusResp   = user.UpdateEmailStatusResp
-	UserItem                = user.UserItem
-	VerifyCaptchaReq        = user.VerifyCaptchaReq
-	VerifyCaptchaResp       = user.VerifyCaptchaResp
-	VerifyRegisterCodeReq   = user.VerifyRegisterCodeReq
-	VerifyRegisterCodeResp  = user.VerifyRegisterCodeResp
+	CheckEmailExistReq     = user.CheckEmailExistReq
+	CheckEmailExistResp    = user.CheckEmailExistResp
+	CheckNicknameExistReq  = user.CheckNicknameExistReq
+	CheckNicknameExistResp = user.CheckNicknameExistResp
+	DeleteUserReq          = user.DeleteUserReq
+	DeleteUserResp         = user.DeleteUserResp
+	Empty                  = user.Empty
+	GenerateCaptchaResp    = user.GenerateCaptchaResp
+	GetRoleInfoReq         = user.GetRoleInfoReq
+	GetRoleInfoResp        = user.GetRoleInfoResp
+	GetUserListReq         = user.GetUserListReq
+	GetUserListResp        = user.GetUserListResp
+	LoginReq               = user.LoginReq
+	LoginResp              = user.LoginResp
+	RegisterReq            = user.RegisterReq
+	RegisterResp           = user.RegisterResp
+	RoleItem               = user.RoleItem
+	UpdateEmailStatusReq   = user.UpdateEmailStatusReq
+	UpdateEmailStatusResp  = user.UpdateEmailStatusResp
+	UpdatePasswordReq      = user.UpdatePasswordReq
+	UpdatePasswordResp     = user.UpdatePasswordResp
+	UpdateUserReq          = user.UpdateUserReq
+	UpdateUserResp         = user.UpdateUserResp
+	UserItem               = user.UserItem
+	VerifyCaptchaReq       = user.VerifyCaptchaReq
+	VerifyCaptchaResp      = user.VerifyCaptchaResp
+	VerifyRegisterCodeReq  = user.VerifyRegisterCodeReq
+	VerifyRegisterCodeResp = user.VerifyRegisterCodeResp
 
 	User interface {
 		// group: role
@@ -42,9 +50,17 @@ type (
 		// group: user
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		// group: user
-		GetUserInfoByParams(ctx context.Context, in *GetUserInfoByParamsReq, opts ...grpc.CallOption) (*GetUserInfoByParamsResp, error)
+		CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error)
+		// group: user
+		CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error)
 		// group: user
 		GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
+		// group: user
+		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
+		// group: user
+		UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
+		// group: user
+		UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
 		// group: email
 		VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
 		// group: email
@@ -85,15 +101,39 @@ func (m *defaultUser) Login(ctx context.Context, in *LoginReq, opts ...grpc.Call
 }
 
 // group: user
-func (m *defaultUser) GetUserInfoByParams(ctx context.Context, in *GetUserInfoByParamsReq, opts ...grpc.CallOption) (*GetUserInfoByParamsResp, error) {
+func (m *defaultUser) CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
-	return client.GetUserInfoByParams(ctx, in, opts...)
+	return client.CheckNicknameExist(ctx, in, opts...)
+}
+
+// group: user
+func (m *defaultUser) CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.CheckEmailExist(ctx, in, opts...)
 }
 
 // group: user
 func (m *defaultUser) GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.GetUserList(ctx, in, opts...)
+}
+
+// group: user
+func (m *defaultUser) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.DeleteUser(ctx, in, opts...)
+}
+
+// group: user
+func (m *defaultUser) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateUser(ctx, in, opts...)
+}
+
+// group: user
+func (m *defaultUser) UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdatePassword(ctx, in, opts...)
 }
 
 // group: email

@@ -59,6 +59,12 @@ func Fail(w http.ResponseWriter, httpCode int, err error) {
 					Message: gstatus.Message(),
 					Data:    struct{}{},
 				}
+			} else {
+				resp = &Resp{
+					Code:    http.StatusBadRequest,
+					Message: err.Error(),
+					Data:    struct{}{},
+				}
 			}
 		} else {
 			resp = &Resp{

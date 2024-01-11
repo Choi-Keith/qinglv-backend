@@ -48,6 +48,8 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	registerUser.DeletedAt = time.Now()
 	registerUser.LastLoginTime = time.Now()
 	registerUser.Version = 1
+	registerUser.Status = 1
+	registerUser.MailStatus = 0
 	_, err := l.svcCtx.UserModel.Insert(l.ctx, nil, registerUser)
 	if err != nil {
 		logx.Errorf("register user failed: %v", err)
