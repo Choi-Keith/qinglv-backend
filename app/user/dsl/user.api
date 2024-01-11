@@ -88,6 +88,9 @@ type getUserByIdReq {
 type BanUserReq {
 	Id uint64 `path:"id,string"`
 }
+type DelUserReq {
+	Id uint64 `path:"id,string"`
+}
 
 type (
 	LoginCaptchaResp {

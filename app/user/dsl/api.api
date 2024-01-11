@@ -71,7 +71,7 @@ service user {
 
 	@doc "delete user"
 	@handler delUser
-	delete /user/:id
+	delete /user/:id (DelUserReq)
 }
 
 // no need login

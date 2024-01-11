@@ -50,6 +50,10 @@ type DelFollowingReq struct {
 	UserId uint64 `json:"userId,string"`
 }
 
+type DelUserReq struct {
+	Id uint64 `path:"id,string"`
+}
+
 type EmailReq struct {
 	Email string `json:"email" validate:"email,max=50"`
 }

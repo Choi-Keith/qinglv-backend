@@ -26,6 +26,13 @@ func NewDeleteUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 // group: user
 func (l *DeleteUserLogic) DeleteUser(in *user.DeleteUserReq) (*user.DeleteUserResp, error) {
 	// todo: add your logic here and delete this line
-
+	userItem, err := l.svcCtx.UserModel.FindOne(l.ctx, in.UserId)
+	if err != nil {
+		return nil, err
+	}
+	err = l.svcCtx.UserModel.DeleteSoft(l.ctx, nil, userItem)
+	if err != nil {
+		return nil, err
+	}
 	return &user.DeleteUserResp{}, nil
 }
