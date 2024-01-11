@@ -99,6 +99,13 @@ message CheckNicknameExistResp {
   UserItem user = 2;
 }
 
+message GetUserByIdReq {
+  uint64 userId = 1;
+}
+message GetUserByIdResp {
+  UserItem user = 1;
+}
+
 
 message GetUserListReq {
   int32 pageNum = 1;
@@ -173,6 +180,8 @@ service User {
   rpc CheckNicknameExist(CheckNicknameExistReq) returns(CheckNicknameExistResp);
   // group: user
   rpc CheckEmailExist(CheckEmailExistReq) returns(CheckEmailExistResp);
+  // group: user
+  rpc GetUserById(GetUserByIdReq) returns(GetUserByIdResp);
   // group: user
   rpc GetUserList(GetUserListReq) returns(GetUserListResp);
   // group: user

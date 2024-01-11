@@ -34,8 +34,8 @@ service user {
 	get /user (UserListReq) returns (UserListResp)
 
 	@doc "user detail by id"
-	@handler getUserByID
-	get /user/:id returns (User)
+	@handler getUserById
+	get /user/:id (getUserByIdReq) returns (User)
 }
 
 // need login
@@ -45,9 +45,17 @@ service user {
 	jwt:    JWTAuth
 )
 service user {
+	@doc "current user"
+	@handler getCurrentUser
+	get /user/current returns (User)
+
 	@doc "update password"
 	@handler updatePassword
 	put /password (PasswordReq)
+
+	@doc "ban user"
+	@handler banUser
+	put /user/ban/:id
 
 	@doc "update email"
 	@handler updateEmail

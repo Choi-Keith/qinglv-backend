@@ -79,6 +79,11 @@ func (s *UserServer) UpdatePassword(ctx context.Context, in *user.UpdatePassword
 	return l.UpdatePassword(in)
 }
 
+func (s *UserServer) GetUserById(ctx context.Context, in *user.GetUserByIdReq) (*user.GetUserByIdResp, error) {
+	l := userLogic.NewGetUserByIdLogic(ctx, s.svcCtx)
+	return l.GetUserById(in)
+}
+
 // group: email
 func (s *UserServer) VerifyRegisterCode(ctx context.Context, in *user.VerifyRegisterCodeReq) (*user.VerifyRegisterCodeResp, error) {
 	l := emailLogic.NewVerifyRegisterCodeLogic(ctx, s.svcCtx)

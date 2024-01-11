@@ -201,6 +201,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/:id",
 				Handler: user.DelUserHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/user/ban/:id",
+				Handler: user.BanUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/current",
+				Handler: user.GetCurrentUserHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/user/v1"),

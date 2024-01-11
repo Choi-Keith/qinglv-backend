@@ -23,6 +23,8 @@ type (
 	GenerateCaptchaResp    = user.GenerateCaptchaResp
 	GetRoleInfoReq         = user.GetRoleInfoReq
 	GetRoleInfoResp        = user.GetRoleInfoResp
+	GetUserByIdReq         = user.GetUserByIdReq
+	GetUserByIdResp        = user.GetUserByIdResp
 	GetUserListReq         = user.GetUserListReq
 	GetUserListResp        = user.GetUserListResp
 	LoginReq               = user.LoginReq
@@ -54,6 +56,8 @@ type (
 		// group: user
 		CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error)
 		// group: user
+		GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error)
+		// group: user
 		GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
 		// group: user
 		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
@@ -61,10 +65,10 @@ type (
 		UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 		// group: user
 		UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
+		// group: user
+		UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
 		// group: email
 		VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
-		// group: email
-		UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
 		// group: captcha
 		GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error)
 		// group: captcha
@@ -113,6 +117,12 @@ func (m *defaultUser) CheckEmailExist(ctx context.Context, in *CheckEmailExistRe
 }
 
 // group: user
+func (m *defaultUser) GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetUserById(ctx, in, opts...)
+}
+
+// group: user
 func (m *defaultUser) GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.GetUserList(ctx, in, opts...)
@@ -136,16 +146,16 @@ func (m *defaultUser) UpdatePassword(ctx context.Context, in *UpdatePasswordReq,
 	return client.UpdatePassword(ctx, in, opts...)
 }
 
+// group: user
+func (m *defaultUser) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateEmailStatus(ctx, in, opts...)
+}
+
 // group: email
 func (m *defaultUser) VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.VerifyRegisterCode(ctx, in, opts...)
-}
-
-// group: email
-func (m *defaultUser) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
-	client := user.NewUserClient(m.cli.Conn())
-	return client.UpdateEmailStatus(ctx, in, opts...)
 }
 
 // group: captcha

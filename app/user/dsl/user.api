@@ -92,6 +92,9 @@ type (
 		CaptchaCode string `json:"captchaCode"`
 		CaptchaValue string `json:"captchaValue"`
 	}
+	GetUserByIdReq {
+		Id uint64 `path:"id"`
+	}
 	LoginResp {
 		AccessToken  string `json:"accessToken"`
 		RefreshAfter uint64 `json:"refreshAfter"`
