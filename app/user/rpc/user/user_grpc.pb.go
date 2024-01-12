@@ -31,6 +31,8 @@ const (
 	User_UpdateUser_FullMethodName         = "/user.User/UpdateUser"
 	User_UpdatePassword_FullMethodName     = "/user.User/UpdatePassword"
 	User_UpdateEmailStatus_FullMethodName  = "/user.User/UpdateEmailStatus"
+	User_UpdateAvatar_FullMethodName       = "/user.User/UpdateAvatar"
+	User_UpdateProfileBg_FullMethodName    = "/user.User/UpdateProfileBg"
 	User_VerifyRegisterCode_FullMethodName = "/user.User/VerifyRegisterCode"
 	User_GenerateCaptcha_FullMethodName    = "/user.User/GenerateCaptcha"
 	User_VerifyCaptcha_FullMethodName      = "/user.User/VerifyCaptcha"
@@ -64,6 +66,10 @@ type UserClient interface {
 	UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
 	// group: user
 	UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
+	// group: user
+	UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
+	// group: user
+	UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
 	// group: email
 	VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
 	// group: captcha
@@ -188,6 +194,24 @@ func (c *userClient) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatu
 	return out, nil
 }
 
+func (c *userClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error) {
+	out := new(UpdateAvatarResp)
+	err := c.cc.Invoke(ctx, User_UpdateAvatar_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error) {
+	out := new(UpdateProfileBgResp)
+	err := c.cc.Invoke(ctx, User_UpdateProfileBg_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userClient) VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
 	out := new(VerifyRegisterCodeResp)
 	err := c.cc.Invoke(ctx, User_VerifyRegisterCode_FullMethodName, in, out, opts...)
@@ -243,6 +267,10 @@ type UserServer interface {
 	UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error)
 	// group: user
 	UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error)
+	// group: user
+	UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error)
+	// group: user
+	UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error)
 	// group: email
 	VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error)
 	// group: captcha
@@ -291,6 +319,12 @@ func (UnimplementedUserServer) UpdatePassword(context.Context, *UpdatePasswordRe
 }
 func (UnimplementedUserServer) UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmailStatus not implemented")
+}
+func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
+}
+func (UnimplementedUserServer) UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfileBg not implemented")
 }
 func (UnimplementedUserServer) VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyRegisterCode not implemented")
@@ -530,6 +564,42 @@ func _User_UpdateEmailStatus_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_UpdateAvatar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAvatarReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateAvatar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateAvatar_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateAvatar(ctx, req.(*UpdateAvatarReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateProfileBg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProfileBgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateProfileBg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateProfileBg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateProfileBg(ctx, req.(*UpdateProfileBgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _User_VerifyRegisterCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VerifyRegisterCodeReq)
 	if err := dec(in); err != nil {
@@ -638,6 +708,14 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateEmailStatus",
 			Handler:    _User_UpdateEmailStatus_Handler,
+		},
+		{
+			MethodName: "UpdateAvatar",
+			Handler:    _User_UpdateAvatar_Handler,
+		},
+		{
+			MethodName: "UpdateProfileBg",
+			Handler:    _User_UpdateProfileBg_Handler,
 		},
 		{
 			MethodName: "VerifyRegisterCode",

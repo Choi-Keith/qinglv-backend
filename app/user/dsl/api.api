@@ -57,17 +57,17 @@ service user {
 	@handler banUser
 	put /user/ban/:id (BanUserReq)
 
-	@doc "update email"
-	@handler updateEmail
-	put /email (EmailReq)
+	@doc "update avatar"
+	@handler updateAvatar
+	put /user/avatar (AvatarReq)
 
-	@doc "update phone"
-	@handler updatePhone
-	put /phone (PhoneReq)
+	@doc "update profileBg"
+	@handler updateProfileBg
+	put /user/background/image (UpdateProfileReq)
 
 	@doc "update user info"
 	@handler updateUser
-	put /user/:id (User) returns (User)
+	put /user/:id (UpdateUserReq) returns (User)
 
 	@doc "delete user"
 	@handler delUser

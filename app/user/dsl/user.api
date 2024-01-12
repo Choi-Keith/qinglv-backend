@@ -32,12 +32,24 @@ type (
 	}
 )
 
-type EmailReq {
-	Email string `json:"email" validate:"email,max=50"`
+type AvatarReq {
+	Avatar string `json:"avatar"`
 }
 
-type PhoneReq {
-	Phone string `json:"phone" validate:"len=11"`
+type UpdateProfileReq {
+	ProfileBg string `json:"profileBg"`
+}
+
+type UpdateUserReq {
+	UserId   uint64 `json:"userId,string"`
+	Nickname string `json:"nickname,optional" validate:"max=50"`
+	Email    string `json:"email,optional" validate:"email,max=50"`
+	Age      int    `json:"age,range=[0:120],optional"`
+	Gender   int    `json:"gender,options=[1,2],default=1,optional"`
+	Phone    string `json:"phone,optional"`
+	Motto    string `json:"motto,optional", validate:"max=200"`
+	Address  string `json:"address,optional", validate:"max=200"`
+	Location string `json:"location,optional", validate:"max=200"`
 }
 
 type (
@@ -61,7 +73,7 @@ type User {
 	Avatar        string `json:"avatar"`
 	ProfileBg     string `json:"profileBg"`
 	Age           int    `json:"age,range=[0:120]"`
-	Gender        int    `json:"gender,options=[0,1],default=0"`
+	Gender        int    `json:"gender,options=[1,2],default=1"`
 	Location      string `json:"location"`
 	Status        int    `json:"status"`
 	Level         int    `json:"level"`

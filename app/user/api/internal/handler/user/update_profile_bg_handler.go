@@ -9,16 +9,16 @@ import (
 	"qinglv-backend/app/user/api/internal/types"
 )
 
-func UpdateEmailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func UpdateProfileBgHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.EmailReq
+		var req types.UpdateProfileReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := user.NewUpdateEmailLogic(r.Context(), svcCtx)
-		err := l.UpdateEmail(&req)
+		l := user.NewUpdateProfileBgLogic(r.Context(), svcCtx)
+		err := l.UpdateProfileBg(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

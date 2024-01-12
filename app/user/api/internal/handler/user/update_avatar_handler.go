@@ -9,16 +9,16 @@ import (
 	"qinglv-backend/app/user/api/internal/types"
 )
 
-func UpdatePhoneHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func UpdateAvatarHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.PhoneReq
+		var req types.AvatarReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := user.NewUpdatePhoneLogic(r.Context(), svcCtx)
-		err := l.UpdatePhone(&req)
+		l := user.NewUpdateAvatarLogic(r.Context(), svcCtx)
+		err := l.UpdateAvatar(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

@@ -52,6 +52,7 @@ message UserItem {
   int32 authType = 19;
   int32 mailStatus = 20;
   string password = 21;
+  string address = 22;
 }
 
 message RegisterReq {
@@ -140,7 +141,14 @@ message BanUserResp {
 
 message UpdateUserReq{
   string userId = 1;
-  UserItem user = 2;
+  string nickname = 2;
+  string email = 3;
+  string phone = 4;
+  string motto = 5;
+  string address = 6;
+  string location = 7;
+  int32 age = 8;
+  int32 gender = 9;
 }
 
 message UpdateUserResp {
@@ -178,6 +186,20 @@ message UpdatePasswordResp {
   string pong = 1;
 }
 
+message UpdateAvatarReq {
+  string avatar = 1;
+}
+message UpdateAvatarResp {
+  string pong = 1;
+}
+
+message UpdateProfileBgReq {
+  string profileBg = 1;
+}
+message UpdateProfileBgResp {
+  string pong = 1;
+}
+
 
 service User {
   // group: role
@@ -204,6 +226,10 @@ service User {
   rpc UpdatePassword(UpdatePasswordReq) returns(UpdatePasswordResp);
   // group: user
   rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
+  // group: user
+  rpc UpdateAvatar(UpdateAvatarReq) returns(UpdateAvatarResp);
+  // group: user
+  rpc UpdateProfileBg(UpdateProfileBgReq) returns(UpdateProfileBgResp);
 
   // group: email
   rpc VerifyRegisterCode(VerifyRegisterCodeReq) returns(VerifyRegisterCodeResp);

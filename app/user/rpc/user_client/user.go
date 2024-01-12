@@ -34,10 +34,14 @@ type (
 	RegisterReq            = user.RegisterReq
 	RegisterResp           = user.RegisterResp
 	RoleItem               = user.RoleItem
+	UpdateAvatarReq        = user.UpdateAvatarReq
+	UpdateAvatarResp       = user.UpdateAvatarResp
 	UpdateEmailStatusReq   = user.UpdateEmailStatusReq
 	UpdateEmailStatusResp  = user.UpdateEmailStatusResp
 	UpdatePasswordReq      = user.UpdatePasswordReq
 	UpdatePasswordResp     = user.UpdatePasswordResp
+	UpdateProfileBgReq     = user.UpdateProfileBgReq
+	UpdateProfileBgResp    = user.UpdateProfileBgResp
 	UpdateUserReq          = user.UpdateUserReq
 	UpdateUserResp         = user.UpdateUserResp
 	UserItem               = user.UserItem
@@ -71,6 +75,10 @@ type (
 		UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
 		// group: user
 		UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
+		// group: user
+		UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
+		// group: user
+		UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
 		// group: email
 		VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
 		// group: captcha
@@ -160,6 +168,18 @@ func (m *defaultUser) UpdatePassword(ctx context.Context, in *UpdatePasswordReq,
 func (m *defaultUser) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.UpdateEmailStatus(ctx, in, opts...)
+}
+
+// group: user
+func (m *defaultUser) UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateAvatar(ctx, in, opts...)
+}
+
+// group: user
+func (m *defaultUser) UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateProfileBg(ctx, in, opts...)
 }
 
 // group: email

@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UpdatePhoneLogic struct {
+type UpdateProfileBgLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewUpdatePhoneLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdatePhoneLogic {
-	return &UpdatePhoneLogic{
+func NewUpdateProfileBgLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateProfileBgLogic {
+	return &UpdateProfileBgLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *UpdatePhoneLogic) UpdatePhone(req *types.PhoneReq) error {
+func (l *UpdateProfileBgLogic) UpdateProfileBg(req *types.UpdateProfileReq) error {
 	// todo: add your logic here and delete this line
 
 	return nil

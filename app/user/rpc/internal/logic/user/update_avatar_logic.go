@@ -1,0 +1,31 @@
+package user
+
+import (
+	"context"
+
+	"qinglv-backend/app/user/rpc/internal/svc"
+	"qinglv-backend/app/user/rpc/user"
+
+	"github.com/zeromicro/go-zero/core/logx"
+)
+
+type UpdateAvatarLogic struct {
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+	logx.Logger
+}
+
+func NewUpdateAvatarLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateAvatarLogic {
+	return &UpdateAvatarLogic{
+		ctx:    ctx,
+		svcCtx: svcCtx,
+		Logger: logx.WithContext(ctx),
+	}
+}
+
+// group: user
+func (l *UpdateAvatarLogic) UpdateAvatar(in *user.UpdateAvatarReq) (*user.UpdateAvatarResp, error) {
+	// todo: add your logic here and delete this line
+
+	return &user.UpdateAvatarResp{}, nil
+}

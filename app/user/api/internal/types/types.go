@@ -13,6 +13,10 @@ type AddFollowingReq struct {
 	UserId uint64 `json:"userId,string"`
 }
 
+type AvatarReq struct {
+	Avatar string `json:"avatar"`
+}
+
 type BanUserReq struct {
 	Id uint64 `path:"id,string"`
 }
@@ -52,10 +56,6 @@ type DelFollowingReq struct {
 
 type DelUserReq struct {
 	Id uint64 `path:"id,string"`
-}
-
-type EmailReq struct {
-	Email string `json:"email" validate:"email,max=50"`
 }
 
 type Follower struct {
@@ -124,10 +124,6 @@ type PasswordReq struct {
 	RePassword  string `json:"rePassword" validate:"required,min=6,max=24,eqfield=NewPassword"`
 }
 
-type PhoneReq struct {
-	Phone string `json:"phone" validate:"len=11"`
-}
-
 type RegisterReq struct {
 	RoleId     uint64 `json:"roleId,string"`
 	Nickname   string `json:"nickname" validate:"required,max=50"`
@@ -159,6 +155,22 @@ type RoleReq struct {
 	Name string `json:"name" validate:"required,max=50"`
 }
 
+type UpdateProfileReq struct {
+	ProfileBg string `json:"profileBg"`
+}
+
+type UpdateUserReq struct {
+	UserId   uint64 `json:"userId,string"`
+	Nickname string `json:"nickname,optional" validate:"max=50"`
+	Email    string `json:"email,optional" validate:"email,max=50"`
+	Age      int    `json:"age,range=[0:120],optional"`
+	Gender   int    `json:"gender,options=[1,2],default=1,optional"`
+	Phone    string `json:"phone,optional"`
+	Motto    string `json:"motto,optional", validate:"max=200"`
+	Address  string `json:"address,optional", validate:"max=200"`
+	Location string `json:"location,optional", validate:"max=200"`
+}
+
 type User struct {
 	Id            uint64 `json:"id"`
 	Role          Role   `json:"role"`
@@ -170,7 +182,7 @@ type User struct {
 	Avatar        string `json:"avatar"`
 	ProfileBg     string `json:"profileBg"`
 	Age           int    `json:"age,range=[0:120]"`
-	Gender        int    `json:"gender,options=[0,1],default=0"`
+	Gender        int    `json:"gender,options=[1,2],default=1"`
 	Location      string `json:"location"`
 	Status        int    `json:"status"`
 	Level         int    `json:"level"`

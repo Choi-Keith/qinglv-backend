@@ -178,18 +178,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPut,
-				Path:    "/email",
-				Handler: user.UpdateEmailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
 				Path:    "/password",
 				Handler: user.UpdatePasswordHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/phone",
-				Handler: user.UpdatePhoneHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,
@@ -200,6 +190,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodDelete,
 				Path:    "/user/:id",
 				Handler: user.DelUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/user/avatar",
+				Handler: user.UpdateAvatarHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/user/background/image",
+				Handler: user.UpdateProfileBgHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,

@@ -92,6 +92,18 @@ func (s *UserServer) GetUserById(ctx context.Context, in *user.GetUserByIdReq) (
 	return l.GetUserById(in)
 }
 
+// group: user
+func (s *UserServer) UpdateAvatar(ctx context.Context, in *user.UpdateAvatarReq) (*user.UpdateAvatarResp, error) {
+	l := userLogic.NewUpdateAvatarLogic(ctx, s.svcCtx)
+	return l.UpdateAvatar(in)
+}
+
+// group: user
+func (s *UserServer) UpdateProfileBg(ctx context.Context, in *user.UpdateProfileBgReq) (*user.UpdateProfileBgResp, error) {
+	l := userLogic.NewUpdateProfileBgLogic(ctx, s.svcCtx)
+	return l.UpdateProfileBg(in)
+}
+
 // group: email
 func (s *UserServer) VerifyRegisterCode(ctx context.Context, in *user.VerifyRegisterCodeReq) (*user.VerifyRegisterCodeResp, error) {
 	l := emailLogic.NewVerifyRegisterCodeLogic(ctx, s.svcCtx)
