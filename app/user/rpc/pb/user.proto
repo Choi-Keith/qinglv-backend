@@ -188,6 +188,7 @@ message UpdatePasswordResp {
 
 message UpdateAvatarReq {
   string avatar = 1;
+  uint64 userId = 2;
 }
 message UpdateAvatarResp {
   string pong = 1;
@@ -195,6 +196,7 @@ message UpdateAvatarResp {
 
 message UpdateProfileBgReq {
   string profileBg = 1;
+  uint64 userId = 2;
 }
 message UpdateProfileBgResp {
   string pong = 1;

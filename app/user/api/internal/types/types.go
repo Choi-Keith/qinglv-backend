@@ -14,7 +14,7 @@ type AddFollowingReq struct {
 }
 
 type AvatarReq struct {
-	Avatar string `json:"avatar"`
+	Id uint64 `path:"id,string"`
 }
 
 type BanUserReq struct {
@@ -156,7 +156,7 @@ type RoleReq struct {
 }
 
 type UpdateProfileReq struct {
-	ProfileBg string `json:"profileBg"`
+	Id uint64 `path:"id,string"`
 }
 
 type UpdateUserReq struct {

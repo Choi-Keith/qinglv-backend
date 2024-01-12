@@ -59,11 +59,11 @@ service user {
 
 	@doc "update avatar"
 	@handler updateAvatar
-	put /user/avatar (AvatarReq)
+	put /user/:id/avatar (AvatarReq)
 
 	@doc "update profileBg"
 	@handler updateProfileBg
-	put /user/background/image (UpdateProfileReq)
+	put /user/:id/background/image (UpdateProfileReq)
 
 	@doc "update user info"
 	@handler updateUser

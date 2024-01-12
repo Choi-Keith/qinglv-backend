@@ -33,11 +33,11 @@ type (
 )
 
 type AvatarReq {
-	Avatar string `json:"avatar"`
+	Id uint64 `path:"id,string"`
 }
 
 type UpdateProfileReq {
-	ProfileBg string `json:"profileBg"`
+	Id uint64 `path:"id,string"`
 }
 
 type UpdateUserReq {

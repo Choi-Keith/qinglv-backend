@@ -13,4 +13,13 @@ type Config struct {
 		AccessSecret string
 		AccessExpire int64
 	}
+
+	Cos struct {
+		Endpoint      string
+		Service       string
+		SecretID      string
+		SecretKey     string
+		AvatarPath    string
+		ProfileBgPath string
+	}
 }

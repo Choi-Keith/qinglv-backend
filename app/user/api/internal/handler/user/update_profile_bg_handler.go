@@ -3,10 +3,11 @@ package user
 import (
 	"net/http"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"qinglv-backend/app/user/api/internal/logic/user"
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func UpdateProfileBgHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
@@ -17,7 +18,7 @@ func UpdateProfileBgHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := user.NewUpdateProfileBgLogic(r.Context(), svcCtx)
+		l := user.NewUpdateProfileBgLogic(r.Context(), svcCtx, r)
 		err := l.UpdateProfileBg(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

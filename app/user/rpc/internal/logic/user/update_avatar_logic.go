@@ -26,6 +26,14 @@ func NewUpdateAvatarLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upda
 // group: user
 func (l *UpdateAvatarLogic) UpdateAvatar(in *user.UpdateAvatarReq) (*user.UpdateAvatarResp, error) {
 	// todo: add your logic here and delete this line
-
+	userItem, err := l.svcCtx.UserModel.FindOne(l.ctx, in.UserId)
+	if err != nil {
+		return nil, err
+	}
+	userItem.Avatar = in.Avatar
+	err = l.svcCtx.UserModel.UpdateWithVersion(l.ctx, nil, userItem)
+	if err != nil {
+		return nil, err
+	}
 	return &user.UpdateAvatarResp{}, nil
 }
