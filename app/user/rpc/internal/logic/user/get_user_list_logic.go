@@ -36,6 +36,11 @@ func (l *GetUserListLogic) GetUserList(in *user.GetUserListReq) (*user.GetUserLi
 			"status": in.Status,
 		})
 	}
+	if in.MailStatus != 0 {
+		whereBuilder = whereBuilder.Where(squirrel.Eq{
+			"mail_status": in.MailStatus,
+		})
+	}
 	if in.Email != "" {
 		whereBuilder = whereBuilder.Where(squirrel.Like{"email": sqlike.GenSqlike(in.Email)})
 	}
@@ -56,7 +61,6 @@ func (l *GetUserListLogic) GetUserList(in *user.GetUserListReq) (*user.GetUserLi
 		sort = strings.ToUpper(sort)
 	}
 	orderBy := fmt.Sprintf("%s %s", sortField, sort)
-	// email like ? and nickname like ? and phone like ? and we_chat like ?
 	userListResp, total, err := l.svcCtx.UserModel.FindPageListByPageWithTotal(l.ctx, whereBuilder, int64(in.PageNum), int64(in.PageSize), orderBy)
 	if err != nil {
 		return nil, err

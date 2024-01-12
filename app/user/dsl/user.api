@@ -121,14 +121,15 @@ type (
 
 type (
 	UserListReq {
-		Nickname string `form:"nickname,optional"`
-		Email    string `form:"email,optional"`
-		Phone    string `form:"phone,optional"`
-		WeChat   string `form:"weChat,optional"`
-		Status   int    `form:"status,optional"`
-		Sort     string `form:"sort,optional"`
-		PageNum  int    `form:"pageNum" validate:"required,gt=0"`
-		PageSize int    `form:"pageSize" validate:"required,gt=0"`
+		Nickname   string `form:"nickname,optional"`
+		Email      string `form:"email,optional"`
+		Phone      string `form:"phone,optional"`
+		WeChat     string `form:"weChat,optional"`
+		Status     int    `form:"status,optional"`
+		MailStatus int    `form:"mailStatus,optional"`
+		Sort       string `form:"sort,optional"`
+		PageNum    int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize   int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	UserListResp {
 		List  []User `json:"list"`

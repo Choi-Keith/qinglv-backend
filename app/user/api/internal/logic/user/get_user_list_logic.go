@@ -28,14 +28,15 @@ func NewGetUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 func (l *GetUserListLogic) GetUserList(req *types.UserListReq) (resp *types.UserListResp, err error) {
 	// todo: add your logic here and delete this line
 	userListResp, err := l.svcCtx.UserRpc.GetUserList(l.ctx, &user_client.GetUserListReq{
-		Email:    req.Email,
-		Nickname: req.Nickname,
-		PageNum:  int32(req.PageNum),
-		PageSize: int32(req.PageSize),
-		Status:   int32(req.Status),
-		Sort:     req.Sort,
-		WeChat:   req.WeChat,
-		Phone:    req.Phone,
+		Email:      req.Email,
+		Nickname:   req.Nickname,
+		PageNum:    int32(req.PageNum),
+		PageSize:   int32(req.PageSize),
+		Status:     int32(req.Status),
+		MailStatus: int32(req.MailStatus),
+		Sort:       req.Sort,
+		WeChat:     req.WeChat,
+		Phone:      req.Phone,
 	})
 	if err != nil {
 		return nil, err
