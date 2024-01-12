@@ -5,6 +5,7 @@ CREATE TABLE `user` (
     `account` varchar(64) NOT NULL COMMENT '账号',
     `nickname` varchar(64) NOT NULL COMMENT '昵称',
     `motto` text COMMENT '个性签名',
+    `profession` varchar(65) COMMENT '职业',
     `email` varchar(64) NOT NULL COMMENT '邮箱',
     `we_chat` varchar(64) COMMENT '微信号',
     `auth_type` int(6) NOT NULL DEFAULT 1 COMMENT '注册方式:1邮件注册；2手机号注册',

@@ -50,6 +50,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	registerUser.Version = 1
 	registerUser.Status = 2
 	registerUser.MailStatus = 1
+	registerUser.ProfileBg = "https://qinglv-1304086226.cos.ap-guangzhou.myqcloud.com/images/profileBg/default/bg.png"
 	_, err := l.svcCtx.UserModel.Insert(l.ctx, nil, registerUser)
 	if err != nil {
 		logx.Errorf("register user failed: %v", err)
@@ -71,9 +72,9 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 		WeChat:        userItem.WeChat.String,
 		Motto:         userItem.Motto.String,
 		Avatar:        userItem.Avatar,
-		ProfileBg:     userItem.ProfileBg.String,
+		ProfileBg:     userItem.ProfileBg,
 		Age:           int32(userItem.Age.Int64),
-		Gender:        int32(userItem.Gender.Int64),
+		Gender:        int32(userItem.Gender),
 		Location:      userItem.Location.String,
 		Level:         int32(userItem.Level),
 		Score:         int32(userItem.Score),

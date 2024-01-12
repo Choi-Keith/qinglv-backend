@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strconv"
+	"time"
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
@@ -39,7 +41,8 @@ func (l *UpdateProfileBgLogic) UpdateProfileBg(req *types.UpdateProfileReq) erro
 		return err
 	}
 	defer file.Close()
-	key := fmt.Sprintf("%s%s", l.svcCtx.Config.Cos.ProfileBgPath, header.Filename)
+	timeStr := strconv.Itoa(int(time.Now().Unix()))
+	key := fmt.Sprintf("%s%s_%s", l.svcCtx.Config.Cos.AvatarPath, timeStr, header.Filename)
 	_, err = l.svcCtx.CosClient.Object.Put(context.Background(), key, file, nil)
 	if err != nil {
 		return err
