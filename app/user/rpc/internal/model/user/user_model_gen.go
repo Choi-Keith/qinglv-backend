@@ -88,6 +88,7 @@ type (
 		IsDel         int64          `db:"is_del"`
 		Version       int64          `db:"version"`    // 版本号
 		Profession    sql.NullString `db:"profession"` // 职业
+		Address       sql.NullString `db:"address"`
 	}
 )
 
@@ -107,11 +108,11 @@ func (m *defaultUserModel) Insert(ctx context.Context, session sqlx.Session, dat
 	qUserUserPhoneKey := fmt.Sprintf("%s%v", cacheQUserUserPhonePrefix, data.Phone)
 	qUserUserWeChatKey := fmt.Sprintf("%s%v", cacheQUserUserWeChatPrefix, data.WeChat)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, userRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.MailStatus, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version, data.Profession)
+			return session.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.MailStatus, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version, data.Profession, data.Address)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.MailStatus, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version, data.Profession)
+		return conn.ExecCtx(ctx, query, data.Id, data.RoleId, data.Account, data.Nickname, data.Motto, data.Email, data.WeChat, data.AuthType, data.Phone, data.Password, data.Avatar, data.ProfileBg, data.Status, data.MailStatus, data.Location, data.Age, data.Gender, data.Level, data.Score, data.DeletedAt, data.LastLoginTime, data.IsDel, data.Version, data.Profession, data.Address)
 	}, qUserUserEmailKey, qUserUserIdKey, qUserUserNicknameKey, qUserUserPhoneKey, qUserUserWeChatKey)
 }
 
@@ -225,9 +226,9 @@ func (m *defaultUserModel) Update(ctx context.Context, session sqlx.Session, new
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, userRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Profession, newData.Id)
+			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Profession, newData.Address, newData.Id)
 		}
-		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Profession, newData.Id)
+		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Profession, newData.Address, newData.Id)
 	}, qUserUserEmailKey, qUserUserIdKey, qUserUserNicknameKey, qUserUserPhoneKey, qUserUserWeChatKey)
 }
 
@@ -251,9 +252,9 @@ func (m *defaultUserModel) UpdateWithVersion(ctx context.Context, session sqlx.S
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, userRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Profession, newData.Id, oldVersion)
+			return session.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Profession, newData.Address, newData.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Profession, newData.Id, oldVersion)
+		return conn.ExecCtx(ctx, query, newData.RoleId, newData.Account, newData.Nickname, newData.Motto, newData.Email, newData.WeChat, newData.AuthType, newData.Phone, newData.Password, newData.Avatar, newData.ProfileBg, newData.Status, newData.MailStatus, newData.Location, newData.Age, newData.Gender, newData.Level, newData.Score, newData.DeletedAt, newData.LastLoginTime, newData.IsDel, newData.Version, newData.Profession, newData.Address, newData.Id, oldVersion)
 	}, qUserUserEmailKey, qUserUserIdKey, qUserUserNicknameKey, qUserUserPhoneKey, qUserUserWeChatKey)
 	if err != nil {
 		return err

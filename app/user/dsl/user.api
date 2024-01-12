@@ -41,15 +41,16 @@ type UpdateProfileReq {
 }
 
 type UpdateUserReq {
-	UserId   uint64 `json:"userId,string"`
-	Nickname string `json:"nickname,optional" validate:"max=50"`
-	Email    string `json:"email,optional" validate:"email,max=50"`
-	Age      int    `json:"age,range=[0:120],optional"`
-	Gender   int    `json:"gender,options=[1,2],default=1,optional"`
-	Phone    string `json:"phone,optional"`
-	Motto    string `json:"motto,optional", validate:"max=200"`
-	Address  string `json:"address,optional", validate:"max=200"`
-	Location string `json:"location,optional", validate:"max=200"`
+	UserId     uint64 `json:"userId,string"`
+	Nickname   string `json:"nickname" validate:"max=50"`
+	Email      string `json:"email" validate:"email,max=50"`
+	Age        int    `json:"age,range=[0:120],optional"`
+	Gender     int    `json:"gender,options=[1,2],default=1"`
+	Phone      string `json:"phone,optional"`
+	Motto      string `json:"motto,optional", validate:"max=200"`
+	Address    string `json:"address,optional", validate:"max=200"`
+	Location   string `json:"location,optional", validate:"max=200"`
+	Profession string `json:"profession,optional",validate:"max=200"`
 }
 
 type (

@@ -140,7 +140,7 @@ message BanUserResp {
 }
 
 message UpdateUserReq{
-  string userId = 1;
+  uint64 userId = 1;
   string nickname = 2;
   string email = 3;
   string phone = 4;
@@ -149,6 +149,8 @@ message UpdateUserReq{
   string location = 7;
   int32 age = 8;
   int32 gender = 9;
+  string profession = 10;
+  int32 mailStatus = 11;
 }
 
 message UpdateUserResp {

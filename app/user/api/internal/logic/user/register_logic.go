@@ -37,10 +37,10 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 		return nil, err
 	}
 	if checkEmailExistResp.IsExist {
-		if checkEmailExistResp.User.MailStatus == 1 {
+		if checkEmailExistResp.User.MailStatus == 2 {
 			return nil, errors.New("邮箱已存在，请重新输入")
 		}
-		if checkEmailExistResp.User.MailStatus == 0 {
+		if checkEmailExistResp.User.MailStatus == 1 {
 			_, err := l.svcCtx.UserRpc.DeleteUser(l.ctx, &user_client.DeleteUserReq{
 				UserId: checkEmailExistResp.User.Id,
 			})

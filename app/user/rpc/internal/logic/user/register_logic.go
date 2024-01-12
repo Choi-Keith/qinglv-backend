@@ -94,7 +94,7 @@ func (l *RegisterLogic) SendAndSaveRegisterCode(userId uint64, toUser string) {
 	smtp := l.svcCtx.Config.SMTP
 	code := uuid.New()
 	verifyEmailURL := fmt.Sprintf("http://%s:%d/email/verify?code=%s", host, port, code)
-	body, err := template.GenerateVerifyBody(verifyEmailURL)
+	body, err := template.GenerateVerifyBody(verifyEmailURL, "verify_email.html")
 	if err != nil {
 		logx.Errorf("[User SendAndSaveRegisterCode] GenerateVerifyBody failed: %+v\n", err)
 	}

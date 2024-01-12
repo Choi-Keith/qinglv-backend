@@ -67,7 +67,7 @@ service user {
 
 	@doc "update user info"
 	@handler updateUser
-	put /user/:id (UpdateUserReq) returns (User)
+	put /user/:id (UpdateUserReq)
 
 	@doc "delete user"
 	@handler delUser

@@ -8,9 +8,9 @@ import (
 	"runtime"
 )
 
-func GenerateVerifyBody(registerUrl string) (string, error) {
+func GenerateVerifyBody(registerUrl, templateFile string) (string, error) {
 	_, filename, _, _ := runtime.Caller(0)
-	file := fmt.Sprintf("%s/%s", filepath.Dir(filename), "verify_email.html")
+	file := fmt.Sprintf("%s/%s", filepath.Dir(filename), templateFile)
 	tmpl, err := template.ParseFiles(file)
 	if err != nil {
 		return "", err
