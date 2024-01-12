@@ -186,6 +186,8 @@ type UserListReq struct {
 	Email    string `form:"email,optional"`
 	Phone    string `form:"phone,optional"`
 	WeChat   string `form:"weChat,optional"`
+	Status   int    `form:"status,optional"`
+	Sort     string `form:"sort,optional"`
 	PageNum  int    `form:"pageNum" validate:"required,gt=0"`
 	PageSize int    `form:"pageSize" validate:"required,gt=0"`
 }
@@ -193,7 +195,7 @@ type UserListReq struct {
 type UserListResp struct {
 	List  []User `json:"list"`
 	IsEnd bool   `json:"isEnd"`
-	Total bool   `json:"total"`
+	Total uint64 `json:"total"`
 }
 
 type UserReq struct {
@@ -205,7 +207,7 @@ type UserReq struct {
 	Location string `json:"location" validate:"max=200"`
 	Status   int    `json:"status,options=[0,1,2]" validate:"oneof=0,1,2"`
 	Level    int    `json:"level" validate:"number,gte=0,lte=10"`
-	Score    int    `json:"score" validate:"number,gte=0`
+	Score    int    `json:"score" validate:"number,gte=0"`
 }
 
 type VerifyEmailReq struct {

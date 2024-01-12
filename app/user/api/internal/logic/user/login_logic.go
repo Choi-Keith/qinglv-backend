@@ -35,15 +35,15 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	if err != nil {
 		return nil, err
 	}
-	logx.Debugf("[User] Login Password: %s\n", userResp.User.Password)
+	logx.Debugf("[User] Login Password: %+v\n", userResp.User)
 
 	if !userResp.IsExist {
 		return nil, errors.New("邮箱或密码错误，请重新输入")
 	}
-	if userResp.User.MailStatus == 0 {
+	if userResp.User.MailStatus == 1 {
 		return nil, errors.New("该邮箱不可用，请重新注册")
 	}
-	if userResp.User.Status != 1 {
+	if userResp.User.Status != 2 {
 		return nil, errors.New("该用户已被注销")
 	}
 	verifyCaptchaResp, err := l.svcCtx.UserRpc.VerifyCaptcha(l.ctx, &user_client.VerifyCaptchaReq{

@@ -40,7 +40,7 @@ func (l *VerifyEmailLogic) VerifyEmail(req *types.VerifyEmailReq) (resp *types.V
 	}
 	_, err = l.svcCtx.UserRpc.UpdateEmailStatus(l.ctx, &user_client.UpdateEmailStatusReq{
 		UserId:     codeContent.UserId,
-		MailStatus: 1,
+		MailStatus: 2,
 	})
 	if err != nil {
 		return nil, err

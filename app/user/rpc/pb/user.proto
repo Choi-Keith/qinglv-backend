@@ -113,6 +113,9 @@ message GetUserListReq {
   string nickname = 3;
   string email = 4;
   int32 status = 5;
+  string sort = 6;
+  string weChat = 7;
+  string phone = 8;
 }
 
 message GetUserListResp {
