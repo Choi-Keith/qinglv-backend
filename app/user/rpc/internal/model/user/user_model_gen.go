@@ -388,7 +388,7 @@ func (m *defaultUserModel) FindPageListByPageWithTotal(ctx context.Context, buil
 	builder = builder.Columns(userRows)
 
 	if orderBy == "" {
-		builder = builder.OrderBy("id DESC")
+		builder = builder.OrderBy("created_at DESC")
 	} else {
 		builder = builder.OrderBy(orderBy)
 	}
