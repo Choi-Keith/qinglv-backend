@@ -2,6 +2,7 @@ package black
 
 import (
 	"context"
+	"errors"
 
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
@@ -27,5 +28,15 @@ func NewCheckBlackItemLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ch
 func (l *CheckBlackItemLogic) CheckBlackItem(in *user.CheckBlackItemReq) (*user.CheckBlackItemResp, error) {
 	// todo: add your logic here and delete this line
 
-	return &user.CheckBlackItemResp{}, nil
+	if in.UserId == 0 || in.BlackItemId == 0 {
+		return nil, errors.New("blackItemId和userId不能为空")
+	}
+	whereBuilder := l.svcCtx.BlacklistModel.SelectBuilder()
+	blacklist, err := l.svcCtx.BlacklistModel.FindAll(l.ctx, whereBuilder, "")
+	if err != nil {
+		return nil, err
+	}
+	return &user.CheckBlackItemResp{
+		IsBlackItem: len(blacklist) > 0,
+	}, nil
 }

@@ -5,6 +5,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
+	"qinglv-backend/app/user/rpc/user_client"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,6 +26,11 @@ func NewDelBlacklistLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelB
 
 func (l *DelBlacklistLogic) DelBlacklist(req *types.DelBlackItemReq) error {
 	// todo: add your logic here and delete this line
-
+	_, err := l.svcCtx.UserRpc.DeleteBlackItem(l.ctx, &user_client.DeleteBlackItemReq{
+		Id: req.Id,
+	})
+	if err != nil {
+		return err
+	}
 	return nil
 }

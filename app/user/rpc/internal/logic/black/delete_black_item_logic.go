@@ -26,6 +26,13 @@ func NewDeleteBlackItemLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 // group: blacklist
 func (l *DeleteBlackItemLogic) DeleteBlackItem(in *user.DeleteBlackItemReq) (*user.DeleteBlackItemResp, error) {
 	// todo: add your logic here and delete this line
-
+	blackItem, err := l.svcCtx.BlacklistModel.FindOne(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+	err = l.svcCtx.BlacklistModel.DeleteSoft(l.ctx, nil, blackItem)
+	if err != nil {
+		return nil, err
+	}
 	return &user.DeleteBlackItemResp{}, nil
 }

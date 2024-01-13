@@ -2,6 +2,8 @@ package svc
 
 import (
 	"qinglv-backend/app/user/rpc/internal/config"
+	"qinglv-backend/app/user/rpc/internal/model/black"
+	"qinglv-backend/app/user/rpc/internal/model/follower"
 	"qinglv-backend/app/user/rpc/internal/model/following"
 	"qinglv-backend/app/user/rpc/internal/model/role"
 	"qinglv-backend/app/user/rpc/internal/model/user"
@@ -15,6 +17,8 @@ type ServiceContext struct {
 	UserModel      user.UserModel
 	RoleModel      role.RoleModel
 	FollowingModel following.FollowingModel
+	FollowerModel  follower.FollowerModel
+	BlacklistModel black.BlacklistModel
 	RedisClient    *redis.Redis
 }
 
@@ -26,6 +30,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		UserModel:      user.NewUserModel(sqlConn, c.Cache),
 		RoleModel:      role.NewRoleModel(sqlConn, c.Cache),
 		FollowingModel: following.NewFollowingModel(sqlConn, c.Cache),
+		FollowerModel:  follower.NewFollowerModel(sqlConn, c.Cache),
+		BlacklistModel: black.NewBlacklistModel(sqlConn, c.Cache),
 		RedisClient: redis.New(c.Redis.Host, func(r *redis.Redis) {
 			r.Pass = c.Redis.Pass
 			r.Type = c.Redis.Type
