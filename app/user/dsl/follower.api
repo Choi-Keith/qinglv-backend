@@ -25,6 +25,16 @@ type DelFollowerReq {
 }
 
 type (
+	IsFollowerReq {
+		FollowerId uint64 `form:"followerId,string"`
+	}
+	IsFollowerResp {
+		IsFollower bool `json:"isFollower"`
+	}
+)
+
+
+type (
 	FollowerListReq {
 		FollowerId uint64 `form:"followerId,string,optional"`
 		PageNum    int    `form:"pageNum" validate:"required,gt=0"`

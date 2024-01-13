@@ -118,6 +118,10 @@ service user {
 	@doc "cancel following"
 	@handler delFollowing
 	delete /following (DelFollowingReq)
+
+	@doc "is following"
+	@handler isFollowing
+	get /following/is (IsFollowingReq) returns (IsFollowingResp)
 }
 
 @server (
@@ -137,6 +141,10 @@ service user {
 	@doc "cancel follower"
 	@handler delFollower
 	delete /follower (DelFollowerReq)
+
+	@doc "is follower"
+	@handler isFollower
+	get /follower/is (IsFollowerReq) returns (IsFollowerResp)
 }
 
 @server (
@@ -156,5 +164,9 @@ service user {
 	@doc "cancel blacklist"
 	@handler delBlacklist
 	delete /blacklist (DelBlackItemReq)
+
+	@doc "is black"
+	@handler isBlackItem
+	get /blacklist/is (IsBlackItemReq) returns (IsBlackItemResp)
 }
 

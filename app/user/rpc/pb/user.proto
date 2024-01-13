@@ -241,6 +241,13 @@ message GetFollowingListResp {
   uint64 total = 1;
   repeated FollowingItem data = 2;
 }
+message CheckFollowingReq {
+  uint64 userId = 1;
+  uint64 followingId = 2;
+}
+message CheckFollowingResp {
+  bool isFollowing = 1;
+}
 
 // =================Follower=================
 
@@ -278,6 +285,13 @@ message GetFollowerListResp {
   uint64 total = 1;
   repeated FollowerItem data = 2;
 }
+message CheckFollowerReq {
+  uint64 userId = 1;
+  uint64 followerId = 2;
+}
+message CheckFollowerResp {
+  bool isFollower = 1;
+}
 
 // =================BlackItem=================
 
@@ -314,6 +328,13 @@ message GetBlackListReq {
 message GetBlackListResp {
   uint64 total = 1;
   repeated BlackItem data = 2;
+}
+message CheckBlackItemReq {
+  uint64 userId = 1;
+  uint64 blackItemId = 2;
+}
+message CheckBlackItemResp {
+  bool isBlackItem = 1;
 }
 
 service User {
@@ -360,6 +381,8 @@ service User {
   rpc DeleteFollowing(DeleteFollowingReq) returns(DeleteFollowingResp);
   // group: following
   rpc GetFollowingList(GetFollowingListReq) returns(GetFollowingListResp);
+  // group: following
+  rpc CheckFollowing(CheckFollowingReq) returns(CheckFollowingResp);
 
   // group: follower
   rpc AddFollower(AddFollowerReq) returns(AddFollowerResp);
@@ -367,6 +390,8 @@ service User {
   rpc DeleteFollower(DeleteFollowerReq) returns(DeleteFollowerResp);
   // group: follower
   rpc GetFollowerList(GetFollowerListReq) returns(GetFollowerListResp);
+  // group: follower
+  rpc CheckFollower(CheckFollowerReq) returns(CheckFollowerResp);
 
   // group: blacklist
   rpc AddBlackItem(AddBlackItemReq) returns(AddBlackItemResp);
@@ -374,6 +399,8 @@ service User {
   rpc DeleteBlackItem(DeleteBlackItemReq) returns(DeleteBlackItemResp);
   // group: blacklist
   rpc GetBlackList(GetBlackListReq) returns(GetBlackListResp);
+  // group: blacklist
+  rpc CheckBlackItem(CheckBlackItemReq) returns(CheckBlackItemResp);
 
 }
 

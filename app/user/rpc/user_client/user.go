@@ -22,8 +22,14 @@ type (
 	BanUserReq             = user.BanUserReq
 	BanUserResp            = user.BanUserResp
 	BlackItem              = user.BlackItem
+	CheckBlackItemReq      = user.CheckBlackItemReq
+	CheckBlackItemResp     = user.CheckBlackItemResp
 	CheckEmailExistReq     = user.CheckEmailExistReq
 	CheckEmailExistResp    = user.CheckEmailExistResp
+	CheckFollowerReq       = user.CheckFollowerReq
+	CheckFollowerResp      = user.CheckFollowerResp
+	CheckFollowingReq      = user.CheckFollowingReq
+	CheckFollowingResp     = user.CheckFollowingResp
 	CheckNicknameExistReq  = user.CheckNicknameExistReq
 	CheckNicknameExistResp = user.CheckNicknameExistResp
 	DeleteBlackItemReq     = user.DeleteBlackItemReq
@@ -112,18 +118,24 @@ type (
 		DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error)
 		// group: following
 		GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error)
+		// group: following
+		CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error)
 		// group: follower
 		AddFollower(ctx context.Context, in *AddFollowerReq, opts ...grpc.CallOption) (*AddFollowerResp, error)
 		// group: follower
 		DeleteFollower(ctx context.Context, in *DeleteFollowerReq, opts ...grpc.CallOption) (*DeleteFollowerResp, error)
 		// group: follower
 		GetFollowerList(ctx context.Context, in *GetFollowerListReq, opts ...grpc.CallOption) (*GetFollowerListResp, error)
+		// group: follower
+		CheckFollower(ctx context.Context, in *CheckFollowerReq, opts ...grpc.CallOption) (*CheckFollowerResp, error)
 		// group: blacklist
 		AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error)
 		// group: blacklist
 		DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error)
 		// group: blacklist
 		GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error)
+		// group: blacklist
+		CheckBlackItem(ctx context.Context, in *CheckBlackItemReq, opts ...grpc.CallOption) (*CheckBlackItemResp, error)
 	}
 
 	defaultUser struct {
@@ -257,6 +269,12 @@ func (m *defaultUser) GetFollowingList(ctx context.Context, in *GetFollowingList
 	return client.GetFollowingList(ctx, in, opts...)
 }
 
+// group: following
+func (m *defaultUser) CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.CheckFollowing(ctx, in, opts...)
+}
+
 // group: follower
 func (m *defaultUser) AddFollower(ctx context.Context, in *AddFollowerReq, opts ...grpc.CallOption) (*AddFollowerResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
@@ -275,6 +293,12 @@ func (m *defaultUser) GetFollowerList(ctx context.Context, in *GetFollowerListRe
 	return client.GetFollowerList(ctx, in, opts...)
 }
 
+// group: follower
+func (m *defaultUser) CheckFollower(ctx context.Context, in *CheckFollowerReq, opts ...grpc.CallOption) (*CheckFollowerResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.CheckFollower(ctx, in, opts...)
+}
+
 // group: blacklist
 func (m *defaultUser) AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
@@ -291,4 +315,10 @@ func (m *defaultUser) DeleteBlackItem(ctx context.Context, in *DeleteBlackItemRe
 func (m *defaultUser) GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.GetBlackList(ctx, in, opts...)
+}
+
+// group: blacklist
+func (m *defaultUser) CheckBlackItem(ctx context.Context, in *CheckBlackItemReq, opts ...grpc.CallOption) (*CheckBlackItemResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.CheckBlackItem(ctx, in, opts...)
 }

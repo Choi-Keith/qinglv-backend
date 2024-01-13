@@ -150,6 +150,13 @@ func (s *UserServer) GetFollowingList(ctx context.Context, in *user.GetFollowing
 	return l.GetFollowingList(in)
 }
 
+// group: following
+func (s *UserServer) CheckFollowing(ctx context.Context, in *user.CheckFollowingReq) (*user.CheckFollowingResp, error) {
+	l := followingLogic.NewCheckFollowingLogic(ctx, s.svcCtx)
+	return l.CheckFollowing(in)
+}
+
+
 // group: follower
 func (s *UserServer) AddFollower(ctx context.Context, in *user.AddFollowerReq) (*user.AddFollowerResp, error) {
 	l := followerLogic.NewAddFollowerLogic(ctx, s.svcCtx)
@@ -168,6 +175,12 @@ func (s *UserServer) GetFollowerList(ctx context.Context, in *user.GetFollowerLi
 	return l.GetFollowerList(in)
 }
 
+// group: follower
+func (s *UserServer) CheckFollower(ctx context.Context, in *user.CheckFollowerReq) (*user.CheckFollowerResp, error) {
+	l := followerLogic.NewCheckFollowerLogic(ctx, s.svcCtx)
+	return l.CheckFollower(in)
+}
+
 // group: blacklist
 func (s *UserServer) AddBlackItem(ctx context.Context, in *user.AddBlackItemReq) (*user.AddBlackItemResp, error) {
 	l := blackLogic.NewAddBlackItemLogic(ctx, s.svcCtx)
@@ -184,4 +197,10 @@ func (s *UserServer) DeleteBlackItem(ctx context.Context, in *user.DeleteBlackIt
 func (s *UserServer) GetBlackList(ctx context.Context, in *user.GetBlackListReq) (*user.GetBlackListResp, error) {
 	l := blackLogic.NewGetBlackListLogic(ctx, s.svcCtx)
 	return l.GetBlackList(in)
+}
+
+// group: blacklist
+func (s *UserServer) CheckBlackItem(ctx context.Context, in *user.CheckBlackItemReq) (*user.CheckBlackItemResp, error) {
+	l := blackLogic.NewCheckBlackItemLogic(ctx, s.svcCtx)
+	return l.CheckBlackItem(in)
 }

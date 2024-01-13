@@ -25,6 +25,15 @@ type DelBlackItemReq {
 }
 
 type (
+	IsBlackItemReq {
+		BlackId uint64 `form:"blackId,string"`
+	}
+	IsBlackItemResp {
+		isBlackItem bool `json:"isBlackItem"`
+	}
+)
+
+type (
 	BlacklistReq {
 		BlackItemId uint64 `form:"BlackItemId,string,optional"`
 		PageNum  int    `form:"pageNum" validate:"required,gt=0"`

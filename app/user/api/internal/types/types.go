@@ -97,6 +97,30 @@ type FollowingListResp struct {
 	Total uint64      `json:"total"`
 }
 
+type IsBlackItemReq struct {
+	BlackId uint64 `form:"blackId,string"`
+}
+
+type IsBlackItemResp struct {
+	IsBlackItem bool `json:"isBlackItem"`
+}
+
+type IsFollowerReq struct {
+	FollowerId uint64 `form:"followerId,string"`
+}
+
+type IsFollowerResp struct {
+	IsFollower bool `json:"isFollower"`
+}
+
+type IsFollowingReq struct {
+	FollowingId uint64 `form:"followingId,string"`
+}
+
+type IsFollowingResp struct {
+	IsFollowing bool `json:"isFollowing"`
+}
+
 type LoginCaptchaResp struct {
 	CaptchaCode string `json:"captchaCode"`
 	CaptchaImg  string `json:"captchaImg"`
