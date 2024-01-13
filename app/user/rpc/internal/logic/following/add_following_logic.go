@@ -26,6 +26,5 @@ func NewAddFollowingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddF
 // group: following
 func (l *AddFollowingLogic) AddFollowing(in *user.AddFollowingReq) (*user.AddFollowingResp, error) {
 	// todo: add your logic here and delete this line
-
 	return &user.AddFollowingResp{}, nil
 }
