@@ -10,6 +10,9 @@ import (
 	roleLogic "qinglv-backend/app/user/rpc/internal/logic/role"
 	userLogic "qinglv-backend/app/user/rpc/internal/logic/user"
 	emailLogic "qinglv-backend/app/user/rpc/internal/logic/email"
+	followingLogic "qinglv-backend/app/user/rpc/internal/logic/following"
+	followerLogic "qinglv-backend/app/user/rpc/internal/logic/follower"
+	blackLogic "qinglv-backend/app/user/rpc/internal/logic/black"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
 )
@@ -126,4 +129,59 @@ func (s *UserServer) GenerateCaptcha(ctx context.Context, in *user.Empty) (*user
 func (s *UserServer) VerifyCaptcha(ctx context.Context, in *user.VerifyCaptchaReq) (*user.VerifyCaptchaResp, error) {
 	l := captchaLogic.NewVerifyCaptchaLogic(ctx, s.svcCtx)
 	return l.VerifyCaptcha(in)
+}
+
+
+// group: following
+func (s *UserServer) AddFollowing(ctx context.Context, in *user.AddFollowingReq) (*user.AddFollowingResp, error) {
+	l := followingLogic.NewAddFollowingLogic(ctx, s.svcCtx)
+	return l.AddFollowing(in)
+}
+
+// group: following
+func (s *UserServer) DeleteFollowing(ctx context.Context, in *user.DeleteFollowingReq) (*user.DeleteFollowingResp, error) {
+	l := followingLogic.NewDeleteFollowingLogic(ctx, s.svcCtx)
+	return l.DeleteFollowing(in)
+}
+
+// group: following
+func (s *UserServer) GetFollowingList(ctx context.Context, in *user.GetFollowingListReq) (*user.GetFollowingListResp, error) {
+	l := followingLogic.NewGetFollowingListLogic(ctx, s.svcCtx)
+	return l.GetFollowingList(in)
+}
+
+// group: follower
+func (s *UserServer) AddFollower(ctx context.Context, in *user.AddFollowerReq) (*user.AddFollowerResp, error) {
+	l := followerLogic.NewAddFollowerLogic(ctx, s.svcCtx)
+	return l.AddFollower(in)
+}
+
+// group: follower
+func (s *UserServer) DeleteFollower(ctx context.Context, in *user.DeleteFollowerReq) (*user.DeleteFollowerResp, error) {
+	l := followerLogic.NewDeleteFollowerLogic(ctx, s.svcCtx)
+	return l.DeleteFollower(in)
+}
+
+// group: follower
+func (s *UserServer) GetFollowerList(ctx context.Context, in *user.GetFollowerListReq) (*user.GetFollowerListResp, error) {
+	l := followerLogic.NewGetFollowerListLogic(ctx, s.svcCtx)
+	return l.GetFollowerList(in)
+}
+
+// group: blacklist
+func (s *UserServer) AddBlackItem(ctx context.Context, in *user.AddBlackItemReq) (*user.AddBlackItemResp, error) {
+	l := blackLogic.NewAddBlackItemLogic(ctx, s.svcCtx)
+	return l.AddBlackItem(in)
+}
+
+// group: blacklist
+func (s *UserServer) DeleteBlackItem(ctx context.Context, in *user.DeleteBlackItemReq) (*user.DeleteBlackItemResp, error) {
+	l := blackLogic.NewDeleteBlackItemLogic(ctx, s.svcCtx)
+	return l.DeleteBlackItem(in)
+}
+
+// group: blacklist
+func (s *UserServer) GetBlackList(ctx context.Context, in *user.GetBlackListReq) (*user.GetBlackListResp, error) {
+	l := blackLogic.NewGetBlackListLogic(ctx, s.svcCtx)
+	return l.GetBlackList(in)
 }

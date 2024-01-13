@@ -1,0 +1,31 @@
+package black
+
+import (
+	"context"
+
+	"qinglv-backend/app/user/rpc/internal/svc"
+	"qinglv-backend/app/user/rpc/user"
+
+	"github.com/zeromicro/go-zero/core/logx"
+)
+
+type DeleteBlackItemLogic struct {
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+	logx.Logger
+}
+
+func NewDeleteBlackItemLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteBlackItemLogic {
+	return &DeleteBlackItemLogic{
+		ctx:    ctx,
+		svcCtx: svcCtx,
+		Logger: logx.WithContext(ctx),
+	}
+}
+
+// group: blacklist
+func (l *DeleteBlackItemLogic) DeleteBlackItem(in *user.DeleteBlackItemReq) (*user.DeleteBlackItemResp, error) {
+	// todo: add your logic here and delete this line
+
+	return &user.DeleteBlackItemResp{}, nil
+}

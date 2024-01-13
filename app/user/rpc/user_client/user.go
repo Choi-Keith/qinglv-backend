@@ -13,16 +13,34 @@ import (
 )
 
 type (
+	AddBlackItemReq        = user.AddBlackItemReq
+	AddBlackItemResp       = user.AddBlackItemResp
+	AddFollowerReq         = user.AddFollowerReq
+	AddFollowerResp        = user.AddFollowerResp
+	AddFollowingReq        = user.AddFollowingReq
+	AddFollowingResp       = user.AddFollowingResp
 	BanUserReq             = user.BanUserReq
 	BanUserResp            = user.BanUserResp
 	CheckEmailExistReq     = user.CheckEmailExistReq
 	CheckEmailExistResp    = user.CheckEmailExistResp
 	CheckNicknameExistReq  = user.CheckNicknameExistReq
 	CheckNicknameExistResp = user.CheckNicknameExistResp
+	DeleteBlackItemReq     = user.DeleteBlackItemReq
+	DeleteBlackItemResp    = user.DeleteBlackItemResp
+	DeleteFollowerReq      = user.DeleteFollowerReq
+	DeleteFollowerResp     = user.DeleteFollowerResp
+	DeleteFollowingReq     = user.DeleteFollowingReq
+	DeleteFollowingResp    = user.DeleteFollowingResp
 	DeleteUserReq          = user.DeleteUserReq
 	DeleteUserResp         = user.DeleteUserResp
 	Empty                  = user.Empty
 	GenerateCaptchaResp    = user.GenerateCaptchaResp
+	GetBlackListReq        = user.GetBlackListReq
+	GetBlackListResp       = user.GetBlackListResp
+	GetFollowerListReq     = user.GetFollowerListReq
+	GetFollowerListResp    = user.GetFollowerListResp
+	GetFollowingListReq    = user.GetFollowingListReq
+	GetFollowingListResp   = user.GetFollowingListResp
 	GetRoleInfoReq         = user.GetRoleInfoReq
 	GetRoleInfoResp        = user.GetRoleInfoResp
 	GetUserByIdReq         = user.GetUserByIdReq
@@ -85,6 +103,24 @@ type (
 		GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error)
 		// group: captcha
 		VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error)
+		// group: following
+		AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error)
+		// group: following
+		DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error)
+		// group: following
+		GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error)
+		// group: follower
+		AddFollower(ctx context.Context, in *AddFollowerReq, opts ...grpc.CallOption) (*AddFollowerResp, error)
+		// group: follower
+		DeleteFollower(ctx context.Context, in *DeleteFollowerReq, opts ...grpc.CallOption) (*DeleteFollowerResp, error)
+		// group: follower
+		GetFollowerList(ctx context.Context, in *GetFollowerListReq, opts ...grpc.CallOption) (*GetFollowerListResp, error)
+		// group: blacklist
+		AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error)
+		// group: blacklist
+		DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error)
+		// group: blacklist
+		GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error)
 	}
 
 	defaultUser struct {
@@ -198,4 +234,58 @@ func (m *defaultUser) GenerateCaptcha(ctx context.Context, in *Empty, opts ...gr
 func (m *defaultUser) VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.VerifyCaptcha(ctx, in, opts...)
+}
+
+// group: following
+func (m *defaultUser) AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.AddFollowing(ctx, in, opts...)
+}
+
+// group: following
+func (m *defaultUser) DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.DeleteFollowing(ctx, in, opts...)
+}
+
+// group: following
+func (m *defaultUser) GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetFollowingList(ctx, in, opts...)
+}
+
+// group: follower
+func (m *defaultUser) AddFollower(ctx context.Context, in *AddFollowerReq, opts ...grpc.CallOption) (*AddFollowerResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.AddFollower(ctx, in, opts...)
+}
+
+// group: follower
+func (m *defaultUser) DeleteFollower(ctx context.Context, in *DeleteFollowerReq, opts ...grpc.CallOption) (*DeleteFollowerResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.DeleteFollower(ctx, in, opts...)
+}
+
+// group: follower
+func (m *defaultUser) GetFollowerList(ctx context.Context, in *GetFollowerListReq, opts ...grpc.CallOption) (*GetFollowerListResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetFollowerList(ctx, in, opts...)
+}
+
+// group: blacklist
+func (m *defaultUser) AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.AddBlackItem(ctx, in, opts...)
+}
+
+// group: blacklist
+func (m *defaultUser) DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.DeleteBlackItem(ctx, in, opts...)
+}
+
+// group: blacklist
+func (m *defaultUser) GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetBlackList(ctx, in, opts...)
 }

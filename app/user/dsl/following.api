@@ -17,17 +17,16 @@ type Following {
 }
 
 type AddFollowingReq {
-	UserId uint64 `json:"userId,string"`
+	FollowingId uint64 `json:"followingId,string"`
 }
 
 type DelFollowingReq {
-	UserId uint64 `json:"userId,string"`
+	Id uint64 `json:"id,string"`
 }
 
 type (
 	FollowingListReq {
-		UserId   uint64 `form:"userId,string,optional"`
-		FollowId uint64 `form:"followId,string,optional"`
+		FollowingId uint64 `form:"followingId,string,optional"`
 		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
 		PageSize int    `json:"pageSize" validate:"required,gt=0"`
 	}

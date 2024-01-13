@@ -11,23 +11,22 @@ info (
 type BlackItem {
 	Id        uint64 `json:"id,string"`
 	UserId    uint64 `json:"userId,string"`
-	BlackId   uint64 `json:"blackId,string"`
+	BlackItemId   uint64 `json:"blackItemId,string"`
 	CreatedAt uint64 `json:"createdAt"`
 	UpdatedAt uint64 `json:"updatedAt"`
 }
 
 type AddBlackItemReq {
-	UserId uint64 `json:"userId,string"`
+	BlackItemId uint64 `json:"blackItemId,string"`
 }
 
 type DelBlackItemReq {
-	UserId uint64 `json:"userId,string"`
+	Id uint64 `json:"id,string"`
 }
 
 type (
 	BlacklistReq {
-		UserId   uint64 `form:"userId,string,optional"`
-		BlackIId uint64 `form:"BlackId,string,optional"`
+		BlackItemId uint64 `form:"BlackItemId,string,optional"`
 		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
 		PageSize int    `json:"pageSize" validate:"required,gt=0"`
 	}

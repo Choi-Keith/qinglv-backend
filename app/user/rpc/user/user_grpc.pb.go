@@ -36,6 +36,15 @@ const (
 	User_VerifyRegisterCode_FullMethodName = "/user.User/VerifyRegisterCode"
 	User_GenerateCaptcha_FullMethodName    = "/user.User/GenerateCaptcha"
 	User_VerifyCaptcha_FullMethodName      = "/user.User/VerifyCaptcha"
+	User_AddFollowing_FullMethodName       = "/user.User/AddFollowing"
+	User_DeleteFollowing_FullMethodName    = "/user.User/DeleteFollowing"
+	User_GetFollowingList_FullMethodName   = "/user.User/GetFollowingList"
+	User_AddFollower_FullMethodName        = "/user.User/AddFollower"
+	User_DeleteFollower_FullMethodName     = "/user.User/DeleteFollower"
+	User_GetFollowerList_FullMethodName    = "/user.User/GetFollowerList"
+	User_AddBlackItem_FullMethodName       = "/user.User/AddBlackItem"
+	User_DeleteBlackItem_FullMethodName    = "/user.User/DeleteBlackItem"
+	User_GetBlackList_FullMethodName       = "/user.User/GetBlackList"
 )
 
 // UserClient is the client API for User service.
@@ -76,6 +85,24 @@ type UserClient interface {
 	GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error)
 	// group: captcha
 	VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error)
+	// group: following
+	AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error)
+	// group: following
+	DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error)
+	// group: following
+	GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error)
+	// group: follower
+	AddFollower(ctx context.Context, in *AddFollowerReq, opts ...grpc.CallOption) (*AddFollowerResp, error)
+	// group: follower
+	DeleteFollower(ctx context.Context, in *DeleteFollowerReq, opts ...grpc.CallOption) (*DeleteFollowerResp, error)
+	// group: follower
+	GetFollowerList(ctx context.Context, in *GetFollowerListReq, opts ...grpc.CallOption) (*GetFollowerListResp, error)
+	// group: blacklist
+	AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error)
+	// group: blacklist
+	DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error)
+	// group: blacklist
+	GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error)
 }
 
 type userClient struct {
@@ -239,6 +266,87 @@ func (c *userClient) VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, op
 	return out, nil
 }
 
+func (c *userClient) AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error) {
+	out := new(AddFollowingResp)
+	err := c.cc.Invoke(ctx, User_AddFollowing_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error) {
+	out := new(DeleteFollowingResp)
+	err := c.cc.Invoke(ctx, User_DeleteFollowing_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error) {
+	out := new(GetFollowingListResp)
+	err := c.cc.Invoke(ctx, User_GetFollowingList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) AddFollower(ctx context.Context, in *AddFollowerReq, opts ...grpc.CallOption) (*AddFollowerResp, error) {
+	out := new(AddFollowerResp)
+	err := c.cc.Invoke(ctx, User_AddFollower_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteFollower(ctx context.Context, in *DeleteFollowerReq, opts ...grpc.CallOption) (*DeleteFollowerResp, error) {
+	out := new(DeleteFollowerResp)
+	err := c.cc.Invoke(ctx, User_DeleteFollower_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetFollowerList(ctx context.Context, in *GetFollowerListReq, opts ...grpc.CallOption) (*GetFollowerListResp, error) {
+	out := new(GetFollowerListResp)
+	err := c.cc.Invoke(ctx, User_GetFollowerList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error) {
+	out := new(AddBlackItemResp)
+	err := c.cc.Invoke(ctx, User_AddBlackItem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error) {
+	out := new(DeleteBlackItemResp)
+	err := c.cc.Invoke(ctx, User_DeleteBlackItem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error) {
+	out := new(GetBlackListResp)
+	err := c.cc.Invoke(ctx, User_GetBlackList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -277,6 +385,24 @@ type UserServer interface {
 	GenerateCaptcha(context.Context, *Empty) (*GenerateCaptchaResp, error)
 	// group: captcha
 	VerifyCaptcha(context.Context, *VerifyCaptchaReq) (*VerifyCaptchaResp, error)
+	// group: following
+	AddFollowing(context.Context, *AddFollowingReq) (*AddFollowingResp, error)
+	// group: following
+	DeleteFollowing(context.Context, *DeleteFollowingReq) (*DeleteFollowingResp, error)
+	// group: following
+	GetFollowingList(context.Context, *GetFollowingListReq) (*GetFollowingListResp, error)
+	// group: follower
+	AddFollower(context.Context, *AddFollowerReq) (*AddFollowerResp, error)
+	// group: follower
+	DeleteFollower(context.Context, *DeleteFollowerReq) (*DeleteFollowerResp, error)
+	// group: follower
+	GetFollowerList(context.Context, *GetFollowerListReq) (*GetFollowerListResp, error)
+	// group: blacklist
+	AddBlackItem(context.Context, *AddBlackItemReq) (*AddBlackItemResp, error)
+	// group: blacklist
+	DeleteBlackItem(context.Context, *DeleteBlackItemReq) (*DeleteBlackItemResp, error)
+	// group: blacklist
+	GetBlackList(context.Context, *GetBlackListReq) (*GetBlackListResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -334,6 +460,33 @@ func (UnimplementedUserServer) GenerateCaptcha(context.Context, *Empty) (*Genera
 }
 func (UnimplementedUserServer) VerifyCaptcha(context.Context, *VerifyCaptchaReq) (*VerifyCaptchaResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyCaptcha not implemented")
+}
+func (UnimplementedUserServer) AddFollowing(context.Context, *AddFollowingReq) (*AddFollowingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddFollowing not implemented")
+}
+func (UnimplementedUserServer) DeleteFollowing(context.Context, *DeleteFollowingReq) (*DeleteFollowingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFollowing not implemented")
+}
+func (UnimplementedUserServer) GetFollowingList(context.Context, *GetFollowingListReq) (*GetFollowingListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingList not implemented")
+}
+func (UnimplementedUserServer) AddFollower(context.Context, *AddFollowerReq) (*AddFollowerResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddFollower not implemented")
+}
+func (UnimplementedUserServer) DeleteFollower(context.Context, *DeleteFollowerReq) (*DeleteFollowerResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFollower not implemented")
+}
+func (UnimplementedUserServer) GetFollowerList(context.Context, *GetFollowerListReq) (*GetFollowerListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFollowerList not implemented")
+}
+func (UnimplementedUserServer) AddBlackItem(context.Context, *AddBlackItemReq) (*AddBlackItemResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddBlackItem not implemented")
+}
+func (UnimplementedUserServer) DeleteBlackItem(context.Context, *DeleteBlackItemReq) (*DeleteBlackItemResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBlackItem not implemented")
+}
+func (UnimplementedUserServer) GetBlackList(context.Context, *GetBlackListReq) (*GetBlackListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBlackList not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -654,6 +807,168 @@ func _User_VerifyCaptcha_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_AddFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddFollowingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AddFollowing(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_AddFollowing_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AddFollowing(ctx, req.(*AddFollowingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFollowingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteFollowing(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DeleteFollowing_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteFollowing(ctx, req.(*DeleteFollowingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetFollowingList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFollowingListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetFollowingList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetFollowingList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetFollowingList(ctx, req.(*GetFollowingListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_AddFollower_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddFollowerReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AddFollower(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_AddFollower_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AddFollower(ctx, req.(*AddFollowerReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteFollower_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFollowerReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteFollower(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DeleteFollower_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteFollower(ctx, req.(*DeleteFollowerReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetFollowerList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFollowerListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetFollowerList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetFollowerList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetFollowerList(ctx, req.(*GetFollowerListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_AddBlackItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddBlackItemReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).AddBlackItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_AddBlackItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).AddBlackItem(ctx, req.(*AddBlackItemReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteBlackItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteBlackItemReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteBlackItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DeleteBlackItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteBlackItem(ctx, req.(*DeleteBlackItemReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetBlackList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetBlackListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetBlackList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetBlackList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetBlackList(ctx, req.(*GetBlackListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -728,6 +1043,42 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyCaptcha",
 			Handler:    _User_VerifyCaptcha_Handler,
+		},
+		{
+			MethodName: "AddFollowing",
+			Handler:    _User_AddFollowing_Handler,
+		},
+		{
+			MethodName: "DeleteFollowing",
+			Handler:    _User_DeleteFollowing_Handler,
+		},
+		{
+			MethodName: "GetFollowingList",
+			Handler:    _User_GetFollowingList_Handler,
+		},
+		{
+			MethodName: "AddFollower",
+			Handler:    _User_AddFollower_Handler,
+		},
+		{
+			MethodName: "DeleteFollower",
+			Handler:    _User_DeleteFollower_Handler,
+		},
+		{
+			MethodName: "GetFollowerList",
+			Handler:    _User_GetFollowerList_Handler,
+		},
+		{
+			MethodName: "AddBlackItem",
+			Handler:    _User_AddBlackItem_Handler,
+		},
+		{
+			MethodName: "DeleteBlackItem",
+			Handler:    _User_DeleteBlackItem_Handler,
+		},
+		{
+			MethodName: "GetBlackList",
+			Handler:    _User_GetBlackList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

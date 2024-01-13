@@ -74,11 +74,10 @@ service user {
 	delete /user/:id (DelUserReq)
 }
 
-// no need login
 @server (
-	prefix:   /user/v1
-	group:    role
-	maxBytes: 1048576
+	prefix: /user/v1
+	group:  role
+	jwt:    JWTAuth
 )
 service user {
 	@doc "role list"
@@ -88,14 +87,7 @@ service user {
 	@doc "role detail"
 	@handler getRoleByID
 	get /role/:id returns (Role)
-}
 
-@server (
-	prefix: /user/v1
-	group:  role
-	jwt:    JWTAuth
-)
-service user {
 	@doc "create role"
 	@handler addRole
 	post /role (RoleReq)
@@ -112,19 +104,13 @@ service user {
 @server (
 	prefix: /user/v1
 	group:  following
+	jwt:    JWTAuth
 )
 service user {
 	@doc "following list"
 	@handler getFollowingList
 	get /following (FollowingListReq) returns (FollowingListResp)
-}
 
-@server (
-	prefix: /user/v1
-	group:  following
-	jwt:    JWTAuth
-)
-service user {
 	@doc "add following"
 	@handler addFollowing
 	post /following (AddFollowingReq)
@@ -137,19 +123,13 @@ service user {
 @server (
 	prefix: /user/v1
 	group:  follower
+	jwt:    JWTAuth
 )
 service user {
 	@doc "follower list"
 	@handler getFollowerList
 	get /follower (FollowerListReq) returns (FollowerListResp)
-}
 
-@server (
-	prefix: /user/v1
-	group:  follower
-	jwt:    JWTAuth
-)
-service user {
 	@doc "add follower"
 	@handler addFollower
 	post /follower (AddFollowerReq)
@@ -162,19 +142,13 @@ service user {
 @server (
 	prefix: /user/v1
 	group:  blacklist
+	jwt:    JWTAuth
 )
 service user {
 	@doc "blacklist list"
 	@handler getBlacklist
 	get /blacklist (BlacklistReq) returns (BlacklistResp)
-}
 
-@server (
-	prefix: /user/v1
-	group:  blacklist
-	jwt:    JWTAuth
-)
-service user {
 	@doc "add blacklist"
 	@handler addBlacklist
 	post /blacklist (AddBlackItemReq)

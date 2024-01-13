@@ -22,12 +22,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/blacklist",
 				Handler: blacklist.GetBlacklistHandler(serverCtx),
 			},
-		},
-		rest.WithPrefix("/user/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/blacklist",
@@ -50,12 +44,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/follower",
 				Handler: follower.GetFollowerListHandler(serverCtx),
 			},
-		},
-		rest.WithPrefix("/user/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/follower",
@@ -78,12 +66,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/following",
 				Handler: following.GetFollowingListHandler(serverCtx),
 			},
-		},
-		rest.WithPrefix("/user/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/following",
@@ -107,21 +89,14 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: role.GetRoleListHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodGet,
-				Path:    "/role/:id",
-				Handler: role.GetRoleByIDHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/user/v1"),
-		rest.WithMaxBytes(1048576),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
 				Method:  http.MethodPost,
 				Path:    "/role",
 				Handler: role.AddRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/role/:id",
+				Handler: role.GetRoleByIDHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,

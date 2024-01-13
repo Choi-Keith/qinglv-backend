@@ -2,15 +2,15 @@
 package types
 
 type AddBlackItemReq struct {
-	UserId uint64 `json:"userId,string"`
+	BlackItemId uint64 `json:"blackItemId,string"`
 }
 
 type AddFollowerReq struct {
-	UserId uint64 `json:"userId,string"`
+	FollowerId uint64 `json:"followerId,string"`
 }
 
 type AddFollowingReq struct {
-	UserId uint64 `json:"userId,string"`
+	FollowingId uint64 `json:"followingId,string"`
 }
 
 type AvatarReq struct {
@@ -22,18 +22,17 @@ type BanUserReq struct {
 }
 
 type BlackItem struct {
-	Id        uint64 `json:"id,string"`
-	UserId    uint64 `json:"userId,string"`
-	BlackId   uint64 `json:"blackId,string"`
-	CreatedAt uint64 `json:"createdAt"`
-	UpdatedAt uint64 `json:"updatedAt"`
+	Id          uint64 `json:"id,string"`
+	UserId      uint64 `json:"userId,string"`
+	BlackItemId uint64 `json:"blackItemId,string"`
+	CreatedAt   uint64 `json:"createdAt"`
+	UpdatedAt   uint64 `json:"updatedAt"`
 }
 
 type BlacklistReq struct {
-	UserId   uint64 `form:"userId,string,optional"`
-	BlackIId uint64 `form:"BlackId,string,optional"`
-	PageNum  int    `json:"pageNum" validate:"required,gt=0"`
-	PageSize int    `json:"pageSize" validate:"required,gt=0"`
+	BlackItemId uint64 `form:"BlackItemId,string,optional"`
+	PageNum     int    `json:"pageNum" validate:"required,gt=0"`
+	PageSize    int    `json:"pageSize" validate:"required,gt=0"`
 }
 
 type BlacklistResp struct {
@@ -43,15 +42,15 @@ type BlacklistResp struct {
 }
 
 type DelBlackItemReq struct {
-	UserId uint64 `json:"userId,string"`
+	Id uint64 `json:"id,string"`
 }
 
 type DelFollowerReq struct {
-	UserId uint64 `json:"userId,string"`
+	Id uint64 `json:"id,string"`
 }
 
 type DelFollowingReq struct {
-	UserId uint64 `json:"userId,string"`
+	Id uint64 `json:"id,string"`
 }
 
 type DelUserReq struct {
@@ -67,7 +66,6 @@ type Follower struct {
 }
 
 type FollowerListReq struct {
-	UserId     uint64 `form:"userId,string,optional"`
 	FollowerId uint64 `form:"followerId,string,optional"`
 	PageNum    int    `json:"pageNum" validate:"required,gt=0"`
 	PageSize   int    `json:"pageSize" validate:"required,gt=0"`
@@ -88,10 +86,9 @@ type Following struct {
 }
 
 type FollowingListReq struct {
-	UserId   uint64 `form:"userId,string,optional"`
-	FollowId uint64 `form:"followId,string,optional"`
-	PageNum  int    `json:"pageNum" validate:"required,gt=0"`
-	PageSize int    `json:"pageSize" validate:"required,gt=0"`
+	FollowingId uint64 `form:"followingId,string,optional"`
+	PageNum     int    `json:"pageNum" validate:"required,gt=0"`
+	PageSize    int    `json:"pageSize" validate:"required,gt=0"`
 }
 
 type FollowingListResp struct {
