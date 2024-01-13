@@ -127,7 +127,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindAll(ctx context.Context,bui
     builder = builder.Columns({{.lowerStartCamelObject}}Rows)
 
 	if orderBy == ""{
-		builder = builder.OrderBy("id DESC")
+		builder = builder.OrderBy("created_at DESC")
 	}else{
 		builder = builder.OrderBy(orderBy)
 	}
@@ -154,7 +154,7 @@ func (m *default{{.upperStartCamelObject}}Model) FindPageListByPage(ctx context.
     builder = builder.Columns({{.lowerStartCamelObject}}Rows)
 
 	if orderBy == ""{
-		builder = builder.OrderBy("id DESC")
+		builder = builder.OrderBy("created_at DESC")
 	}else{
 		builder = builder.OrderBy(orderBy)
 	}
