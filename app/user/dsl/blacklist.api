@@ -27,13 +27,13 @@ type DelBlackItemReq {
 type (
 	BlacklistReq {
 		BlackItemId uint64 `form:"BlackItemId,string,optional"`
-		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
-		PageSize int    `json:"pageSize" validate:"required,gt=0"`
+		PageNum  int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	BlacklistResp {
 		List  []BlackItem `json:"list"`
 		IsEnd bool        `json:"isEnd"`
-		Total bool        `json:"total"`
+		Total uint64        `json:"total"`
 	}
 )
 

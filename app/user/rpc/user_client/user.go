@@ -21,6 +21,7 @@ type (
 	AddFollowingResp       = user.AddFollowingResp
 	BanUserReq             = user.BanUserReq
 	BanUserResp            = user.BanUserResp
+	BlackItem              = user.BlackItem
 	CheckEmailExistReq     = user.CheckEmailExistReq
 	CheckEmailExistResp    = user.CheckEmailExistResp
 	CheckNicknameExistReq  = user.CheckNicknameExistReq
@@ -34,6 +35,8 @@ type (
 	DeleteUserReq          = user.DeleteUserReq
 	DeleteUserResp         = user.DeleteUserResp
 	Empty                  = user.Empty
+	FollowerItem           = user.FollowerItem
+	FollowingItem          = user.FollowingItem
 	GenerateCaptchaResp    = user.GenerateCaptchaResp
 	GetBlackListReq        = user.GetBlackListReq
 	GetBlackListResp       = user.GetBlackListResp

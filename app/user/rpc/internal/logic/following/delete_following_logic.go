@@ -26,6 +26,13 @@ func NewDeleteFollowingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *D
 // group: following
 func (l *DeleteFollowingLogic) DeleteFollowing(in *user.DeleteFollowingReq) (*user.DeleteFollowingResp, error) {
 	// todo: add your logic here and delete this line
-
+	followingItem, err := l.svcCtx.FollowingModel.FindOne(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+	err = l.svcCtx.FollowingModel.DeleteSoft(l.ctx, nil, followingItem)
+	if err != nil {
+		return nil, err
+	}
 	return &user.DeleteFollowingResp{}, nil
 }

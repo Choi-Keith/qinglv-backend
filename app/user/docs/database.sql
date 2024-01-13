@@ -49,7 +49,6 @@ CREATE TABLE `role` (
 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '角色表';
 
-INSERT INTO TABLE role values()
 
 CREATE TABLE `following` (
     `id` bigint(20) unsigned NOT NULL COMMENT '关注id',
@@ -60,7 +59,8 @@ CREATE TABLE `following` (
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY `idx_following_user` (`user_id`,`following_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '关注表'
 
 CREATE TABLE `follower`(
@@ -72,17 +72,20 @@ CREATE TABLE `follower`(
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY `idx_follower_user` (`user_id`,`follower_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '粉丝表'
 
 
 CREATE TABLE `blacklist` (
     `id` bigint(20) unsigned NOT NULL COMMENT '黑名单id',
     `user_id` bigint(20) unsigned NOT NULL COMMENT '用户id',
+    `black_id` bigint(20) unsigned NOT NULL COMMENT '黑名单用户id',
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY `idx_black_user` (`user_id`,`black_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '黑名单表';

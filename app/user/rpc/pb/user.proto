@@ -205,6 +205,116 @@ message UpdateProfileBgResp {
   string pong = 1;
 }
 
+// =================Following=================
+
+message FollowingItem {
+  uint64 id = 1;
+  uint64 userId = 2;
+  uint64 followingId = 3;
+  uint64 createdAt = 4;
+  uint64 updatedAt = 5;
+}
+
+message AddFollowingReq {
+  uint64 id = 1;
+  uint64 userId = 2;
+  uint64 followingId = 3;
+}
+message AddFollowingResp {
+  string pong = 1;
+}
+
+message DeleteFollowingReq {
+  uint64 id = 1;
+}
+message DeleteFollowingResp {
+  string pong = 1;
+}
+
+message GetFollowingListReq {
+  uint64 userId = 1;
+  uint64 followingId = 2;
+  int32 pageNum = 3;
+  int32 pageSize = 4;
+}
+message GetFollowingListResp {
+  uint64 total = 1;
+  repeated FollowingItem data = 2;
+}
+
+// =================Follower=================
+
+message FollowerItem {
+  uint64 id = 1;
+  uint64 userId = 2;
+  uint64 followerId = 3;
+  uint64 createdAt = 4;
+  uint64 updatedAt = 5;
+}
+
+message AddFollowerReq {
+  uint64 id = 1;
+  uint64 userId = 2;
+  uint64 followerId = 3;
+}
+message AddFollowerResp {
+  string pong = 1;
+}
+
+message DeleteFollowerReq {
+  uint64 id = 1;
+}
+message DeleteFollowerResp {
+  string pong = 1;
+}
+
+message GetFollowerListReq {
+  uint64 userId = 1;
+  uint64 followerId = 2;
+  int32 pageNum = 3;
+  int32 pageSize = 4;
+}
+message GetFollowerListResp {
+  uint64 total = 1;
+  repeated FollowerItem data = 2;
+}
+
+// =================BlackItem=================
+
+message BlackItem {
+  uint64 id = 1;
+  uint64 userId = 2;
+  uint64 blackItemId = 3;
+  uint64 createdAt = 4;
+  uint64 updatedAt = 5;
+}
+
+message AddBlackItemReq {
+  uint64 id = 1;
+  uint64 userId = 2;
+  uint64 blackItemId = 3;
+}
+message AddBlackItemResp {
+  string pong = 1;
+}
+
+message DeleteBlackItemReq {
+  uint64 id = 1;
+}
+message DeleteBlackItemResp {
+  string pong = 1;
+}
+
+message GetBlackListReq {
+  uint64 userId = 1;
+  uint64 blackItemId = 2;
+  int32 pageNum = 3;
+  int32 pageSize = 4;
+}
+message GetBlackListResp {
+  uint64 total = 1;
+  repeated BlackItem data = 2;
+}
 
 service User {
   // group: role
@@ -243,6 +353,27 @@ service User {
   rpc GenerateCaptcha(Empty) returns(GenerateCaptchaResp);
   // group: captcha
   rpc VerifyCaptcha(VerifyCaptchaReq) returns(VerifyCaptchaResp);
+
+  // group: following
+  rpc AddFollowing(AddFollowingReq) returns(AddFollowingResp);
+  // group: following
+  rpc DeleteFollowing(DeleteFollowingReq) returns(DeleteFollowingResp);
+  // group: following
+  rpc GetFollowingList(GetFollowingListReq) returns(GetFollowingListResp);
+
+  // group: follower
+  rpc AddFollower(AddFollowerReq) returns(AddFollowerResp);
+  // group: follower
+  rpc DeleteFollower(DeleteFollowerReq) returns(DeleteFollowerResp);
+  // group: follower
+  rpc GetFollowerList(GetFollowerListReq) returns(GetFollowerListResp);
+
+  // group: blacklist
+  rpc AddBlackItem(AddBlackItemReq) returns(AddBlackItemResp);
+  // group: blacklist
+  rpc DeleteBlackItem(DeleteBlackItemReq) returns(DeleteBlackItemResp);
+  // group: blacklist
+  rpc GetBlackList(GetBlackListReq) returns(GetBlackListResp);
 
 }
 

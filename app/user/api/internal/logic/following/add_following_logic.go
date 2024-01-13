@@ -7,6 +7,7 @@ import (
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
 	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,7 +32,9 @@ func (l *AddFollowingLogic) AddFollowing(req *types.AddFollowingReq) error {
 	if err != nil {
 		return err
 	}
+	id := snowflake.MustID()
 	_, err = l.svcCtx.UserRpc.AddFollowing(l.ctx, &user_client.AddFollowingReq{
+		Id:          id,
 		UserId:      uint64(userId),
 		FollowingId: req.FollowingId,
 	})

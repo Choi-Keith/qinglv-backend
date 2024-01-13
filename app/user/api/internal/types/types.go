@@ -31,14 +31,14 @@ type BlackItem struct {
 
 type BlacklistReq struct {
 	BlackItemId uint64 `form:"BlackItemId,string,optional"`
-	PageNum     int    `json:"pageNum" validate:"required,gt=0"`
-	PageSize    int    `json:"pageSize" validate:"required,gt=0"`
+	PageNum     int    `form:"pageNum" validate:"required,gt=0"`
+	PageSize    int    `form:"pageSize" validate:"required,gt=0"`
 }
 
 type BlacklistResp struct {
 	List  []BlackItem `json:"list"`
 	IsEnd bool        `json:"isEnd"`
-	Total bool        `json:"total"`
+	Total uint64      `json:"total"`
 }
 
 type DelBlackItemReq struct {
@@ -67,14 +67,14 @@ type Follower struct {
 
 type FollowerListReq struct {
 	FollowerId uint64 `form:"followerId,string,optional"`
-	PageNum    int    `json:"pageNum" validate:"required,gt=0"`
-	PageSize   int    `json:"pageSize" validate:"required,gt=0"`
+	PageNum    int    `form:"pageNum" validate:"required,gt=0"`
+	PageSize   int    `form:"pageSize" validate:"required,gt=0"`
 }
 
 type FollowerListResp struct {
 	List  []Follower `json:"list"`
 	IsEnd bool       `json:"isEnd"`
-	Total bool       `json:"total"`
+	Total uint64     `json:"total"`
 }
 
 type Following struct {
@@ -87,14 +87,14 @@ type Following struct {
 
 type FollowingListReq struct {
 	FollowingId uint64 `form:"followingId,string,optional"`
-	PageNum     int    `json:"pageNum" validate:"required,gt=0"`
-	PageSize    int    `json:"pageSize" validate:"required,gt=0"`
+	PageNum     int    `form:"pageNum" validate:"required,gt=0"`
+	PageSize    int    `form:"pageSize" validate:"required,gt=0"`
 }
 
 type FollowingListResp struct {
 	List  []Following `json:"list"`
 	IsEnd bool        `json:"isEnd"`
-	Total bool        `json:"total"`
+	Total uint64      `json:"total"`
 }
 
 type LoginCaptchaResp struct {

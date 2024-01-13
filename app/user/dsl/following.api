@@ -27,13 +27,13 @@ type DelFollowingReq {
 type (
 	FollowingListReq {
 		FollowingId uint64 `form:"followingId,string,optional"`
-		PageNum  int    `json:"pageNum" validate:"required,gt=0"`
-		PageSize int    `json:"pageSize" validate:"required,gt=0"`
+		PageNum  int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	FollowingListResp {
 		List  []Following `json:"list"`
 		IsEnd bool        `json:"isEnd"`
-		Total bool        `json:"total"`
+		Total uint64      `json:"total"`
 	}
 )
 

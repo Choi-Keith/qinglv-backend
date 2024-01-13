@@ -27,13 +27,13 @@ type DelFollowerReq {
 type (
 	FollowerListReq {
 		FollowerId uint64 `form:"followerId,string,optional"`
-		PageNum    int    `json:"pageNum" validate:"required,gt=0"`
-		PageSize   int    `json:"pageSize" validate:"required,gt=0"`
+		PageNum    int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize   int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	FollowerListResp {
 		List  []Follower `json:"list"`
 		IsEnd bool       `json:"isEnd"`
-		Total bool       `json:"total"`
+		Total uint64       `json:"total"`
 	}
 )
 
