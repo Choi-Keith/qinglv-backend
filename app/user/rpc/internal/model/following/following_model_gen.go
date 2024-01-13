@@ -203,7 +203,7 @@ func (m *defaultFollowingModel) FindAll(ctx context.Context, builder squirrel.Se
 	builder = builder.Columns(followingRows)
 
 	if orderBy == "" {
-		builder = builder.OrderBy("id DESC")
+		builder = builder.OrderBy("created_at DESC")
 	} else {
 		builder = builder.OrderBy(orderBy)
 	}
@@ -228,7 +228,7 @@ func (m *defaultFollowingModel) FindPageListByPage(ctx context.Context, builder 
 	builder = builder.Columns(followingRows)
 
 	if orderBy == "" {
-		builder = builder.OrderBy("id DESC")
+		builder = builder.OrderBy("created_at DESC")
 	} else {
 		builder = builder.OrderBy(orderBy)
 	}
