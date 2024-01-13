@@ -26,6 +26,14 @@ func NewUpdatePasswordLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 // group: user
 func (l *UpdatePasswordLogic) UpdatePassword(in *user.UpdatePasswordReq) (*user.UpdatePasswordResp, error) {
 	// todo: add your logic here and delete this line
-
+	userItem, err := l.svcCtx.UserModel.FindOne(l.ctx, in.UserId)
+	if err != nil {
+		return nil, err
+	}
+	userItem.Password = in.NewPassword
+	err = l.svcCtx.UserModel.UpdateWithVersion(l.ctx, nil, userItem)
+	if err != nil {
+		return nil, err
+	}
 	return &user.UpdatePasswordResp{}, nil
 }

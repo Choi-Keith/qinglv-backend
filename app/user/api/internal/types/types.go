@@ -120,7 +120,7 @@ type LoginResp struct {
 
 type PasswordReq struct {
 	OldPassword string `json:"oldPassword" validate:"required,min=6,max=24"`
-	NewPassword string `json:"newPassword" validate:"required,min=6,max=24"`
+	NewPassword string `json:"newPassword" validate:"required,min=6,max=24,nefield=OldPassword"`
 	RePassword  string `json:"rePassword" validate:"required,min=6,max=24,eqfield=NewPassword"`
 }
 

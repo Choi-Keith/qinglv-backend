@@ -180,8 +180,9 @@ message VerifyCaptchaResp {
 }
 
 message UpdatePasswordReq {
-  string oldPassword = 1;
-  string newPassword = 2;
+  uint64 userId = 1;
+  string oldPassword = 2;
+  string newPassword = 3;
 }
 
 message UpdatePasswordResp {
