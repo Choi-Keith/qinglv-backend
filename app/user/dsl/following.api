@@ -8,12 +8,33 @@ info (
 	version: "v1"
 )
 
+type FollowUser {
+	Id         uint64 `json:"id"`
+	Nickname   string `json:"nickname"`
+	Motto      string `json:"motto"`
+	Avatar     string `json:"avatar"`
+	Profession string `json:"profession"`
+	Age        int    `json:"age,range=[0:120]"`
+	Gender     int    `json:"gender,options=[1,2],default=1"`
+	Level      int    `json:"level"`
+}
+
+type Follower {
+	Id           uint64     `json:"id,string"`
+	UserId       uint64     `json:"userId,string"`
+	FollowerUser FollowUser `json:"followerUser`
+	FollowingId  uint64     `json:"followingId,string"`
+	CreatedAt    uint64     `json:"createdAt"`
+	UpdatedAt    uint64     `json:"updatedAt"`
+}
+
 type Following {
-	Id          uint64 `json:"id,string"`
-	UserId      uint64 `json:"userId,string"`
-	FollowingId uint64 `json:"followingId,string"`
-	CreatedAt   uint64 `json:"createdAt"`
-	UpdatedAt   uint64 `json:"updatedAt"`
+	Id            uint64     `json:"id,string"`
+	UserId        uint64     `json:"userId,string"`
+	FollowingId   uint64     `json:"followingId,string"`
+	FollowingUser FollowUser `json:"followingUser`
+	CreatedAt     uint64     `json:"createdAt"`
+	UpdatedAt     uint64     `json:"updatedAt"`
 }
 
 type AddFollowingReq {
@@ -36,13 +57,23 @@ type (
 type (
 	FollowingListReq {
 		FollowingId uint64 `form:"followingId,string,optional"`
-		PageNum  int    `form:"pageNum" validate:"required,gt=0"`
-		PageSize int    `form:"pageSize" validate:"required,gt=0"`
+		PageNum     int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize    int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	FollowingListResp {
 		List  []Following `json:"list"`
 		IsEnd bool        `json:"isEnd"`
 		Total uint64      `json:"total"`
+	}
+	FollowerListReq {
+		FollowerId uint64 `form:"followerId,string,optional"`
+		PageNum    int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize   int    `form:"pageSize" validate:"required,gt=0"`
+	}
+	FollowerListResp {
+		List  []Follower `json:"list"`
+		IsEnd bool       `json:"isEnd"`
+		Total uint64     `json:"total"`
 	}
 )
 

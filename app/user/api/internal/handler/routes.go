@@ -45,6 +45,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
+				Path:    "/follower",
+				Handler: following.GetFollowerListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
 				Path:    "/following",
 				Handler: following.GetFollowingListHandler(serverCtx),
 			},

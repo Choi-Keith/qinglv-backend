@@ -10,6 +10,7 @@ import (
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/mr"
 )
 
 type GetFollowingListLogic struct {
@@ -46,6 +47,32 @@ func (l *GetFollowingListLogic) GetFollowingList(req *types.FollowingListReq) (r
 	for idx, following := range followingListResp.Data {
 		_ = copier.Copy(&followingList[idx], following)
 	}
+	newFollowingList, err := mr.MapReduce(func(source chan<- types.Following) {
+		for _, followingItem := range followingList {
+			source <- followingItem
+		}
+	}, func(item types.Following, writer mr.Writer[types.Following], cancel func(error)) {
+		followingItem := item
+		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+			UserId: followingItem.FollowingId,
+		})
+		if err != nil {
+			cancel(err)
+			return
+		}
+		_ = copier.Copy(&followingItem.FollowingUser, userResp.User)
+		writer.Write(followingItem)
+	}, func(pip <-chan types.Following, writer mr.Writer[[]types.Following], cancel func(error)) {
+		var r []types.Following
+		for p := range pip {
+			r = append(r, p)
+		}
+		writer.Write(r)
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	isEnd := false
 	pageSize := uint64(req.PageSize)
 	pageNum := uint64(req.PageNum)
@@ -54,7 +81,7 @@ func (l *GetFollowingListLogic) GetFollowingList(req *types.FollowingListReq) (r
 		isEnd = true
 	}
 	return &types.FollowingListResp{
-		List:  followingList,
+		List:  newFollowingList,
 		Total: followingListResp.Total,
 		IsEnd: isEnd,
 	}, nil

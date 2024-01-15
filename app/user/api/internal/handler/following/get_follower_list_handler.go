@@ -1,9 +1,9 @@
-package blacklist
+package following
 
 import (
 	"net/http"
 
-	"qinglv-backend/app/user/api/internal/logic/blacklist"
+	"qinglv-backend/app/user/api/internal/logic/following"
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
 	"qinglv-backend/common/response"
@@ -11,16 +11,16 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func GetBlacklistHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func GetFollowerListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.BlacklistReq
+		var req types.FollowerListReq
 		if err := httpx.Parse(r, &req); err != nil {
 			response.ParamsFail(w, err)
 			return
 		}
 
-		l := blacklist.NewGetBlacklistLogic(r.Context(), svcCtx)
-		resp, err := l.GetBlacklist(&req)
+		l := following.NewGetFollowerListLogic(r.Context(), svcCtx)
+		resp, err := l.GetFollowerList(&req)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)
 		} else {

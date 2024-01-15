@@ -30,7 +30,7 @@ func (l *DeleteFollowingLogic) DeleteFollowing(in *user.DeleteFollowingReq) (*us
 	if err != nil {
 		return nil, err
 	}
-	err = l.svcCtx.FollowingModel.DeleteSoft(l.ctx, nil, followingItem)
+	err = l.svcCtx.FollowingModel.Delete(l.ctx, nil, followingItem.Id)
 	if err != nil {
 		return nil, err
 	}

@@ -110,6 +110,10 @@ service user {
 	@handler getFollowingList
 	get /following (FollowingListReq) returns (FollowingListResp)
 
+	@doc "follower list"
+	@handler getFollowerList
+	get /follower (FollowerListReq) returns (FollowerListResp)
+
 	@doc "add following"
 	@handler addFollowing
 	post /following (AddFollowingReq)

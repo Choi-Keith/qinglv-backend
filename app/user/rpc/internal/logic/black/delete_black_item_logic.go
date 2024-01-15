@@ -30,7 +30,7 @@ func (l *DeleteBlackItemLogic) DeleteBlackItem(in *user.DeleteBlackItemReq) (*us
 	if err != nil {
 		return nil, err
 	}
-	err = l.svcCtx.BlacklistModel.DeleteSoft(l.ctx, nil, blackItem)
+	err = l.svcCtx.BlacklistModel.Delete(l.ctx, nil, blackItem.Id)
 	if err != nil {
 		return nil, err
 	}

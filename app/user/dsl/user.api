@@ -72,10 +72,12 @@ type User {
 	WeChat        string `json:"weChat"`
 	Motto         string `json:"motto"`
 	Avatar        string `json:"avatar"`
+	Profession    string `json:"profession"`
 	ProfileBg     string `json:"profileBg"`
 	Age           int    `json:"age,range=[0:120]"`
 	Gender        int    `json:"gender,options=[1,2],default=1"`
 	Location      string `json:"location"`
+	Address       string `json:"address"`
 	Status        int    `json:"status"`
 	Level         int    `json:"level"`
 	Score         int    `json:"score"`

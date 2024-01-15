@@ -52,7 +52,6 @@ func (l *GetFollowingListLogic) GetFollowingList(in *user.GetFollowingListReq) (
 			UpdatedAt:   uint64(followingItem.UpdatedAt.Unix() * 1000),
 		}
 	}
-
 	return &user.GetFollowingListResp{
 		Total: uint64(total),
 		Data:  followingList,

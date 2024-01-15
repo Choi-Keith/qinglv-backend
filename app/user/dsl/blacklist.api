@@ -8,12 +8,24 @@ info (
 	version: "v1"
 )
 
+type BlackItemUser {
+	Id         uint64 `json:"id"`
+	Nickname   string `json:"nickname"`
+	Motto      string `json:"motto"`
+	Avatar     string `json:"avatar"`
+	Profession string `json:"profession"`
+	Age        int    `json:"age,range=[0:120]"`
+	Gender     int    `json:"gender,options=[1,2],default=1"`
+	Level      int    `json:"level"`
+}
+
 type BlackItem {
-	Id        uint64 `json:"id,string"`
-	UserId    uint64 `json:"userId,string"`
-	BlackItemId   uint64 `json:"blackItemId,string"`
-	CreatedAt uint64 `json:"createdAt"`
-	UpdatedAt uint64 `json:"updatedAt"`
+	Id          uint64        `json:"id,string"`
+	BlackItemUser        BlackItemUser `json:"blackItemUser"`
+	UserId      uint64        `json:"userId,string"`
+	BlackItemId uint64        `json:"blackItemId,string"`
+	CreatedAt   uint64        `json:"createdAt"`
+	UpdatedAt   uint64        `json:"updatedAt"`
 }
 
 type AddBlackItemReq {
@@ -36,13 +48,13 @@ type (
 type (
 	BlacklistReq {
 		BlackItemId uint64 `form:"BlackItemId,string,optional"`
-		PageNum  int    `form:"pageNum" validate:"required,gt=0"`
-		PageSize int    `form:"pageSize" validate:"required,gt=0"`
+		PageNum     int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize    int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	BlacklistResp {
 		List  []BlackItem `json:"list"`
 		IsEnd bool        `json:"isEnd"`
-		Total uint64        `json:"total"`
+		Total uint64      `json:"total"`
 	}
 )
 

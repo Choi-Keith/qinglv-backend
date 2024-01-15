@@ -5,10 +5,6 @@ type AddBlackItemReq struct {
 	BlackItemId uint64 `json:"blackItemId,string"`
 }
 
-type AddFollowerReq struct {
-	FollowerId uint64 `json:"followerId,string"`
-}
-
 type AddFollowingReq struct {
 	FollowingId uint64 `json:"followingId,string"`
 }
@@ -22,11 +18,23 @@ type BanUserReq struct {
 }
 
 type BlackItem struct {
-	Id          uint64 `json:"id,string"`
-	UserId      uint64 `json:"userId,string"`
-	BlackItemId uint64 `json:"blackItemId,string"`
-	CreatedAt   uint64 `json:"createdAt"`
-	UpdatedAt   uint64 `json:"updatedAt"`
+	Id            uint64        `json:"id,string"`
+	BlackItemUser BlackItemUser `json:"blackItemUser"`
+	UserId        uint64        `json:"userId,string"`
+	BlackItemId   uint64        `json:"blackItemId,string"`
+	CreatedAt     uint64        `json:"createdAt"`
+	UpdatedAt     uint64        `json:"updatedAt"`
+}
+
+type BlackItemUser struct {
+	Id         uint64 `json:"id"`
+	Nickname   string `json:"nickname"`
+	Motto      string `json:"motto"`
+	Avatar     string `json:"avatar"`
+	Profession string `json:"profession"`
+	Age        int    `json:"age,range=[0:120]"`
+	Gender     int    `json:"gender,options=[1,2],default=1"`
+	Level      int    `json:"level"`
 }
 
 type BlacklistReq struct {
@@ -45,10 +53,6 @@ type DelBlackItemReq struct {
 	Id uint64 `json:"id,string"`
 }
 
-type DelFollowerReq struct {
-	Id uint64 `json:"id,string"`
-}
-
 type DelFollowingReq struct {
 	Id uint64 `json:"id,string"`
 }
@@ -57,12 +61,24 @@ type DelUserReq struct {
 	Id uint64 `path:"id,string"`
 }
 
+type FollowUser struct {
+	Id         uint64 `json:"id"`
+	Nickname   string `json:"nickname"`
+	Motto      string `json:"motto"`
+	Avatar     string `json:"avatar"`
+	Profession string `json:"profession"`
+	Age        int    `json:"age,range=[0:120]"`
+	Gender     int    `json:"gender,options=[1,2],default=1"`
+	Level      int    `json:"level"`
+}
+
 type Follower struct {
-	Id         uint64 `json:"id,string"`
-	UserId     uint64 `json:"userId,string"`
-	FollowerId uint64 `json:"followerId,string"`
-	CreatedAt  uint64 `json:"createdAt"`
-	UpdatedAt  uint64 `json:"updatedAt"`
+	Id           uint64     `json:"id,string"`
+	UserId       uint64     `json:"userId,string"`
+	FollowerUser FollowUser `json:"followerUser`
+	FollowingId  uint64     `json:"followingId,string"`
+	CreatedAt    uint64     `json:"createdAt"`
+	UpdatedAt    uint64     `json:"updatedAt"`
 }
 
 type FollowerListReq struct {
@@ -78,11 +94,12 @@ type FollowerListResp struct {
 }
 
 type Following struct {
-	Id          uint64 `json:"id,string"`
-	UserId      uint64 `json:"userId,string"`
-	FollowingId uint64 `json:"followingId,string"`
-	CreatedAt   uint64 `json:"createdAt"`
-	UpdatedAt   uint64 `json:"updatedAt"`
+	Id            uint64     `json:"id,string"`
+	UserId        uint64     `json:"userId,string"`
+	FollowingId   uint64     `json:"followingId,string"`
+	FollowingUser FollowUser `json:"followingUser`
+	CreatedAt     uint64     `json:"createdAt"`
+	UpdatedAt     uint64     `json:"updatedAt"`
 }
 
 type FollowingListReq struct {
@@ -103,14 +120,6 @@ type IsBlackItemReq struct {
 
 type IsBlackItemResp struct {
 	IsBlackItem bool `json:"isBlackItem"`
-}
-
-type IsFollowerReq struct {
-	FollowerId uint64 `form:"followerId,string"`
-}
-
-type IsFollowerResp struct {
-	IsFollower bool `json:"isFollower"`
 }
 
 type IsFollowingReq struct {
@@ -202,10 +211,12 @@ type User struct {
 	WeChat        string `json:"weChat"`
 	Motto         string `json:"motto"`
 	Avatar        string `json:"avatar"`
+	Profession    string `json:"profession"`
 	ProfileBg     string `json:"profileBg"`
 	Age           int    `json:"age,range=[0:120]"`
 	Gender        int    `json:"gender,options=[1,2],default=1"`
 	Location      string `json:"location"`
+	Address       string `json:"address"`
 	Status        int    `json:"status"`
 	Level         int    `json:"level"`
 	Score         int    `json:"score"`
