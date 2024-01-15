@@ -49,6 +49,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	registerUser.LastLoginTime = time.Now()
 	registerUser.Version = 1
 	registerUser.Status = 2
+	registerUser.Level = 1
 	registerUser.MailStatus = 1
 	registerUser.ProfileBg = "https://qinglv-1304086226.cos.ap-guangzhou.myqcloud.com/images/profileBg/default/bg.png"
 	_, err := l.svcCtx.UserModel.Insert(l.ctx, nil, registerUser)
