@@ -11,7 +11,6 @@ import (
 	userLogic "qinglv-backend/app/user/rpc/internal/logic/user"
 	emailLogic "qinglv-backend/app/user/rpc/internal/logic/email"
 	followingLogic "qinglv-backend/app/user/rpc/internal/logic/following"
-	followerLogic "qinglv-backend/app/user/rpc/internal/logic/follower"
 	blackLogic "qinglv-backend/app/user/rpc/internal/logic/black"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
@@ -156,30 +155,6 @@ func (s *UserServer) CheckFollowing(ctx context.Context, in *user.CheckFollowing
 	return l.CheckFollowing(in)
 }
 
-
-// group: follower
-func (s *UserServer) AddFollower(ctx context.Context, in *user.AddFollowerReq) (*user.AddFollowerResp, error) {
-	l := followerLogic.NewAddFollowerLogic(ctx, s.svcCtx)
-	return l.AddFollower(in)
-}
-
-// group: follower
-func (s *UserServer) DeleteFollower(ctx context.Context, in *user.DeleteFollowerReq) (*user.DeleteFollowerResp, error) {
-	l := followerLogic.NewDeleteFollowerLogic(ctx, s.svcCtx)
-	return l.DeleteFollower(in)
-}
-
-// group: follower
-func (s *UserServer) GetFollowerList(ctx context.Context, in *user.GetFollowerListReq) (*user.GetFollowerListResp, error) {
-	l := followerLogic.NewGetFollowerListLogic(ctx, s.svcCtx)
-	return l.GetFollowerList(in)
-}
-
-// group: follower
-func (s *UserServer) CheckFollower(ctx context.Context, in *user.CheckFollowerReq) (*user.CheckFollowerResp, error) {
-	l := followerLogic.NewCheckFollowerLogic(ctx, s.svcCtx)
-	return l.CheckFollower(in)
-}
 
 // group: blacklist
 func (s *UserServer) AddBlackItem(ctx context.Context, in *user.AddBlackItemReq) (*user.AddBlackItemResp, error) {

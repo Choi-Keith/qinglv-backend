@@ -3,7 +3,6 @@ syntax = "v1"
 import (
 	"user.api"
 	"following.api"
-	"follower.api"
 	"blacklist.api"
 )
 
@@ -122,29 +121,6 @@ service user {
 	@doc "is following"
 	@handler isFollowing
 	get /following/is (IsFollowingReq) returns (IsFollowingResp)
-}
-
-@server (
-	prefix: /user/v1
-	group:  follower
-	jwt:    JWTAuth
-)
-service user {
-	@doc "follower list"
-	@handler getFollowerList
-	get /follower (FollowerListReq) returns (FollowerListResp)
-
-	@doc "add follower"
-	@handler addFollower
-	post /follower (AddFollowerReq)
-
-	@doc "cancel follower"
-	@handler delFollower
-	delete /follower (DelFollowerReq)
-
-	@doc "is follower"
-	@handler isFollower
-	get /follower/is (IsFollowerReq) returns (IsFollowerResp)
 }
 
 @server (

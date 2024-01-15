@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	blacklist "qinglv-backend/app/user/api/internal/handler/blacklist"
-	follower "qinglv-backend/app/user/api/internal/handler/follower"
 	following "qinglv-backend/app/user/api/internal/handler/following"
 	role "qinglv-backend/app/user/api/internal/handler/role"
 	user "qinglv-backend/app/user/api/internal/handler/user"
@@ -36,33 +35,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/blacklist/is",
 				Handler: blacklist.IsBlackItemHandler(serverCtx),
-			},
-		},
-		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
-		rest.WithPrefix("/user/v1"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/follower",
-				Handler: follower.GetFollowerListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/follower",
-				Handler: follower.AddFollowerHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/follower",
-				Handler: follower.DelFollowerHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/follower/is",
-				Handler: follower.IsFollowerHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
