@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/internal/config"
 	"qinglv-backend/app/content/rpc/internal/server"
 	"qinglv-backend/app/content/rpc/internal/svc"
-	"qinglv-backend/app/content/rpc/rpc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "etc/rpc.yaml", "the config file")
+var configFile = flag.String("f", "etc/content.yaml", "the config file")
 
 func main() {
 	flag.Parse()
@@ -26,7 +26,7 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		rpc.RegisterRpcServer(grpcServer, server.NewRpcServer(ctx))
+		content.RegisterContentServer(grpcServer, server.NewContentServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

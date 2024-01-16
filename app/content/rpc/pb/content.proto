@@ -1,0 +1,257 @@
+syntax = "proto3";
+
+package content;
+option go_package="./content";
+
+message OkResp {
+    string pong = 1;
+}
+
+//==========================Topic==========================
+message TopicItem {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	string name = 3; 
+	string bg = 4;          
+	string description = 5;
+    uint64 quoteCount = 6; 
+    uint64 createdAt = 7;
+    uint64 updatedAt = 8;
+}
+message AddTopicReq {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	string name = 3; 
+	string bg = 4;          
+	string description = 5;
+    uint64 quoteCount = 6;
+}
+message DeleteTopicReq {
+    uint64 id = 1;
+}
+message UpdateTopicReq {
+    uint64 id  = 1;
+   	string name = 3; 
+	string bg = 4;          
+	string description = 5;
+    uint64 quoteCount = 6;
+}
+message GetTopicDetailReq {
+    uint64 id = 1;
+}
+message GetTopicDetailResp {
+    TopicItem toppic  = 1;
+}
+message GetTopicListReq {
+    string name = 1;
+    uint64 creatorId = 2;
+    uint64 quoteCount = 3;
+    uint64 pageNum = 4;
+    uint64 pageSize = 5;
+}
+message GetTopicListResp {
+    repeated TopicItem data = 1;
+    uint64 total = 2;
+}
+
+
+//==========================Category==========================
+message CategoryItem {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	string name = 3; 
+	string image = 4;          
+	string description = 5;
+    uint64 quoteCount = 6; 
+    uint64 createdAt = 7;
+    uint64 updatedAt = 8;
+}
+message AddCategoryReq {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	string name = 3; 
+	string image = 4;          
+	string description = 5;
+    uint64 quoteCount = 6;
+}
+message DeleteCategoryReq {
+    uint64 id = 1;
+}
+message UpdateCategoryReq {
+    uint64 id  = 1;
+   	string name = 3; 
+	string image = 4;          
+	string description = 5;
+    uint64 quoteCount = 6;
+}
+message GetCategoryDetailReq {
+    uint64 id = 1;
+}
+message GetCategoryDetailResp {
+    CategoryItem toppic  = 1;
+}
+message GetCategoryListReq {
+    string name = 1;
+    uint64 creatorId = 2;
+    uint64 quoteCount = 3;
+    uint64 pageNum = 4;
+    uint64 pageSize = 5;
+}
+message GetCategoryListResp {
+    repeated CategoryItem data = 1;
+    uint64 total = 2;
+}
+
+//==========================Post==========================
+message PostItem {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+    int32 status = 3;
+    int32 visibility = 4;
+    int32 isTop = 5;
+    uint64 score = 6;
+    string location = 7;
+    uint64 commentCount = 8;    
+    uint64 collectionCount = 9;    
+    uint64 likeCount = 10;    
+    uint64 dislikeCount = 11;    
+    uint64 shareCount = 12;    
+    uint64 lastReplyTime = 13;
+    uint64 createdAt = 14;
+    uint64 updatedAt = 15;
+}
+message AddPostReq {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	int32 status = 3; 
+	int32 visibility = 4;          
+	int32 isTop = 5;
+    string location = 6;
+}
+message DeletePostReq {
+    uint64 id = 1;
+}
+message UpdatePostReq {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	int32 status = 3; 
+	int32 visibility = 4;          
+	int32 isTop = 5;
+    string location = 6;
+    uint64 score = 7;
+    uint64 commentCount = 8;    
+    uint64 collectionCount = 9;    
+    uint64 likeCount = 10;    
+    uint64 dislikeCount = 11;    
+    uint64 shareCount = 12;    
+}
+message GetPostDetailReq {
+    uint64 id = 1;
+}
+message GetPostDetailResp {
+    PostItem post  = 1;
+}
+message GetPostListReq {
+    int32 status = 1;
+    int32 visibility = 2;
+    int32 isTop = 3;
+    uint64 score = 4;
+    string location = 5;
+    string keyword = 6; 
+    uint64 creatorId = 7;
+    uint64 pageNum = 8;
+    uint64 pageSize = 9;
+}
+message GetPostListResp {
+    repeated PostItem data = 1;
+    uint64 total = 2;
+}
+
+
+//==========================PostContent==========================
+message PostContentItem {
+    uint64 id = 1;
+    uint64 postId = 2;
+    uint64 categoryId = 3;
+    string topics = 4;
+   	string content = 5; 
+	repeated string images = 6;  
+    uint64 creatorId = 7;
+    uint64 createdAt = 8;
+    uint64 updatedAt = 9;
+}
+message AddPostContentReq {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	uint64 postId = 3; 
+	uint64 categoryId = 4;          
+	string topics = 5;
+    string content = 6;
+    repeated string images = 7;
+}
+message DeletePostContentReq {
+    uint64 id = 1;
+}
+
+message GetPostContentDetailReq {
+    uint64 id = 1;
+}
+message GetPostContentDetailResp {
+    PostContentItem postContent  = 1;
+}
+message GetPostContentListReq {
+    string content = 1; 
+    uint64 creatorId = 2;
+    uint64 categoryId = 3;
+    uint64 pageNum = 4;
+    uint64 pageSize = 5;
+}
+message GetPostContentListResp {
+    repeated PostContentItem data = 1;
+    uint64 total = 2;
+}
+
+
+service Content {
+    // group: topic
+    rpc AddTopic(AddTopicReq) returns(OkResp);
+    // group: topic
+    rpc DeleteTopic(DeleteTopicReq) returns(OkResp);
+    // group: topic
+    rpc UpdateTopci(UpdateTopicReq) returns(OkResp);
+    // group: topic
+    rpc GetTopicDetail(GetTopicDetailReq) returns(GetTopicDetailResp);
+    // group: topic
+    rpc GetTopicList(GetTopicListReq) returns(GetTopicListResp);
+
+    // group: category
+    rpc AddCategory(AddCategoryReq) returns(OkResp);
+    // group: category
+    rpc DeleteCategory(DeleteCategoryReq) returns(OkResp);
+    // group: category
+    rpc UpdateCategory(UpdateCategoryReq) returns(OkResp);
+    // group: category
+    rpc GetCategoryDetail(GetCategoryDetailReq) returns(GetCategoryDetailResp);
+    // group: category
+    rpc GetCategoryList(GetCategoryListReq) returns(GetCategoryListResp);
+
+    // group: post
+    rpc AddPost(AddPostReq) returns(OkResp);
+    // group: post
+    rpc DeletePost(DeletePostReq) returns(OkResp);
+    // group: post
+    rpc UpdatePost(UpdatePostReq) returns(OkResp);
+    // group: post
+    rpc GetPostDetail(GetPostDetailReq) returns(GetPostDetailResp);
+    // group: post
+    rpc GetPostList(GetPostListReq) returns(GetPostListResp);
+
+    // group: postContent
+    rpc AddPostContent(AddPostContentReq) returns(OkResp);
+    // group: postContent
+    rpc DeletePostContent(DeletePostContentReq) returns(OkResp);
+    // group: postContent
+    rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
+    // group: postContent
+    rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
+}

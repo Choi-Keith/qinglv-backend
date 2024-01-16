@@ -15,7 +15,6 @@ CREATE TABLE `topic` (
     KEY `idx_name` (`name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子话题';
 
-
 CREATE TABLE `category` (
     `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
     `name` varchar(128) NOT NULL DEFAULT '' COMMENT '分类名称',
@@ -33,7 +32,6 @@ CREATE TABLE `category` (
     KEY `idx_name` (`name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '分类';
 
-
 CREATE TABLE `post` (
     `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
     `status` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT '审核状态：1已通过,2正在审核中，3不通过',
@@ -46,7 +44,6 @@ CREATE TABLE `post` (
     `like_count`  bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '点赞数',
     `dislike_count`  bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '点踩数',
     `share_count`  bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '分享',
-    `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
     `latest_replied_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '最近回复时间',
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
@@ -54,23 +51,39 @@ CREATE TABLE `post` (
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
     PRIMARY KEY (`id`),
-    KEY `idx_creator_id` (`creator_id`),
-    KEY `idx_is_top` (`is_top`)
+    KEY `idx_is_top` (`is_top`),
+    KEY `idx_visibility` (`visibility`),
+    KEY `idx_status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子表';
+
 
 CREATE TABLE `post_content` (
     `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
     `post_id` bigint(20) unsigned NOT NULL COMMENT '帖子id',
     `category_id` bigint(20) unsigned COMMENT '分类id',
-    `topic` varchar(128) COMMENT '话题',
-    `content` text NOT NULL DEFAULT '' COMMENT '内容',
-    `images` json NOT NULL DEFAULT '' COMMENT '图片',
+    `topics` varchar(128) COMMENT '话题',
+    `content` text COMMENT '内容',
+    `images` json COMMENT '图片',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
     PRIMARY KEY (`id`),
+    UNIQUE KEY (`post_id`),
+    KEY `idx_category_id` (`category_id`),
+    KEY `idx_topics` (`topics`),
+    KEY `idx_post_id` (`post_id`),
     KEY `idx_creator_id` (`creator_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子内容表';
+
+
+
+
+
+
+
+
+
 
