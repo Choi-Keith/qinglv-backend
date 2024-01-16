@@ -1,0 +1,120 @@
+syntax = "v1"
+
+import (
+	"topic.api"
+	"category.api"
+	"post.api"
+)
+
+// ===========================Topic==============================
+//no need login
+@server (
+	prefix: /content/v1
+	group:  topic
+)
+service content {
+	@doc "帖子话题列表"
+	@handler getTopicList
+	get /topic (GetTopicListReq) returns (GetTopicListResp)
+
+	@doc "通过Id获取话题详情"
+	@handler getTopicById
+	get /topic/:id (GetTopicByIdReq) returns (GetTopicByIdResp)
+
+	@doc "通过name获取话题详情"
+	@handler getTopicByName
+	get /topic/:name (GetTopicByNameReq) returns (GetTopicByNameResp)
+}
+
+// need login
+@server (
+	prefix: /content/v1
+	group:  topic
+	jwt:    JWTAuth
+)
+service content {
+	@doc "新建帖子话题"
+	@handler addTopic
+	post /topic (AddTopicReq)
+
+	@doc "删除帖子话题"
+	@handler deleteTopic
+	delete /topic/:id (DeleteTopicReq)
+
+	@doc "修改帖子话题"
+	@handler updateTopic
+	put /topic/:id (UpdateTopicReq)
+}
+
+// ===========================Category==============================
+//no need login
+@server (
+	prefix: /content/v1
+	group:  category
+)
+service content {
+	@doc "分类列表"
+	@handler getCategoryList
+	get /category (GetCategoryListReq) returns (GetCategoryListResp)
+
+	@doc "通过Id获取分类详情"
+	@handler getCategoryById
+	get /category/:id (GetCategoryByIdReq) returns (GetCategoryByIdResp)
+}
+
+// need login
+@server (
+	prefix: /content/v1
+	group:  Category
+	jwt:    JWTAuth
+)
+service content {
+	@doc "新建分类"
+	@handler addCategory
+	post /category (AddCategoryReq)
+
+	@doc "删除分类"
+	@handler deleteCategory
+	delete /category/:id (DeleteCategoryReq)
+
+	@doc "修改分类"
+	@handler updateCategory
+	put /category/:id (UpdateCategoryReq)
+}
+
+// ===========================Post==============================
+// no need login
+@server (
+	prefix: /content/v1
+	group:  post
+)
+service content {
+	@doc "帖子列表"
+	@handler getPostList
+	get /post (GetPostListReq) returns (GetPostListResp)
+
+	@doc "根据id获取帖子详情"
+	@handler getPostById
+	get /post/:id (GetPostByIdReq) returns (GetPostByIdResp)
+}
+
+// need login
+@server (
+	prefix: /content/v1
+	group:  post
+	jwt:    JWTAuth
+)
+service content {
+	@doc "新建帖子"
+	@handler addPost
+	post /post (AddPostReq)
+
+	@doc "删除"
+	@handler deletePost
+	delete /topic/:id (DeletePostReq)
+
+	@doc "我的帖子列表"
+	@handler getUserPostList
+	get /post/user/:id (GetUserPostListReq) returns (GetUserPostListResp)
+}
+

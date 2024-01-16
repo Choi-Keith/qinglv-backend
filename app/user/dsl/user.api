@@ -65,6 +65,7 @@ type (
 
 type User {
 	Id            uint64 `json:"id"`
+	Category
 	Role          Role   `json:"role"`
 	RoleId        uint64 `json:"roleId"`
 	Nickname      string `json:"nickname"`
