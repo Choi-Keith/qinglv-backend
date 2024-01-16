@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
 )
 
@@ -19,6 +20,13 @@ func main() {
 
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+
+	logConf := logx.LogConf{
+		Mode:  "console",
+		Stat:  false,
+		Level: "debug",
+	}
+	logx.MustSetup(logConf)
 
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
