@@ -4,7 +4,6 @@ package handler
 import (
 	"net/http"
 
-	Category "qinglv-backend/app/content/api/internal/handler/Category"
 	category "qinglv-backend/app/content/api/internal/handler/category"
 	post "qinglv-backend/app/content/api/internal/handler/post"
 	topic "qinglv-backend/app/content/api/internal/handler/topic"
@@ -14,28 +13,6 @@ import (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
-	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/category",
-				Handler: Category.AddCategoryHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/category/:id",
-				Handler: Category.DeleteCategoryHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/category/:id",
-				Handler: Category.UpdateCategoryHandler(serverCtx),
-			},
-		},
-		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
-		rest.WithPrefix("/content/v1"),
-	)
-
 	server.AddRoutes(
 		[]rest.Route{
 			{
@@ -49,6 +26,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: category.GetCategoryByIdHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/content/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/category",
+				Handler: category.AddCategoryHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/category/:id",
+				Handler: category.DeleteCategoryHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/category/:id",
+				Handler: category.UpdateCategoryHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/content/v1"),
 	)
 

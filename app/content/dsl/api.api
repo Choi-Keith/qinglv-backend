@@ -65,7 +65,7 @@ service content {
 // need login
 @server (
 	prefix: /content/v1
-	group:  Category
+	group:  category
 	jwt:    JWTAuth
 )
 service content {

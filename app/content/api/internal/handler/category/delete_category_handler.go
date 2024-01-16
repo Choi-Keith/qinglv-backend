@@ -1,10 +1,10 @@
-package Category
+package category
 
 import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"qinglv-backend/app/content/api/internal/logic/Category"
+	"qinglv-backend/app/content/api/internal/logic/category"
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 )
@@ -17,7 +17,7 @@ func DeleteCategoryHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := Category.NewDeleteCategoryLogic(r.Context(), svcCtx)
+		l := category.NewDeleteCategoryLogic(r.Context(), svcCtx)
 		err := l.DeleteCategory(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
