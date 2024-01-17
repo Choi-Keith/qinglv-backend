@@ -2,6 +2,7 @@ package topic
 
 import (
 	"context"
+	"strings"
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
@@ -26,6 +27,16 @@ func NewUpdateTopicLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 
 func (l *UpdateTopicLogic) UpdateTopic(req *types.UpdateTopicReq) error {
 	// todo: add your logic here and delete this line
+	var oldImage string
+	if req.Bg != "" {
+		topicResp, err := l.svcCtx.ContentRpc.GetTopicById(l.ctx, &content_client.GetTopicByIdReq{
+			Id: req.Id,
+		})
+		if err != nil {
+			return err
+		}
+		oldImage = topicResp.Topic.Bg
+	}
 	_, err := l.svcCtx.ContentRpc.UpdateTopic(l.ctx, &content_client.UpdateTopicReq{
 		Id:          req.Id,
 		Bg:          req.Bg,
@@ -34,6 +45,13 @@ func (l *UpdateTopicLogic) UpdateTopic(req *types.UpdateTopicReq) error {
 
 	if err != nil {
 		return err
+	}
+	if req.Bg != oldImage && oldImage != "" {
+		name, _ := strings.CutPrefix(oldImage, l.svcCtx.Config.Cos.Endpoint)
+		_, err := l.svcCtx.CosClient.Object.Delete(context.Background(), name)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }

@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/internal/svc"
@@ -34,9 +35,7 @@ func (l *GetTopicListLogic) GetTopicList(in *content.GetTopicListReq) (*content.
 		})
 	}
 	if in.Name != "" {
-		whereBuilder = whereBuilder.Where(squirrel.Like{
-			"name": in.Name,
-		})
+		whereBuilder = whereBuilder.Where("name LIKE ?", fmt.Sprint("%", in.Name, "%"))
 	}
 	topicResp, total, err := l.svcCtx.TopicModel.FindPageListByPageWithTotal(l.ctx, whereBuilder, int64(in.PageNum), int64(in.PageSize), "")
 	if err != nil {

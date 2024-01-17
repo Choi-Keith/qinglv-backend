@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/internal/svc"
@@ -34,9 +35,7 @@ func (l *GetCategoryListLogic) GetCategoryList(in *content.GetCategoryListReq) (
 		})
 	}
 	if in.Name != "" {
-		whereBuilder = whereBuilder.Where(squirrel.Like{
-			"name": in.Name,
-		})
+		whereBuilder = whereBuilder.Where("name LIKE ?", fmt.Sprint("%", in.Name, "%"))
 	}
 	if in.QuoteCount != 0 {
 		whereBuilder = whereBuilder.Where(squirrel.Gt{
