@@ -21,8 +21,9 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Content_AddTopic_FullMethodName             = "/content.Content/AddTopic"
 	Content_DeleteTopic_FullMethodName          = "/content.Content/DeleteTopic"
-	Content_UpdateTopci_FullMethodName          = "/content.Content/UpdateTopci"
-	Content_GetTopicDetail_FullMethodName       = "/content.Content/GetTopicDetail"
+	Content_UpdateTopic_FullMethodName          = "/content.Content/UpdateTopic"
+	Content_GetTopicById_FullMethodName         = "/content.Content/GetTopicById"
+	Content_GetTopicByName_FullMethodName       = "/content.Content/GetTopicByName"
 	Content_GetTopicList_FullMethodName         = "/content.Content/GetTopicList"
 	Content_AddCategory_FullMethodName          = "/content.Content/AddCategory"
 	Content_DeleteCategory_FullMethodName       = "/content.Content/DeleteCategory"
@@ -49,9 +50,11 @@ type ContentClient interface {
 	// group: topic
 	DeleteTopic(ctx context.Context, in *DeleteTopicReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: topic
-	UpdateTopci(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error)
+	UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: topic
-	GetTopicDetail(ctx context.Context, in *GetTopicDetailReq, opts ...grpc.CallOption) (*GetTopicDetailResp, error)
+	GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error)
+	// group: topic
+	GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error)
 	// group: topic
 	GetTopicList(ctx context.Context, in *GetTopicListReq, opts ...grpc.CallOption) (*GetTopicListResp, error)
 	// group: category
@@ -110,18 +113,27 @@ func (c *contentClient) DeleteTopic(ctx context.Context, in *DeleteTopicReq, opt
 	return out, nil
 }
 
-func (c *contentClient) UpdateTopci(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *contentClient) UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_UpdateTopci_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Content_UpdateTopic_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) GetTopicDetail(ctx context.Context, in *GetTopicDetailReq, opts ...grpc.CallOption) (*GetTopicDetailResp, error) {
-	out := new(GetTopicDetailResp)
-	err := c.cc.Invoke(ctx, Content_GetTopicDetail_FullMethodName, in, out, opts...)
+func (c *contentClient) GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error) {
+	out := new(GetTopicByIdResp)
+	err := c.cc.Invoke(ctx, Content_GetTopicById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contentClient) GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error) {
+	out := new(GetTopicByNameResp)
+	err := c.cc.Invoke(ctx, Content_GetTopicByName_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -272,9 +284,11 @@ type ContentServer interface {
 	// group: topic
 	DeleteTopic(context.Context, *DeleteTopicReq) (*OkResp, error)
 	// group: topic
-	UpdateTopci(context.Context, *UpdateTopicReq) (*OkResp, error)
+	UpdateTopic(context.Context, *UpdateTopicReq) (*OkResp, error)
 	// group: topic
-	GetTopicDetail(context.Context, *GetTopicDetailReq) (*GetTopicDetailResp, error)
+	GetTopicById(context.Context, *GetTopicByIdReq) (*GetTopicByIdResp, error)
+	// group: topic
+	GetTopicByName(context.Context, *GetTopicByNameReq) (*GetTopicByNameResp, error)
 	// group: topic
 	GetTopicList(context.Context, *GetTopicListReq) (*GetTopicListResp, error)
 	// group: category
@@ -318,11 +332,14 @@ func (UnimplementedContentServer) AddTopic(context.Context, *AddTopicReq) (*OkRe
 func (UnimplementedContentServer) DeleteTopic(context.Context, *DeleteTopicReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTopic not implemented")
 }
-func (UnimplementedContentServer) UpdateTopci(context.Context, *UpdateTopicReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTopci not implemented")
+func (UnimplementedContentServer) UpdateTopic(context.Context, *UpdateTopicReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTopic not implemented")
 }
-func (UnimplementedContentServer) GetTopicDetail(context.Context, *GetTopicDetailReq) (*GetTopicDetailResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTopicDetail not implemented")
+func (UnimplementedContentServer) GetTopicById(context.Context, *GetTopicByIdReq) (*GetTopicByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopicById not implemented")
+}
+func (UnimplementedContentServer) GetTopicByName(context.Context, *GetTopicByNameReq) (*GetTopicByNameResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopicByName not implemented")
 }
 func (UnimplementedContentServer) GetTopicList(context.Context, *GetTopicListReq) (*GetTopicListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopicList not implemented")
@@ -418,38 +435,56 @@ func _Content_DeleteTopic_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Content_UpdateTopci_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Content_UpdateTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateTopicReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServer).UpdateTopci(ctx, in)
+		return srv.(ContentServer).UpdateTopic(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Content_UpdateTopci_FullMethodName,
+		FullMethod: Content_UpdateTopic_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).UpdateTopci(ctx, req.(*UpdateTopicReq))
+		return srv.(ContentServer).UpdateTopic(ctx, req.(*UpdateTopicReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Content_GetTopicDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTopicDetailReq)
+func _Content_GetTopicById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopicByIdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServer).GetTopicDetail(ctx, in)
+		return srv.(ContentServer).GetTopicById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Content_GetTopicDetail_FullMethodName,
+		FullMethod: Content_GetTopicById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetTopicDetail(ctx, req.(*GetTopicDetailReq))
+		return srv.(ContentServer).GetTopicById(ctx, req.(*GetTopicByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Content_GetTopicByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopicByNameReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContentServer).GetTopicByName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Content_GetTopicByName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContentServer).GetTopicByName(ctx, req.(*GetTopicByNameReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -740,12 +775,16 @@ var Content_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Content_DeleteTopic_Handler,
 		},
 		{
-			MethodName: "UpdateTopci",
-			Handler:    _Content_UpdateTopci_Handler,
+			MethodName: "UpdateTopic",
+			Handler:    _Content_UpdateTopic_Handler,
 		},
 		{
-			MethodName: "GetTopicDetail",
-			Handler:    _Content_GetTopicDetail_Handler,
+			MethodName: "GetTopicById",
+			Handler:    _Content_GetTopicById_Handler,
+		},
+		{
+			MethodName: "GetTopicByName",
+			Handler:    _Content_GetTopicByName_Handler,
 		},
 		{
 			MethodName: "GetTopicList",

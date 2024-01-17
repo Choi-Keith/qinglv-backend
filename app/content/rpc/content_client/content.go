@@ -34,8 +34,10 @@ type (
 	GetPostDetailResp        = content.GetPostDetailResp
 	GetPostListReq           = content.GetPostListReq
 	GetPostListResp          = content.GetPostListResp
-	GetTopicDetailReq        = content.GetTopicDetailReq
-	GetTopicDetailResp       = content.GetTopicDetailResp
+	GetTopicByIdReq          = content.GetTopicByIdReq
+	GetTopicByIdResp         = content.GetTopicByIdResp
+	GetTopicByNameReq        = content.GetTopicByNameReq
+	GetTopicByNameResp       = content.GetTopicByNameResp
 	GetTopicListReq          = content.GetTopicListReq
 	GetTopicListResp         = content.GetTopicListResp
 	OkResp                   = content.OkResp
@@ -52,9 +54,11 @@ type (
 		// group: topic
 		DeleteTopic(ctx context.Context, in *DeleteTopicReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: topic
-		UpdateTopci(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error)
+		UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: topic
-		GetTopicDetail(ctx context.Context, in *GetTopicDetailReq, opts ...grpc.CallOption) (*GetTopicDetailResp, error)
+		GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error)
+		// group: topic
+		GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error)
 		// group: topic
 		GetTopicList(ctx context.Context, in *GetTopicListReq, opts ...grpc.CallOption) (*GetTopicListResp, error)
 		// group: category
@@ -111,15 +115,21 @@ func (m *defaultContent) DeleteTopic(ctx context.Context, in *DeleteTopicReq, op
 }
 
 // group: topic
-func (m *defaultContent) UpdateTopci(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (m *defaultContent) UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewContentClient(m.cli.Conn())
-	return client.UpdateTopci(ctx, in, opts...)
+	return client.UpdateTopic(ctx, in, opts...)
 }
 
 // group: topic
-func (m *defaultContent) GetTopicDetail(ctx context.Context, in *GetTopicDetailReq, opts ...grpc.CallOption) (*GetTopicDetailResp, error) {
+func (m *defaultContent) GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error) {
 	client := content.NewContentClient(m.cli.Conn())
-	return client.GetTopicDetail(ctx, in, opts...)
+	return client.GetTopicById(ctx, in, opts...)
+}
+
+// group: topic
+func (m *defaultContent) GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error) {
+	client := content.NewContentClient(m.cli.Conn())
+	return client.GetTopicByName(ctx, in, opts...)
 }
 
 // group: topic

@@ -35,7 +35,7 @@ type CategoryItem struct {
 
 type CategoryUser struct {
 	Id            uint64 `json:"id"`
-	IsFollowing   bool   `json:"isFollowing`
+	IsFollowing   bool   `json:"isFollowing"`
 	RoleId        uint64 `json:"roleId"`
 	Nickname      string `json:"nickname"`
 	Email         string `json:"email"`
@@ -125,7 +125,7 @@ type GetTopicByIdResp struct {
 }
 
 type GetTopicByNameReq struct {
-	Name string `path:"name"`
+	Name string `form:"name"`
 }
 
 type GetTopicByNameResp struct {
@@ -263,7 +263,6 @@ type UpdateCategoryReq struct {
 
 type UpdateTopicReq struct {
 	Id          uint64 `json:"id,string"`
-	Name        string `json:"name",validate:"max=40"`
 	Bg          string `json:"bg,optional",validate:"200"`
 	Description string `json:"description,optional",validate:"200"`
 }

@@ -36,11 +36,17 @@ message UpdateTopicReq {
 	string description = 5;
     uint64 quoteCount = 6;
 }
-message GetTopicDetailReq {
+message GetTopicByIdReq {
     uint64 id = 1;
 }
-message GetTopicDetailResp {
-    TopicItem toppic  = 1;
+message GetTopicByIdResp {
+    TopicItem topic  = 1;
+}
+message GetTopicByNameReq {
+    string name = 1;
+}
+message GetTopicByNameResp {
+    TopicItem topic  = 1;
 }
 message GetTopicListReq {
     string name = 1;
@@ -218,9 +224,11 @@ service Content {
     // group: topic
     rpc DeleteTopic(DeleteTopicReq) returns(OkResp);
     // group: topic
-    rpc UpdateTopci(UpdateTopicReq) returns(OkResp);
+    rpc UpdateTopic(UpdateTopicReq) returns(OkResp);
     // group: topic
-    rpc GetTopicDetail(GetTopicDetailReq) returns(GetTopicDetailResp);
+    rpc GetTopicById(GetTopicByIdReq) returns(GetTopicByIdResp);
+    // group: topic
+    rpc GetTopicByName(GetTopicByNameReq) returns(GetTopicByNameResp);
     // group: topic
     rpc GetTopicList(GetTopicListReq) returns(GetTopicListResp);
 

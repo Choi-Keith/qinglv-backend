@@ -9,14 +9,14 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetTopicDetailLogic struct {
+type UpdateTopicLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewGetTopicDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetTopicDetailLogic {
-	return &GetTopicDetailLogic{
+func NewUpdateTopicLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateTopicLogic {
+	return &UpdateTopicLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
@@ -24,8 +24,8 @@ func NewGetTopicDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 // group: topic
-func (l *GetTopicDetailLogic) GetTopicDetail(in *content.GetTopicDetailReq) (*content.GetTopicDetailResp, error) {
+func (l *UpdateTopicLogic) UpdateTopic(in *content.UpdateTopicReq) (*content.OkResp, error) {
 	// todo: add your logic here and delete this line
 
-	return &content.GetTopicDetailResp{}, nil
+	return &content.OkResp{}, nil
 }

@@ -26,6 +26,13 @@ func NewUpdateTopciLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 // group: topic
 func (l *UpdateTopciLogic) UpdateTopci(in *content.UpdateTopicReq) (*content.OkResp, error) {
 	// todo: add your logic here and delete this line
-
+	topicItem, err := l.svcCtx.TopicModel.FindOne(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+	err = l.svcCtx.TopicModel.UpdateWithVersion(l.ctx, nil, topicItem)
+	if err != nil {
+		return nil, err
+	}
 	return &content.OkResp{}, nil
 }

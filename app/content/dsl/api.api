@@ -23,7 +23,7 @@ service content {
 
 	@doc "通过name获取话题详情"
 	@handler getTopicByName
-	get /topic/:name (GetTopicByNameReq) returns (GetTopicByNameResp)
+	get /topic/name (GetTopicByNameReq) returns (GetTopicByNameResp)
 }
 
 // need login
@@ -105,13 +105,17 @@ service content {
 	jwt:    JWTAuth
 )
 service content {
-	@doc "新建帖子"
+	@doc (
+		summary: "新建帖子"
+	)
 	@handler addPost
 	post /post (AddPostReq)
 
-	@doc "删除"
+	@doc (
+		summary: "删除"
+	)
 	@handler deletePost
-	delete /topic/:id (DeletePostReq)
+	delete /post/:id (DeletePostReq)
 
 	@doc "我的帖子列表"
 	@handler getUserPostList

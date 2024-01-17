@@ -1,0 +1,1639 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "host": "127.0.0.1:8888",
+  "basePath": "/api",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/content/v1/category": {
+      "get": {
+        "summary": "分类列表",
+        "operationId": "getCategoryList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetCategoryListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "quoteCount",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "category"
+        ]
+      },
+      "post": {
+        "summary": "新建分类",
+        "operationId": "addCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddCategoryReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/content/v1/category/{id}": {
+      "get": {
+        "summary": "通过Id获取分类详情",
+        "operationId": "getCategoryById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetCategoryByIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "category"
+        ]
+      },
+      "delete": {
+        "summary": "删除分类",
+        "operationId": "deleteCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteCategoryReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "category"
+        ]
+      },
+      "put": {
+        "summary": "修改分类",
+        "operationId": "updateCategory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCategoryReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "category"
+        ]
+      }
+    },
+    "/content/v1/post": {
+      "get": {
+        "summary": "帖子列表",
+        "operationId": "getPostList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetPostListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "visibility",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "isTop",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "score",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "post"
+        ]
+      },
+      "post": {
+        "summary": "新建帖子",
+        "operationId": "addPost",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddPostReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "post"
+        ]
+      }
+    },
+    "/content/v1/post/user/{id}": {
+      "get": {
+        "summary": "我的帖子列表",
+        "operationId": "getUserPostList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserPostListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "post"
+        ]
+      }
+    },
+    "/content/v1/post/{id}": {
+      "get": {
+        "summary": "根据id获取帖子详情",
+        "operationId": "getPostById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetPostByIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "post"
+        ]
+      },
+      "delete": {
+        "summary": "删除",
+        "operationId": "deletePost",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeletePostReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "post"
+        ]
+      }
+    },
+    "/content/v1/topic": {
+      "get": {
+        "summary": "帖子话题列表",
+        "operationId": "getTopicList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTopicListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "quoteCount",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "topic"
+        ]
+      },
+      "post": {
+        "summary": "新建帖子话题",
+        "operationId": "addTopic",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddTopicReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "topic"
+        ]
+      }
+    },
+    "/content/v1/topic/{id}": {
+      "get": {
+        "summary": "通过Id获取话题详情",
+        "operationId": "getTopicById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTopicByIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "topic"
+        ]
+      },
+      "delete": {
+        "summary": "删除帖子话题",
+        "operationId": "deleteTopic",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteTopicReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "topic"
+        ]
+      },
+      "put": {
+        "summary": "修改帖子话题",
+        "operationId": "updateTopic",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTopicReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "topic"
+        ]
+      }
+    },
+    "/content/v1/topic/{name}": {
+      "get": {
+        "summary": "通过name获取话题详情",
+        "operationId": "getTopicByName",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTopicByNameResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "topic"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AddCategoryReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "title": "AddCategoryReq",
+      "required": [
+        "name",
+        "required",
+        "max=200"
+      ]
+    },
+    "AddPostReq": {
+      "type": "object",
+      "properties": {
+        "categoryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "content": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isTop": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "AddPostReq",
+      "required": [
+        "categoryId",
+        "content",
+        "max=800"
+      ]
+    },
+    "AddTopicReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "bg": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "title": "AddTopicReq",
+      "required": [
+        "name",
+        "max=40",
+        "200"
+      ]
+    },
+    "CategoryItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "string"
+        },
+        "creator": {
+          "$ref": "#/definitions/CategoryUser"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CategoryItem",
+      "required": [
+        "id",
+        "name",
+        "image",
+        "description",
+        "quoteCount",
+        "creator",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CategoryUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isFollowing": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "weChat": {
+          "type": "string"
+        },
+        "motto": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "profileBg": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "gender": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "location": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "mailStatus": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastLoginTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CategoryUser",
+      "required": [
+        "id",
+        "isFollowing",
+        "roleId",
+        "nickname",
+        "email",
+        "weChat",
+        "motto",
+        "avatar",
+        "profession",
+        "profileBg",
+        "age",
+        "gender",
+        "location",
+        "address",
+        "status",
+        "level",
+        "score",
+        "mailStatus",
+        "lastLoginTime",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "DeleteCategoryReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteCategoryReq",
+      "required": [
+        "id"
+      ]
+    },
+    "DeletePostReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeletePostReq",
+      "required": [
+        "id"
+      ]
+    },
+    "DeleteTopicReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteTopicReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetCategoryByIdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetCategoryByIdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetCategoryByIdResp": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/CategoryItem"
+        }
+      },
+      "title": "GetCategoryByIdResp",
+      "required": [
+        "category"
+      ]
+    },
+    "GetCategoryListReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetCategoryListReq",
+      "required": [
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetCategoryListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CategoryItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetCategoryListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "GetPostByIdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetPostByIdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetPostByIdResp": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/PostItem"
+        }
+      },
+      "title": "GetPostByIdResp",
+      "required": [
+        "post"
+      ]
+    },
+    "GetPostListReq": {
+      "type": "object",
+      "properties": {
+        "creator": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isTop": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "keyword": {
+          "type": "string"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetPostListReq",
+      "required": [
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetPostListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetPostListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "GetTopicByIdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetTopicByIdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetTopicByIdResp": {
+      "type": "object",
+      "properties": {
+        "topic": {
+          "$ref": "#/definitions/TopicItem"
+        }
+      },
+      "title": "GetTopicByIdResp",
+      "required": [
+        "topic"
+      ]
+    },
+    "GetTopicByNameReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "GetTopicByNameReq",
+      "required": [
+        "name"
+      ]
+    },
+    "GetTopicByNameResp": {
+      "type": "object",
+      "properties": {
+        "topic": {
+          "$ref": "#/definitions/TopicItem"
+        }
+      },
+      "title": "GetTopicByNameResp",
+      "required": [
+        "topic"
+      ]
+    },
+    "GetTopicListReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetTopicListReq",
+      "required": [
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetTopicListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TopicItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetTopicListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "GetUserPostListReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "keyword": {
+          "type": "string"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetUserPostListReq",
+      "required": [
+        "id",
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetUserPostListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetUserPostListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "PostCategory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "string"
+        }
+      },
+      "title": "PostCategory",
+      "required": [
+        "id",
+        "name",
+        "image",
+        "description",
+        "quoteCount"
+      ]
+    },
+    "PostItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "$ref": "#/definitions/PostCategory"
+        },
+        "topic": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostTopic"
+          }
+        },
+        "content": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "creator": {
+          "$ref": "#/definitions/PostUser"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isTop": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "location": {
+          "type": "string"
+        },
+        "commentCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "collectionCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "likeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dislikeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "shareCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastReplyTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PostItem",
+      "required": [
+        "id",
+        "category",
+        "topic",
+        "content",
+        "images",
+        "creator",
+        "status",
+        "visibility",
+        "isTop",
+        "score",
+        "location",
+        "commentCount",
+        "collectionCount",
+        "likeCount",
+        "dislikeCount",
+        "shareCount",
+        "lastReplyTime",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PostTopic": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "bg": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "string"
+        }
+      },
+      "title": "PostTopic",
+      "required": [
+        "id",
+        "name",
+        "bg",
+        "description",
+        "quoteCount"
+      ]
+    },
+    "PostUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "weChat": {
+          "type": "string"
+        },
+        "motto": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "profileBg": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "gender": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "location": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "mailStatus": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastLoginTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PostUser",
+      "required": [
+        "id",
+        "roleId",
+        "nickname",
+        "email",
+        "weChat",
+        "motto",
+        "avatar",
+        "profession",
+        "profileBg",
+        "age",
+        "gender",
+        "location",
+        "address",
+        "status",
+        "level",
+        "score",
+        "mailStatus",
+        "lastLoginTime",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "TopicItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "bg": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "string"
+        },
+        "creator": {
+          "$ref": "#/definitions/TopicUser"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "TopicItem",
+      "required": [
+        "id",
+        "name",
+        "bg",
+        "description",
+        "quoteCount",
+        "creator",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "TopicUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "weChat": {
+          "type": "string"
+        },
+        "motto": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "profileBg": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "gender": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "location": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "mailStatus": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastLoginTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "TopicUser",
+      "required": [
+        "id",
+        "roleId",
+        "nickname",
+        "email",
+        "weChat",
+        "motto",
+        "avatar",
+        "profession",
+        "profileBg",
+        "age",
+        "gender",
+        "location",
+        "address",
+        "status",
+        "level",
+        "score",
+        "mailStatus",
+        "lastLoginTime",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "UpdateCategoryReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateCategoryReq",
+      "required": [
+        "id",
+        "name",
+        "required",
+        "max=200"
+      ]
+    },
+    "UpdateTopicReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "bg": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateTopicReq",
+      "required": [
+        "id",
+        "name",
+        "max=40",
+        "200"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

@@ -35,15 +35,21 @@ func (s *ContentServer) DeleteTopic(ctx context.Context, in *content.DeleteTopic
 }
 
 // group: topic
-func (s *ContentServer) UpdateTopci(ctx context.Context, in *content.UpdateTopicReq) (*content.OkResp, error) {
-	l := logic.NewUpdateTopciLogic(ctx, s.svcCtx)
-	return l.UpdateTopci(in)
+func (s *ContentServer) UpdateTopic(ctx context.Context, in *content.UpdateTopicReq) (*content.OkResp, error) {
+	l := logic.NewUpdateTopicLogic(ctx, s.svcCtx)
+	return l.UpdateTopic(in)
 }
 
 // group: topic
-func (s *ContentServer) GetTopicDetail(ctx context.Context, in *content.GetTopicDetailReq) (*content.GetTopicDetailResp, error) {
-	l := logic.NewGetTopicDetailLogic(ctx, s.svcCtx)
-	return l.GetTopicDetail(in)
+func (s *ContentServer) GetTopicById(ctx context.Context, in *content.GetTopicByIdReq) (*content.GetTopicByIdResp, error) {
+	l := logic.NewGetTopicByIdLogic(ctx, s.svcCtx)
+	return l.GetTopicById(in)
+}
+
+// group: topic
+func (s *ContentServer) GetTopicByName(ctx context.Context, in *content.GetTopicByNameReq) (*content.GetTopicByNameResp, error) {
+	l := logic.NewGetTopicByNameLogic(ctx, s.svcCtx)
+	return l.GetTopicByName(in)
 }
 
 // group: topic
