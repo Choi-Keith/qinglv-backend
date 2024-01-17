@@ -2,9 +2,11 @@ package category
 
 import (
 	"context"
+	"strings"
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
+	"qinglv-backend/app/content/rpc/content_client"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,6 +27,28 @@ func NewUpdateCategoryLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Up
 
 func (l *UpdateCategoryLogic) UpdateCategory(req *types.UpdateCategoryReq) error {
 	// todo: add your logic here and delete this line
-
+	if req.Image != "" {
+		categoryResp, err := l.svcCtx.ContentRpc.GetCategoryDetail(l.ctx, &content_client.GetCategoryDetailReq{
+			Id: req.Id,
+		})
+		if err != nil {
+			return err
+		}
+		if req.Image != categoryResp.Category.Image && categoryResp.Category.Image != "" {
+			name, _ := strings.CutPrefix(categoryResp.Category.Image, l.svcCtx.Config.Cos.Endpoint)
+			_, err := l.svcCtx.CosClient.Object.Delete(context.Background(), name)
+			if err != nil {
+				return err
+			}
+		}
+	}
+	_, err := l.svcCtx.ContentRpc.UpdateCategory(l.ctx, &content_client.UpdateCategoryReq{
+		Id:          req.Id,
+		Image:       req.Image,
+		Description: req.Description,
+	})
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -31,6 +31,7 @@ func (l *UpdateTopicLogic) UpdateTopic(req *types.UpdateTopicReq) error {
 		Bg:          req.Bg,
 		Description: req.Description,
 	})
+
 	if err != nil {
 		return err
 	}

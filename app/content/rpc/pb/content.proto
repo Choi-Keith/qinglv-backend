@@ -94,7 +94,7 @@ message GetCategoryDetailReq {
     uint64 id = 1;
 }
 message GetCategoryDetailResp {
-    CategoryItem toppic  = 1;
+    CategoryItem category  = 1;
 }
 message GetCategoryListReq {
     string name = 1;

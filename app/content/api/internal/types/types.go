@@ -256,7 +256,6 @@ type TopicUser struct {
 
 type UpdateCategoryReq struct {
 	Id          uint64 `json:"id,string"`
-	Name        string `json:"name",validate:"required,max=50"`
 	Image       string `json:"image,optional",validate:"max=200"`
 	Description string `json:"description,optional",validate:"max=200"`
 }
