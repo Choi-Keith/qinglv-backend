@@ -7,7 +7,6 @@ import (
 
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
-	"qinglv-backend/pkg/sqlike"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -42,16 +41,16 @@ func (l *GetUserListLogic) GetUserList(in *user.GetUserListReq) (*user.GetUserLi
 		})
 	}
 	if in.Email != "" {
-		whereBuilder = whereBuilder.Where(squirrel.Like{"email": sqlike.GenSqlike(in.Email)})
+		whereBuilder = whereBuilder.Where("email LIKE ?", fmt.Sprint("%", in.Email, "%"))
 	}
 	if in.Nickname != "" {
-		whereBuilder = whereBuilder.Where(squirrel.Like{"nickname": sqlike.GenSqlike(in.Nickname)})
+		whereBuilder = whereBuilder.Where("nickname LIKE ?", fmt.Sprint("%", in.Nickname, "%"))
 	}
 	if in.Phone != "" {
-		whereBuilder = whereBuilder.Where(squirrel.Like{"phone": sqlike.GenSqlike(in.Phone)})
+		whereBuilder = whereBuilder.Where("phone LIKE ?", fmt.Sprint("%", in.Phone, "%"))
 	}
 	if in.WeChat != "" {
-		whereBuilder = whereBuilder.Where(squirrel.Like{"we_chat": sqlike.GenSqlike(in.WeChat)})
+		whereBuilder = whereBuilder.Where("we_chat LIKE ?", fmt.Sprint("%", in.WeChat, "%"))
 	}
 	sortField := "created_at"
 	sort := "DESC"
