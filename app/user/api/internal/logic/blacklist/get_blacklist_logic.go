@@ -42,7 +42,6 @@ func (l *GetBlacklistLogic) GetBlacklist(req *types.BlacklistReq) (resp *types.B
 	if err != nil {
 		return nil, err
 	}
-	logx.Debugf("blackListResp: %+v\n", blackListResp)
 
 	blackList := make([]types.BlackItem, len(blackListResp.Data))
 	for idx, blackItem := range blackList {
@@ -66,8 +65,12 @@ func (l *GetBlacklistLogic) GetBlacklist(req *types.BlacklistReq) (resp *types.B
 		},
 		func(pipe <-chan types.BlackItem, writer mr.Writer[[]types.BlackItem], cancel func(error)) {
 			var r []types.BlackItem
+			m := make(map[uint64]types.BlackItem, len(blackList))
 			for p := range pipe {
-				r = append(r, p)
+				m[p.Id] = p
+			}
+			for _, blackItem := range blackList {
+				r = append(r, m[blackItem.Id])
 			}
 			writer.Write(r)
 		})

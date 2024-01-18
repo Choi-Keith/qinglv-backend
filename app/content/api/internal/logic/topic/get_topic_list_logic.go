@@ -55,7 +55,7 @@ func (l *GetTopicListLogic) GetTopicList(req *types.GetTopicListReq) (resp *type
 		return nil, err
 	}
 
-	newTopicList, err := mr.MapReduce(func(source chan<- content.TopicItem) {
+	topicList, err := mr.MapReduce(func(source chan<- content.TopicItem) {
 		for _, topicItem := range topicListResp.Data {
 			source <- *topicItem
 		}
@@ -73,21 +73,27 @@ func (l *GetTopicListLogic) GetTopicList(req *types.GetTopicListReq) (resp *type
 		writer.Write(topicItem)
 	}, func(pipe <-chan types.TopicItem, writer mr.Writer[[]types.TopicItem], cancel func(error)) {
 		var r []types.TopicItem
+		m := make(map[uint64]types.TopicItem, len(topicListResp.Data))
 		for p := range pipe {
-			r = append(r, p)
+			m[p.Id] = p
+		}
+		// 为了避免mapReduce多线程导致排序的问题
+		for _, sourceTopicItem := range topicListResp.Data {
+			r = append(r, m[sourceTopicItem.Id])
 		}
 		writer.Write(r)
 	})
 	if err != nil {
 		return nil, err
 	}
+
 	isEnd := false
 	total := (req.PageNum-1)*req.PageSize + req.PageSize
 	if topicListResp.Total < uint64(total) {
 		isEnd = true
 	}
 	return &types.GetTopicListResp{
-		List:  newTopicList,
+		List:  topicList,
 		IsEnd: isEnd,
 		Total: topicListResp.Total,
 	}, nil

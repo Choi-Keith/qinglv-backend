@@ -70,8 +70,13 @@ func (l *GetCategoryListLogic) GetCategoryList(req *types.GetCategoryListReq) (r
 		writer.Write(categoryItem)
 	}, func(pipe <-chan types.CategoryItem, writer mr.Writer[[]types.CategoryItem], cancel func(error)) {
 		var r []types.CategoryItem
+		m := make(map[uint64]types.CategoryItem, len(categoryListResp.Data))
 		for p := range pipe {
-			r = append(r, p)
+			m[p.Id] = p
+		}
+		// 为了避免mapReduce多线程导致排序的问题
+		for _, categoryItem := range categoryListResp.Data {
+			r = append(r, m[categoryItem.Id])
 		}
 		writer.Write(r)
 	})

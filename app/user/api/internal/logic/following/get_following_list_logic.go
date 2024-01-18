@@ -64,8 +64,13 @@ func (l *GetFollowingListLogic) GetFollowingList(req *types.FollowingListReq) (r
 		writer.Write(followingItem)
 	}, func(pip <-chan types.Following, writer mr.Writer[[]types.Following], cancel func(error)) {
 		var r []types.Following
+		m := make(map[uint64]types.Following, len(followingList))
 		for p := range pip {
-			r = append(r, p)
+			m[p.Id] = p
+		}
+		// 为了避免mapReduce多线程执行导致排序不一致的问题
+		for _, followingItem := range followingList {
+			r = append(r, m[followingItem.Id])
 		}
 		writer.Write(r)
 	})
