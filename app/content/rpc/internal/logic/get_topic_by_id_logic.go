@@ -44,6 +44,7 @@ func genTopicItem(topicItem *topicModel.Topic) *content.TopicItem {
 		Name:        topicItem.Name,
 		Description: topicItem.Description.String,
 		QuoteCount:  topicItem.QuoteCount,
+		Type:        int32(topicItem.Type),
 		CreatedAt:   uint64(topicItem.CreatedAt.Unix() * 1000),
 		UpdatedAt:   uint64(topicItem.UpdatedAt.Unix() * 1000),
 	}

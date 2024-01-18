@@ -34,6 +34,7 @@ func (l *UpdateTopicLogic) UpdateTopic(in *content.UpdateTopicReq) (*content.OkR
 	topicItem.Bg = in.Bg
 	topicItem.Description = sql.NullString{String: in.Description, Valid: true}
 	topicItem.QuoteCount = in.QuoteCount
+	topicItem.Type = int64(in.Type)
 	err = l.svcCtx.TopicModel.UpdateWithVersion(l.ctx, nil, topicItem)
 	if err != nil {
 		return nil, err

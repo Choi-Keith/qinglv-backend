@@ -3,10 +3,10 @@ package user
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
+	"qinglv-backend/pkg/sqls"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -52,14 +52,7 @@ func (l *GetUserListLogic) GetUserList(in *user.GetUserListReq) (*user.GetUserLi
 	if in.WeChat != "" {
 		whereBuilder = whereBuilder.Where("we_chat LIKE ?", fmt.Sprint("%", in.WeChat, "%"))
 	}
-	sortField := "created_at"
-	sort := "DESC"
-	if in.Sort != "" {
-		sortStrs := strings.Split(in.Sort, "|")
-		sortField = sortStrs[0]
-		sort = strings.ToUpper(sort)
-	}
-	orderBy := fmt.Sprintf("%s %s", sortField, sort)
+	orderBy := sqls.HandleSort(in.Sort)
 	userListResp, total, err := l.svcCtx.UserModel.FindPageListByPageWithTotal(l.ctx, whereBuilder, int64(in.PageNum), int64(in.PageSize), orderBy)
 	if err != nil {
 		return nil, err

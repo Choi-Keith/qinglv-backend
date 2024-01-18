@@ -44,6 +44,8 @@ func (l *GetTopicListLogic) GetTopicList(req *types.GetTopicListReq) (resp *type
 	topicListResp, err := l.svcCtx.ContentRpc.GetTopicList(l.ctx, &content_client.GetTopicListReq{
 		Name:      req.Name,
 		CreatorId: userId,
+		Sort:      req.Sort,
+		Type:      int32(req.Type),
 		PageNum:   uint64(req.PageNum),
 		PageSize:  uint64(req.PageSize),
 	})

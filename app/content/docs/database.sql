@@ -1,7 +1,8 @@
 CREATE TABLE `topic` (
     `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
     `name` varchar(128) NOT NULL DEFAULT '' COMMENT '话题名称',
-    `bg` varchar(64) NOT NULL DEFAULT '' COMMENT '话题背景图',
+    `bg` varchar(128) NOT NULL DEFAULT '' COMMENT '话题背景图',
+    `type` tinyint(3) NOT NULL DEFAULT 1 COMMENT '创建类型:1管理员创建的,2普通用户创建的',
     `description` text COMMENT '话题描述',
     `quote_count` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '话题引用数量',
     `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建者',
@@ -12,14 +13,15 @@ CREATE TABLE `topic` (
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
     PRIMARY KEY (`id`),
     UNIQUE KEY (`name`),
-    KEY `idx_name` (`name`)
+    KEY `idx_name` (`name`),
+    KEY `idx_type` (`type`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子话题';
 
 CREATE TABLE `category` (
     `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
     `name` varchar(128) NOT NULL DEFAULT '' COMMENT '分类名称',
     `description` text  COMMENT '分类描述',
-    `image` varchar(64) NOT NULL DEFAULT '' COMMENT '分类图片',
+    `image` varchar(128) NOT NULL DEFAULT '' COMMENT '分类图片',
     `quote_count` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '分类引用数量',
     `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建者',
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

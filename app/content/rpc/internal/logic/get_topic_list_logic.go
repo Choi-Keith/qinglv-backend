@@ -6,6 +6,7 @@ import (
 
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/internal/svc"
+	"qinglv-backend/pkg/sqls"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,10 +35,16 @@ func (l *GetTopicListLogic) GetTopicList(in *content.GetTopicListReq) (*content.
 			"creator_id": in.CreatorId,
 		})
 	}
+	if in.Type != 0 {
+		whereBuilder = whereBuilder.Where(squirrel.Eq{
+			"type": in.Type,
+		})
+	}
 	if in.Name != "" {
 		whereBuilder = whereBuilder.Where("name LIKE ?", fmt.Sprint("%", in.Name, "%"))
 	}
-	topicResp, total, err := l.svcCtx.TopicModel.FindPageListByPageWithTotal(l.ctx, whereBuilder, int64(in.PageNum), int64(in.PageSize), "")
+	orderBy := sqls.HandleSort(in.Sort)
+	topicResp, total, err := l.svcCtx.TopicModel.FindPageListByPageWithTotal(l.ctx, whereBuilder, int64(in.PageNum), int64(in.PageSize), orderBy)
 	if err != nil {
 		return nil, err
 	}

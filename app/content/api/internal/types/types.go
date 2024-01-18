@@ -20,6 +20,7 @@ type AddTopicReq struct {
 	Name        string `json:"name",validate:"max=40"`
 	Bg          string `json:"bg,optional",validate:"200"`
 	Description string `json:"description,optional",validate:"200"`
+	Type        int    `json:"type,options=[1,2]"`
 }
 
 type CategoryItem struct {
@@ -27,7 +28,7 @@ type CategoryItem struct {
 	Name        string       `json:"name"`
 	Image       string       `json:"image"`
 	Description string       `json:"description"`
-	QuoteCount  string       `json:"quoteCount"`
+	QuoteCount  uint64       `json:"quoteCount"`
 	Creator     CategoryUser `json:"creator"`
 	CreatedAt   uint64       `json:"createdAt"`
 	UpdatedAt   uint64       `json:"updatedAt"`
@@ -136,6 +137,8 @@ type GetTopicListReq struct {
 	Name       string `form:"name,optional"`
 	Creator    string `form:"creator,optional"`
 	QuoteCount uint64 `form:"quoteCount,optional"`
+	Type       int    `form:"type,options=[1,2],optional"`
+	Sort       string `form:"sort,optional"`
 	PageNum    int32  `form:"pageNum" validate:"required,gt=0"`
 	PageSize   int32  `form:"pageSize" validate:"required,gt=0"`
 }
@@ -225,8 +228,9 @@ type TopicItem struct {
 	Name        string    `json:"name"`
 	Bg          string    `json:"bg"`
 	Description string    `json:"description"`
-	QuoteCount  string    `json:"quoteCount"`
+	QuoteCount  uint64    `json:"quoteCount"`
 	Creator     TopicUser `json:"creator"`
+	Type        int       `json:"type"`
 	CreatedAt   uint64    `json:"createdAt"`
 	UpdatedAt   uint64    `json:"updatedAt"`
 }
@@ -264,4 +268,6 @@ type UpdateTopicReq struct {
 	Id          uint64 `json:"id,string"`
 	Bg          string `json:"bg,optional",validate:"200"`
 	Description string `json:"description,optional",validate:"200"`
+	QuoteCount  uint64 `json:"quoteCount",validate:"gt=0"`
+	Type        int    `json:"type,options=[1,2]"`
 }

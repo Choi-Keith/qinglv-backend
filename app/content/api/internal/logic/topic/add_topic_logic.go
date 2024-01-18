@@ -34,11 +34,12 @@ func (l *AddTopicLogic) AddTopic(req *types.AddTopicReq) error {
 	}
 	id := snowflake.MustID()
 	_, err = l.svcCtx.ContentRpc.AddTopic(l.ctx, &content_client.AddTopicReq{
+		Id:          id,
 		CreatorId:   uint64(userId),
 		Name:        req.Name,
 		Bg:          req.Bg,
 		Description: req.Description,
-		Id:          id,
+		Type:        int32(req.Type),
 	})
 	if err != nil {
 		return err

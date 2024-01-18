@@ -31,7 +31,6 @@ type PostUser {
 	UpdatedAt     uint64 `json:"updatedAt"`
 }
 
-
 type PostCategory {
 	Id          uint64 `json:"id,string"`
 	Name        string `json:"name"`
@@ -54,7 +53,7 @@ type PostItem {
 	Topic           []PostTopic  `json:"topic"`
 	Content         string       `json:"content"`
 	Images          []string     `json:"images"`
-	Creator         PostUser         `json:"creator"`
+	Creator         PostUser     `json:"creator"`
 	Status          int          `json:"status"`
 	Visibility      int          `json:"visibility"`
 	IsTop           int          `json:"isTop"`

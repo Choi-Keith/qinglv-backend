@@ -17,6 +17,7 @@ message TopicItem {
     uint64 quoteCount = 6; 
     uint64 createdAt = 7;
     uint64 updatedAt = 8;
+    int32 type = 9;
 }
 message AddTopicReq {
     uint64 id  = 1;
@@ -25,6 +26,7 @@ message AddTopicReq {
 	string bg = 4;          
 	string description = 5;
     uint64 quoteCount = 6;
+    int32 type = 7;
 }
 message DeleteTopicReq {
     uint64 id = 1;
@@ -35,6 +37,7 @@ message UpdateTopicReq {
 	string bg = 4;          
 	string description = 5;
     uint64 quoteCount = 6;
+    int32 type = 7;
 }
 message GetTopicByIdReq {
     uint64 id = 1;
@@ -54,6 +57,8 @@ message GetTopicListReq {
     uint64 quoteCount = 3;
     uint64 pageNum = 4;
     uint64 pageSize = 5;
+    int32 type = 6;
+    string sort = 7;
 }
 message GetTopicListResp {
     repeated TopicItem data = 1;
