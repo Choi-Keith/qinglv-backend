@@ -19,26 +19,27 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Content_AddTopic_FullMethodName             = "/content.Content/AddTopic"
-	Content_DeleteTopic_FullMethodName          = "/content.Content/DeleteTopic"
-	Content_UpdateTopic_FullMethodName          = "/content.Content/UpdateTopic"
-	Content_GetTopicById_FullMethodName         = "/content.Content/GetTopicById"
-	Content_GetTopicByName_FullMethodName       = "/content.Content/GetTopicByName"
-	Content_GetTopicList_FullMethodName         = "/content.Content/GetTopicList"
-	Content_AddCategory_FullMethodName          = "/content.Content/AddCategory"
-	Content_DeleteCategory_FullMethodName       = "/content.Content/DeleteCategory"
-	Content_UpdateCategory_FullMethodName       = "/content.Content/UpdateCategory"
-	Content_GetCategoryDetail_FullMethodName    = "/content.Content/GetCategoryDetail"
-	Content_GetCategoryList_FullMethodName      = "/content.Content/GetCategoryList"
-	Content_AddPost_FullMethodName              = "/content.Content/AddPost"
-	Content_DeletePost_FullMethodName           = "/content.Content/DeletePost"
-	Content_UpdatePost_FullMethodName           = "/content.Content/UpdatePost"
-	Content_GetPostDetail_FullMethodName        = "/content.Content/GetPostDetail"
-	Content_GetPostList_FullMethodName          = "/content.Content/GetPostList"
-	Content_AddPostContent_FullMethodName       = "/content.Content/AddPostContent"
-	Content_DeletePostContent_FullMethodName    = "/content.Content/DeletePostContent"
-	Content_GetPostContentDetail_FullMethodName = "/content.Content/GetPostContentDetail"
-	Content_GetPostContentList_FullMethodName   = "/content.Content/GetPostContentList"
+	Content_AddTopic_FullMethodName               = "/content.Content/AddTopic"
+	Content_DeleteTopic_FullMethodName            = "/content.Content/DeleteTopic"
+	Content_UpdateTopic_FullMethodName            = "/content.Content/UpdateTopic"
+	Content_GetTopicById_FullMethodName           = "/content.Content/GetTopicById"
+	Content_GetTopicByName_FullMethodName         = "/content.Content/GetTopicByName"
+	Content_GetTopicList_FullMethodName           = "/content.Content/GetTopicList"
+	Content_AddCategory_FullMethodName            = "/content.Content/AddCategory"
+	Content_DeleteCategory_FullMethodName         = "/content.Content/DeleteCategory"
+	Content_UpdateCategory_FullMethodName         = "/content.Content/UpdateCategory"
+	Content_GetCategoryDetail_FullMethodName      = "/content.Content/GetCategoryDetail"
+	Content_GetCategoryList_FullMethodName        = "/content.Content/GetCategoryList"
+	Content_AddPost_FullMethodName                = "/content.Content/AddPost"
+	Content_DeletePost_FullMethodName             = "/content.Content/DeletePost"
+	Content_UpdatePost_FullMethodName             = "/content.Content/UpdatePost"
+	Content_GetPostDetail_FullMethodName          = "/content.Content/GetPostDetail"
+	Content_GetPostList_FullMethodName            = "/content.Content/GetPostList"
+	Content_AddPostContent_FullMethodName         = "/content.Content/AddPostContent"
+	Content_DeletePostContent_FullMethodName      = "/content.Content/DeletePostContent"
+	Content_GetPostContentDetail_FullMethodName   = "/content.Content/GetPostContentDetail"
+	Content_GetPostContentByPostId_FullMethodName = "/content.Content/GetPostContentByPostId"
+	Content_GetPostContentList_FullMethodName     = "/content.Content/GetPostContentList"
 )
 
 // ContentClient is the client API for Content service.
@@ -83,6 +84,8 @@ type ContentClient interface {
 	DeletePostContent(ctx context.Context, in *DeletePostContentReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: postContent
 	GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
+	// group: postContent
+	GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
 	// group: postContent
 	GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error)
 }
@@ -266,6 +269,15 @@ func (c *contentClient) GetPostContentDetail(ctx context.Context, in *GetPostCon
 	return out, nil
 }
 
+func (c *contentClient) GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
+	out := new(GetPostContentDetailResp)
+	err := c.cc.Invoke(ctx, Content_GetPostContentByPostId_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *contentClient) GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error) {
 	out := new(GetPostContentListResp)
 	err := c.cc.Invoke(ctx, Content_GetPostContentList_FullMethodName, in, out, opts...)
@@ -317,6 +329,8 @@ type ContentServer interface {
 	DeletePostContent(context.Context, *DeletePostContentReq) (*OkResp, error)
 	// group: postContent
 	GetPostContentDetail(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error)
+	// group: postContent
+	GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error)
 	// group: postContent
 	GetPostContentList(context.Context, *GetPostContentListReq) (*GetPostContentListResp, error)
 	mustEmbedUnimplementedContentServer()
@@ -382,6 +396,9 @@ func (UnimplementedContentServer) DeletePostContent(context.Context, *DeletePost
 }
 func (UnimplementedContentServer) GetPostContentDetail(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentDetail not implemented")
+}
+func (UnimplementedContentServer) GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentByPostId not implemented")
 }
 func (UnimplementedContentServer) GetPostContentList(context.Context, *GetPostContentListReq) (*GetPostContentListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentList not implemented")
@@ -741,6 +758,24 @@ func _Content_GetPostContentDetail_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Content_GetPostContentByPostId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostContentDetailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContentServer).GetPostContentByPostId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Content_GetPostContentByPostId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContentServer).GetPostContentByPostId(ctx, req.(*GetPostContentDetailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Content_GetPostContentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetPostContentListReq)
 	if err := dec(in); err != nil {
@@ -841,6 +876,10 @@ var Content_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPostContentDetail",
 			Handler:    _Content_GetPostContentDetail_Handler,
+		},
+		{
+			MethodName: "GetPostContentByPostId",
+			Handler:    _Content_GetPostContentByPostId_Handler,
 		},
 		{
 			MethodName: "GetPostContentList",

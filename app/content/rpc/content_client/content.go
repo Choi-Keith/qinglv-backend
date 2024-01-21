@@ -88,6 +88,8 @@ type (
 		// group: postContent
 		GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
 		// group: postContent
+		GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
+		// group: postContent
 		GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error)
 	}
 
@@ -214,6 +216,12 @@ func (m *defaultContent) DeletePostContent(ctx context.Context, in *DeletePostCo
 func (m *defaultContent) GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
 	client := content.NewContentClient(m.cli.Conn())
 	return client.GetPostContentDetail(ctx, in, opts...)
+}
+
+// group: postContent
+func (m *defaultContent) GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
+	client := content.NewContentClient(m.cli.Conn())
+	return client.GetPostContentByPostId(ctx, in, opts...)
 }
 
 // group: postContent

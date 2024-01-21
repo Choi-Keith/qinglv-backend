@@ -24,7 +24,7 @@ func AddPostHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := post.NewAddPostLogic(r.Context(), svcCtx)
+		l := post.NewAddPostLogic(r.Context(), svcCtx, r)
 		err := l.AddPost(&req, r)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)

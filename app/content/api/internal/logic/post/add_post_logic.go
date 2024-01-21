@@ -23,11 +23,12 @@ type AddPostLogic struct {
 	r      *http.Request
 }
 
-func NewAddPostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPostLogic {
+func NewAddPostLogic(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *AddPostLogic {
 	return &AddPostLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
+		r:      r,
 	}
 }
 

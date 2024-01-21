@@ -36,7 +36,6 @@ type CategoryItem struct {
 
 type CategoryUser struct {
 	Id            uint64 `json:"id"`
-	IsFollowing   bool   `json:"isFollowing"`
 	RoleId        uint64 `json:"roleId"`
 	Nickname      string `json:"nickname"`
 	Email         string `json:"email"`
@@ -173,7 +172,7 @@ type PostCategory struct {
 type PostItem struct {
 	Id              uint64       `json:"id,string"`
 	Category        PostCategory `json:"category"`
-	Topic           []PostTopic  `json:"topic"`
+	Topic           []string     `json:"topic"`
 	Content         string       `json:"content"`
 	Images          []string     `json:"images"`
 	Creator         PostUser     `json:"creator"`
@@ -192,16 +191,9 @@ type PostItem struct {
 	UpdatedAt       uint64       `json:"updatedAt"`
 }
 
-type PostTopic struct {
-	Id          uint64 `json:"id,string"`
-	Name        string `json:"name"`
-	Bg          string `json:"bg"`
-	Description string `json:"description"`
-	QuoteCount  string `json:"quoteCount"`
-}
-
 type PostUser struct {
 	Id            uint64 `json:"id"`
+	IsFollowing   bool   `json:"isFollowing"`
 	RoleId        uint64 `json:"roleId"`
 	Nickname      string `json:"nickname"`
 	Email         string `json:"email"`

@@ -1,7 +1,10 @@
 package jwtx
 
 import (
+	"errors"
 	"fmt"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -37,13 +40,21 @@ func NewJwtToken(secretKey string, seconds int64, opt ...Option) (string, error)
 	return token.SignedString([]byte(secretKey))
 }
 
-func ParseToken(tokenString, secretKey string) ([]Option, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &jwt.MapClaims{}, func(token *jwt.Token) (interface{}, error) {
+func GetUserIdByParseToken(r *http.Request, secretKey string) (uint64, error) {
+	tokenString := strings.Split(r.Header.Get("Authorization"), " ")[1]
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
 		return []byte(secretKey), nil
 	})
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	fmt.Printf("token claims: %+v\n", token.Claims)
-	return nil, nil
+	m := token.Claims.(jwt.MapClaims)
+	uid, ok := m["userId"]
+	if !ok {
+		return 0, errors.New("找不到userid")
+	}
+	return uint64(uid.(float64)), nil
 }

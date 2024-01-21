@@ -26,6 +26,5 @@ func NewGetPostContentDetailLogic(ctx context.Context, svcCtx *svc.ServiceContex
 // group: postContent
 func (l *GetPostContentDetailLogic) GetPostContentDetail(in *content.GetPostContentDetailReq) (*content.GetPostContentDetailResp, error) {
 	// todo: add your logic here and delete this line
-
 	return &content.GetPostContentDetailResp{}, nil
 }

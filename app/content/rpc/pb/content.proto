@@ -266,5 +266,7 @@ service Content {
     // group: postContent
     rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
     // group: postContent
+    rpc GetPostContentByPostId(GetPostContentDetailReq) returns(GetPostContentDetailResp);
+    // group: postContent
     rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
 }
