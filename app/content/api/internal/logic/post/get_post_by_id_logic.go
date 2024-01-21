@@ -2,7 +2,6 @@ package post
 
 import (
 	"context"
-	"errors"
 	"net/http"
 	"strings"
 
@@ -48,9 +47,6 @@ func (l *GetPostByIdLogic) GetPostById(req *types.GetPostByIdReq, r *http.Reques
 		logx.Errorf("[Post] GetPostContentByPostId failed: %+v\n", err)
 		return nil, err
 	}
-	if postResp.Post.Id != postContentResp.PostContent.PostId {
-		return nil, errors.New("post id 不等于 postcontet post_id")
-	}
 	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
 		UserId: postResp.Post.CreatorId,
 	})
@@ -61,11 +57,7 @@ func (l *GetPostByIdLogic) GetPostById(req *types.GetPostByIdReq, r *http.Reques
 	var postItem types.PostItem
 	_ = copier.Copy(&postItem, postResp.Post)
 	_ = copier.Copy(&postItem.Creator, userResp.User)
-	userId, err := jwtx.GetUserIdByParseToken(r, l.svcCtx.Config.JWTAuth.AccessSecret)
-	if err != nil {
-		return nil, err
-	}
-	logx.Debugf("userId: %+v\n", userId)
+	userId, _ := jwtx.GetUserIdByParseToken(r, l.svcCtx.Config.JWTAuth.AccessSecret)
 	if userId != 0 {
 		if err != nil {
 			logx.Errorf("[Post] get userId failed: %+v\n", err)

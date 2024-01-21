@@ -40,11 +40,10 @@ type PostCategory {
 	QuoteCount  string `json:"quoteCount"`
 }
 
-
 type PostItem {
 	Id              uint64       `json:"id,string"`
 	Category        PostCategory `json:"category"`
-	Topic           []string  `json:"topic"`
+	Topic           []string     `json:"topic"`
 	Content         string       `json:"content"`
 	Images          []string     `json:"images"`
 	Creator         PostUser     `json:"creator"`
@@ -70,7 +69,6 @@ type AddPostReq {
 	Images     []string `json:"images,optional"`
 	Visibility int      `json:"visibility,optional"`
 	IsTop      int      `json:"isTop,optional"`
-	
 }
 
 type DeletePostReq {
@@ -81,6 +79,7 @@ type (
 	GetUserPostListReq {
 		Id       uint64 `form:"id,string,optional"`
 		Keyword  string `form:"keyword,optional"`
+		Sort     string `form:"sort,optional"`
 		PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
 		PageSize int32  `form:"pageSize" validate:"required,gt=0"`
 	}
@@ -96,6 +95,7 @@ type (
 		Creator    string `form:"creator,optional"`
 		Status     int    `form:"status,optional"`
 		Visibility int    `form:"visibility,optional"`
+		Sort       string `form:"sort,optional"`
 		IsTop      bool   `form:"isTop,optional"`
 		Score      uint64 `form:"score,optional"`
 		Keyword    string `form:"keyword,optional"`

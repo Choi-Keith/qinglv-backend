@@ -103,6 +103,7 @@ type GetPostListReq struct {
 	Creator    string `form:"creator,optional"`
 	Status     int    `form:"status,optional"`
 	Visibility int    `form:"visibility,optional"`
+	Sort       string `form:"sort,optional"`
 	IsTop      bool   `form:"isTop,optional"`
 	Score      uint64 `form:"score,optional"`
 	Keyword    string `form:"keyword,optional"`
@@ -151,6 +152,7 @@ type GetTopicListResp struct {
 type GetUserPostListReq struct {
 	Id       uint64 `form:"id,string,optional"`
 	Keyword  string `form:"keyword,optional"`
+	Sort     string `form:"sort,optional"`
 	PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
 	PageSize int32  `form:"pageSize" validate:"required,gt=0"`
 }

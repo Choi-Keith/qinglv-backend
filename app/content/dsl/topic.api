@@ -76,7 +76,7 @@ type UpdateTopicReq {
 	Id          uint64 `json:"id,string"`
 	Bg          string `json:"bg,optional",validate:"200"`
 	Description string `json:"description,optional",validate:"200"`
-	QuoteCount uint64 `json:"quoteCount",validate:"gt=0"`
+	QuoteCount  uint64 `json:"quoteCount",validate:"gt=0"`
 	Type        int    `json:"type,options=[1,2]"`
 }
 

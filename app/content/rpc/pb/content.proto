@@ -172,6 +172,7 @@ message GetPostListReq {
     uint64 creatorId = 7;
     uint64 pageNum = 8;
     uint64 pageSize = 9;
+    string sort = 10;
 }
 message GetPostListResp {
     repeated PostItem data = 1;

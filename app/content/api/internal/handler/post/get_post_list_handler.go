@@ -24,8 +24,8 @@ func GetPostListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := post.NewGetPostListLogic(r.Context(), svcCtx)
-		resp, err := l.GetPostList(&req)
+		l := post.NewGetPostListLogic(r.Context(), svcCtx, r)
+		resp, err := l.GetPostList(&req, r)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)
 		} else {
