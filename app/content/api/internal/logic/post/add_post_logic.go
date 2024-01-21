@@ -45,7 +45,9 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 		}
 	}
 	if len(req.Topics) != 0 {
-		l.checkAndCreateTopic(req, uint64(userId))
+		if err := l.checkAndCreateTopic(req, uint64(userId)); err != nil {
+			return err
+		}
 	}
 	id := snowflake.MustID()
 	ip := utils.GetClientIP(r)
@@ -87,12 +89,13 @@ func (l *AddPostLogic) checkAndCreateTopic(req *types.AddPostReq, userId uint64)
 	for _, topic := range req.Topics {
 		if _, err := l.svcCtx.ContentRpc.GetTopicByName(l.ctx, &content_client.GetTopicByNameReq{
 			Name: topic,
-		}); err == nil {
+		}); err != nil {
 			topicId := snowflake.MustID()
 			_, err := l.svcCtx.ContentRpc.AddTopic(l.ctx, &content_client.AddTopicReq{
 				Id:          topicId,
 				CreatorId:   uint64(userId),
 				Name:        topic,
+				Type:        2,
 				Description: "",
 				Bg:          "https://qinglv-1304086226.cos.ap-guangzhou.myqcloud.com/images/topic/default.png",
 			})
