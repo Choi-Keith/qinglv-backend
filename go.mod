@@ -12,6 +12,7 @@ require (
 	github.com/mojocn/base64Captcha v1.3.6
 	github.com/pkg/errors v0.9.1
 	github.com/sony/sonyflake v1.2.0
+	github.com/techxmind/ip2location v0.0.0-20201016120605-9ca74285b024
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.45
 	github.com/zeromicro/go-zero v1.6.1
 	google.golang.org/grpc v1.60.1

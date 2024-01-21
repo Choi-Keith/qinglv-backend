@@ -76,6 +76,7 @@ type AddPostReq {
 	Images     []string `json:"images,optional"`
 	Visibility int      `json:"visibility,optional"`
 	IsTop      int      `json:"isTop,optional"`
+	
 }
 
 type DeletePostReq {

@@ -51,11 +51,13 @@ CREATE TABLE `post` (
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
     PRIMARY KEY (`id`),
     KEY `idx_is_top` (`is_top`),
     KEY `idx_visibility` (`visibility`),
     KEY `idx_status` (`status`)
+    KEY `idx_creator_id` (`creator_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子表';
 
 
@@ -64,7 +66,7 @@ CREATE TABLE `post_content` (
     `post_id` bigint(20) unsigned NOT NULL COMMENT '帖子id',
     `category_id` bigint(20) unsigned COMMENT '分类id',
     `topics` varchar(128) COMMENT '话题',
-    `content` text COMMENT '内容',
+    `content` text NOT NULL COMMENT '内容',
     `images` json COMMENT '图片',
     `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

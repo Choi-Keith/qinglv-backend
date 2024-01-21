@@ -66,6 +66,7 @@ type (
 		DislikeCount    uint64    `db:"dislike_count"`     // 点踩数
 		ShareCount      uint64    `db:"share_count"`       // 分享
 		LatestRepliedOn time.Time `db:"latest_replied_on"` // 最近回复时间
+		CreatorId       uint64    `db:"creator_id"`        // 发布者
 		CreatedAt       time.Time `db:"created_at"`        // 创建时间
 		UpdatedAt       time.Time `db:"updated_at"`        // 修改时间
 		DeletedAt       time.Time `db:"deleted_at"`        // 删除时间
@@ -86,11 +87,11 @@ func (m *defaultPostModel) Insert(ctx context.Context, session sqlx.Session, dat
 	data.IsDel = globalKey.DelStateNo
 	qContentPostIdKey := fmt.Sprintf("%s%v", cacheQContentPostIdPrefix, data.Id)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, postRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, postRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.DeletedAt, data.IsDel, data.Version)
+			return session.ExecCtx(ctx, query, data.Id, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.DeletedAt, data.IsDel, data.Version)
+		return conn.ExecCtx(ctx, query, data.Id, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
 	}, qContentPostIdKey)
 }
 
@@ -116,9 +117,9 @@ func (m *defaultPostModel) Update(ctx context.Context, session sqlx.Session, dat
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, postRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.DeletedAt, data.IsDel, data.Version, data.Id)
+			return session.ExecCtx(ctx, query, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id)
 		}
-		return conn.ExecCtx(ctx, query, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.DeletedAt, data.IsDel, data.Version, data.Id)
+		return conn.ExecCtx(ctx, query, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id)
 	}, qContentPostIdKey)
 }
 
@@ -134,9 +135,9 @@ func (m *defaultPostModel) UpdateWithVersion(ctx context.Context, session sqlx.S
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, postRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+			return session.ExecCtx(ctx, query, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+		return conn.ExecCtx(ctx, query, data.Status, data.Visibility, data.IsTop, data.Score, data.Location, data.CommentCount, data.CollectionCount, data.LikeCount, data.DislikeCount, data.ShareCount, data.LatestRepliedOn, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 	}, qContentPostIdKey)
 	if err != nil {
 		return err

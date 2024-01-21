@@ -60,7 +60,7 @@ type (
 		PostId     uint64         `db:"post_id"`     // 帖子id
 		CategoryId sql.NullInt64  `db:"category_id"` // 分类id
 		Topics     sql.NullString `db:"topics"`      // 话题
-		Content    sql.NullString `db:"content"`     // 内容
+		Content    string         `db:"content"`     // 内容
 		Images     sql.NullString `db:"images"`      // 图片
 		CreatorId  uint64         `db:"creator_id"`  // 发布者
 		CreatedAt  time.Time      `db:"created_at"`  // 创建时间
