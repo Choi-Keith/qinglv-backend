@@ -265,9 +265,9 @@ service Content {
     // group: postContent
     rpc DeletePostContent(DeletePostContentReq) returns(OkResp);
     // group: postContent
-    rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
+    // rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
     // group: postContent
     rpc GetPostContentByPostId(GetPostContentDetailReq) returns(GetPostContentDetailResp);
     // group: postContent
-    rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
+    // rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
 }

@@ -2,11 +2,16 @@ package post
 
 import (
 	"context"
+	"strings"
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
+	"qinglv-backend/app/content/rpc/content"
+	"qinglv-backend/app/content/rpc/content_client"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/mr"
 )
 
 type GetUserPostListLogic struct {
@@ -25,6 +30,68 @@ func NewGetUserPostListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 
 func (l *GetUserPostListLogic) GetUserPostList(req *types.GetUserPostListReq) (resp *types.GetUserPostListResp, err error) {
 	// todo: add your logic here and delete this line
-
-	return
+	postListResp, err := l.svcCtx.ContentRpc.GetPostList(l.ctx, &content_client.GetPostListReq{
+		CreatorId: req.UserId,
+		Sort:      req.Sort,
+		PageNum:   uint64(req.PageNum),
+		PageSize:  uint64(req.PageSize),
+	})
+	if err != nil {
+		return nil, err
+	}
+	postList, err := mr.MapReduce(func(source chan<- content.PostItem) {
+		for _, postItem := range postListResp.Data {
+			source <- *postItem
+		}
+	}, func(item content.PostItem, writer mr.Writer[types.PostItem], cancel func(error)) {
+		postContentResp, err := l.svcCtx.ContentRpc.GetPostContentByPostId(l.ctx, &content_client.GetPostContentDetailReq{
+			Id: item.Id,
+		})
+		if err != nil {
+			cancel(err)
+			return
+		}
+		var postItem types.PostItem
+		_ = copier.Copy(&postItem, &item)
+		var categoryItem types.PostCategory
+		if postContentResp.PostContent.CategoryId != 0 {
+			categoryResp, err := l.svcCtx.ContentRpc.GetCategoryDetail(l.ctx, &content_client.GetCategoryDetailReq{
+				Id: postContentResp.PostContent.CategoryId,
+			})
+			if err != nil {
+				cancel(err)
+				return
+			}
+			_ = copier.Copy(&categoryItem, categoryResp.Category)
+		}
+		postItem.Category = categoryItem
+		topics := strings.Split(postContentResp.PostContent.Topics, ",")
+		postItem.Topic = topics
+		postItem.Content = postContentResp.PostContent.Content
+		postItem.Images = postContentResp.PostContent.Images
+		writer.Write(postItem)
+	}, func(pipe <-chan types.PostItem, writer mr.Writer[[]types.PostItem], cancel func(error)) {
+		var r []types.PostItem
+		m := make(map[uint64]types.PostItem, len(postListResp.Data))
+		for p := range pipe {
+			m[p.Id] = p
+		}
+		for _, postItem := range postListResp.Data {
+			r = append(r, m[postItem.Id])
+		}
+		writer.Write(r)
+	})
+	if err != nil {
+		return nil, err
+	}
+	isEnd := false
+	total := (req.PageNum-1)*req.PageSize + req.PageSize
+	if postListResp.Total < uint64(total) {
+		isEnd = true
+	}
+	return &types.GetUserPostListResp{
+		List:  postList,
+		Total: postListResp.Total,
+		IsEnd: isEnd,
+	}, nil
 }

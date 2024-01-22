@@ -119,6 +119,6 @@ service content {
 
 	@doc "我的帖子列表"
 	@handler getUserPostList
-	get /post/user/:id (GetUserPostListReq) returns (GetUserPostListResp)
+	get /user/post (GetUserPostListReq) returns (GetUserPostListResp)
 }
 

@@ -7,6 +7,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/common/response"
+	"qinglv-backend/pkg/validate"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
@@ -18,7 +19,10 @@ func GetUserPostListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			response.ParamsFail(w, err)
 			return
 		}
-
+		if err := validate.Validate(req); err != nil {
+			response.ParamsFail(w, err)
+			return
+		}
 		l := post.NewGetUserPostListLogic(r.Context(), svcCtx)
 		resp, err := l.GetUserPostList(&req)
 		if err != nil {

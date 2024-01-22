@@ -35,10 +35,6 @@ func NewGetPostListLogic(ctx context.Context, svcCtx *svc.ServiceContext, r *htt
 
 func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Request) (resp *types.GetPostListResp, err error) {
 	// todo: add your logic here and delete this line
-	isTop := 2
-	if req.IsTop {
-		isTop = 1
-	}
 	var userId uint64
 	if req.Creator != "" {
 		userResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user_client.CheckNicknameExistReq{
@@ -55,12 +51,14 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 		Status:     int32(req.Status),
 		Visibility: int32(req.Visibility),
 		Score:      req.Score,
-		IsTop:      int32(isTop),
 		Sort:       req.Sort,
 		CreatorId:  userId,
 		PageNum:    uint64(req.PageNum),
 		PageSize:   uint64(req.PageSize),
 	})
+	if err != nil {
+		return nil, err
+	}
 	postList, err := mr.MapReduce(func(source chan<- content.PostItem) {
 		for _, postItem := range postListResp.Data {
 			source <- *postItem

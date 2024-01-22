@@ -58,7 +58,7 @@ func (l *GetPostListLogic) GetPostList(in *content.GetPostListReq) (*content.Get
 	if in.Location != "" {
 		whereBuilder = whereBuilder.Where("location Like ?", fmt.Sprint("%", in.Location, "%"))
 	}
-	orderBy := sqls.HandleSort(in.Sort)
+	orderBy := fmt.Sprintf("%s, %s", "is_top Desc", sqls.HandleSort(in.Sort))
 	postListResp, total, err := l.svcCtx.PostModel.FindPageListByPageWithTotal(l.ctx, whereBuilder, int64(in.PageNum), int64(in.PageSize), orderBy)
 	if err != nil {
 		return nil, err

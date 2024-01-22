@@ -81,7 +81,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/post/user/:id",
+				Path:    "/user/post",
 				Handler: post.GetUserPostListHandler(serverCtx),
 			},
 		},

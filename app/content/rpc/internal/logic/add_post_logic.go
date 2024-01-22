@@ -33,7 +33,7 @@ func (l *AddPostLogic) AddPost(in *content.AddPostReq) (*content.OkResp, error) 
 		CreatorId:       in.CreatorId,
 		Status:          uint64(in.Status),
 		Visibility:      1,
-		IsTop:           2,
+		IsTop:           1,
 		Version:         1,
 		Location:        in.Location,
 		DeletedAt:       time.Now(),
