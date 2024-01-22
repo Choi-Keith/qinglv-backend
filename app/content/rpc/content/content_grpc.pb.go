@@ -37,9 +37,7 @@ const (
 	Content_GetPostList_FullMethodName            = "/content.Content/GetPostList"
 	Content_AddPostContent_FullMethodName         = "/content.Content/AddPostContent"
 	Content_DeletePostContent_FullMethodName      = "/content.Content/DeletePostContent"
-	Content_GetPostContentDetail_FullMethodName   = "/content.Content/GetPostContentDetail"
 	Content_GetPostContentByPostId_FullMethodName = "/content.Content/GetPostContentByPostId"
-	Content_GetPostContentList_FullMethodName     = "/content.Content/GetPostContentList"
 )
 
 // ContentClient is the client API for Content service.
@@ -83,11 +81,9 @@ type ContentClient interface {
 	// group: postContent
 	DeletePostContent(ctx context.Context, in *DeletePostContentReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: postContent
-	GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
+	// rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
 	// group: postContent
 	GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
-	// group: postContent
-	GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error)
 }
 
 type contentClient struct {
@@ -260,27 +256,9 @@ func (c *contentClient) DeletePostContent(ctx context.Context, in *DeletePostCon
 	return out, nil
 }
 
-func (c *contentClient) GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
-	out := new(GetPostContentDetailResp)
-	err := c.cc.Invoke(ctx, Content_GetPostContentDetail_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *contentClient) GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
 	out := new(GetPostContentDetailResp)
 	err := c.cc.Invoke(ctx, Content_GetPostContentByPostId_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error) {
-	out := new(GetPostContentListResp)
-	err := c.cc.Invoke(ctx, Content_GetPostContentList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -328,11 +306,9 @@ type ContentServer interface {
 	// group: postContent
 	DeletePostContent(context.Context, *DeletePostContentReq) (*OkResp, error)
 	// group: postContent
-	GetPostContentDetail(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error)
+	// rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
 	// group: postContent
 	GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error)
-	// group: postContent
-	GetPostContentList(context.Context, *GetPostContentListReq) (*GetPostContentListResp, error)
 	mustEmbedUnimplementedContentServer()
 }
 
@@ -394,14 +370,8 @@ func (UnimplementedContentServer) AddPostContent(context.Context, *AddPostConten
 func (UnimplementedContentServer) DeletePostContent(context.Context, *DeletePostContentReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePostContent not implemented")
 }
-func (UnimplementedContentServer) GetPostContentDetail(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentDetail not implemented")
-}
 func (UnimplementedContentServer) GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentByPostId not implemented")
-}
-func (UnimplementedContentServer) GetPostContentList(context.Context, *GetPostContentListReq) (*GetPostContentListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentList not implemented")
 }
 func (UnimplementedContentServer) mustEmbedUnimplementedContentServer() {}
 
@@ -740,24 +710,6 @@ func _Content_DeletePostContent_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Content_GetPostContentDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostContentDetailReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetPostContentDetail(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetPostContentDetail_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetPostContentDetail(ctx, req.(*GetPostContentDetailReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Content_GetPostContentByPostId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetPostContentDetailReq)
 	if err := dec(in); err != nil {
@@ -772,24 +724,6 @@ func _Content_GetPostContentByPostId_Handler(srv interface{}, ctx context.Contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ContentServer).GetPostContentByPostId(ctx, req.(*GetPostContentDetailReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetPostContentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostContentListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetPostContentList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetPostContentList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetPostContentList(ctx, req.(*GetPostContentListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -874,16 +808,8 @@ var Content_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Content_DeletePostContent_Handler,
 		},
 		{
-			MethodName: "GetPostContentDetail",
-			Handler:    _Content_GetPostContentDetail_Handler,
-		},
-		{
 			MethodName: "GetPostContentByPostId",
 			Handler:    _Content_GetPostContentByPostId_Handler,
-		},
-		{
-			MethodName: "GetPostContentList",
-			Handler:    _Content_GetPostContentList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

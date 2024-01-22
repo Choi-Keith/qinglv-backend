@@ -2,6 +2,7 @@ package post
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -10,6 +11,7 @@ import (
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/jwtx"
 
 	"github.com/jinzhu/copier"
@@ -35,7 +37,7 @@ func NewGetPostListLogic(ctx context.Context, svcCtx *svc.ServiceContext, r *htt
 
 func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Request) (resp *types.GetPostListResp, err error) {
 	// todo: add your logic here and delete this line
-	var userId uint64
+	var creatorId uint64
 	if req.Creator != "" {
 		userResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user_client.CheckNicknameExistReq{
 			Nickname: req.Creator,
@@ -44,15 +46,16 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 			return nil, err
 		}
 		if userResp.IsExist {
-			userId = userResp.User.Id
+			creatorId = userResp.User.Id
 		}
 	}
+	args := []int32{globalKey.PostVisitPublic}
 	postListResp, err := l.svcCtx.ContentRpc.GetPostList(l.ctx, &content_client.GetPostListReq{
 		Status:     int32(req.Status),
-		Visibility: int32(req.Visibility),
+		Visibility: args,
 		Score:      req.Score,
 		Sort:       req.Sort,
-		CreatorId:  userId,
+		CreatorId:  creatorId,
 		PageNum:    uint64(req.PageNum),
 		PageSize:   uint64(req.PageSize),
 	})
@@ -81,22 +84,26 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 		var postItem types.PostItem
 		_ = copier.Copy(&postItem, &item)
 		_ = copier.Copy(&postItem.Creator, userResp.User)
-		userId, _ := jwtx.GetUserIdByParseToken(r, l.svcCtx.Config.JWTAuth.AccessSecret)
-		if userId != 0 {
-			if err != nil {
-				cancel(err)
-				return
-			}
-			followingResp, err := l.svcCtx.UserRpc.GetFollowingList(l.ctx, &user_client.GetFollowingListReq{
-				UserId:      uint64(userId),
-				FollowingId: postItem.Creator.Id,
-			})
-			if err != nil {
-				cancel(err)
-				return
-			}
-			if len(followingResp.Data) != 0 {
-				postItem.Creator.IsFollowing = true
+		m, err := jwtx.ParseToken(r, l.svcCtx.Config.JWTAuth.AccessSecret)
+		if err == nil {
+			fmt.Printf("m: %+v\n", m)
+			userId, ok := m["userId"]
+			if ok && userId != 0 {
+				if err != nil {
+					cancel(err)
+					return
+				}
+				followingResp, err := l.svcCtx.UserRpc.GetFollowingList(l.ctx, &user_client.GetFollowingListReq{
+					UserId:      uint64(userId),
+					FollowingId: postItem.Creator.Id,
+				})
+				if err != nil {
+					cancel(err)
+					return
+				}
+				if len(followingResp.Data) != 0 {
+					postItem.Creator.IsFollowing = true
+				}
 			}
 		}
 		var categoryItem types.PostCategory

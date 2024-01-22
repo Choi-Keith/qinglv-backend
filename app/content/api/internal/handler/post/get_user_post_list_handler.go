@@ -23,8 +23,8 @@ func GetUserPostListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			response.ParamsFail(w, err)
 			return
 		}
-		l := post.NewGetUserPostListLogic(r.Context(), svcCtx)
-		resp, err := l.GetUserPostList(&req)
+		l := post.NewGetUserPostListLogic(r.Context(), svcCtx, r)
+		resp, err := l.GetUserPostList(&req, r)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)
 		} else {

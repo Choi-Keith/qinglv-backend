@@ -14,3 +14,9 @@ var DateTimeFormatTplStandardDate = "Y-m-d"
 var DateTimeFormatTplStandardTime = "H:i:s"
 
 var VerifyEmailCodePrefixKey = "cache:qUser:email:verify:code:"
+
+const (
+	PostVisitPublic = iota + 1
+	PostVisitFriend
+	PostVisitPrivate
+)

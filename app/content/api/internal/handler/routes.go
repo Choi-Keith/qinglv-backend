@@ -63,6 +63,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/post/:id",
 				Handler: post.GetPostByIdHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/post",
+				Handler: post.GetUserPostListHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/content/v1"),
 	)
@@ -78,11 +83,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodDelete,
 				Path:    "/post/:id",
 				Handler: post.DeletePostHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/post",
-				Handler: post.GetUserPostListHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),

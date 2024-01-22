@@ -131,19 +131,7 @@ func (s *ContentServer) DeletePostContent(ctx context.Context, in *content.Delet
 }
 
 // group: postContent
-func (s *ContentServer) GetPostContentDetail(ctx context.Context, in *content.GetPostContentDetailReq) (*content.GetPostContentDetailResp, error) {
-	l := logic.NewGetPostContentDetailLogic(ctx, s.svcCtx)
-	return l.GetPostContentDetail(in)
-}
-
-// group: postContent
 func (s *ContentServer) GetPostContentByPostId(ctx context.Context, in *content.GetPostContentDetailReq) (*content.GetPostContentDetailResp, error) {
 	l := logic.NewGetPostContentByPostIdLogic(ctx, s.svcCtx)
 	return l.GetPostContentByPostId(in)
-}
-
-// group: postContent
-func (s *ContentServer) GetPostContentList(ctx context.Context, in *content.GetPostContentListReq) (*content.GetPostContentListResp, error) {
-	l := logic.NewGetPostContentListLogic(ctx, s.svcCtx)
-	return l.GetPostContentList(in)
 }

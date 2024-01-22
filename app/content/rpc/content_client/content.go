@@ -86,11 +86,7 @@ type (
 		// group: postContent
 		DeletePostContent(ctx context.Context, in *DeletePostContentReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: postContent
-		GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
-		// group: postContent
 		GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
-		// group: postContent
-		GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error)
 	}
 
 	defaultContent struct {
@@ -213,19 +209,7 @@ func (m *defaultContent) DeletePostContent(ctx context.Context, in *DeletePostCo
 }
 
 // group: postContent
-func (m *defaultContent) GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
-	client := content.NewContentClient(m.cli.Conn())
-	return client.GetPostContentDetail(ctx, in, opts...)
-}
-
-// group: postContent
 func (m *defaultContent) GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
 	client := content.NewContentClient(m.cli.Conn())
 	return client.GetPostContentByPostId(ctx, in, opts...)
-}
-
-// group: postContent
-func (m *defaultContent) GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error) {
-	client := content.NewContentClient(m.cli.Conn())
-	return client.GetPostContentList(ctx, in, opts...)
 }

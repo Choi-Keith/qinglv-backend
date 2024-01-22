@@ -35,7 +35,7 @@ func (l *GetPostListLogic) GetPostList(in *content.GetPostListReq) (*content.Get
 			"status": in.Status,
 		})
 	}
-	if in.Visibility != 0 {
+	if len(in.Visibility) != 0 {
 		whereBuilder = whereBuilder.Where(squirrel.Eq{
 			"visibility": in.Visibility,
 		})

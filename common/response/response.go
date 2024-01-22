@@ -61,14 +61,14 @@ func Fail(w http.ResponseWriter, httpCode int, err error) {
 				}
 			} else {
 				resp = &Resp{
-					Code:    http.StatusBadRequest,
+					Code:    httpCode,
 					Message: err.Error(),
 					Data:    struct{}{},
 				}
 			}
 		} else {
 			resp = &Resp{
-				Code:    http.StatusBadRequest,
+				Code:    httpCode,
 				Message: err.Error(),
 				Data:    struct{}{},
 			}

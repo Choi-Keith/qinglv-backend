@@ -96,6 +96,10 @@ service content {
 	@doc "根据id获取帖子详情"
 	@handler getPostById
 	get /post/:id (GetPostByIdReq) returns (GetPostByIdResp)
+
+	@doc "我的帖子列表"
+	@handler getUserPostList
+	get /user/post (GetUserPostListReq) returns (GetUserPostListResp)
 }
 
 // need login
@@ -117,8 +121,5 @@ service content {
 	@handler deletePost
 	delete /post/:id (DeletePostReq)
 
-	@doc "我的帖子列表"
-	@handler getUserPostList
-	get /user/post (GetUserPostListReq) returns (GetUserPostListResp)
 }
 

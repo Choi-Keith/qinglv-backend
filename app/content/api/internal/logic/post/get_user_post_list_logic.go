@@ -2,12 +2,15 @@ package post
 
 import (
 	"context"
+	"net/http"
 	"strings"
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/common/globalKey"
+	"qinglv-backend/pkg/jwtx"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -18,23 +21,39 @@ type GetUserPostListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewGetUserPostListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserPostListLogic {
+func NewGetUserPostListLogic(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *GetUserPostListLogic {
 	return &GetUserPostListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
+		r:      r,
 	}
 }
 
-func (l *GetUserPostListLogic) GetUserPostList(req *types.GetUserPostListReq) (resp *types.GetUserPostListResp, err error) {
+func (l *GetUserPostListLogic) GetUserPostList(req *types.GetUserPostListReq, r *http.Request) (resp *types.GetUserPostListResp, err error) {
 	// todo: add your logic here and delete this line
+	args := []int32{globalKey.PostVisitPublic}
+
+	m, err := jwtx.ParseToken(r, l.svcCtx.Config.JWTAuth.AccessSecret)
+	if err == nil {
+		roleId, ok := m["roleId"]
+		userId := m["userId"]
+		if ok && (roleId <= 2 || userId == req.UserId) {
+			// 如果是管理员或者自己，则都可以看见
+			args = append(args, globalKey.PostVisitFriend, globalKey.PostVisitPrivate)
+		}
+		// TODO：如果是朋友，则需要再处理
+	}
+
 	postListResp, err := l.svcCtx.ContentRpc.GetPostList(l.ctx, &content_client.GetPostListReq{
-		CreatorId: req.UserId,
-		Sort:      req.Sort,
-		PageNum:   uint64(req.PageNum),
-		PageSize:  uint64(req.PageSize),
+		CreatorId:  req.UserId,
+		Sort:       req.Sort,
+		Visibility: args,
+		PageNum:    uint64(req.PageNum),
+		PageSize:   uint64(req.PageSize),
 	})
 	if err != nil {
 		return nil, err

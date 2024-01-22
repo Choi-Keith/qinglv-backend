@@ -57,22 +57,25 @@ func (l *GetPostByIdLogic) GetPostById(req *types.GetPostByIdReq, r *http.Reques
 	var postItem types.PostItem
 	_ = copier.Copy(&postItem, postResp.Post)
 	_ = copier.Copy(&postItem.Creator, userResp.User)
-	userId, _ := jwtx.GetUserIdByParseToken(r, l.svcCtx.Config.JWTAuth.AccessSecret)
-	if userId != 0 {
-		if err != nil {
-			logx.Errorf("[Post] get userId failed: %+v\n", err)
-			return nil, err
-		}
-		followingResp, err := l.svcCtx.UserRpc.GetFollowingList(l.ctx, &user_client.GetFollowingListReq{
-			UserId:      uint64(userId),
-			FollowingId: postItem.Creator.Id,
-		})
-		if err != nil {
-			logx.Errorf("[Post] GetFollowingList failed: %+v\n", err)
-			return nil, err
-		}
-		if len(followingResp.Data) != 0 {
-			postItem.Creator.IsFollowing = true
+	m, err := jwtx.ParseToken(r, l.svcCtx.Config.JWTAuth.AccessSecret)
+	if err == nil {
+		userId, ok := m["userId"]
+		if ok && userId != 0 {
+			if err != nil {
+				logx.Errorf("[Post] get userId failed: %+v\n", err)
+				return nil, err
+			}
+			followingResp, err := l.svcCtx.UserRpc.GetFollowingList(l.ctx, &user_client.GetFollowingListReq{
+				UserId:      uint64(userId),
+				FollowingId: postItem.Creator.Id,
+			})
+			if err != nil {
+				logx.Errorf("[Post] GetFollowingList failed: %+v\n", err)
+				return nil, err
+			}
+			if len(followingResp.Data) != 0 {
+				postItem.Creator.IsFollowing = true
+			}
 		}
 	}
 	var categoryItem types.PostCategory

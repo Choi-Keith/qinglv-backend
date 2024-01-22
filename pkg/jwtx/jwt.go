@@ -40,7 +40,10 @@ func NewJwtToken(secretKey string, seconds int64, opt ...Option) (string, error)
 	return token.SignedString([]byte(secretKey))
 }
 
-func GetUserIdByParseToken(r *http.Request, secretKey string) (uint64, error) {
+func ParseToken(r *http.Request, secretKey string) (map[string]uint64, error) {
+	if r.Header.Get("Authorization") == "" {
+		return nil, errors.New("用户没有登录")
+	}
 	tokenString := strings.Split(r.Header.Get("Authorization"), " ")[1]
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -49,12 +52,13 @@ func GetUserIdByParseToken(r *http.Request, secretKey string) (uint64, error) {
 		return []byte(secretKey), nil
 	})
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
-	m := token.Claims.(jwt.MapClaims)
-	uid, ok := m["userId"]
-	if !ok {
-		return 0, errors.New("找不到userid")
+	m := make(map[string]uint64)
+	for k, v := range token.Claims.(jwt.MapClaims) {
+		if k == "userId" || k == "roleId" {
+			m[k] = uint64(v.(float64))
+		}
 	}
-	return uint64(uid.(float64)), nil
+	return m, nil
 }
