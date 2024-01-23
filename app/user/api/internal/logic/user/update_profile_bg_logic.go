@@ -42,7 +42,7 @@ func (l *UpdateProfileBgLogic) UpdateProfileBg(req *types.UpdateProfileReq) erro
 	}
 	defer file.Close()
 	timeStr := strconv.Itoa(int(time.Now().Unix()))
-	key := fmt.Sprintf("%s%s_%s", l.svcCtx.Config.Cos.AvatarPath, timeStr, header.Filename)
+	key := fmt.Sprintf("%s%s_%s", l.svcCtx.Config.Cos.ProfileBgPath, timeStr, header.Filename)
 	_, err = l.svcCtx.CosClient.Object.Put(context.Background(), key, file, nil)
 	if err != nil {
 		return err
