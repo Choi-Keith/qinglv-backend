@@ -13,40 +13,47 @@ import (
 )
 
 type (
-	AddCategoryReq           = content.AddCategoryReq
-	AddPostContentReq        = content.AddPostContentReq
-	AddPostReq               = content.AddPostReq
-	AddTopicReq              = content.AddTopicReq
-	CategoryItem             = content.CategoryItem
-	DeleteCategoryReq        = content.DeleteCategoryReq
-	DeletePostContentReq     = content.DeletePostContentReq
-	DeletePostReq            = content.DeletePostReq
-	DeleteTopicReq           = content.DeleteTopicReq
-	GetCategoryDetailReq     = content.GetCategoryDetailReq
-	GetCategoryDetailResp    = content.GetCategoryDetailResp
-	GetCategoryListReq       = content.GetCategoryListReq
-	GetCategoryListResp      = content.GetCategoryListResp
-	GetPostContentDetailReq  = content.GetPostContentDetailReq
-	GetPostContentDetailResp = content.GetPostContentDetailResp
-	GetPostContentListReq    = content.GetPostContentListReq
-	GetPostContentListResp   = content.GetPostContentListResp
-	GetPostDetailReq         = content.GetPostDetailReq
-	GetPostDetailResp        = content.GetPostDetailResp
-	GetPostListReq           = content.GetPostListReq
-	GetPostListResp          = content.GetPostListResp
-	GetTopicByIdReq          = content.GetTopicByIdReq
-	GetTopicByIdResp         = content.GetTopicByIdResp
-	GetTopicByNameReq        = content.GetTopicByNameReq
-	GetTopicByNameResp       = content.GetTopicByNameResp
-	GetTopicListReq          = content.GetTopicListReq
-	GetTopicListResp         = content.GetTopicListResp
-	OkResp                   = content.OkResp
-	PostContentItem          = content.PostContentItem
-	PostItem                 = content.PostItem
-	TopicItem                = content.TopicItem
-	UpdateCategoryReq        = content.UpdateCategoryReq
-	UpdatePostReq            = content.UpdatePostReq
-	UpdateTopicReq           = content.UpdateTopicReq
+	AddCategoryReq            = content.AddCategoryReq
+	AddMediaFileReq           = content.AddMediaFileReq
+	AddPostContentReq         = content.AddPostContentReq
+	AddPostReq                = content.AddPostReq
+	AddTopicReq               = content.AddTopicReq
+	CategoryItem              = content.CategoryItem
+	DeleteCategoryReq         = content.DeleteCategoryReq
+	DeleteMediaFileReq        = content.DeleteMediaFileReq
+	DeletePostContentReq      = content.DeletePostContentReq
+	DeletePostReq             = content.DeletePostReq
+	DeleteTopicReq            = content.DeleteTopicReq
+	GetCategoryDetailReq      = content.GetCategoryDetailReq
+	GetCategoryDetailResp     = content.GetCategoryDetailResp
+	GetCategoryListReq        = content.GetCategoryListReq
+	GetCategoryListResp       = content.GetCategoryListResp
+	GetMediaFileByContentReq  = content.GetMediaFileByContentReq
+	GetMediaFileByContentResp = content.GetMediaFileByContentResp
+	GetMediaFileListReq       = content.GetMediaFileListReq
+	GetMediaFileListResp      = content.GetMediaFileListResp
+	GetPostContentDetailReq   = content.GetPostContentDetailReq
+	GetPostContentDetailResp  = content.GetPostContentDetailResp
+	GetPostContentListReq     = content.GetPostContentListReq
+	GetPostContentListResp    = content.GetPostContentListResp
+	GetPostDetailReq          = content.GetPostDetailReq
+	GetPostDetailResp         = content.GetPostDetailResp
+	GetPostListReq            = content.GetPostListReq
+	GetPostListResp           = content.GetPostListResp
+	GetTopicByIdReq           = content.GetTopicByIdReq
+	GetTopicByIdResp          = content.GetTopicByIdResp
+	GetTopicByNameReq         = content.GetTopicByNameReq
+	GetTopicByNameResp        = content.GetTopicByNameResp
+	GetTopicListReq           = content.GetTopicListReq
+	GetTopicListResp          = content.GetTopicListResp
+	MediaFile                 = content.MediaFile
+	OkResp                    = content.OkResp
+	PostContentItem           = content.PostContentItem
+	PostItem                  = content.PostItem
+	TopicItem                 = content.TopicItem
+	UpdateCategoryReq         = content.UpdateCategoryReq
+	UpdatePostReq             = content.UpdatePostReq
+	UpdateTopicReq            = content.UpdateTopicReq
 
 	Content interface {
 		// group: topic
@@ -86,7 +93,19 @@ type (
 		// group: postContent
 		DeletePostContent(ctx context.Context, in *DeletePostContentReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: postContent
+		GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
+		// group: postContent
 		GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
+		// group: postContent
+		GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error)
+		// group: mediaFile
+		AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
+		// group: mediaFile
+		DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
+		// group: mediaFile
+		GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error)
+		// group: mediaFile
+		GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error)
 	}
 
 	defaultContent struct {
@@ -209,7 +228,43 @@ func (m *defaultContent) DeletePostContent(ctx context.Context, in *DeletePostCo
 }
 
 // group: postContent
+func (m *defaultContent) GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
+	client := content.NewContentClient(m.cli.Conn())
+	return client.GetPostContentDetail(ctx, in, opts...)
+}
+
+// group: postContent
 func (m *defaultContent) GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
 	client := content.NewContentClient(m.cli.Conn())
 	return client.GetPostContentByPostId(ctx, in, opts...)
+}
+
+// group: postContent
+func (m *defaultContent) GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error) {
+	client := content.NewContentClient(m.cli.Conn())
+	return client.GetPostContentList(ctx, in, opts...)
+}
+
+// group: mediaFile
+func (m *defaultContent) AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := content.NewContentClient(m.cli.Conn())
+	return client.AddMediaFile(ctx, in, opts...)
+}
+
+// group: mediaFile
+func (m *defaultContent) DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := content.NewContentClient(m.cli.Conn())
+	return client.DeleteMediaFile(ctx, in, opts...)
+}
+
+// group: mediaFile
+func (m *defaultContent) GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error) {
+	client := content.NewContentClient(m.cli.Conn())
+	return client.GetMediaFileByContent(ctx, in, opts...)
+}
+
+// group: mediaFile
+func (m *defaultContent) GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error) {
+	client := content.NewContentClient(m.cli.Conn())
+	return client.GetMediaFileList(ctx, in, opts...)
 }

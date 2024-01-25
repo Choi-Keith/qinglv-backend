@@ -3,6 +3,7 @@ syntax = "v1"
 import (
 	"topic.api"
 	"category.api"
+	"upload.api"
 	"post.api"
 )
 
@@ -120,6 +121,25 @@ service content {
 	)
 	@handler deletePost
 	delete /post/:id (DeletePostReq)
+}
 
+// need login
+@server (
+	prefix: /content/v1
+	group:  upload
+	jwt:    JWTAuth
+)
+service content {
+	@doc (
+		summary: "上传图片"
+	)
+	@handler uploadImages
+	post /image/upload/:type (UploadImagesReq) returns (UploadImagesResp)
+
+	@doc (
+		summary: "删除图片"
+	)
+	@handler removeImages
+	delete /image/remove (RemoveImagesReq)
 }
 

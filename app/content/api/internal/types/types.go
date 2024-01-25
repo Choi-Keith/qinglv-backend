@@ -216,6 +216,11 @@ type PostUser struct {
 	UpdatedAt     uint64 `json:"updatedAt"`
 }
 
+type RemoveImagesReq struct {
+	Type   int      `json:"type,options=[1,2,3,4]"`
+	Images []string `json:"images"`
+}
+
 type TopicItem struct {
 	Id          uint64    `json:"id,string"`
 	Name        string    `json:"name"`
@@ -263,4 +268,12 @@ type UpdateTopicReq struct {
 	Description string `json:"description,optional",validate:"200"`
 	QuoteCount  uint64 `json:"quoteCount",validate:"gt=0"`
 	Type        int    `json:"type,options=[1,2]"`
+}
+
+type UploadImagesReq struct {
+	Type int `path:"type,options=[1,2,3,4]"` // 1评论，2帖子，3文章，4个人图库
+}
+
+type UploadImagesResp struct {
+	Images []string `json:"images"`
 }

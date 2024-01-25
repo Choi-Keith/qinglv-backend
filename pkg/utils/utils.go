@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
+	"mime/multipart"
 	"net"
 	"net/http"
 	"regexp"
@@ -73,4 +75,32 @@ func GetClientIP(r *http.Request) string {
 
 	return ""
 
+}
+
+const (
+	defaultMaxMemory = 36 << 20 // 64 MB
+)
+
+func GetFormFile(r *http.Request, key string) ([]multipart.File, []*multipart.FileHeader, error) {
+	if r.MultipartForm == nil {
+		err := r.ParseMultipartForm(defaultMaxMemory)
+		if err != nil {
+			return nil, nil, err
+		}
+	}
+	if r.MultipartForm != nil && r.MultipartForm.File != nil {
+		if fhs := r.MultipartForm.File[key]; len(fhs) > 0 {
+			files := make([]multipart.File, len(fhs))
+			for i, _ := range fhs {
+				f, err := fhs[i].Open()
+				if err != nil {
+					return nil, nil, err
+				}
+				files = append(files, f)
+			}
+			return files, fhs, nil
+
+		}
+	}
+	return nil, nil, errors.New("http: no such file")
 }

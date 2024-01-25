@@ -21,5 +21,6 @@ type Config struct {
 		PostImagePath    string
 		ArticleImagePath string
 		CommentImagePath string
+		GalleryImagePath string
 	}
 }

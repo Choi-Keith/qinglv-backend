@@ -7,6 +7,7 @@ import (
 	category "qinglv-backend/app/content/api/internal/handler/category"
 	post "qinglv-backend/app/content/api/internal/handler/post"
 	topic "qinglv-backend/app/content/api/internal/handler/topic"
+	upload "qinglv-backend/app/content/api/internal/handler/upload"
 	"qinglv-backend/app/content/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -126,6 +127,23 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPut,
 				Path:    "/topic/:id",
 				Handler: topic.UpdateTopicHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/content/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodDelete,
+				Path:    "/image/remove",
+				Handler: upload.RemoveImagesHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/image/upload/:type",
+				Handler: upload.UploadImagesHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),

@@ -223,6 +223,43 @@ message GetPostContentListResp {
     uint64 total = 2;
 }
 
+//==========================MediaFile==========================
+
+message MediaFile {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 fileSize = 3;
+    int32 mediaType = 4;
+    int32 bizType = 5;
+    string content = 6;
+    uint64 createdAt = 7;
+    uint64 updatedAt = 8;
+}
+message AddMediaFileReq {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 fileSize = 3;
+    int32 mediaType = 4;
+    int32 bizType = 5;
+    string content = 6;
+}
+message DeleteMediaFileReq{
+    uint64 id = 1;
+}
+message GetMediaFileByContentReq{
+    string content = 1;
+}
+message GetMediaFileByContentResp {
+    MediaFile file = 1;
+}
+message GetMediaFileListReq {
+    string content = 1;
+    uint64 creatorId = 3;
+}
+message GetMediaFileListResp {
+    repeated MediaFile Data = 1;
+    uint64 total = 2;
+}
 
 service Content {
     // group: topic
@@ -265,9 +302,18 @@ service Content {
     // group: postContent
     rpc DeletePostContent(DeletePostContentReq) returns(OkResp);
     // group: postContent
-    // rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
+    rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
     // group: postContent
     rpc GetPostContentByPostId(GetPostContentDetailReq) returns(GetPostContentDetailResp);
     // group: postContent
-    // rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
+    rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
+
+    // group: mediaFile
+    rpc AddMediaFile(AddMediaFileReq) returns(OkResp);
+    // group: mediaFile
+    rpc DeleteMediaFile(DeleteMediaFileReq) returns(OkResp);
+    // group: mediaFile
+    rpc GetMediaFileByContent(GetMediaFileByContentReq) returns(GetMediaFileByContentResp);
+    // group: mediaFile
+    rpc GetMediaFileList(GetMediaFileListReq) returns(GetMediaFileListResp);
 }

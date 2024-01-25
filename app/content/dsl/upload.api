@@ -1,0 +1,24 @@
+syntax = "v1"
+
+info (
+	title:   "上传"
+	desc:    "上传图片"
+	author:  "choikeith"
+	email:   "aksoncai@gmail.com"
+	version: "v1"
+)
+
+type (
+    UploadImagesReq {
+        Type int `path:"type,options=[1,2,3,4]"` // 1评论，2帖子，3文章，4个人图库
+    }
+
+    UploadImagesResp {
+        Images []string `json:"images"`
+    }
+)
+
+type RemoveImagesReq {
+    Type int `json:"type,options=[1,2,3,4]"`
+    Images []string `json:"images"`
+}

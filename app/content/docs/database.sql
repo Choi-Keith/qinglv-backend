@@ -34,6 +34,24 @@ CREATE TABLE `category` (
     KEY `idx_name` (`name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '分类';
 
+CREATE TABLE `media_file` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
+    `creator_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
+    `file_size` bigint(20) unsigned NOT NULL,
+    `media_type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '1图片，2视频，3其他附件',
+    `biz_type` tinyint(3) unsigned NOT NULL DEFAULT '2' COMMENT '1评论，2帖子，3文章，4个人图库, 5视频',
+    `content` varchar(255) NOT NULL DEFAULT '',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY (`content`),
+    KEY `idx_content` (`content`),
+    KEY `idx_creator_id` (`creator_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '媒体文件';
+
 CREATE TABLE `post` (
     `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
     `status` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT '审核状态：1已通过,2正在审核中，3不通过',

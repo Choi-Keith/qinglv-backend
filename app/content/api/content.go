@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"net/http"
@@ -34,7 +35,12 @@ func main() {
 		c.RestConf,
 		rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
 			response.FailCodeMsg(w, http.StatusUnauthorized, err)
-		}))
+		}), rest.WithNotAllowedHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			response.FailCodeMsg(w, http.StatusMethodNotAllowed, errors.New("请求方法出错"))
+		})), rest.WithNotFoundHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			response.FailCodeMsg(w, http.StatusNotFound, errors.New("找不到路径"))
+		})))
+
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)

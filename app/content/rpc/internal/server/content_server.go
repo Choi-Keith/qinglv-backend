@@ -131,7 +131,43 @@ func (s *ContentServer) DeletePostContent(ctx context.Context, in *content.Delet
 }
 
 // group: postContent
+func (s *ContentServer) GetPostContentDetail(ctx context.Context, in *content.GetPostContentDetailReq) (*content.GetPostContentDetailResp, error) {
+	l := logic.NewGetPostContentDetailLogic(ctx, s.svcCtx)
+	return l.GetPostContentDetail(in)
+}
+
+// group: postContent
 func (s *ContentServer) GetPostContentByPostId(ctx context.Context, in *content.GetPostContentDetailReq) (*content.GetPostContentDetailResp, error) {
 	l := logic.NewGetPostContentByPostIdLogic(ctx, s.svcCtx)
 	return l.GetPostContentByPostId(in)
+}
+
+// group: postContent
+func (s *ContentServer) GetPostContentList(ctx context.Context, in *content.GetPostContentListReq) (*content.GetPostContentListResp, error) {
+	l := logic.NewGetPostContentListLogic(ctx, s.svcCtx)
+	return l.GetPostContentList(in)
+}
+
+// group: mediaFile
+func (s *ContentServer) AddMediaFile(ctx context.Context, in *content.AddMediaFileReq) (*content.OkResp, error) {
+	l := logic.NewAddMediaFileLogic(ctx, s.svcCtx)
+	return l.AddMediaFile(in)
+}
+
+// group: mediaFile
+func (s *ContentServer) DeleteMediaFile(ctx context.Context, in *content.DeleteMediaFileReq) (*content.OkResp, error) {
+	l := logic.NewDeleteMediaFileLogic(ctx, s.svcCtx)
+	return l.DeleteMediaFile(in)
+}
+
+// group: mediaFile
+func (s *ContentServer) GetMediaFileByContent(ctx context.Context, in *content.GetMediaFileByContentReq) (*content.GetMediaFileByContentResp, error) {
+	l := logic.NewGetMediaFileByContentLogic(ctx, s.svcCtx)
+	return l.GetMediaFileByContent(in)
+}
+
+// group: mediaFile
+func (s *ContentServer) GetMediaFileList(ctx context.Context, in *content.GetMediaFileListReq) (*content.GetMediaFileListResp, error) {
+	l := logic.NewGetMediaFileListLogic(ctx, s.svcCtx)
+	return l.GetMediaFileList(in)
 }
