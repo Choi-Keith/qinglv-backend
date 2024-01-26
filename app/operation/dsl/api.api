@@ -1,2 +1,37 @@
 syntax = "v1"
 
+import (
+	"collection.api"
+)
+
+//no need login
+@server (
+	prefix: /operation/v1
+	group:  collection_group
+)
+service operation {
+	@doc "收藏列表分组"
+	@handler getCollectionGroupList
+	get /collection/group (GetCollectionGroupListReq) returns (GetCollectionGropListResp)
+}
+
+// need login
+@server (
+	prefix: /operation/v1
+	group:  collection_group
+	jwt:    JWTAuth
+)
+service operation {
+	@doc "新建收藏分组"
+	@handler addCollectionGroup
+	post /collection/group (AddCollectionGroup)
+
+	@doc "删除收藏分组"
+	@handler deleteCollectionGroup
+	delete /collection/group/:id (DeleteCollectionGroup)
+
+	@doc "修改收藏分组"
+	@handler updateCollectionGroup
+	put /collection/group/:id (UpdateCollectionGroup)
+}
+

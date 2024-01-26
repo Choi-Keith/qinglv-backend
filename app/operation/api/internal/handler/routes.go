@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	collection_group "qinglv-backend/app/operation/api/internal/handler/collection_group"
 	"qinglv-backend/app/operation/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -14,9 +15,32 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
-				Path:    "/from/:name",
-				Handler: ApiHandler(serverCtx),
+				Path:    "/collection/group",
+				Handler: collection_group.GetCollectionGroupListHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/operation/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/collection/group",
+				Handler: collection_group.AddCollectionGroupHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/collection/group/:id",
+				Handler: collection_group.DeleteCollectionGroupHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/collection/group/:id",
+				Handler: collection_group.UpdateCollectionGroupHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/operation/v1"),
 	)
 }

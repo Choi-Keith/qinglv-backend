@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package operation;
+option go_package="./operation";
+
+message OkResp {
+    string pong = 1;
+}
+
+//==========================CollectionGroup==========================
+message CollectionGroupItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    string name = 3;
+    int32 bizType = 4;
+    int32 visibility = 5;
+    uint64 createdAt = 6;
+    uint64 updatedAt = 7;
+}
+message AddCollectionGroupReq {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    string name = 3;
+    int32 bizType = 4;
+    int32 visibility = 5;
+}
+message GetCollectionGroupListReq{
+    string name = 1;
+    int32 bizType = 2;
+    int32 visibility = 3;
+    uint64 creatorId = 4;
+    int32 pageNum  = 5;
+    int32 pageSize = 6;
+}
+message GetCollectionGroupListResp{
+    repeated CollectionGroupItem Data = 1;
+    uint64 total = 2;
+}
+message CheckExistByNameReq{
+    uint64 creatorId = 1;
+    string name = 2;
+    int32 bizType = 3;
+}
+message CheckExistByNameResp{
+    repeated CollectionGroupItem Data = 1;
+    uint64 total = 2;
+}
+message UpdateCollectionGroupReq{
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    string name = 3;
+    int32 bizType = 4;
+    int32 visibility = 5;
+    uint64 createdAt = 6;
+    uint64 updatedAt = 7;
+}
+message DeleteCollectionGroupReq {
+    uint64 id = 1;
+}
+
+service Operation {
+    // group: CollectionGroup
+    rpc AddCollectionGroup(AddCollectionGroupReq) returns(OkResp);
+    // group: CollectionGroup
+    rpc GetCollectionGroupList(GetCollectionGroupListReq) returns(GetCollectionGroupListResp);
+    // group: CollectionGroup
+    rpc CheckExistByName(CheckExistByNameReq) returns(CheckExistByNameResp);
+    // group: CollectionGroup
+    rpc UpdateCollectionGroup(UpdateCollectionGroupReq) returns(OkResp);
+    // group: CollectionGroup
+    rpc DeleteCollectionGroup(DeleteCollectionGroupReq) returns(OkResp);
+}
