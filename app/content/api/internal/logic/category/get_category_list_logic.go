@@ -86,7 +86,7 @@ func (l *GetCategoryListLogic) GetCategoryList(req *types.GetCategoryListReq) (r
 
 	isEnd := false
 	total := (req.PageNum-1)*req.PageSize + req.PageSize
-	if categoryListResp.Total < uint64(total) {
+	if categoryListResp.Total <= uint64(total) {
 		isEnd = true
 	}
 	return &types.GetCategoryListResp{

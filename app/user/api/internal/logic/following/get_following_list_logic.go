@@ -82,7 +82,7 @@ func (l *GetFollowingListLogic) GetFollowingList(req *types.FollowingListReq) (r
 	pageSize := uint64(req.PageSize)
 	pageNum := uint64(req.PageNum)
 	total := (pageNum-1)*pageSize + pageSize
-	if followingListResp.Total < total {
+	if followingListResp.Total <= total {
 		isEnd = true
 	}
 	return &types.FollowingListResp{

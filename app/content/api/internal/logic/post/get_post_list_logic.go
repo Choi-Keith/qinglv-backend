@@ -139,7 +139,7 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 	}
 	isEnd := false
 	total := (req.PageNum-1)*req.PageSize + req.PageSize
-	if postListResp.Total < uint64(total) {
+	if postListResp.Total <= uint64(total) {
 		isEnd = true
 	}
 

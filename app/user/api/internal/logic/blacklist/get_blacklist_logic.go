@@ -82,12 +82,12 @@ func (l *GetBlacklistLogic) GetBlacklist(req *types.BlacklistReq) (resp *types.B
 	pageSize := uint64(req.PageSize)
 	pageNum := uint64(req.PageNum)
 	total := (pageNum-1)*pageSize + pageSize
-	if blackListResp.Total < total {
+	if blackListResp.Total <= total {
 		isEnd = true
 	}
 	return &types.BlacklistResp{
 		List:  newBlackList,
-		Total: total,
+		Total: blackListResp.Total,
 		IsEnd: isEnd,
 	}, nil
 }

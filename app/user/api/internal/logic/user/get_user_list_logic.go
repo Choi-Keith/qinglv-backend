@@ -50,7 +50,7 @@ func (l *GetUserListLogic) GetUserList(req *types.UserListReq) (resp *types.User
 	pageSize := uint64(req.PageSize)
 	pageNum := uint64(req.PageNum)
 	total := (pageNum-1)*pageSize + pageSize
-	if userListResp.Total < total {
+	if userListResp.Total <= total {
 		isEnd = true
 	}
 	resp = &types.UserListResp{

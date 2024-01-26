@@ -89,7 +89,7 @@ func (l *GetTopicListLogic) GetTopicList(req *types.GetTopicListReq) (resp *type
 
 	isEnd := false
 	total := (req.PageNum-1)*req.PageSize + req.PageSize
-	if topicListResp.Total < uint64(total) {
+	if topicListResp.Total <= uint64(total) {
 		isEnd = true
 	}
 	return &types.GetTopicListResp{
