@@ -1,0 +1,925 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "host": "127.0.0.1:8888",
+  "basePath": "/api",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/operation/v1/collection": {
+      "get": {
+        "summary": "收藏列表",
+        "operationId": "getCollectionList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetCollectionListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "bizType",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "collection"
+        ]
+      },
+      "post": {
+        "summary": "新建收藏",
+        "operationId": "addCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddCollectionReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "collection"
+        ]
+      }
+    },
+    "/operation/v1/collection/group": {
+      "get": {
+        "summary": "收藏列表分组",
+        "operationId": "getCollectionGroupList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetCollectionGropListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "visibility",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "bizType",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "creatorId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "collection_group"
+        ]
+      },
+      "post": {
+        "summary": "新建收藏分组",
+        "operationId": "addCollectionGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddCollectionGroup"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "collection_group"
+        ]
+      }
+    },
+    "/operation/v1/collection/group/{id}": {
+      "delete": {
+        "summary": "删除收藏分组",
+        "operationId": "deleteCollectionGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteCollectionGroup"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "collection_group"
+        ]
+      },
+      "put": {
+        "summary": "修改收藏分组",
+        "operationId": "updateCollectionGroup",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCollectionGroup"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "collection_group"
+        ]
+      }
+    },
+    "/operation/v1/collection/{id}": {
+      "delete": {
+        "summary": "取消收藏",
+        "operationId": "deleteCollection",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteCollectionReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "collection"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AddCollectionGroup": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "bizType": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "AddCollectionGroup",
+      "required": [
+        "name",
+        "visibility",
+        "bizType"
+      ]
+    },
+    "AddCollectionReq": {
+      "type": "object",
+      "properties": {
+        "targetId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "groupId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AddCollectionReq",
+      "required": [
+        "targetId",
+        "groupId"
+      ]
+    },
+    "ArticleItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "$ref": "#/definitions/CollectionCategory"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "title": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "coverImage": {
+          "type": "string"
+        },
+        "creator": {
+          "$ref": "#/definitions/CollectionUser"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isTop": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "collectionCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "likeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dislikeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "shareCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastReplyTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ArticleItem",
+      "required": [
+        "id",
+        "category",
+        "tag",
+        "title",
+        "desc",
+        "content",
+        "coverImage",
+        "creator",
+        "status",
+        "visibility",
+        "isTop",
+        "score",
+        "commentCount",
+        "collectionCount",
+        "likeCount",
+        "dislikeCount",
+        "shareCount",
+        "lastReplyTime",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ArticleResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticleItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ArticleResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "CollectionCategory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "string"
+        }
+      },
+      "title": "CollectionCategory",
+      "required": [
+        "id",
+        "name",
+        "image",
+        "description",
+        "quoteCount"
+      ]
+    },
+    "CollectionGroupItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bizType": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CollectionGroupItem",
+      "required": [
+        "id",
+        "creatorId",
+        "name",
+        "visibility",
+        "bizType",
+        "createdAt",
+        "updatedAt",
+        "count"
+      ]
+    },
+    "CollectionUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isFollowing": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "weChat": {
+          "type": "string"
+        },
+        "motto": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "profileBg": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "gender": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "location": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "mailStatus": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "lastLoginTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CollectionUser",
+      "required": [
+        "id",
+        "isFollowing",
+        "roleId",
+        "nickname",
+        "email",
+        "weChat",
+        "motto",
+        "avatar",
+        "profession",
+        "profileBg",
+        "age",
+        "gender",
+        "location",
+        "address",
+        "status",
+        "level",
+        "score",
+        "mailStatus",
+        "lastLoginTime",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "DeleteCollectionGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteCollectionGroup",
+      "required": [
+        "id"
+      ]
+    },
+    "DeleteCollectionReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteCollectionReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetCollectionGropListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CollectionGroupItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetCollectionGropListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "GetCollectionGroupListReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "bizType": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetCollectionGroupListReq",
+      "required": [
+        "creatorId",
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetCollectionListReq": {
+      "type": "object",
+      "properties": {
+        "groupId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "bizType": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetCollectionListReq",
+      "required": [
+        "groupId",
+        "bizType",
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetCollectionListResp": {
+      "type": "object",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/PostResp"
+        },
+        "article": {
+          "$ref": "#/definitions/ArticleResp"
+        }
+      },
+      "title": "GetCollectionListResp",
+      "required": [
+        "post",
+        "article"
+      ]
+    },
+    "PostItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "$ref": "#/definitions/CollectionCategory"
+        },
+        "topic": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "content": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "creator": {
+          "$ref": "#/definitions/CollectionUser"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isTop": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "location": {
+          "type": "string"
+        },
+        "commentCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "collectionCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "likeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dislikeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "shareCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastReplyTime": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PostItem",
+      "required": [
+        "id",
+        "category",
+        "topic",
+        "content",
+        "images",
+        "creator",
+        "status",
+        "visibility",
+        "isTop",
+        "score",
+        "location",
+        "commentCount",
+        "collectionCount",
+        "likeCount",
+        "dislikeCount",
+        "shareCount",
+        "lastReplyTime",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PostResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PostResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "UpdateCollectionGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "bizType": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "UpdateCollectionGroup",
+      "required": [
+        "id",
+        "name",
+        "visibility",
+        "bizType"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

@@ -35,6 +35,12 @@ func (s *OperationServer) GetCollectionGroupList(ctx context.Context, in *operat
 }
 
 // group: CollectionGroup
+func (s *OperationServer) GetCollectionGroupById(ctx context.Context, in *operation.GetCollectionGroupByIdReq) (*operation.GetCollectionGroupByIdResp, error) {
+	l := logic.NewGetCollectionGroupByIdLogic(ctx, s.svcCtx)
+	return l.GetCollectionGroupById(in)
+}
+
+// group: CollectionGroup
 func (s *OperationServer) CheckExistByName(ctx context.Context, in *operation.CheckExistByNameReq) (*operation.CheckExistByNameResp, error) {
 	l := logic.NewCheckExistByNameLogic(ctx, s.svcCtx)
 	return l.CheckExistByName(in)
@@ -50,4 +56,28 @@ func (s *OperationServer) UpdateCollectionGroup(ctx context.Context, in *operati
 func (s *OperationServer) DeleteCollectionGroup(ctx context.Context, in *operation.DeleteCollectionGroupReq) (*operation.OkResp, error) {
 	l := logic.NewDeleteCollectionGroupLogic(ctx, s.svcCtx)
 	return l.DeleteCollectionGroup(in)
+}
+
+// group: Collection
+func (s *OperationServer) AddCollection(ctx context.Context, in *operation.AddCollectionReq) (*operation.OkResp, error) {
+	l := logic.NewAddCollectionLogic(ctx, s.svcCtx)
+	return l.AddCollection(in)
+}
+
+// group: Collection
+func (s *OperationServer) DeleteCollection(ctx context.Context, in *operation.DeleteCollectionReq) (*operation.OkResp, error) {
+	l := logic.NewDeleteCollectionLogic(ctx, s.svcCtx)
+	return l.DeleteCollection(in)
+}
+
+// group: Collection
+func (s *OperationServer) GetCollectionList(ctx context.Context, in *operation.GetCollectionListReq) (*operation.GetCollectionListResp, error) {
+	l := logic.NewGetCollectionListLogic(ctx, s.svcCtx)
+	return l.GetCollectionList(in)
+}
+
+// group: Collection
+func (s *OperationServer) GetCollectionById(ctx context.Context, in *operation.GetCollectionByIdReq) (*operation.GetCollectionByIdResp, error) {
+	l := logic.NewGetCollectionByIdLogic(ctx, s.svcCtx)
+	return l.GetCollectionById(in)
 }

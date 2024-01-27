@@ -7,6 +7,48 @@ type AddCollectionGroup struct {
 	BizType    int32  `json:"bizType,options=[1,2,3]"`
 }
 
+type AddCollectionReq struct {
+	TargetId uint64 `json:"targetId,string"`
+	GroupId  uint64 `json:"groupId,string"`
+}
+
+type ArticleItem struct {
+	Id              uint64             `json:"id,string"`
+	Category        CollectionCategory `json:"category"`
+	Tag             []string           `json:"tag"`
+	Title           string             `json:"title"`
+	Desc            string             `json:"desc"`
+	Content         string             `json:"content"`
+	CoverImage      string             `json:"coverImage"`
+	Creator         CollectionUser     `json:"creator"`
+	Status          int                `json:"status"`
+	Visibility      int                `json:"visibility"`
+	IsTop           int                `json:"isTop"`
+	Score           uint64             `json:"score"`
+	CommentCount    uint64             `json:"commentCount"`
+	CollectionCount uint64             `json:"collectionCount"`
+	LikeCount       uint64             `json:"likeCount"`
+	DislikeCount    uint64             `json:"dislikeCount"`
+	ShareCount      uint64             `json:"shareCount"`
+	LastReplyTime   uint64             `json:"lastReplyTime"`
+	CreatedAt       uint64             `json:"createdAt"`
+	UpdatedAt       uint64             `json:"updatedAt"`
+}
+
+type ArticleResp struct {
+	List  []ArticleItem `json:"list"`
+	IsEnd bool          `json:"isEnd"`
+	Total uint64        `json:"total"`
+}
+
+type CollectionCategory struct {
+	Id          uint64 `json:"id,string"`
+	Name        string `json:"name"`
+	Image       string `json:"image"`
+	Description string `json:"description"`
+	QuoteCount  string `json:"quoteCount"`
+}
+
 type CollectionGroupItem struct {
 	Id         uint64 `json:"id,string"`
 	CreatorId  uint64 `json:"creatorId,string"`
@@ -15,9 +57,38 @@ type CollectionGroupItem struct {
 	BizType    int32  `json:"bizType"`
 	CreatedAt  uint64 `json:"createdAt"`
 	UpdatedAt  uint64 `json:"updatedAt"`
+	Count      uint64 `json:"count"`
+}
+
+type CollectionUser struct {
+	Id            uint64 `json:"id"`
+	IsFollowing   bool   `json:"isFollowing"`
+	RoleId        uint64 `json:"roleId"`
+	Nickname      string `json:"nickname"`
+	Email         string `json:"email"`
+	WeChat        string `json:"weChat"`
+	Motto         string `json:"motto"`
+	Avatar        string `json:"avatar"`
+	Profession    string `json:"profession"`
+	ProfileBg     string `json:"profileBg"`
+	Age           int    `json:"age,range=[0:120]"`
+	Gender        int    `json:"gender,options=[1,2],default=1"`
+	Location      string `json:"location"`
+	Address       string `json:"address"`
+	Status        int    `json:"status"`
+	Level         int    `json:"level"`
+	Score         int    `json:"score"`
+	MailStatus    int    `json:"mailStatus"`
+	LastLoginTime uint64 `json:"lastLoginTime"`
+	CreatedAt     uint64 `json:"createdAt"`
+	UpdatedAt     uint64 `json:"updatedAt"`
 }
 
 type DeleteCollectionGroup struct {
+	Id uint64 `path:"id,string"`
+}
+
+type DeleteCollectionReq struct {
 	Id uint64 `path:"id,string"`
 }
 
@@ -34,6 +105,46 @@ type GetCollectionGroupListReq struct {
 	CreatorId  uint64 `form:"creatorId,string,optional"`
 	PageNum    int32  `form:"pageNum" validate:"required,gt=0"`
 	PageSize   int32  `form:"pageSize" validate:"required,gt=0"`
+}
+
+type GetCollectionListReq struct {
+	GroupId  uint64 `form:"groupId,string"`
+	BizType  int32  `form:"bizType"`
+	PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
+	PageSize int32  `form:"pageSize" validate:"required,gt=0"`
+}
+
+type GetCollectionListResp struct {
+	Post    PostResp    `json:"post"`
+	Article ArticleResp `json:"article"`
+}
+
+type PostItem struct {
+	Id              uint64             `json:"id,string"`
+	Category        CollectionCategory `json:"category"`
+	Topic           []string           `json:"topic"`
+	Content         string             `json:"content"`
+	Images          []string           `json:"images"`
+	Creator         CollectionUser     `json:"creator"`
+	Status          int                `json:"status"`
+	Visibility      int                `json:"visibility"`
+	IsTop           int                `json:"isTop"`
+	Score           uint64             `json:"score"`
+	Location        string             `json:"location"`
+	CommentCount    uint64             `json:"commentCount"`
+	CollectionCount uint64             `json:"collectionCount"`
+	LikeCount       uint64             `json:"likeCount"`
+	DislikeCount    uint64             `json:"dislikeCount"`
+	ShareCount      uint64             `json:"shareCount"`
+	LastReplyTime   uint64             `json:"lastReplyTime"`
+	CreatedAt       uint64             `json:"createdAt"`
+	UpdatedAt       uint64             `json:"updatedAt"`
+}
+
+type PostResp struct {
+	List  []PostItem `json:"list"`
+	IsEnd bool       `json:"isEnd"`
+	Total uint64     `json:"total"`
 }
 
 type UpdateCollectionGroup struct {

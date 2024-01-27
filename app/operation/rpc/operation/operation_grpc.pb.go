@@ -21,9 +21,14 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Operation_AddCollectionGroup_FullMethodName     = "/operation.Operation/AddCollectionGroup"
 	Operation_GetCollectionGroupList_FullMethodName = "/operation.Operation/GetCollectionGroupList"
+	Operation_GetCollectionGroupById_FullMethodName = "/operation.Operation/GetCollectionGroupById"
 	Operation_CheckExistByName_FullMethodName       = "/operation.Operation/CheckExistByName"
 	Operation_UpdateCollectionGroup_FullMethodName  = "/operation.Operation/UpdateCollectionGroup"
 	Operation_DeleteCollectionGroup_FullMethodName  = "/operation.Operation/DeleteCollectionGroup"
+	Operation_AddCollection_FullMethodName          = "/operation.Operation/AddCollection"
+	Operation_DeleteCollection_FullMethodName       = "/operation.Operation/DeleteCollection"
+	Operation_GetCollectionList_FullMethodName      = "/operation.Operation/GetCollectionList"
+	Operation_GetCollectionById_FullMethodName      = "/operation.Operation/GetCollectionById"
 )
 
 // OperationClient is the client API for Operation service.
@@ -35,11 +40,21 @@ type OperationClient interface {
 	// group: CollectionGroup
 	GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error)
 	// group: CollectionGroup
+	GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error)
+	// group: CollectionGroup
 	CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error)
 	// group: CollectionGroup
 	UpdateCollectionGroup(ctx context.Context, in *UpdateCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: CollectionGroup
 	DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: Collection
+	AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: Collection
+	DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: Collection
+	GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error)
+	// group: Collection
+	GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error)
 }
 
 type operationClient struct {
@@ -62,6 +77,15 @@ func (c *operationClient) AddCollectionGroup(ctx context.Context, in *AddCollect
 func (c *operationClient) GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error) {
 	out := new(GetCollectionGroupListResp)
 	err := c.cc.Invoke(ctx, Operation_GetCollectionGroupList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operationClient) GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error) {
+	out := new(GetCollectionGroupByIdResp)
+	err := c.cc.Invoke(ctx, Operation_GetCollectionGroupById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,6 +119,42 @@ func (c *operationClient) DeleteCollectionGroup(ctx context.Context, in *DeleteC
 	return out, nil
 }
 
+func (c *operationClient) AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Operation_AddCollection_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operationClient) DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Operation_DeleteCollection_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operationClient) GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error) {
+	out := new(GetCollectionListResp)
+	err := c.cc.Invoke(ctx, Operation_GetCollectionList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operationClient) GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error) {
+	out := new(GetCollectionByIdResp)
+	err := c.cc.Invoke(ctx, Operation_GetCollectionById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OperationServer is the server API for Operation service.
 // All implementations must embed UnimplementedOperationServer
 // for forward compatibility
@@ -104,11 +164,21 @@ type OperationServer interface {
 	// group: CollectionGroup
 	GetCollectionGroupList(context.Context, *GetCollectionGroupListReq) (*GetCollectionGroupListResp, error)
 	// group: CollectionGroup
+	GetCollectionGroupById(context.Context, *GetCollectionGroupByIdReq) (*GetCollectionGroupByIdResp, error)
+	// group: CollectionGroup
 	CheckExistByName(context.Context, *CheckExistByNameReq) (*CheckExistByNameResp, error)
 	// group: CollectionGroup
 	UpdateCollectionGroup(context.Context, *UpdateCollectionGroupReq) (*OkResp, error)
 	// group: CollectionGroup
 	DeleteCollectionGroup(context.Context, *DeleteCollectionGroupReq) (*OkResp, error)
+	// group: Collection
+	AddCollection(context.Context, *AddCollectionReq) (*OkResp, error)
+	// group: Collection
+	DeleteCollection(context.Context, *DeleteCollectionReq) (*OkResp, error)
+	// group: Collection
+	GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error)
+	// group: Collection
+	GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error)
 	mustEmbedUnimplementedOperationServer()
 }
 
@@ -122,6 +192,9 @@ func (UnimplementedOperationServer) AddCollectionGroup(context.Context, *AddColl
 func (UnimplementedOperationServer) GetCollectionGroupList(context.Context, *GetCollectionGroupListReq) (*GetCollectionGroupListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionGroupList not implemented")
 }
+func (UnimplementedOperationServer) GetCollectionGroupById(context.Context, *GetCollectionGroupByIdReq) (*GetCollectionGroupByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionGroupById not implemented")
+}
 func (UnimplementedOperationServer) CheckExistByName(context.Context, *CheckExistByNameReq) (*CheckExistByNameResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckExistByName not implemented")
 }
@@ -130,6 +203,18 @@ func (UnimplementedOperationServer) UpdateCollectionGroup(context.Context, *Upda
 }
 func (UnimplementedOperationServer) DeleteCollectionGroup(context.Context, *DeleteCollectionGroupReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollectionGroup not implemented")
+}
+func (UnimplementedOperationServer) AddCollection(context.Context, *AddCollectionReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCollection not implemented")
+}
+func (UnimplementedOperationServer) DeleteCollection(context.Context, *DeleteCollectionReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollection not implemented")
+}
+func (UnimplementedOperationServer) GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionList not implemented")
+}
+func (UnimplementedOperationServer) GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionById not implemented")
 }
 func (UnimplementedOperationServer) mustEmbedUnimplementedOperationServer() {}
 
@@ -176,6 +261,24 @@ func _Operation_GetCollectionGroupList_Handler(srv interface{}, ctx context.Cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OperationServer).GetCollectionGroupList(ctx, req.(*GetCollectionGroupListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Operation_GetCollectionGroupById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCollectionGroupByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).GetCollectionGroupById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_GetCollectionGroupById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).GetCollectionGroupById(ctx, req.(*GetCollectionGroupByIdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -234,6 +337,78 @@ func _Operation_DeleteCollectionGroup_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Operation_AddCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCollectionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).AddCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_AddCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).AddCollection(ctx, req.(*AddCollectionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Operation_DeleteCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCollectionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).DeleteCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_DeleteCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).DeleteCollection(ctx, req.(*DeleteCollectionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Operation_GetCollectionList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCollectionListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).GetCollectionList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_GetCollectionList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).GetCollectionList(ctx, req.(*GetCollectionListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Operation_GetCollectionById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCollectionByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).GetCollectionById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_GetCollectionById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).GetCollectionById(ctx, req.(*GetCollectionByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Operation_ServiceDesc is the grpc.ServiceDesc for Operation service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +425,10 @@ var Operation_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Operation_GetCollectionGroupList_Handler,
 		},
 		{
+			MethodName: "GetCollectionGroupById",
+			Handler:    _Operation_GetCollectionGroupById_Handler,
+		},
+		{
 			MethodName: "CheckExistByName",
 			Handler:    _Operation_CheckExistByName_Handler,
 		},
@@ -260,6 +439,22 @@ var Operation_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCollectionGroup",
 			Handler:    _Operation_DeleteCollectionGroup_Handler,
+		},
+		{
+			MethodName: "AddCollection",
+			Handler:    _Operation_AddCollection_Handler,
+		},
+		{
+			MethodName: "DeleteCollection",
+			Handler:    _Operation_DeleteCollection_Handler,
+		},
+		{
+			MethodName: "GetCollectionList",
+			Handler:    _Operation_GetCollectionList_Handler,
+		},
+		{
+			MethodName: "GetCollectionById",
+			Handler:    _Operation_GetCollectionById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

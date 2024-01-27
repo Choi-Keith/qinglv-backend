@@ -14,12 +14,21 @@ import (
 
 type (
 	AddCollectionGroupReq      = operation.AddCollectionGroupReq
+	AddCollectionReq           = operation.AddCollectionReq
 	CheckExistByNameReq        = operation.CheckExistByNameReq
 	CheckExistByNameResp       = operation.CheckExistByNameResp
 	CollectionGroupItem        = operation.CollectionGroupItem
+	CollectionItem             = operation.CollectionItem
 	DeleteCollectionGroupReq   = operation.DeleteCollectionGroupReq
+	DeleteCollectionReq        = operation.DeleteCollectionReq
+	GetCollectionByIdReq       = operation.GetCollectionByIdReq
+	GetCollectionByIdResp      = operation.GetCollectionByIdResp
+	GetCollectionGroupByIdReq  = operation.GetCollectionGroupByIdReq
+	GetCollectionGroupByIdResp = operation.GetCollectionGroupByIdResp
 	GetCollectionGroupListReq  = operation.GetCollectionGroupListReq
 	GetCollectionGroupListResp = operation.GetCollectionGroupListResp
+	GetCollectionListReq       = operation.GetCollectionListReq
+	GetCollectionListResp      = operation.GetCollectionListResp
 	OkResp                     = operation.OkResp
 	UpdateCollectionGroupReq   = operation.UpdateCollectionGroupReq
 
@@ -29,11 +38,21 @@ type (
 		// group: CollectionGroup
 		GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error)
 		// group: CollectionGroup
+		GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error)
+		// group: CollectionGroup
 		CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error)
 		// group: CollectionGroup
 		UpdateCollectionGroup(ctx context.Context, in *UpdateCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: CollectionGroup
 		DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
+		// group: Collection
+		AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
+		// group: Collection
+		DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
+		// group: Collection
+		GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error)
+		// group: Collection
+		GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error)
 	}
 
 	defaultOperation struct {
@@ -60,6 +79,12 @@ func (m *defaultOperation) GetCollectionGroupList(ctx context.Context, in *GetCo
 }
 
 // group: CollectionGroup
+func (m *defaultOperation) GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error) {
+	client := operation.NewOperationClient(m.cli.Conn())
+	return client.GetCollectionGroupById(ctx, in, opts...)
+}
+
+// group: CollectionGroup
 func (m *defaultOperation) CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error) {
 	client := operation.NewOperationClient(m.cli.Conn())
 	return client.CheckExistByName(ctx, in, opts...)
@@ -75,4 +100,28 @@ func (m *defaultOperation) UpdateCollectionGroup(ctx context.Context, in *Update
 func (m *defaultOperation) DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewOperationClient(m.cli.Conn())
 	return client.DeleteCollectionGroup(ctx, in, opts...)
+}
+
+// group: Collection
+func (m *defaultOperation) AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewOperationClient(m.cli.Conn())
+	return client.AddCollection(ctx, in, opts...)
+}
+
+// group: Collection
+func (m *defaultOperation) DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewOperationClient(m.cli.Conn())
+	return client.DeleteCollection(ctx, in, opts...)
+}
+
+// group: Collection
+func (m *defaultOperation) GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error) {
+	client := operation.NewOperationClient(m.cli.Conn())
+	return client.GetCollectionList(ctx, in, opts...)
+}
+
+// group: Collection
+func (m *defaultOperation) GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error) {
+	client := operation.NewOperationClient(m.cli.Conn())
+	return client.GetCollectionById(ctx, in, opts...)
 }

@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	collection "qinglv-backend/app/operation/api/internal/handler/collection"
 	collection_group "qinglv-backend/app/operation/api/internal/handler/collection_group"
 	"qinglv-backend/app/operation/api/internal/svc"
 
@@ -11,6 +12,34 @@ import (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/collection",
+				Handler: collection.GetCollectionListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/operation/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/collection",
+				Handler: collection.AddCollectionHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/collection/:id",
+				Handler: collection.DeleteCollectionHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/operation/v1"),
+	)
+
 	server.AddRoutes(
 		[]rest.Route{
 			{

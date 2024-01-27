@@ -9,16 +9,16 @@ info (
 )
 
 type (
-    UploadImagesReq {
-        Type int `path:"type,options=[1,2,3,4]"` // 1评论，2帖子，3文章，4个人图库
-    }
-
-    UploadImagesResp {
-        Images []string `json:"images"`
-    }
+	UploadImagesReq {
+		Type int `path:"type,options=[1,2,3,4]"` // 1评论，2帖子，3文章，4个人图库
+	}
+	UploadImagesResp {
+		Images []string `json:"images"`
+	}
 )
 
 type RemoveImagesReq {
-    Type int `json:"type,options=[1,2,3,4]"`
-    Images []string `json:"images"`
+	Type   int      `json:"type,options=[1,2,3,4]"`
+	Images []string `json:"images"`
 }
+

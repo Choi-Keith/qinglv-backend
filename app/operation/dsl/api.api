@@ -35,3 +35,30 @@ service operation {
 	put /collection/group/:id (UpdateCollectionGroup)
 }
 
+//no need login
+@server (
+	prefix: /operation/v1
+	group:  collection
+)
+service operation {
+	@doc "收藏列表"
+	@handler getCollectionList
+	get /collection (GetCollectionListReq) returns (GetCollectionListResp)
+}
+
+// need login
+@server (
+	prefix: /operation/v1
+	group:  collection
+	jwt:    JWTAuth
+)
+service operation {
+	@doc "新建收藏"
+	@handler addCollection
+	post /collection (AddCollectionReq)
+
+	@doc "取消收藏"
+	@handler deleteCollection
+	delete /collection/:id (DeleteCollectionReq)
+}
+

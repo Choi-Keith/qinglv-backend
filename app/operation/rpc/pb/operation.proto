@@ -36,6 +36,12 @@ message GetCollectionGroupListResp{
     repeated CollectionGroupItem Data = 1;
     uint64 total = 2;
 }
+message GetCollectionGroupByIdReq {
+    uint64 id = 1;
+}
+message GetCollectionGroupByIdResp {
+    CollectionGroupItem collectionGroup = 1;
+}
 message CheckExistByNameReq{
     uint64 creatorId = 1;
     string name = 2;
@@ -58,15 +64,63 @@ message DeleteCollectionGroupReq {
     uint64 id = 1;
 }
 
+//==========================CollectionGroup==========================
+
+message CollectionItem {
+    uint64 id = 1;
+    uint64 groupId = 2;
+    uint64 targetId = 3;
+    uint64 creatorId = 4;
+    uint64 createdAt = 5;
+    uint64 updatedAt = 6;
+}
+message AddCollectionReq {
+    uint64 id = 1;
+    uint64 groupId = 2;
+    uint64 targetId = 3;
+    uint64 creatorId = 4;
+}
+message DeleteCollectionReq{
+    uint64 id = 1;
+}
+message GetCollectionListReq{
+    uint64 groupId = 1;
+    uint64 CreatorId = 2;
+    uint64 pageNum = 3;
+    uint64 pageSize = 4;
+}
+message GetCollectionListResp{
+    repeated CollectionItem data = 1;
+    uint64 total = 2;
+}
+message GetCollectionByIdReq{
+    uint64 id = 1;
+}
+message GetCollectionByIdResp{
+    CollectionItem collection = 1;
+}
+
+
 service Operation {
     // group: CollectionGroup
     rpc AddCollectionGroup(AddCollectionGroupReq) returns(OkResp);
     // group: CollectionGroup
     rpc GetCollectionGroupList(GetCollectionGroupListReq) returns(GetCollectionGroupListResp);
     // group: CollectionGroup
+    rpc GetCollectionGroupById(GetCollectionGroupByIdReq) returns(GetCollectionGroupByIdResp);
+    // group: CollectionGroup
     rpc CheckExistByName(CheckExistByNameReq) returns(CheckExistByNameResp);
     // group: CollectionGroup
     rpc UpdateCollectionGroup(UpdateCollectionGroupReq) returns(OkResp);
     // group: CollectionGroup
     rpc DeleteCollectionGroup(DeleteCollectionGroupReq) returns(OkResp);
+
+    // group: Collection
+    rpc AddCollection(AddCollectionReq) returns(OkResp);
+    // group: Collection
+    rpc DeleteCollection(DeleteCollectionReq) returns(OkResp);
+    // group: Collection
+    rpc GetCollectionList(GetCollectionListReq) returns(GetCollectionListResp);
+    // group: Collection
+    rpc GetCollectionById(GetCollectionByIdReq) returns(GetCollectionByIdResp);
 }

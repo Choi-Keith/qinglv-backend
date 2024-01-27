@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	operationModel "qinglv-backend/app/operation/rpc/internal/model/collection_group"
+	collectionGroupModel "qinglv-backend/app/operation/rpc/internal/model/collection_group"
 	"qinglv-backend/app/operation/rpc/internal/svc"
 	"qinglv-backend/app/operation/rpc/operation"
 
@@ -63,7 +63,7 @@ func (l *GetCollectionGroupListLogic) GetCollectionGroupList(in *operation.GetCo
 	}, nil
 }
 
-func genCollectionGroupItem(groupItem *operationModel.CollectionGroup) *operation.CollectionGroupItem {
+func genCollectionGroupItem(groupItem *collectionGroupModel.CollectionGroup) *operation.CollectionGroupItem {
 	return &operation.CollectionGroupItem{
 		Id:         groupItem.Id,
 		CreatorId:  groupItem.CreatorId,
