@@ -12,6 +12,11 @@ type AddCollectionReq struct {
 	GroupId  uint64 `json:"groupId,string"`
 }
 
+type AddPostShareReq struct {
+	PostId uint64 `json:"postId,string"`
+	Type   int32  `json:"type,options=[1,2,3,4]"`
+}
+
 type ArticleItem struct {
 	Id              uint64             `json:"id,string"`
 	Category        CollectionCategory `json:"category"`
@@ -117,6 +122,14 @@ type GetCollectionListReq struct {
 type GetCollectionListResp struct {
 	Post    PostResp    `json:"post"`
 	Article ArticleResp `json:"article"`
+}
+
+type HandlePostThumbDownReq struct {
+	PostId uint64 `json:"postId,string"`
+}
+
+type HandlePostThumbUpReq struct {
+	PostId uint64 `json:"postId,string"`
 }
 
 type PostItem struct {

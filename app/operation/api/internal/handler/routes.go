@@ -6,6 +6,8 @@ import (
 
 	collection "qinglv-backend/app/operation/api/internal/handler/collection"
 	collection_group "qinglv-backend/app/operation/api/internal/handler/collection_group"
+	share "qinglv-backend/app/operation/api/internal/handler/share"
+	thumb "qinglv-backend/app/operation/api/internal/handler/thumb"
 	"qinglv-backend/app/operation/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -67,6 +69,35 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPut,
 				Path:    "/collection/group/:id",
 				Handler: collection_group.UpdateCollectionGroupHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/operation/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/share",
+				Handler: share.AddPostShareHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/operation/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/thumb/down",
+				Handler: thumb.HandlePostThumbDownHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/thumb/up",
+				Handler: thumb.HandlePostThumbUpHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),

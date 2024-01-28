@@ -81,3 +81,27 @@ func (s *OperationServer) GetCollectionById(ctx context.Context, in *operation.G
 	l := logic.NewGetCollectionByIdLogic(ctx, s.svcCtx)
 	return l.GetCollectionById(in)
 }
+
+// group: Share
+func (s *OperationServer) AddPostShare(ctx context.Context, in *operation.AddPostShareReq) (*operation.OkResp, error) {
+	l := logic.NewAddPostShareLogic(ctx, s.svcCtx)
+	return l.AddPostShare(in)
+}
+
+// group: PostThumb
+func (s *OperationServer) AddPostThumb(ctx context.Context, in *operation.AddPostThumbReq) (*operation.OkResp, error) {
+	l := logic.NewAddPostThumbLogic(ctx, s.svcCtx)
+	return l.AddPostThumb(in)
+}
+
+// group: PostThumb
+func (s *OperationServer) UpdatePostThumb(ctx context.Context, in *operation.UpdatePostThumbReq) (*operation.OkResp, error) {
+	l := logic.NewUpdatePostThumbLogic(ctx, s.svcCtx)
+	return l.UpdatePostThumb(in)
+}
+
+// group: PostThumb
+func (s *OperationServer) GetPostThumbById(ctx context.Context, in *operation.GetPostThumbByIdReq) (*operation.GetPostThumbByIdResp, error) {
+	l := logic.NewGetPostThumbByIdLogic(ctx, s.svcCtx)
+	return l.GetPostThumbById(in)
+}

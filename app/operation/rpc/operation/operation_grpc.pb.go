@@ -29,6 +29,10 @@ const (
 	Operation_DeleteCollection_FullMethodName       = "/operation.Operation/DeleteCollection"
 	Operation_GetCollectionList_FullMethodName      = "/operation.Operation/GetCollectionList"
 	Operation_GetCollectionById_FullMethodName      = "/operation.Operation/GetCollectionById"
+	Operation_AddPostShare_FullMethodName           = "/operation.Operation/AddPostShare"
+	Operation_AddPostThumb_FullMethodName           = "/operation.Operation/AddPostThumb"
+	Operation_UpdatePostThumb_FullMethodName        = "/operation.Operation/UpdatePostThumb"
+	Operation_GetPostThumbById_FullMethodName       = "/operation.Operation/GetPostThumbById"
 )
 
 // OperationClient is the client API for Operation service.
@@ -55,6 +59,14 @@ type OperationClient interface {
 	GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error)
 	// group: Collection
 	GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error)
+	// group: Share
+	AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: PostThumb
+	AddPostThumb(ctx context.Context, in *AddPostThumbReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: PostThumb
+	UpdatePostThumb(ctx context.Context, in *UpdatePostThumbReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: PostThumb
+	GetPostThumbById(ctx context.Context, in *GetPostThumbByIdReq, opts ...grpc.CallOption) (*GetPostThumbByIdResp, error)
 }
 
 type operationClient struct {
@@ -155,6 +167,42 @@ func (c *operationClient) GetCollectionById(ctx context.Context, in *GetCollecti
 	return out, nil
 }
 
+func (c *operationClient) AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Operation_AddPostShare_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operationClient) AddPostThumb(ctx context.Context, in *AddPostThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Operation_AddPostThumb_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operationClient) UpdatePostThumb(ctx context.Context, in *UpdatePostThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, Operation_UpdatePostThumb_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operationClient) GetPostThumbById(ctx context.Context, in *GetPostThumbByIdReq, opts ...grpc.CallOption) (*GetPostThumbByIdResp, error) {
+	out := new(GetPostThumbByIdResp)
+	err := c.cc.Invoke(ctx, Operation_GetPostThumbById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OperationServer is the server API for Operation service.
 // All implementations must embed UnimplementedOperationServer
 // for forward compatibility
@@ -179,6 +227,14 @@ type OperationServer interface {
 	GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error)
 	// group: Collection
 	GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error)
+	// group: Share
+	AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error)
+	// group: PostThumb
+	AddPostThumb(context.Context, *AddPostThumbReq) (*OkResp, error)
+	// group: PostThumb
+	UpdatePostThumb(context.Context, *UpdatePostThumbReq) (*OkResp, error)
+	// group: PostThumb
+	GetPostThumbById(context.Context, *GetPostThumbByIdReq) (*GetPostThumbByIdResp, error)
 	mustEmbedUnimplementedOperationServer()
 }
 
@@ -215,6 +271,18 @@ func (UnimplementedOperationServer) GetCollectionList(context.Context, *GetColle
 }
 func (UnimplementedOperationServer) GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionById not implemented")
+}
+func (UnimplementedOperationServer) AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPostShare not implemented")
+}
+func (UnimplementedOperationServer) AddPostThumb(context.Context, *AddPostThumbReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPostThumb not implemented")
+}
+func (UnimplementedOperationServer) UpdatePostThumb(context.Context, *UpdatePostThumbReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePostThumb not implemented")
+}
+func (UnimplementedOperationServer) GetPostThumbById(context.Context, *GetPostThumbByIdReq) (*GetPostThumbByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostThumbById not implemented")
 }
 func (UnimplementedOperationServer) mustEmbedUnimplementedOperationServer() {}
 
@@ -409,6 +477,78 @@ func _Operation_GetCollectionById_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Operation_AddPostShare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPostShareReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).AddPostShare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_AddPostShare_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).AddPostShare(ctx, req.(*AddPostShareReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Operation_AddPostThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPostThumbReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).AddPostThumb(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_AddPostThumb_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).AddPostThumb(ctx, req.(*AddPostThumbReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Operation_UpdatePostThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePostThumbReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).UpdatePostThumb(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_UpdatePostThumb_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).UpdatePostThumb(ctx, req.(*UpdatePostThumbReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Operation_GetPostThumbById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostThumbByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperationServer).GetPostThumbById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Operation_GetPostThumbById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperationServer).GetPostThumbById(ctx, req.(*GetPostThumbByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Operation_ServiceDesc is the grpc.ServiceDesc for Operation service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -455,6 +595,22 @@ var Operation_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCollectionById",
 			Handler:    _Operation_GetCollectionById_Handler,
+		},
+		{
+			MethodName: "AddPostShare",
+			Handler:    _Operation_AddPostShare_Handler,
+		},
+		{
+			MethodName: "AddPostThumb",
+			Handler:    _Operation_AddPostThumb_Handler,
+		},
+		{
+			MethodName: "UpdatePostThumb",
+			Handler:    _Operation_UpdatePostThumb_Handler,
+		},
+		{
+			MethodName: "GetPostThumbById",
+			Handler:    _Operation_GetPostThumbById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

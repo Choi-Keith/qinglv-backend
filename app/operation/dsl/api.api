@@ -2,6 +2,8 @@ syntax = "v1"
 
 import (
 	"collection.api"
+	"thumb.api"
+	"share.api"
 )
 
 //no need login
@@ -60,5 +62,33 @@ service operation {
 	@doc "取消收藏"
 	@handler deleteCollection
 	delete /collection/:id (DeleteCollectionReq)
+}
+
+// need login
+@server (
+	prefix: /operation/v1
+	group:  share
+	jwt:    JWTAuth
+)
+service operation {
+	@doc "分享"
+	@handler addPostShare
+	post /post/share (AddPostShareReq)
+}
+
+// need login
+@server (
+	prefix: /operation/v1
+	group:  thumb
+	jwt:    JWTAuth
+)
+service operation {
+	@doc "点赞"
+	@handler handlePostThumbUp
+	post /post/thumb/up (HandlePostThumbUpReq)
+
+	@doc "点踩"
+	@handler handlePostThumbDown
+	post /post/thumb/down (HandlePostThumbDownReq)
 }
 

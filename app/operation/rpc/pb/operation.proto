@@ -100,6 +100,47 @@ message GetCollectionByIdResp{
     CollectionItem collection = 1;
 }
 
+//==========================Share==========================
+
+message AddPostShareReq {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    int32 type = 4;
+}
+
+//==========================Thumb==========================
+
+message PostThumbItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    int32 like = 4;
+    int32 dislike = 5; 
+    uint64 createdAt = 6;
+    uint64 updatedAt = 7;
+}
+message AddPostThumbReq{
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    int32 like = 4;
+    int32 dislike = 5;
+}
+message UpdatePostThumbReq{
+    uint64 id = 1;
+    int32 like = 2;
+    int32 dislike = 3;
+}
+message GetPostThumbByIdReq {
+    uint64 postId = 1;
+    uint64 pageNum = 2;
+    uint64 pageSize = 3;
+}
+message GetPostThumbByIdResp {
+    repeated PostThumbItem data = 1;
+    uint64 total = 2;
+}
 
 service Operation {
     // group: CollectionGroup
@@ -123,4 +164,14 @@ service Operation {
     rpc GetCollectionList(GetCollectionListReq) returns(GetCollectionListResp);
     // group: Collection
     rpc GetCollectionById(GetCollectionByIdReq) returns(GetCollectionByIdResp);
+
+    // group: Share
+    rpc AddPostShare(AddPostShareReq) returns(OkResp);
+
+    // group: PostThumb
+    rpc AddPostThumb(AddPostThumbReq) returns(OkResp);
+    // group: PostThumb
+    rpc UpdatePostThumb(UpdatePostThumbReq) returns(OkResp);
+    // group: PostThumb
+    rpc GetPostThumbById(GetPostThumbByIdReq) returns(GetPostThumbByIdResp);
 }
