@@ -125,12 +125,6 @@ func (s *ContentServer) AddPostContent(ctx context.Context, in *content.AddPostC
 }
 
 // group: postContent
-func (s *ContentServer) DeletePostContent(ctx context.Context, in *content.DeletePostContentReq) (*content.OkResp, error) {
-	l := logic.NewDeletePostContentLogic(ctx, s.svcCtx)
-	return l.DeletePostContent(in)
-}
-
-// group: postContent
 func (s *ContentServer) GetPostContentDetail(ctx context.Context, in *content.GetPostContentDetailReq) (*content.GetPostContentDetailResp, error) {
 	l := logic.NewGetPostContentDetailLogic(ctx, s.svcCtx)
 	return l.GetPostContentDetail(in)

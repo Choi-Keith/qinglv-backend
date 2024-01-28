@@ -141,6 +141,7 @@ message AddPostReq {
 }
 message DeletePostReq {
     uint64 id = 1;
+    uint64 postContentId = 2;
 }
 message UpdatePostReq {
     uint64 id  = 1;
@@ -200,9 +201,6 @@ message AddPostContentReq {
 	string topics = 5;
     string content = 6;
     repeated string images = 7;
-}
-message DeletePostContentReq {
-    uint64 id = 1;
 }
 
 message GetPostContentDetailReq {
@@ -299,8 +297,6 @@ service Content {
 
     // group: postContent
     rpc AddPostContent(AddPostContentReq) returns(OkResp);
-    // group: postContent
-    rpc DeletePostContent(DeletePostContentReq) returns(OkResp);
     // group: postContent
     rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
     // group: postContent

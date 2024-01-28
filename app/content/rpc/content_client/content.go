@@ -21,7 +21,6 @@ type (
 	CategoryItem              = content.CategoryItem
 	DeleteCategoryReq         = content.DeleteCategoryReq
 	DeleteMediaFileReq        = content.DeleteMediaFileReq
-	DeletePostContentReq      = content.DeletePostContentReq
 	DeletePostReq             = content.DeletePostReq
 	DeleteTopicReq            = content.DeleteTopicReq
 	GetCategoryDetailReq      = content.GetCategoryDetailReq
@@ -90,8 +89,6 @@ type (
 		GetPostList(ctx context.Context, in *GetPostListReq, opts ...grpc.CallOption) (*GetPostListResp, error)
 		// group: postContent
 		AddPostContent(ctx context.Context, in *AddPostContentReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: postContent
-		DeletePostContent(ctx context.Context, in *DeletePostContentReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: postContent
 		GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
 		// group: postContent
@@ -219,12 +216,6 @@ func (m *defaultContent) GetPostList(ctx context.Context, in *GetPostListReq, op
 func (m *defaultContent) AddPostContent(ctx context.Context, in *AddPostContentReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewContentClient(m.cli.Conn())
 	return client.AddPostContent(ctx, in, opts...)
-}
-
-// group: postContent
-func (m *defaultContent) DeletePostContent(ctx context.Context, in *DeletePostContentReq, opts ...grpc.CallOption) (*OkResp, error) {
-	client := content.NewContentClient(m.cli.Conn())
-	return client.DeletePostContent(ctx, in, opts...)
 }
 
 // group: postContent
