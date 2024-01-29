@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type AddPostThumbLogic struct {
+type AddCommentThumbLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewAddPostThumbLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPostThumbLogic {
-	return &AddPostThumbLogic{
+func NewAddCommentThumbLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCommentThumbLogic {
+	return &AddCommentThumbLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// group: PostThumb
-func (l *AddPostThumbLogic) AddPostThumb(in *operation.AddPostThumbReq) (*operation.OkResp, error) {
+// group: CommentThumb
+func (l *AddCommentThumbLogic) AddCommentThumb(in *operation.AddCommentThumbReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &operation.OkResp{}, nil

@@ -68,8 +68,8 @@ CREATE TABLE `article_share` (
 CREATE TABLE `post_thumb` (
     `id` bigint(20) unsigned NOT NULL,
     `post_id` bigint(20) unsigned NOT NULL COMMENT '帖子id',
-    `like` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1喜欢，0取消',
-    `dislike` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1不喜欢，0取消',
+    `like` tinyint(3) DEFAULT '0' COMMENT '1喜欢，0取消',
+    `dislike` tinyint(3) DEFAULT '0' COMMENT '1不喜欢，0取消',
     `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建人',
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',

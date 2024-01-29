@@ -120,26 +120,89 @@ message PostThumbItem {
     uint64 createdAt = 6;
     uint64 updatedAt = 7;
 }
-message AddPostThumbReq{
+message ArticleThumbItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 articleId = 3;
+    int32 like = 4;
+    int32 dislike = 5; 
+    uint64 createdAt = 6;
+    uint64 updatedAt = 7;
+}
+message AddThumbReq{
     uint64 id = 1;
     uint64 creatorId = 2;
     uint64 postId = 3;
-    int32 like = 4;
-    int32 dislike = 5;
+    uint64 articleId = 4;
+    uint64 videoId = 5;
+    int32 like = 6;
+    int32 dislike = 7;
+    int32 type = 8; // 1帖子，2文章，3视频
 }
-message UpdatePostThumbReq{
+message UpdateThumbReq{
     uint64 id = 1;
     int32 like = 2;
     int32 dislike = 3;
+    int32 type = 4;
 }
-message GetPostThumbByIdReq {
+message GetThumbDetailReq {
     uint64 postId = 1;
-    uint64 pageNum = 2;
-    uint64 pageSize = 3;
+    uint64 creatorId = 2;
+    int32 type = 3;
 }
-message GetPostThumbByIdResp {
-    repeated PostThumbItem data = 1;
-    uint64 total = 2;
+message GetThumbDetailResp {
+    repeated PostThumbItem post = 1;
+    repeated ArticleThumbItem article = 2;
+}
+
+//==========================CommentThumb==========================
+
+message PostCommentThumbItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    uint64 commentId = 4;
+    int32 like = 5;
+    int32 dislike = 6; 
+    uint64 createdAt = 7;
+    uint64 updatedAt = 8;
+}
+message ArticleCommentThumbItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 articleId = 3;
+    uint64 commentId = 4;
+    int32 like = 5;
+    int32 dislike = 6; 
+    uint64 createdAt = 7;
+    uint64 updatedAt = 8;
+}
+message AddCommentThumbReq{
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    uint64 articleId = 4;
+    uint64 commentId = 5;
+    uint64 videoId = 6;
+    int32 like = 7;
+    int32 dislike = 8;
+    int32 type = 9; // 1帖子，2文章，3视频
+}
+message UpdateCommentThumbReq{
+    uint64 id = 1;
+    int32 like = 2;
+    int32 dislike = 3;
+    int32 type = 4;
+}
+message GetCommentThumbDetailReq {
+    uint64 postId = 1;
+    uint64 creatorId = 2;
+    uint64 commentId = 3;
+    int32 type = 4;
+}
+message GetCommentThumbDetailResp {
+    repeated PostCommentThumbItem post = 1;
+    repeated ArticleCommentThumbItem article = 2;
 }
 
 service Operation {
@@ -168,10 +231,17 @@ service Operation {
     // group: Share
     rpc AddPostShare(AddPostShareReq) returns(OkResp);
 
+    // group: Thumb
+    rpc AddThumb(AddThumbReq) returns(OkResp);
     // group: PostThumb
-    rpc AddPostThumb(AddPostThumbReq) returns(OkResp);
+    rpc UpdateThumb(UpdateThumbReq) returns(OkResp);
     // group: PostThumb
-    rpc UpdatePostThumb(UpdatePostThumbReq) returns(OkResp);
-    // group: PostThumb
-    rpc GetPostThumbById(GetPostThumbByIdReq) returns(GetPostThumbByIdResp);
+    rpc GetThumbDetail(GetThumbDetailReq) returns(GetThumbDetailResp);
+
+    // group: CommentThumb
+    rpc AddCommentThumb(AddCommentThumbReq) returns(OkResp);
+    // group: PostCommentThumb
+    rpc UpdateCommentThumb(UpdateCommentThumbReq) returns(OkResp);
+    // group: PostCommentThumb
+    rpc GetCommentThumbDetail(GetCommentThumbDetailReq) returns(GetCommentThumbDetailReq);
 }

@@ -10,14 +10,16 @@ import (
 
 	"time"
 
+	"qinglv-backend/common/globalKey"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/pkg/errors"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/core/stringx"
-	"qinglv-backend/common/globalKey"
 )
 
 var (
@@ -26,13 +28,15 @@ var (
 	postThumbRowsExpectAutoSet   = strings.Join(stringx.Remove(postThumbFieldNames, "`created_at`", "`updated_at`"), ",")
 	postThumbRowsWithPlaceHolder = strings.Join(stringx.Remove(postThumbFieldNames, "`id`", "`created_at`", "`updated_at`"), "=?,") + "=?"
 
-	cacheQOperationPostThumbIdPrefix = "cache:qOperation:postThumb:id:"
+	cacheQOperationPostThumbIdPrefix     = "cache:qOperation:postThumb:id:"
+	cacheQOperationPostThumbPostIdPrefix = "cache:qOperation:postThumb:postId:"
 )
 
 type (
 	postThumbModel interface {
 		Insert(ctx context.Context, session sqlx.Session, data *PostThumb) (sql.Result, error)
 		FindOne(ctx context.Context, id uint64) (*PostThumb, error)
+		FindOneByPostId(ctx context.Context, postId uint64) (*PostThumb, error)
 		Update(ctx context.Context, session sqlx.Session, data *PostThumb) (sql.Result, error)
 		UpdateWithVersion(ctx context.Context, session sqlx.Session, data *PostThumb) error
 		Trans(ctx context.Context, fn func(context context.Context, session sqlx.Session) error) error
@@ -78,13 +82,14 @@ func (m *defaultPostThumbModel) Insert(ctx context.Context, session sqlx.Session
 	data.DeletedAt = time.Unix(0, 0)
 	data.IsDel = globalKey.DelStateNo
 	qOperationPostThumbIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbIdPrefix, data.Id)
+	qOperationPostThumbPostIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbPostIdPrefix, data.PostId)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?)", m.table, postThumbRowsExpectAutoSet)
 		if session != nil {
 			return session.ExecCtx(ctx, query, data.Id, data.PostId, data.Like, data.Dislike, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
 		}
 		return conn.ExecCtx(ctx, query, data.Id, data.PostId, data.Like, data.Dislike, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
-	}, qOperationPostThumbIdKey)
+	}, qOperationPostThumbIdKey, qOperationPostThumbPostIdKey)
 }
 
 func (m *defaultPostThumbModel) FindOne(ctx context.Context, id uint64) (*PostThumb, error) {
@@ -104,33 +109,64 @@ func (m *defaultPostThumbModel) FindOne(ctx context.Context, id uint64) (*PostTh
 	}
 }
 
-func (m *defaultPostThumbModel) Update(ctx context.Context, session sqlx.Session, data *PostThumb) (sql.Result, error) {
+func (m *defaultPostThumbModel) FindOneByPostId(ctx context.Context, postId uint64) (*PostThumb, error) {
+	qOperationPostThumbPostIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbPostIdPrefix, postId)
+	var resp PostThumb
+	err := m.QueryRowIndexCtx(ctx, &resp, qOperationPostThumbPostIdKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) (i interface{}, e error) {
+		query := fmt.Sprintf("select %s from %s where `post_id` = ? and is_del = ? limit 1", postThumbRows, m.table)
+		if err := conn.QueryRowCtx(ctx, &resp, query, postId, globalKey.DelStateNo); err != nil {
+			return nil, err
+		}
+		return resp.Id, nil
+	}, m.queryPrimary)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
+func (m *defaultPostThumbModel) Update(ctx context.Context, session sqlx.Session, newData *PostThumb) (sql.Result, error) {
+	data, err := m.FindOne(ctx, newData.Id)
+	if err != nil {
+		return nil, err
+	}
 	qOperationPostThumbIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbIdPrefix, data.Id)
+	qOperationPostThumbPostIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbPostIdPrefix, data.PostId)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, postThumbRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.PostId, data.Like, data.Dislike, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id)
+			return session.ExecCtx(ctx, query, newData.PostId, newData.Like, newData.Dislike, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
 		}
-		return conn.ExecCtx(ctx, query, data.PostId, data.Like, data.Dislike, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id)
-	}, qOperationPostThumbIdKey)
+		return conn.ExecCtx(ctx, query, newData.PostId, newData.Like, newData.Dislike, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
+	}, qOperationPostThumbIdKey, qOperationPostThumbPostIdKey)
 }
 
-func (m *defaultPostThumbModel) UpdateWithVersion(ctx context.Context, session sqlx.Session, data *PostThumb) error {
+func (m *defaultPostThumbModel) UpdateWithVersion(ctx context.Context, session sqlx.Session, newData *PostThumb) error {
 
-	oldVersion := data.Version
-	data.Version += 1
+	oldVersion := newData.Version
+	newData.Version += 1
 
 	var sqlResult sql.Result
 	var err error
 
+	data, err := m.FindOne(ctx, newData.Id)
+	if err != nil {
+		return err
+	}
+	logx.Debugf("[PostThumb] UpdateWithVersion data: %+v, newData: %+v\n", data, newData)
 	qOperationPostThumbIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbIdPrefix, data.Id)
+	qOperationPostThumbPostIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbPostIdPrefix, data.PostId)
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, postThumbRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.PostId, data.Like, data.Dislike, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+			return session.ExecCtx(ctx, query, newData.PostId, newData.Like, newData.Dislike, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, data.PostId, data.Like, data.Dislike, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
-	}, qOperationPostThumbIdKey)
+		return conn.ExecCtx(ctx, query, newData.PostId, newData.Like, newData.Dislike, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
+	}, qOperationPostThumbIdKey, qOperationPostThumbPostIdKey)
 	if err != nil {
 		return err
 	}
@@ -348,14 +384,20 @@ func (m *defaultPostThumbModel) SelectBuilder() squirrel.SelectBuilder {
 	return squirrel.Select().From(m.table)
 }
 func (m *defaultPostThumbModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
+	data, err := m.FindOne(ctx, id)
+	if err != nil {
+		return err
+	}
+
 	qOperationPostThumbIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbIdPrefix, id)
-	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+	qOperationPostThumbPostIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbPostIdPrefix, data.PostId)
+	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("delete from %s where `id` = ?", m.table)
 		if session != nil {
 			return session.ExecCtx(ctx, query, id)
 		}
 		return conn.ExecCtx(ctx, query, id)
-	}, qOperationPostThumbIdKey)
+	}, qOperationPostThumbIdKey, qOperationPostThumbPostIdKey)
 	return err
 }
 func (m *defaultPostThumbModel) formatPrimary(primary interface{}) string {

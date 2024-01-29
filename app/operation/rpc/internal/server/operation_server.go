@@ -88,20 +88,38 @@ func (s *OperationServer) AddPostShare(ctx context.Context, in *operation.AddPos
 	return l.AddPostShare(in)
 }
 
-// group: PostThumb
-func (s *OperationServer) AddPostThumb(ctx context.Context, in *operation.AddPostThumbReq) (*operation.OkResp, error) {
-	l := logic.NewAddPostThumbLogic(ctx, s.svcCtx)
-	return l.AddPostThumb(in)
+// group: Thumb
+func (s *OperationServer) AddThumb(ctx context.Context, in *operation.AddThumbReq) (*operation.OkResp, error) {
+	l := logic.NewAddThumbLogic(ctx, s.svcCtx)
+	return l.AddThumb(in)
 }
 
 // group: PostThumb
-func (s *OperationServer) UpdatePostThumb(ctx context.Context, in *operation.UpdatePostThumbReq) (*operation.OkResp, error) {
-	l := logic.NewUpdatePostThumbLogic(ctx, s.svcCtx)
-	return l.UpdatePostThumb(in)
+func (s *OperationServer) UpdateThumb(ctx context.Context, in *operation.UpdateThumbReq) (*operation.OkResp, error) {
+	l := logic.NewUpdateThumbLogic(ctx, s.svcCtx)
+	return l.UpdateThumb(in)
 }
 
 // group: PostThumb
-func (s *OperationServer) GetPostThumbById(ctx context.Context, in *operation.GetPostThumbByIdReq) (*operation.GetPostThumbByIdResp, error) {
-	l := logic.NewGetPostThumbByIdLogic(ctx, s.svcCtx)
-	return l.GetPostThumbById(in)
+func (s *OperationServer) GetThumbDetail(ctx context.Context, in *operation.GetThumbDetailReq) (*operation.GetThumbDetailResp, error) {
+	l := logic.NewGetThumbDetailLogic(ctx, s.svcCtx)
+	return l.GetThumbDetail(in)
+}
+
+// group: CommentThumb
+func (s *OperationServer) AddCommentThumb(ctx context.Context, in *operation.AddCommentThumbReq) (*operation.OkResp, error) {
+	l := logic.NewAddCommentThumbLogic(ctx, s.svcCtx)
+	return l.AddCommentThumb(in)
+}
+
+// group: PostCommentThumb
+func (s *OperationServer) UpdateCommentThumb(ctx context.Context, in *operation.UpdateCommentThumbReq) (*operation.OkResp, error) {
+	l := logic.NewUpdateCommentThumbLogic(ctx, s.svcCtx)
+	return l.UpdateCommentThumb(in)
+}
+
+// group: PostCommentThumb
+func (s *OperationServer) GetCommentThumbDetail(ctx context.Context, in *operation.GetCommentThumbDetailReq) (*operation.GetCommentThumbDetailReq, error) {
+	l := logic.NewGetCommentThumbDetailLogic(ctx, s.svcCtx)
+	return l.GetCommentThumbDetail(in)
 }

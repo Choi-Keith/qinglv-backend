@@ -15,8 +15,11 @@ import (
 type (
 	AddCollectionGroupReq      = operation.AddCollectionGroupReq
 	AddCollectionReq           = operation.AddCollectionReq
+	AddCommentThumbReq         = operation.AddCommentThumbReq
 	AddPostShareReq            = operation.AddPostShareReq
-	AddPostThumbReq            = operation.AddPostThumbReq
+	AddThumbReq                = operation.AddThumbReq
+	ArticleCommentThumbItem    = operation.ArticleCommentThumbItem
+	ArticleThumbItem           = operation.ArticleThumbItem
 	CheckExistByNameReq        = operation.CheckExistByNameReq
 	CheckExistByNameResp       = operation.CheckExistByNameResp
 	CollectionGroupItem        = operation.CollectionGroupItem
@@ -31,12 +34,16 @@ type (
 	GetCollectionGroupListResp = operation.GetCollectionGroupListResp
 	GetCollectionListReq       = operation.GetCollectionListReq
 	GetCollectionListResp      = operation.GetCollectionListResp
-	GetPostThumbByIdReq        = operation.GetPostThumbByIdReq
-	GetPostThumbByIdResp       = operation.GetPostThumbByIdResp
+	GetCommentThumbDetailReq   = operation.GetCommentThumbDetailReq
+	GetCommentThumbDetailResp  = operation.GetCommentThumbDetailResp
+	GetThumbDetailReq          = operation.GetThumbDetailReq
+	GetThumbDetailResp         = operation.GetThumbDetailResp
 	OkResp                     = operation.OkResp
+	PostCommentThumbItem       = operation.PostCommentThumbItem
 	PostThumbItem              = operation.PostThumbItem
 	UpdateCollectionGroupReq   = operation.UpdateCollectionGroupReq
-	UpdatePostThumbReq         = operation.UpdatePostThumbReq
+	UpdateCommentThumbReq      = operation.UpdateCommentThumbReq
+	UpdateThumbReq             = operation.UpdateThumbReq
 
 	Operation interface {
 		// group: CollectionGroup
@@ -61,12 +68,18 @@ type (
 		GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error)
 		// group: Share
 		AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error)
+		// group: Thumb
+		AddThumb(ctx context.Context, in *AddThumbReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: PostThumb
-		AddPostThumb(ctx context.Context, in *AddPostThumbReq, opts ...grpc.CallOption) (*OkResp, error)
+		UpdateThumb(ctx context.Context, in *UpdateThumbReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: PostThumb
-		UpdatePostThumb(ctx context.Context, in *UpdatePostThumbReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: PostThumb
-		GetPostThumbById(ctx context.Context, in *GetPostThumbByIdReq, opts ...grpc.CallOption) (*GetPostThumbByIdResp, error)
+		GetThumbDetail(ctx context.Context, in *GetThumbDetailReq, opts ...grpc.CallOption) (*GetThumbDetailResp, error)
+		// group: CommentThumb
+		AddCommentThumb(ctx context.Context, in *AddCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error)
+		// group: PostCommentThumb
+		UpdateCommentThumb(ctx context.Context, in *UpdateCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error)
+		// group: PostCommentThumb
+		GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error)
 	}
 
 	defaultOperation struct {
@@ -146,20 +159,38 @@ func (m *defaultOperation) AddPostShare(ctx context.Context, in *AddPostShareReq
 	return client.AddPostShare(ctx, in, opts...)
 }
 
-// group: PostThumb
-func (m *defaultOperation) AddPostThumb(ctx context.Context, in *AddPostThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
+// group: Thumb
+func (m *defaultOperation) AddThumb(ctx context.Context, in *AddThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewOperationClient(m.cli.Conn())
-	return client.AddPostThumb(ctx, in, opts...)
+	return client.AddThumb(ctx, in, opts...)
 }
 
 // group: PostThumb
-func (m *defaultOperation) UpdatePostThumb(ctx context.Context, in *UpdatePostThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (m *defaultOperation) UpdateThumb(ctx context.Context, in *UpdateThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewOperationClient(m.cli.Conn())
-	return client.UpdatePostThumb(ctx, in, opts...)
+	return client.UpdateThumb(ctx, in, opts...)
 }
 
 // group: PostThumb
-func (m *defaultOperation) GetPostThumbById(ctx context.Context, in *GetPostThumbByIdReq, opts ...grpc.CallOption) (*GetPostThumbByIdResp, error) {
+func (m *defaultOperation) GetThumbDetail(ctx context.Context, in *GetThumbDetailReq, opts ...grpc.CallOption) (*GetThumbDetailResp, error) {
 	client := operation.NewOperationClient(m.cli.Conn())
-	return client.GetPostThumbById(ctx, in, opts...)
+	return client.GetThumbDetail(ctx, in, opts...)
+}
+
+// group: CommentThumb
+func (m *defaultOperation) AddCommentThumb(ctx context.Context, in *AddCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewOperationClient(m.cli.Conn())
+	return client.AddCommentThumb(ctx, in, opts...)
+}
+
+// group: PostCommentThumb
+func (m *defaultOperation) UpdateCommentThumb(ctx context.Context, in *UpdateCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewOperationClient(m.cli.Conn())
+	return client.UpdateCommentThumb(ctx, in, opts...)
+}
+
+// group: PostCommentThumb
+func (m *defaultOperation) GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error) {
+	client := operation.NewOperationClient(m.cli.Conn())
+	return client.GetCommentThumbDetail(ctx, in, opts...)
 }

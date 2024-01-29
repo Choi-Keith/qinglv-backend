@@ -267,6 +267,84 @@
           "collection"
         ]
       }
+    },
+    "/operation/v1/post/share": {
+      "post": {
+        "summary": "分享",
+        "operationId": "addPostShare",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddPostShareReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "share"
+        ]
+      }
+    },
+    "/operation/v1/post/thumb/down": {
+      "post": {
+        "summary": "点踩",
+        "operationId": "handlePostThumbDown",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HandlePostThumbDownReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "thumb"
+        ]
+      }
+    },
+    "/operation/v1/post/thumb/up": {
+      "post": {
+        "summary": "点赞",
+        "operationId": "handlePostThumbUp",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HandlePostThumbUpReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "thumb"
+        ]
+      }
     }
   },
   "definitions": {
@@ -309,6 +387,24 @@
       "required": [
         "targetId",
         "groupId"
+      ]
+    },
+    "AddPostShareReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "AddPostShareReq",
+      "required": [
+        "postId",
+        "type"
       ]
     },
     "ArticleItem": {
@@ -750,6 +846,32 @@
       "required": [
         "post",
         "article"
+      ]
+    },
+    "HandlePostThumbDownReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "HandlePostThumbDownReq",
+      "required": [
+        "postId"
+      ]
+    },
+    "HandlePostThumbUpReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "HandlePostThumbUpReq",
+      "required": [
+        "postId"
       ]
     },
     "PostItem": {

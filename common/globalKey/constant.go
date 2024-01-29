@@ -20,3 +20,8 @@ const (
 	PostVisitFriend
 	PostVisitPrivate
 )
+
+const (
+	ThumbNo  = 0
+	ThumbYes = 1
+)

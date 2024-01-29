@@ -97,6 +97,10 @@ func (l *GetCollectionListLogic) HanldePost(collectionListResp *operation.GetCol
 		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
 			UserId: postResp.Post.CreatorId,
 		})
+		if err != nil {
+			cancel(err)
+			return
+		}
 		var postItem types.PostItem
 		_ = copier.Copy(&postItem, postResp.Post)
 		_ = copier.Copy(&postItem.Creator, userResp.User)

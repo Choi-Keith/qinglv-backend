@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 
+	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation_client"
@@ -43,11 +44,31 @@ func (l *DeleteCollectionLogic) DeleteCollection(req *types.DeleteCollectionReq)
 	if collectionResp.Collection.CreatorId != uint64(userId) && roleId > 2 {
 		return errors.New("没有权限删除")
 	}
-	_, err = l.svcCtx.OperationRpc.DeleteCollection(l.ctx, &operation_client.DeleteCollectionReq{
+	if _, err = l.svcCtx.OperationRpc.DeleteCollection(l.ctx, &operation_client.DeleteCollectionReq{
 		Id: req.Id,
+	}); err != nil {
+		return err
+	}
+	groupResp, err := l.svcCtx.OperationRpc.GetCollectionGroupById(l.ctx, &operation_client.GetCollectionGroupByIdReq{
+		Id: collectionResp.Collection.GroupId,
 	})
 	if err != nil {
 		return err
+	}
+	if groupResp.CollectionGroup.BizType == 1 {
+		postResp, err := l.svcCtx.ContentRpc.GetPostDetail(l.ctx, &content_client.GetPostDetailReq{
+			Id: collectionResp.Collection.TargetId,
+		})
+		if err != nil {
+			return err
+		}
+		if _, err = l.svcCtx.ContentRpc.UpdatePost(l.ctx, &content_client.UpdatePostReq{
+			Id:              collectionResp.Collection.TargetId,
+			CollectionCount: postResp.Post.CollectionCount - 1,
+			Score:           postResp.Post.Score - 1,
+		}); err != nil {
+			return err
+		}
 	}
 	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
+	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation_client"
@@ -32,21 +33,36 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 	if err != nil {
 		return err
 	}
-	_, err = l.svcCtx.OperationRpc.GetCollectionGroupById(l.ctx, &operation_client.GetCollectionGroupByIdReq{
+	groupResp, err := l.svcCtx.OperationRpc.GetCollectionGroupById(l.ctx, &operation_client.GetCollectionGroupByIdReq{
 		Id: req.GroupId,
 	})
 	if err != nil {
 		return err
 	}
 	id := snowflake.MustID()
-	_, err = l.svcCtx.OperationRpc.AddCollection(l.ctx, &operation_client.AddCollectionReq{
+	if _, err = l.svcCtx.OperationRpc.AddCollection(l.ctx, &operation_client.AddCollectionReq{
 		Id:        id,
 		CreatorId: uint64(userId),
 		TargetId:  req.TargetId,
 		GroupId:   req.GroupId,
-	})
-	if err != nil {
+	}); err != nil {
 		return err
 	}
+	if groupResp.CollectionGroup.BizType == 1 {
+		postResp, err := l.svcCtx.ContentRpc.GetPostDetail(l.ctx, &content_client.GetPostDetailReq{
+			Id: req.TargetId,
+		})
+		if err != nil {
+			return err
+		}
+		if _, err := l.svcCtx.ContentRpc.UpdatePost(l.ctx, &content_client.UpdatePostReq{
+			Id:              req.TargetId,
+			CollectionCount: postResp.Post.CollectionCount + 1,
+			Score:           postResp.Post.Score + 1,
+		}); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

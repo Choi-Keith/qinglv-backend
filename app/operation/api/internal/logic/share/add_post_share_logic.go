@@ -2,9 +2,13 @@ package share
 
 import (
 	"context"
+	"encoding/json"
 
+	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
+	"qinglv-backend/app/operation/rpc/operation_client"
+	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,6 +29,33 @@ func NewAddPostShareLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddP
 
 func (l *AddPostShareLogic) AddPostShare(req *types.AddPostShareReq) error {
 	// todo: add your logic here and delete this line
+	userId, err := l.ctx.Value("userId").(json.Number).Int64()
+	if err != nil {
+		return err
+	}
+	postResp, err := l.svcCtx.ContentRpc.GetPostDetail(l.ctx, &content_client.GetPostDetailReq{
+		Id: req.PostId,
+	})
+	if err != nil {
+		return err
+	}
+	id := snowflake.MustID()
+	if _, err = l.svcCtx.OperationRpc.AddPostShare(l.ctx, &operation_client.AddPostShareReq{
+		Id:        id,
+		CreatorId: uint64(userId),
+		PostId:    req.PostId,
+		Type:      req.Type,
+	}); err != nil {
+		return err
+	}
 
+	if _, err = l.svcCtx.ContentRpc.UpdatePost(l.ctx, &content_client.UpdatePostReq{
+		Id:              req.PostId,
+		ShareCount:      postResp.Post.ShareCount + 1,
+		Score:           postResp.Post.Score + 1,
+		CollectionCount: postResp.Post.CollectionCount,
+	}); err != nil {
+		return err
+	}
 	return nil
 }

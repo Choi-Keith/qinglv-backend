@@ -2,9 +2,14 @@ package thumb
 
 import (
 	"context"
+	"encoding/json"
 
+	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
+	"qinglv-backend/app/operation/rpc/operation_client"
+	"qinglv-backend/common/globalKey"
+	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -25,6 +30,69 @@ func NewHandlePostThumbDownLogic(ctx context.Context, svcCtx *svc.ServiceContext
 
 func (l *HandlePostThumbDownLogic) HandlePostThumbDown(req *types.HandlePostThumbDownReq) error {
 	// todo: add your logic here and delete this line
+	var (
+		thumbUpCount   = 0
+		thumbDownCount = 0
+	)
+	userId, err := l.ctx.Value("userId").(json.Number).Int64()
+	if err != nil {
+		return err
+	}
+	postResp, err := l.svcCtx.ContentRpc.GetPostDetail(l.ctx, &content_client.GetPostDetailReq{
+		Id: req.PostId,
+	})
+	if err != nil {
+		return err
+	}
+	thumbResp, err := l.svcCtx.OperationRpc.GetThumbDetail(l.ctx, &operation_client.GetThumbDetailReq{
+		CreatorId: uint64(userId),
+		PostId:    req.PostId,
+		Type:      1,
+	})
+	if err != nil {
+		return err
+	}
+	if len(thumbResp.Post) != 0 {
+		switch {
+		case thumbResp.Post[0].Dislike == globalKey.ThumbYes:
+			thumbUpCount, thumbDownCount = 0, -1
+		case thumbResp.Post[0].Dislike == globalKey.ThumbNo && thumbResp.Post[0].Like == globalKey.ThumbNo:
+			thumbUpCount, thumbDownCount = 0, 1
+		default:
+			thumbUpCount, thumbDownCount = -1, 1
+			thumbResp.Post[0].Like = globalKey.ThumbNo
+
+		}
+		if _, err = l.svcCtx.OperationRpc.UpdateThumb(l.ctx, &operation_client.UpdateThumbReq{
+			Id:      thumbResp.Post[0].Id,
+			Dislike: 1 - thumbResp.Post[0].Dislike,
+			Like:    thumbResp.Post[0].Like,
+			Type:    1,
+		}); err != nil {
+			return err
+		}
+	} else {
+		id := snowflake.MustID()
+		thumbUpCount, thumbDownCount = 0, 1
+		if _, err = l.svcCtx.OperationRpc.AddThumb(l.ctx, &operation_client.AddThumbReq{
+			Id:        id,
+			CreatorId: uint64(userId),
+			PostId:    req.PostId,
+			Like:      globalKey.ThumbNo,
+			Dislike:   globalKey.ThumbYes,
+			Type:      1,
+		}); err != nil {
+			return err
+		}
+	}
+	if _, err = l.svcCtx.ContentRpc.UpdatePost(l.ctx, &content_client.UpdatePostReq{
+		Id:           postResp.Post.Id,
+		LikeCount:    postResp.Post.LikeCount + uint64(thumbUpCount),
+		DislikeCount: postResp.Post.DislikeCount + uint64(thumbDownCount),
+		Score:        postResp.Post.Score + uint64(thumbUpCount)*2,
+	}); err != nil {
+		return err
+	}
 
 	return nil
 }
