@@ -6,6 +6,7 @@ import (
 
 	collection "qinglv-backend/app/operation/api/internal/handler/collection"
 	collection_group "qinglv-backend/app/operation/api/internal/handler/collection_group"
+	comment "qinglv-backend/app/operation/api/internal/handler/comment"
 	share "qinglv-backend/app/operation/api/internal/handler/share"
 	thumb "qinglv-backend/app/operation/api/internal/handler/thumb"
 	"qinglv-backend/app/operation/api/internal/svc"
@@ -78,6 +79,49 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/post/comment",
+				Handler: comment.GetPostCommentListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/post/comment/reply",
+				Handler: comment.GetPostCommentReplyListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/operation/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/comment",
+				Handler: comment.AddPostCommentHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/post/comment/:id",
+				Handler: comment.DeletePostCommentHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/comment/reply",
+				Handler: comment.AddPostCommentReplyHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/post/comment/reply/:id",
+				Handler: comment.DeletePostCommentReplyHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/operation/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				Method:  http.MethodPost,
 				Path:    "/post/share",
 				Handler: share.AddPostShareHandler(serverCtx),
@@ -89,6 +133,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/comment/reply/thumb/down",
+				Handler: thumb.HandlePostCommentReplyThumbDownHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/comment/reply/thumb/up",
+				Handler: thumb.HandlePostCommentReplyThumbUpHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/comment/thumb/down",
+				Handler: thumb.HandlePostCommentThumbDownHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/post/comment/thumb/up",
+				Handler: thumb.HandlePostCommentThumbUpHandler(serverCtx),
+			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/post/thumb/down",

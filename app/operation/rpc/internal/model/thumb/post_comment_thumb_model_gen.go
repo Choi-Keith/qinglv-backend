@@ -54,15 +54,17 @@ type (
 	}
 
 	PostCommentThumb struct {
-		Id        uint64    `db:"id"`
-		PostId    uint64    `db:"post_id"`    // 帖子id
-		CommentId uint64    `db:"comment_id"` // 评论id
-		CreatorId uint64    `db:"creator_id"` // 创建人
-		CreatedAt time.Time `db:"created_at"` // 创建时间
-		UpdatedAt time.Time `db:"updated_at"` // 修改时间
-		DeletedAt time.Time `db:"deleted_at"` // 删除时间
-		IsDel     int64     `db:"is_del"`
-		Version   int64     `db:"version"` // 版本号
+		Id          uint64        `db:"id"`
+		PostId      uint64        `db:"post_id"`      // 帖子id
+		CommentId   uint64        `db:"comment_id"`   // 评论id
+		ReplyId     sql.NullInt64 `db:"reply_id"`     // 评论回复ID
+		CommentType int64         `db:"comment_type"` // 评论类型 1为帖子评论、2为帖子评论回复
+		CreatorId   uint64        `db:"creator_id"`   // 创建人
+		CreatedAt   time.Time     `db:"created_at"`   // 创建时间
+		UpdatedAt   time.Time     `db:"updated_at"`   // 修改时间
+		DeletedAt   time.Time     `db:"deleted_at"`   // 删除时间
+		IsDel       int64         `db:"is_del"`
+		Version     int64         `db:"version"` // 版本号
 	}
 )
 
@@ -78,11 +80,11 @@ func (m *defaultPostCommentThumbModel) Insert(ctx context.Context, session sqlx.
 	data.IsDel = globalKey.DelStateNo
 	qOperationPostCommentThumbIdKey := fmt.Sprintf("%s%v", cacheQOperationPostCommentThumbIdPrefix, data.Id)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?)", m.table, postCommentThumbRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, postCommentThumbRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.PostId, data.CommentId, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
+			return session.ExecCtx(ctx, query, data.Id, data.PostId, data.CommentId, data.ReplyId, data.CommentType, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.PostId, data.CommentId, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
+		return conn.ExecCtx(ctx, query, data.Id, data.PostId, data.CommentId, data.ReplyId, data.CommentType, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
 	}, qOperationPostCommentThumbIdKey)
 }
 
@@ -108,9 +110,9 @@ func (m *defaultPostCommentThumbModel) Update(ctx context.Context, session sqlx.
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, postCommentThumbRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.PostId, data.CommentId, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id)
+			return session.ExecCtx(ctx, query, data.PostId, data.CommentId, data.ReplyId, data.CommentType, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id)
 		}
-		return conn.ExecCtx(ctx, query, data.PostId, data.CommentId, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id)
+		return conn.ExecCtx(ctx, query, data.PostId, data.CommentId, data.ReplyId, data.CommentType, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id)
 	}, qOperationPostCommentThumbIdKey)
 }
 
@@ -126,9 +128,9 @@ func (m *defaultPostCommentThumbModel) UpdateWithVersion(ctx context.Context, se
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, postCommentThumbRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.PostId, data.CommentId, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+			return session.ExecCtx(ctx, query, data.PostId, data.CommentId, data.ReplyId, data.CommentType, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, data.PostId, data.CommentId, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+		return conn.ExecCtx(ctx, query, data.PostId, data.CommentId, data.ReplyId, data.CommentType, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 	}, qOperationPostCommentThumbIdKey)
 	if err != nil {
 		return err

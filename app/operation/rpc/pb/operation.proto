@@ -162,20 +162,26 @@ message PostCommentThumbItem {
     uint64 creatorId = 2;
     uint64 postId = 3;
     uint64 commentId = 4;
-    int32 like = 5;
-    int32 dislike = 6; 
-    uint64 createdAt = 7;
-    uint64 updatedAt = 8;
+    uint64 replyId = 5;
+    int32 commentType = 6;
+    int32 like = 7;
+    int32 dislike = 8; 
+    uint64 createdAt = 9;
+    uint64 updatedAt = 10;
+    string creatorName = 11;
 }
 message ArticleCommentThumbItem {
     uint64 id = 1;
     uint64 creatorId = 2;
     uint64 articleId = 3;
     uint64 commentId = 4;
-    int32 like = 5;
-    int32 dislike = 6; 
-    uint64 createdAt = 7;
-    uint64 updatedAt = 8;
+    uint64 replyId = 5;
+    int32 commentType = 6;
+    int32 like = 7;
+    int32 dislike = 8; 
+    uint64 createdAt = 9;
+    uint64 updatedAt = 10;
+    string creatorName = 11;
 }
 message AddCommentThumbReq{
     uint64 id = 1;
@@ -184,9 +190,12 @@ message AddCommentThumbReq{
     uint64 articleId = 4;
     uint64 commentId = 5;
     uint64 videoId = 6;
-    int32 like = 7;
-    int32 dislike = 8;
-    int32 type = 9; // 1帖子，2文章，3视频
+    uint64 replyId = 7;
+    uint64 commentType = 8;
+    int32 like = 9;
+    int32 dislike = 10;
+    int32 type = 11; // 1帖子，2文章，3视频
+    string creatorName = 12;
 }
 message UpdateCommentThumbReq{
     uint64 id = 1;
@@ -198,12 +207,148 @@ message GetCommentThumbDetailReq {
     uint64 postId = 1;
     uint64 creatorId = 2;
     uint64 commentId = 3;
-    int32 type = 4;
+    uint64 replyId = 4;
+    int32 commentType = 5;    
+    int32 type = 6;
 }
 message GetCommentThumbDetailResp {
     repeated PostCommentThumbItem post = 1;
     repeated ArticleCommentThumbItem article = 2;
 }
+
+//==========================Comment==========================
+message ArticleCommentItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 article = 3;
+    uint64 content = 4;
+    string location = 5;
+    uint64 likeCount = 6;
+    uint64 dislikeCount = 7;
+    uint64 score = 8;
+    uint64 createdAt = 9;
+    uint64 updatedAt = 10;
+    string creatorName = 11;
+}
+message PostCommentItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    uint64 content = 4;
+    string location = 5;
+    uint64 likeCount = 6;
+    uint64 dislikeCount = 7;
+    uint64 score = 8;
+    uint64 createdAt = 9;
+    uint64 updatedAt = 10;
+    string creatorName = 11;
+}
+message AddCommentReq {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    uint64 articleId = 4;
+    uint64 videoId = 6;
+    uint64 content = 7;
+    string location = 8;
+    string creatorName = 9;
+    int32 type = 10; // 1帖子，2文章，3视频
+}
+message DeleteCommentReq{
+    uint64 id = 1;
+    int32 type = 12; // 1帖子，2文章，3视频
+}
+message GetCommentListReq {
+    uint64 postId = 1;
+    uint64 articleId = 2;
+    uint64 videoId = 3;
+    uint64 creatorId = 4;
+    uint64 pageNum = 5;
+    uint64 pageSize = 6;
+    int32 type = 7; // 1帖子，2文章，3视频
+}
+message PostCommentResp {
+    repeated PostCommentItem data = 1;
+    uint64 total = 2;
+}
+message ArticleCommentResp {
+    repeated ArticleCommentItem data = 1;
+    uint64 total = 2;
+}
+message GetCommentListResp {
+    PostCommentResp post = 1;
+    ArticleCommentResp article = 2;
+
+}
+
+
+
+
+//==========================CommentReply====================
+message ArticleCommentReplyItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 article = 3;
+    uint64 content = 4;
+    string location = 5;
+    uint64 likeCount = 6;
+    uint64 dislikeCount = 7;
+    uint64 score = 8;
+    uint64 createdAt = 9;
+    uint64 updatedAt = 10;
+    string creatorName = 11;
+}
+message PostCommentReplyItem {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    uint64 content = 4;
+    string location = 5;
+    uint64 likeCount = 6;
+    uint64 dislikeCount = 7;
+    uint64 score = 8;
+    uint64 createdAt = 9;
+    uint64 updatedAt = 10;
+    string creatorName = 11;
+}
+message AddCommentReplyReq {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    uint64 articleId = 4;
+    uint64 videoId = 5;
+    uint64 content = 6;
+    string location = 7;
+    string creatorName = 8;
+    int32 type = 9; // 1帖子，2文章，3视频
+}
+message DeleteCommentReplyReq{
+    uint64 id = 1;
+    int32 type = 2; // 1帖子，2文章，3视频
+}
+message GetCommentReplyListReq {
+    uint64 postId = 1;
+    uint64 articleId = 2;
+    uint64 videoId = 3;
+    uint64 creatorId = 4;
+    uint64 pageNum = 5;
+    uint64 pageSize = 6;
+    int32 type = 7; // 1帖子，2文章，3视频
+}
+message PostCommentResp {
+    repeated PostCommentItem data = 1;
+    uint64 total = 2;
+}
+message ArticleCommentResp {
+    repeated ArticleCommentItem data = 1;
+    uint64 total = 2;
+}
+message GetCommentReplyListResp {
+    PostCommentResp post = 1;
+    ArticleCommentResp article = 2;
+}
+
+
 
 service Operation {
     // group: CollectionGroup
@@ -244,4 +389,18 @@ service Operation {
     rpc UpdateCommentThumb(UpdateCommentThumbReq) returns(OkResp);
     // group: PostCommentThumb
     rpc GetCommentThumbDetail(GetCommentThumbDetailReq) returns(GetCommentThumbDetailReq);
+
+    // group: Comment
+    rpc AddComment(AddCommentReq) returns(OkResp);
+    // group: Comment
+    rpc DeleteComment(DeleteCommentReq) returns(OkResp);
+    // group: Comment
+    rpc AddCommentReply(AddCommentReplyReq) returns(OkResp);
+    // group: Comment
+    rpc DeleteCommentReply(DeleteCommentReplyReq) returns(OkResp);
+    // group: Comment
+    rpc GetCommentList(GetCommentListReq) returns(GetCommentListResp);
+    // group: Comment
+    rpc GetCommentReplyList(GetCommentReplyListReq) returns(GetCommentReplyListResp);
+
 }

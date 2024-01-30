@@ -12,6 +12,17 @@ type AddCollectionReq struct {
 	GroupId  uint64 `json:"groupId,string"`
 }
 
+type AddPostCommentReplyReq struct {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+	Content   string `json:"content"`
+}
+
+type AddPostCommentReq struct {
+	PostId  uint64 `json:"postId,string"`
+	Content string `json:"content"`
+}
+
 type AddPostShareReq struct {
 	PostId uint64 `json:"postId,string"`
 	Type   int32  `json:"type,options=[1,2,3,4]"`
@@ -97,6 +108,14 @@ type DeleteCollectionReq struct {
 	Id uint64 `path:"id,string"`
 }
 
+type DeletePostCommentReplyReq struct {
+	Id uint64 `path:"id,string"`
+}
+
+type DeletePostCommentReq struct {
+	Id uint64 `path:"id,string"`
+}
+
 type GetCollectionGropListResp struct {
 	List  []CollectionGroupItem `json:"list"`
 	IsEnd bool                  `json:"isEnd"`
@@ -124,12 +143,88 @@ type GetCollectionListResp struct {
 	Article ArticleResp `json:"article"`
 }
 
+type GetPostCommentListReq struct {
+	PostId   uint64 `form:"postId"`
+	PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
+	PageSize int32  `form:"pageSize" validate:"required,gt=0"`
+}
+
+type GetPostCommentListResp struct {
+	List  []PostCommentItem `json:"list"`
+	IsEnd bool              `json:"isEnd"`
+	Total uint64            `json:"total"`
+}
+
+type GetPostCommentReplyListReq struct {
+	PostId    uint64 `form:"postId"`
+	CommentId uint64 `form:"commentId"`
+	PageNum   int32  `form:"pageNum" validate:"required,gt=0"`
+	PageSize  int32  `form:"pageSize" validate:"required,gt=0"`
+}
+
+type GetPostCommentReplyListResp struct {
+	List  []PostCommentReplyItem `json:"list"`
+	IsEnd bool                   `json:"isEnd"`
+	Total uint64                 `json:"total"`
+}
+
+type HandlePostCommentReplyThumbDownReq struct {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+	ReplyId   uint64 `json:"replyId,string"`
+}
+
+type HandlePostCommentReplyThumbUpReq struct {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+	ReplyId   uint64 `json:"replyId,string"`
+}
+
+type HandlePostCommentThumbDownReq struct {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+}
+
+type HandlePostCommentThumbUpReq struct {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+}
+
 type HandlePostThumbDownReq struct {
 	PostId uint64 `json:"postId,string"`
 }
 
 type HandlePostThumbUpReq struct {
 	PostId uint64 `json:"postId,string"`
+}
+
+type PostCommentItem struct {
+	Id           uint64 `json:"id,string"`
+	PostId       uint64 `json:"postId,string"`
+	CreatorId    uint64 `json:"creatorId,string"`
+	CreatorName  string `json:"creatorName"`
+	Content      string `json:"content"`
+	LikeCount    uint64 `json:"likeCount"`
+	DislikeCount uint64 `json:"dislikeCount"`
+	Score        uint64 `json:"score"`
+	Location     string `json:"location"`
+	CreatedAt    uint64 `json:"createdAt"`
+}
+
+type PostCommentReplyItem struct {
+	Id           uint64 `json:"id,string"`
+	CommentId    uint64 `json:"commentId,string"`
+	PostId       uint64 `json:"postId,string"`
+	CreatorId    uint64 `json:"creatorId,string"`
+	CreatorName  string `json:"creatorName"`
+	AtUserId     uint64 `json:"atUserId,string"`
+	AtUserName   string `json:"atUserName"`
+	Content      string `json:"content"`
+	LikeCount    uint64 `json:"likeCount"`
+	DislikeCount uint64 `json:"dislikeCount"`
+	Score        uint64 `json:"score"`
+	Location     string `json:"location"`
+	CreatedAt    uint64 `json:"createdAt"`
 }
 
 type PostItem struct {

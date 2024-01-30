@@ -4,6 +4,7 @@ import (
 	"collection.api"
 	"thumb.api"
 	"share.api"
+	"comment.api"
 )
 
 //no need login
@@ -83,12 +84,67 @@ service operation {
 	jwt:    JWTAuth
 )
 service operation {
-	@doc "点赞"
+	@doc "帖子点赞"
 	@handler handlePostThumbUp
 	post /post/thumb/up (HandlePostThumbUpReq)
 
-	@doc "点踩"
+	@doc "帖子点踩"
 	@handler handlePostThumbDown
 	post /post/thumb/down (HandlePostThumbDownReq)
+
+	@doc "帖子评论点赞"
+	@handler handlePostCommentThumbUp
+	post /post/comment/thumb/up (HandlePostCommentThumbUpReq)
+
+	@doc "帖子评论点踩"
+	@handler handlePostCommentThumbDown
+	post /post/comment/thumb/down (HandlePostCommentThumbDownReq)
+
+	@doc "帖子回复评论点赞"
+	@handler handlePostCommentReplyThumbUp
+	post /post/comment/reply/thumb/up (HandlePostCommentReplyThumbUpReq)
+
+	@doc "帖子回复评论点踩"
+	@handler handlePostCommentReplyThumbDown
+	post /post/comment/reply/thumb/down (HandlePostCommentReplyThumbDownReq)
+}
+
+// no need login
+@server (
+	prefix: /operation/v1
+	group:  comment
+)
+service operation {
+	@doc "帖子评论"
+	@handler getPostCommentList
+	get /post/comment (GetPostCommentListReq)
+
+	@doc "帖子评论回复"
+	@handler getPostCommentReplyList
+	get /post/comment/reply (GetPostCommentReplyListReq)
+}
+
+// need login
+@server (
+	prefix: /operation/v1
+	group:  comment
+	jwt:    JWTAuth
+)
+service operation {
+	@doc "添加评论"
+	@handler addPostComment
+	post /post/comment (AddPostCommentReq)
+
+	@doc "删除评论"
+	@handler deletePostComment
+	delete /post/comment/:id (DeletePostCommentReq)
+
+	@doc "添加评论回复"
+	@handler addPostCommentReply
+	post /post/comment/reply (AddPostCommentReplyReq)
+
+	@doc "删除评论回复"
+	@handler deletePostCommentReply
+	delete /post/comment/reply/:id (DeletePostCommentReplyReq)
 }
 

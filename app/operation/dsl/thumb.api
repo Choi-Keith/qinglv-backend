@@ -1,17 +1,40 @@
 syntax = "v1"
 
 info (
-    title: "点赞和点踩服务"
-    desc: "包括帖子、文章、视频、评论等点赞和点踩"
-    author: "ksoncai"
-    email: "aksoncai@gmail.com"
-    version: "v1"
+	title:   "点赞和点踩服务"
+	desc:    "包括帖子、文章、视频、评论等点赞和点踩"
+	author:  "ksoncai"
+	email:   "aksoncai@gmail.com"
+	version: "v1"
 )
 
 type HandlePostThumbUpReq {
-    PostId uint64 `json:"postId,string"`
+	PostId uint64 `json:"postId,string"`
 }
 
 type HandlePostThumbDownReq {
-    PostId uint64 `json:"postId,string"`
+	PostId uint64 `json:"postId,string"`
 }
+
+type HandlePostCommentThumbUpReq {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+}
+
+type HandlePostCommentThumbDownReq {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+}
+
+type HandlePostCommentReplyThumbUpReq {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+	ReplyId   uint64 `json:"replyId,string"`
+}
+
+type HandlePostCommentReplyThumbDownReq {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+	ReplyId   uint64 `json:"replyId,string"`
+}
+

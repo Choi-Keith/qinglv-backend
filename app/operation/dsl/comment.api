@@ -1,0 +1,85 @@
+syntax = "v1"
+
+info (
+	title:   "评论服务"
+	desc:    "包括帖子、文章、视频等评论和回复"
+	author:  "ksoncai"
+	email:   "aksoncai@gmail.com"
+	version: "v1"
+)
+
+type PostCommentItem {
+	Id           uint64 `json:"id,string"`
+	PostId       uint64 `json:"postId,string"`
+	CreatorId    uint64 `json:"creatorId,string"`
+	CreatorName  string `json:"creatorName"`
+	Content      string `json:"content"`
+	LikeCount    uint64 `json:"likeCount"`
+	DislikeCount uint64 `json:"dislikeCount"`
+	Score        uint64 `json:"score"`
+	Location     string `json:"location"`
+	CreatedAt    uint64 `json:"createdAt"`
+}
+
+type PostCommentReplyItem {
+	Id           uint64 `json:"id,string"`
+	CommentId    uint64 `json:"commentId,string"`
+	PostId       uint64 `json:"postId,string"`
+	CreatorId    uint64 `json:"creatorId,string"`
+	CreatorName  string `json:"creatorName"`
+	AtUserId     uint64 `json:"atUserId,string"`
+	AtUserName   string `json:"atUserName"`
+	Content      string `json:"content"`
+	LikeCount    uint64 `json:"likeCount"`
+	DislikeCount uint64 `json:"dislikeCount"`
+	Score        uint64 `json:"score"`
+	Location     string `json:"location"`
+	CreatedAt    uint64 `json:"createdAt"`
+}
+
+type AddPostCommentReq {
+	PostId  uint64 `json:"postId,string"`
+	Content string `json:"content"`
+}
+
+type DeletePostCommentReq {
+	Id uint64 `path:"id,string"`
+}
+
+type AddPostCommentReplyReq {
+	PostId    uint64 `json:"postId,string"`
+	CommentId uint64 `json:"commentId,string"`
+	Content   string `json:"content"`
+}
+
+type DeletePostCommentReplyReq {
+	Id uint64 `path:"id,string"`
+}
+
+type (
+	GetPostCommentListReq {
+		PostId   uint64 `form:"postId"`
+		PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
+		PageSize int32  `form:"pageSize" validate:"required,gt=0"`
+	}
+	GetPostCommentListResp {
+		List  []PostCommentItem `json:"list"`
+		IsEnd bool              `json:"isEnd"`
+		Total uint64            `json:"total"`
+	}
+)
+
+type (
+	GetPostCommentReplyListReq {
+		PostId    uint64 `form:"postId"`
+		CommentId uint64 `form:"commentId"`
+		PageNum   int32  `form:"pageNum" validate:"required,gt=0"`
+		PageSize  int32  `form:"pageSize" validate:"required,gt=0"`
+	}
+	GetPostCommentReplyListResp {
+		List  []PostCommentReplyItem `json:"list"`
+		IsEnd bool                   `json:"isEnd"`
+		Total uint64                 `json:"total"`
+	}
+)
+

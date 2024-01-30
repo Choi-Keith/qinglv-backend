@@ -1,14 +1,15 @@
 syntax = "v1"
 
 info (
-    title: "分享服务"
-    desc: "包括帖子、文章、视频等分享"
-    author: "ksoncai"
-    email: "aksoncai@gmail.com"
-    version: "v1"
+	title:   "分享服务"
+	desc:    "包括帖子、文章、视频等分享"
+	author:  "ksoncai"
+	email:   "aksoncai@gmail.com"
+	version: "v1"
 )
 
 type AddPostShareReq {
-    PostId uint64 `json:"postId,string"`
-    Type int32 `json:"type,options=[1,2,3,4]"`
+	PostId uint64 `json:"postId,string"`
+	Type   int32  `json:"type,options=[1,2,3,4]"`
 }
+

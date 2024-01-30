@@ -1,60 +1,62 @@
 syntax = "v1"
 
 info (
-    title: "收藏服务"
-    desc: "包括收藏分组，以及帖子，文章和视频等的收藏内容"
-    author: "ksoncai"
-    email: "aksoncai@gmail.com"
-    version: "v1"
+	title:   "收藏服务"
+	desc:    "包括收藏分组，以及帖子，文章和视频等的收藏内容"
+	author:  "ksoncai"
+	email:   "aksoncai@gmail.com"
+	version: "v1"
 )
+
 type CollectionGroupItem {
-    Id uint64 `json:"id,string"`
-    CreatorId uint64 `json:"creatorId,string"`
-    Name string `json:"name"`
-    Visibility int32 `json:"visibility"`
-    BizType int32 `json:"bizType"`
-    CreatedAt uint64 `json:"createdAt"`
-    UpdatedAt uint64 `json:"updatedAt"`
-    Count uint64 `json:"count"`
+	Id         uint64 `json:"id,string"`
+	CreatorId  uint64 `json:"creatorId,string"`
+	Name       string `json:"name"`
+	Visibility int32  `json:"visibility"`
+	BizType    int32  `json:"bizType"`
+	CreatedAt  uint64 `json:"createdAt"`
+	UpdatedAt  uint64 `json:"updatedAt"`
+	Count      uint64 `json:"count"`
 }
+
 type (
-    GetCollectionGroupListReq {
-        Name string `form:"name,optional"`
-        Visibility int32 `form:"visibility,optional"`
-        BizType int32 `form:"bizType,optional"`
-        CreatorId uint64 `form:"creatorId,string,optional"`
+	GetCollectionGroupListReq {
+		Name       string `form:"name,optional"`
+		Visibility int32  `form:"visibility,optional"`
+		BizType    int32  `form:"bizType,optional"`
+		CreatorId  uint64 `form:"creatorId,string,optional"`
 		PageNum    int32  `form:"pageNum" validate:"required,gt=0"`
 		PageSize   int32  `form:"pageSize" validate:"required,gt=0"`
-    }
-    GetCollectionGropListResp{
-        List []CollectionGroupItem `json:"list"`
-        IsEnd bool `json:"isEnd"`
-        Total uint64 `json:"total"`
-    }
+	}
+	GetCollectionGropListResp {
+		List  []CollectionGroupItem `json:"list"`
+		IsEnd bool                  `json:"isEnd"`
+		Total uint64                `json:"total"`
+	}
 )
 
 type AddCollectionGroup {
-    Name string `json:"name"`
-    Visibility int32 `json:"visibility,options=[1,2],default=1"`
-    BizType int32 `json:"bizType,options=[1,2,3]"`
+	Name       string `json:"name"`
+	Visibility int32  `json:"visibility,options=[1,2],default=1"`
+	BizType    int32  `json:"bizType,options=[1,2,3]"`
 }
 
 type DeleteCollectionGroup {
-    Id uint64 `path:"id,string"`
+	Id uint64 `path:"id,string"`
 }
 
 type UpdateCollectionGroup {
-    Id uint64 `json:"id,string"`
-    Name string `json:"name"`
-    Visibility int32 `json:"visibility,options=[1,2],default=1"`
-    BizType int32 `json:"bizType,options=[1,2,3]"`
+	Id         uint64 `json:"id,string"`
+	Name       string `json:"name"`
+	Visibility int32  `json:"visibility,options=[1,2],default=1"`
+	BizType    int32  `json:"bizType,options=[1,2,3]"`
 }
 
 type GetCollectionListReq {
-    GroupId uint64 `form:"groupId,string"`
-    BizType int32 `form:"bizType"`
-    PageNum    int32  `form:"pageNum" validate:"required,gt=0"`
-    PageSize   int32  `form:"pageSize" validate:"required,gt=0"`
+	GroupId  uint64 `form:"groupId,string"`
+	BizType  int32  `form:"bizType"`
+	PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
+	PageSize int32  `form:"pageSize" validate:"required,gt=0"`
 }
 
 type CollectionUser {
@@ -90,75 +92,73 @@ type CollectionCategory {
 }
 
 type PostItem {
-	Id              uint64       `json:"id,string"`
+	Id              uint64             `json:"id,string"`
 	Category        CollectionCategory `json:"category"`
-	Topic           []string     `json:"topic"`
-	Content         string       `json:"content"`
-	Images          []string     `json:"images"`
+	Topic           []string           `json:"topic"`
+	Content         string             `json:"content"`
+	Images          []string           `json:"images"`
 	Creator         CollectionUser     `json:"creator"`
-	Status          int          `json:"status"`
-	Visibility      int          `json:"visibility"`
-	IsTop           int          `json:"isTop"`
-	Score           uint64       `json:"score"`
-	Location        string       `json:"location"`
-	CommentCount    uint64       `json:"commentCount"`
-	CollectionCount uint64       `json:"collectionCount"`
-	LikeCount       uint64       `json:"likeCount"`
-	DislikeCount    uint64       `json:"dislikeCount"`
-	ShareCount      uint64       `json:"shareCount"`
-	LastReplyTime   uint64       `json:"lastReplyTime"`
-	CreatedAt       uint64       `json:"createdAt"`
-	UpdatedAt       uint64       `json:"updatedAt"`
+	Status          int                `json:"status"`
+	Visibility      int                `json:"visibility"`
+	IsTop           int                `json:"isTop"`
+	Score           uint64             `json:"score"`
+	Location        string             `json:"location"`
+	CommentCount    uint64             `json:"commentCount"`
+	CollectionCount uint64             `json:"collectionCount"`
+	LikeCount       uint64             `json:"likeCount"`
+	DislikeCount    uint64             `json:"dislikeCount"`
+	ShareCount      uint64             `json:"shareCount"`
+	LastReplyTime   uint64             `json:"lastReplyTime"`
+	CreatedAt       uint64             `json:"createdAt"`
+	UpdatedAt       uint64             `json:"updatedAt"`
 }
 
 type ArticleItem {
-	Id              uint64          `json:"id,string"`
+	Id              uint64             `json:"id,string"`
 	Category        CollectionCategory `json:"category"`
-	Tag             []string        `json:"tag"`
-	Title           string          `json:"title"`
-	Desc            string          `json:"desc"`
-	Content         string          `json:"content"`
-	CoverImage      string          `json:"coverImage"`
+	Tag             []string           `json:"tag"`
+	Title           string             `json:"title"`
+	Desc            string             `json:"desc"`
+	Content         string             `json:"content"`
+	CoverImage      string             `json:"coverImage"`
 	Creator         CollectionUser     `json:"creator"`
-	Status          int             `json:"status"`
-	Visibility      int             `json:"visibility"`
-	IsTop           int             `json:"isTop"`
-	Score           uint64          `json:"score"`
-	CommentCount    uint64          `json:"commentCount"`
-	CollectionCount uint64          `json:"collectionCount"`
-	LikeCount       uint64          `json:"likeCount"`
-	DislikeCount    uint64          `json:"dislikeCount"`
-	ShareCount      uint64          `json:"shareCount"`
-	LastReplyTime   uint64          `json:"lastReplyTime"`
-	CreatedAt       uint64          `json:"createdAt"`
-	UpdatedAt       uint64          `json:"updatedAt"`
+	Status          int                `json:"status"`
+	Visibility      int                `json:"visibility"`
+	IsTop           int                `json:"isTop"`
+	Score           uint64             `json:"score"`
+	CommentCount    uint64             `json:"commentCount"`
+	CollectionCount uint64             `json:"collectionCount"`
+	LikeCount       uint64             `json:"likeCount"`
+	DislikeCount    uint64             `json:"dislikeCount"`
+	ShareCount      uint64             `json:"shareCount"`
+	LastReplyTime   uint64             `json:"lastReplyTime"`
+	CreatedAt       uint64             `json:"createdAt"`
+	UpdatedAt       uint64             `json:"updatedAt"`
 }
 
-
-
 type PostResp {
-    List []PostItem `json:"list"`
-    IsEnd bool `json:"isEnd"`
-    Total uint64 `json:"total"`
+	List  []PostItem `json:"list"`
+	IsEnd bool       `json:"isEnd"`
+	Total uint64     `json:"total"`
 }
 
 type ArticleResp {
-    List []ArticleItem `json:"list"`
-    IsEnd bool `json:"isEnd"`
-    Total uint64 `json:"total"`
+	List  []ArticleItem `json:"list"`
+	IsEnd bool          `json:"isEnd"`
+	Total uint64        `json:"total"`
 }
 
-
-type GetCollectionListResp{
-    Post PostResp `json:"post"`
-    Article ArticleResp `json:"article"`
+type GetCollectionListResp {
+	Post    PostResp    `json:"post"`
+	Article ArticleResp `json:"article"`
 }
 
 type AddCollectionReq {
-    TargetId uint64 `json:"targetId,string"`
-    GroupId uint64 `json:"groupId,string"`
+	TargetId uint64 `json:"targetId,string"`
+	GroupId  uint64 `json:"groupId,string"`
 }
 
-type DeleteCollectionReq{
-    Id uint64 `path:"id,string"`
+type DeleteCollectionReq {
+	Id uint64 `path:"id,string"`
 }
+
