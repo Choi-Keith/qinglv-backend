@@ -19,40 +19,33 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Operation_AddCollectionGroup_FullMethodName     = "/operation.Operation/AddCollectionGroup"
-	Operation_GetCollectionGroupList_FullMethodName = "/operation.Operation/GetCollectionGroupList"
-	Operation_GetCollectionGroupById_FullMethodName = "/operation.Operation/GetCollectionGroupById"
-	Operation_CheckExistByName_FullMethodName       = "/operation.Operation/CheckExistByName"
-	Operation_UpdateCollectionGroup_FullMethodName  = "/operation.Operation/UpdateCollectionGroup"
-	Operation_DeleteCollectionGroup_FullMethodName  = "/operation.Operation/DeleteCollectionGroup"
-	Operation_AddCollection_FullMethodName          = "/operation.Operation/AddCollection"
-	Operation_DeleteCollection_FullMethodName       = "/operation.Operation/DeleteCollection"
-	Operation_GetCollectionList_FullMethodName      = "/operation.Operation/GetCollectionList"
-	Operation_GetCollectionById_FullMethodName      = "/operation.Operation/GetCollectionById"
-	Operation_AddPostShare_FullMethodName           = "/operation.Operation/AddPostShare"
-	Operation_AddThumb_FullMethodName               = "/operation.Operation/AddThumb"
-	Operation_UpdateThumb_FullMethodName            = "/operation.Operation/UpdateThumb"
-	Operation_GetThumbDetail_FullMethodName         = "/operation.Operation/GetThumbDetail"
-	Operation_AddCommentThumb_FullMethodName        = "/operation.Operation/AddCommentThumb"
-	Operation_UpdateCommentThumb_FullMethodName     = "/operation.Operation/UpdateCommentThumb"
-	Operation_GetCommentThumbDetail_FullMethodName  = "/operation.Operation/GetCommentThumbDetail"
+	CollectionClass_AddCollectionGroup_FullMethodName     = "/operation.CollectionClass/AddCollectionGroup"
+	CollectionClass_GetCollectionGroupList_FullMethodName = "/operation.CollectionClass/GetCollectionGroupList"
+	CollectionClass_GetCollectionGroupById_FullMethodName = "/operation.CollectionClass/GetCollectionGroupById"
+	CollectionClass_CheckExistByName_FullMethodName       = "/operation.CollectionClass/CheckExistByName"
+	CollectionClass_UpdateCollectionGroup_FullMethodName  = "/operation.CollectionClass/UpdateCollectionGroup"
+	CollectionClass_DeleteCollectionGroup_FullMethodName  = "/operation.CollectionClass/DeleteCollectionGroup"
+	CollectionClass_AddCollection_FullMethodName          = "/operation.CollectionClass/AddCollection"
+	CollectionClass_DeleteCollection_FullMethodName       = "/operation.CollectionClass/DeleteCollection"
+	CollectionClass_GetCollectionList_FullMethodName      = "/operation.CollectionClass/GetCollectionList"
+	CollectionClass_GetCollectionById_FullMethodName      = "/operation.CollectionClass/GetCollectionById"
 )
 
-// OperationClient is the client API for Operation service.
+// CollectionClassClient is the client API for CollectionClass service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type OperationClient interface {
-	// group: CollectionGroup
+type CollectionClassClient interface {
+	// group: Collection
 	AddCollectionGroup(ctx context.Context, in *AddCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: CollectionGroup
+	// group: Collection
 	GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error)
-	// group: CollectionGroup
+	// group: Collection
 	GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error)
-	// group: CollectionGroup
+	// group: Collection
 	CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error)
-	// group: CollectionGroup
+	// group: Collection
 	UpdateCollectionGroup(ctx context.Context, in *UpdateCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: CollectionGroup
+	// group: Collection
 	DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: Collection
 	AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
@@ -62,8 +55,517 @@ type OperationClient interface {
 	GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error)
 	// group: Collection
 	GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error)
+}
+
+type collectionClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCollectionClassClient(cc grpc.ClientConnInterface) CollectionClassClient {
+	return &collectionClassClient{cc}
+}
+
+func (c *collectionClassClient) AddCollectionGroup(ctx context.Context, in *AddCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CollectionClass_AddCollectionGroup_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error) {
+	out := new(GetCollectionGroupListResp)
+	err := c.cc.Invoke(ctx, CollectionClass_GetCollectionGroupList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error) {
+	out := new(GetCollectionGroupByIdResp)
+	err := c.cc.Invoke(ctx, CollectionClass_GetCollectionGroupById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error) {
+	out := new(CheckExistByNameResp)
+	err := c.cc.Invoke(ctx, CollectionClass_CheckExistByName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) UpdateCollectionGroup(ctx context.Context, in *UpdateCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CollectionClass_UpdateCollectionGroup_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CollectionClass_DeleteCollectionGroup_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CollectionClass_AddCollection_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CollectionClass_DeleteCollection_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error) {
+	out := new(GetCollectionListResp)
+	err := c.cc.Invoke(ctx, CollectionClass_GetCollectionList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionClassClient) GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error) {
+	out := new(GetCollectionByIdResp)
+	err := c.cc.Invoke(ctx, CollectionClass_GetCollectionById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CollectionClassServer is the server API for CollectionClass service.
+// All implementations must embed UnimplementedCollectionClassServer
+// for forward compatibility
+type CollectionClassServer interface {
+	// group: Collection
+	AddCollectionGroup(context.Context, *AddCollectionGroupReq) (*OkResp, error)
+	// group: Collection
+	GetCollectionGroupList(context.Context, *GetCollectionGroupListReq) (*GetCollectionGroupListResp, error)
+	// group: Collection
+	GetCollectionGroupById(context.Context, *GetCollectionGroupByIdReq) (*GetCollectionGroupByIdResp, error)
+	// group: Collection
+	CheckExistByName(context.Context, *CheckExistByNameReq) (*CheckExistByNameResp, error)
+	// group: Collection
+	UpdateCollectionGroup(context.Context, *UpdateCollectionGroupReq) (*OkResp, error)
+	// group: Collection
+	DeleteCollectionGroup(context.Context, *DeleteCollectionGroupReq) (*OkResp, error)
+	// group: Collection
+	AddCollection(context.Context, *AddCollectionReq) (*OkResp, error)
+	// group: Collection
+	DeleteCollection(context.Context, *DeleteCollectionReq) (*OkResp, error)
+	// group: Collection
+	GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error)
+	// group: Collection
+	GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error)
+	mustEmbedUnimplementedCollectionClassServer()
+}
+
+// UnimplementedCollectionClassServer must be embedded to have forward compatible implementations.
+type UnimplementedCollectionClassServer struct {
+}
+
+func (UnimplementedCollectionClassServer) AddCollectionGroup(context.Context, *AddCollectionGroupReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCollectionGroup not implemented")
+}
+func (UnimplementedCollectionClassServer) GetCollectionGroupList(context.Context, *GetCollectionGroupListReq) (*GetCollectionGroupListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionGroupList not implemented")
+}
+func (UnimplementedCollectionClassServer) GetCollectionGroupById(context.Context, *GetCollectionGroupByIdReq) (*GetCollectionGroupByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionGroupById not implemented")
+}
+func (UnimplementedCollectionClassServer) CheckExistByName(context.Context, *CheckExistByNameReq) (*CheckExistByNameResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckExistByName not implemented")
+}
+func (UnimplementedCollectionClassServer) UpdateCollectionGroup(context.Context, *UpdateCollectionGroupReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCollectionGroup not implemented")
+}
+func (UnimplementedCollectionClassServer) DeleteCollectionGroup(context.Context, *DeleteCollectionGroupReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollectionGroup not implemented")
+}
+func (UnimplementedCollectionClassServer) AddCollection(context.Context, *AddCollectionReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCollection not implemented")
+}
+func (UnimplementedCollectionClassServer) DeleteCollection(context.Context, *DeleteCollectionReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollection not implemented")
+}
+func (UnimplementedCollectionClassServer) GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionList not implemented")
+}
+func (UnimplementedCollectionClassServer) GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionById not implemented")
+}
+func (UnimplementedCollectionClassServer) mustEmbedUnimplementedCollectionClassServer() {}
+
+// UnsafeCollectionClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CollectionClassServer will
+// result in compilation errors.
+type UnsafeCollectionClassServer interface {
+	mustEmbedUnimplementedCollectionClassServer()
+}
+
+func RegisterCollectionClassServer(s grpc.ServiceRegistrar, srv CollectionClassServer) {
+	s.RegisterService(&CollectionClass_ServiceDesc, srv)
+}
+
+func _CollectionClass_AddCollectionGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCollectionGroupReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).AddCollectionGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_AddCollectionGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).AddCollectionGroup(ctx, req.(*AddCollectionGroupReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_GetCollectionGroupList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCollectionGroupListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).GetCollectionGroupList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_GetCollectionGroupList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).GetCollectionGroupList(ctx, req.(*GetCollectionGroupListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_GetCollectionGroupById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCollectionGroupByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).GetCollectionGroupById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_GetCollectionGroupById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).GetCollectionGroupById(ctx, req.(*GetCollectionGroupByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_CheckExistByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckExistByNameReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).CheckExistByName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_CheckExistByName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).CheckExistByName(ctx, req.(*CheckExistByNameReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_UpdateCollectionGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCollectionGroupReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).UpdateCollectionGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_UpdateCollectionGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).UpdateCollectionGroup(ctx, req.(*UpdateCollectionGroupReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_DeleteCollectionGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCollectionGroupReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).DeleteCollectionGroup(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_DeleteCollectionGroup_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).DeleteCollectionGroup(ctx, req.(*DeleteCollectionGroupReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_AddCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCollectionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).AddCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_AddCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).AddCollection(ctx, req.(*AddCollectionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_DeleteCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCollectionReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).DeleteCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_DeleteCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).DeleteCollection(ctx, req.(*DeleteCollectionReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_GetCollectionList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCollectionListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).GetCollectionList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_GetCollectionList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).GetCollectionList(ctx, req.(*GetCollectionListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionClass_GetCollectionById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCollectionByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).GetCollectionById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_GetCollectionById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).GetCollectionById(ctx, req.(*GetCollectionByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CollectionClass_ServiceDesc is the grpc.ServiceDesc for CollectionClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CollectionClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "operation.CollectionClass",
+	HandlerType: (*CollectionClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddCollectionGroup",
+			Handler:    _CollectionClass_AddCollectionGroup_Handler,
+		},
+		{
+			MethodName: "GetCollectionGroupList",
+			Handler:    _CollectionClass_GetCollectionGroupList_Handler,
+		},
+		{
+			MethodName: "GetCollectionGroupById",
+			Handler:    _CollectionClass_GetCollectionGroupById_Handler,
+		},
+		{
+			MethodName: "CheckExistByName",
+			Handler:    _CollectionClass_CheckExistByName_Handler,
+		},
+		{
+			MethodName: "UpdateCollectionGroup",
+			Handler:    _CollectionClass_UpdateCollectionGroup_Handler,
+		},
+		{
+			MethodName: "DeleteCollectionGroup",
+			Handler:    _CollectionClass_DeleteCollectionGroup_Handler,
+		},
+		{
+			MethodName: "AddCollection",
+			Handler:    _CollectionClass_AddCollection_Handler,
+		},
+		{
+			MethodName: "DeleteCollection",
+			Handler:    _CollectionClass_DeleteCollection_Handler,
+		},
+		{
+			MethodName: "GetCollectionList",
+			Handler:    _CollectionClass_GetCollectionList_Handler,
+		},
+		{
+			MethodName: "GetCollectionById",
+			Handler:    _CollectionClass_GetCollectionById_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/operation.proto",
+}
+
+const (
+	ShareClass_AddPostShare_FullMethodName = "/operation.ShareClass/AddPostShare"
+)
+
+// ShareClassClient is the client API for ShareClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ShareClassClient interface {
 	// group: Share
 	AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error)
+}
+
+type shareClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewShareClassClient(cc grpc.ClientConnInterface) ShareClassClient {
+	return &shareClassClient{cc}
+}
+
+func (c *shareClassClient) AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShareClass_AddPostShare_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ShareClassServer is the server API for ShareClass service.
+// All implementations must embed UnimplementedShareClassServer
+// for forward compatibility
+type ShareClassServer interface {
+	// group: Share
+	AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error)
+	mustEmbedUnimplementedShareClassServer()
+}
+
+// UnimplementedShareClassServer must be embedded to have forward compatible implementations.
+type UnimplementedShareClassServer struct {
+}
+
+func (UnimplementedShareClassServer) AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPostShare not implemented")
+}
+func (UnimplementedShareClassServer) mustEmbedUnimplementedShareClassServer() {}
+
+// UnsafeShareClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ShareClassServer will
+// result in compilation errors.
+type UnsafeShareClassServer interface {
+	mustEmbedUnimplementedShareClassServer()
+}
+
+func RegisterShareClassServer(s grpc.ServiceRegistrar, srv ShareClassServer) {
+	s.RegisterService(&ShareClass_ServiceDesc, srv)
+}
+
+func _ShareClass_AddPostShare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPostShareReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShareClassServer).AddPostShare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShareClass_AddPostShare_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShareClassServer).AddPostShare(ctx, req.(*AddPostShareReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ShareClass_ServiceDesc is the grpc.ServiceDesc for ShareClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var ShareClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "operation.ShareClass",
+	HandlerType: (*ShareClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddPostShare",
+			Handler:    _ShareClass_AddPostShare_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/operation.proto",
+}
+
+const (
+	ThumbClass_AddThumb_FullMethodName              = "/operation.ThumbClass/AddThumb"
+	ThumbClass_UpdateThumb_FullMethodName           = "/operation.ThumbClass/UpdateThumb"
+	ThumbClass_GetThumbDetail_FullMethodName        = "/operation.ThumbClass/GetThumbDetail"
+	ThumbClass_AddCommentThumb_FullMethodName       = "/operation.ThumbClass/AddCommentThumb"
+	ThumbClass_UpdateCommentThumb_FullMethodName    = "/operation.ThumbClass/UpdateCommentThumb"
+	ThumbClass_GetCommentThumbDetail_FullMethodName = "/operation.ThumbClass/GetCommentThumbDetail"
+)
+
+// ThumbClassClient is the client API for ThumbClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type ThumbClassClient interface {
 	// group: Thumb
 	AddThumb(ctx context.Context, in *AddThumbReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: PostThumb
@@ -78,193 +580,72 @@ type OperationClient interface {
 	GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error)
 }
 
-type operationClient struct {
+type thumbClassClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewOperationClient(cc grpc.ClientConnInterface) OperationClient {
-	return &operationClient{cc}
+func NewThumbClassClient(cc grpc.ClientConnInterface) ThumbClassClient {
+	return &thumbClassClient{cc}
 }
 
-func (c *operationClient) AddCollectionGroup(ctx context.Context, in *AddCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *thumbClassClient) AddThumb(ctx context.Context, in *AddThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_AddCollectionGroup_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ThumbClass_AddThumb_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operationClient) GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error) {
-	out := new(GetCollectionGroupListResp)
-	err := c.cc.Invoke(ctx, Operation_GetCollectionGroupList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error) {
-	out := new(GetCollectionGroupByIdResp)
-	err := c.cc.Invoke(ctx, Operation_GetCollectionGroupById_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error) {
-	out := new(CheckExistByNameResp)
-	err := c.cc.Invoke(ctx, Operation_CheckExistByName_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) UpdateCollectionGroup(ctx context.Context, in *UpdateCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *thumbClassClient) UpdateThumb(ctx context.Context, in *UpdateThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_UpdateCollectionGroup_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ThumbClass_UpdateThumb_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operationClient) DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_DeleteCollectionGroup_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_AddCollection_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_DeleteCollection_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error) {
-	out := new(GetCollectionListResp)
-	err := c.cc.Invoke(ctx, Operation_GetCollectionList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error) {
-	out := new(GetCollectionByIdResp)
-	err := c.cc.Invoke(ctx, Operation_GetCollectionById_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_AddPostShare_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) AddThumb(ctx context.Context, in *AddThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_AddThumb_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) UpdateThumb(ctx context.Context, in *UpdateThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_UpdateThumb_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operationClient) GetThumbDetail(ctx context.Context, in *GetThumbDetailReq, opts ...grpc.CallOption) (*GetThumbDetailResp, error) {
+func (c *thumbClassClient) GetThumbDetail(ctx context.Context, in *GetThumbDetailReq, opts ...grpc.CallOption) (*GetThumbDetailResp, error) {
 	out := new(GetThumbDetailResp)
-	err := c.cc.Invoke(ctx, Operation_GetThumbDetail_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ThumbClass_GetThumbDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operationClient) AddCommentThumb(ctx context.Context, in *AddCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *thumbClassClient) AddCommentThumb(ctx context.Context, in *AddCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_AddCommentThumb_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ThumbClass_AddCommentThumb_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operationClient) UpdateCommentThumb(ctx context.Context, in *UpdateCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *thumbClassClient) UpdateCommentThumb(ctx context.Context, in *UpdateCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Operation_UpdateCommentThumb_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ThumbClass_UpdateCommentThumb_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operationClient) GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error) {
+func (c *thumbClassClient) GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error) {
 	out := new(GetCommentThumbDetailReq)
-	err := c.cc.Invoke(ctx, Operation_GetCommentThumbDetail_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, ThumbClass_GetCommentThumbDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// OperationServer is the server API for Operation service.
-// All implementations must embed UnimplementedOperationServer
+// ThumbClassServer is the server API for ThumbClass service.
+// All implementations must embed UnimplementedThumbClassServer
 // for forward compatibility
-type OperationServer interface {
-	// group: CollectionGroup
-	AddCollectionGroup(context.Context, *AddCollectionGroupReq) (*OkResp, error)
-	// group: CollectionGroup
-	GetCollectionGroupList(context.Context, *GetCollectionGroupListReq) (*GetCollectionGroupListResp, error)
-	// group: CollectionGroup
-	GetCollectionGroupById(context.Context, *GetCollectionGroupByIdReq) (*GetCollectionGroupByIdResp, error)
-	// group: CollectionGroup
-	CheckExistByName(context.Context, *CheckExistByNameReq) (*CheckExistByNameResp, error)
-	// group: CollectionGroup
-	UpdateCollectionGroup(context.Context, *UpdateCollectionGroupReq) (*OkResp, error)
-	// group: CollectionGroup
-	DeleteCollectionGroup(context.Context, *DeleteCollectionGroupReq) (*OkResp, error)
-	// group: Collection
-	AddCollection(context.Context, *AddCollectionReq) (*OkResp, error)
-	// group: Collection
-	DeleteCollection(context.Context, *DeleteCollectionReq) (*OkResp, error)
-	// group: Collection
-	GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error)
-	// group: Collection
-	GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error)
-	// group: Share
-	AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error)
+type ThumbClassServer interface {
 	// group: Thumb
 	AddThumb(context.Context, *AddThumbReq) (*OkResp, error)
 	// group: PostThumb
@@ -277,457 +658,469 @@ type OperationServer interface {
 	UpdateCommentThumb(context.Context, *UpdateCommentThumbReq) (*OkResp, error)
 	// group: PostCommentThumb
 	GetCommentThumbDetail(context.Context, *GetCommentThumbDetailReq) (*GetCommentThumbDetailReq, error)
-	mustEmbedUnimplementedOperationServer()
+	mustEmbedUnimplementedThumbClassServer()
 }
 
-// UnimplementedOperationServer must be embedded to have forward compatible implementations.
-type UnimplementedOperationServer struct {
+// UnimplementedThumbClassServer must be embedded to have forward compatible implementations.
+type UnimplementedThumbClassServer struct {
 }
 
-func (UnimplementedOperationServer) AddCollectionGroup(context.Context, *AddCollectionGroupReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddCollectionGroup not implemented")
-}
-func (UnimplementedOperationServer) GetCollectionGroupList(context.Context, *GetCollectionGroupListReq) (*GetCollectionGroupListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionGroupList not implemented")
-}
-func (UnimplementedOperationServer) GetCollectionGroupById(context.Context, *GetCollectionGroupByIdReq) (*GetCollectionGroupByIdResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionGroupById not implemented")
-}
-func (UnimplementedOperationServer) CheckExistByName(context.Context, *CheckExistByNameReq) (*CheckExistByNameResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckExistByName not implemented")
-}
-func (UnimplementedOperationServer) UpdateCollectionGroup(context.Context, *UpdateCollectionGroupReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateCollectionGroup not implemented")
-}
-func (UnimplementedOperationServer) DeleteCollectionGroup(context.Context, *DeleteCollectionGroupReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollectionGroup not implemented")
-}
-func (UnimplementedOperationServer) AddCollection(context.Context, *AddCollectionReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddCollection not implemented")
-}
-func (UnimplementedOperationServer) DeleteCollection(context.Context, *DeleteCollectionReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollection not implemented")
-}
-func (UnimplementedOperationServer) GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionList not implemented")
-}
-func (UnimplementedOperationServer) GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionById not implemented")
-}
-func (UnimplementedOperationServer) AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddPostShare not implemented")
-}
-func (UnimplementedOperationServer) AddThumb(context.Context, *AddThumbReq) (*OkResp, error) {
+func (UnimplementedThumbClassServer) AddThumb(context.Context, *AddThumbReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddThumb not implemented")
 }
-func (UnimplementedOperationServer) UpdateThumb(context.Context, *UpdateThumbReq) (*OkResp, error) {
+func (UnimplementedThumbClassServer) UpdateThumb(context.Context, *UpdateThumbReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateThumb not implemented")
 }
-func (UnimplementedOperationServer) GetThumbDetail(context.Context, *GetThumbDetailReq) (*GetThumbDetailResp, error) {
+func (UnimplementedThumbClassServer) GetThumbDetail(context.Context, *GetThumbDetailReq) (*GetThumbDetailResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetThumbDetail not implemented")
 }
-func (UnimplementedOperationServer) AddCommentThumb(context.Context, *AddCommentThumbReq) (*OkResp, error) {
+func (UnimplementedThumbClassServer) AddCommentThumb(context.Context, *AddCommentThumbReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddCommentThumb not implemented")
 }
-func (UnimplementedOperationServer) UpdateCommentThumb(context.Context, *UpdateCommentThumbReq) (*OkResp, error) {
+func (UnimplementedThumbClassServer) UpdateCommentThumb(context.Context, *UpdateCommentThumbReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCommentThumb not implemented")
 }
-func (UnimplementedOperationServer) GetCommentThumbDetail(context.Context, *GetCommentThumbDetailReq) (*GetCommentThumbDetailReq, error) {
+func (UnimplementedThumbClassServer) GetCommentThumbDetail(context.Context, *GetCommentThumbDetailReq) (*GetCommentThumbDetailReq, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCommentThumbDetail not implemented")
 }
-func (UnimplementedOperationServer) mustEmbedUnimplementedOperationServer() {}
+func (UnimplementedThumbClassServer) mustEmbedUnimplementedThumbClassServer() {}
 
-// UnsafeOperationServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to OperationServer will
+// UnsafeThumbClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ThumbClassServer will
 // result in compilation errors.
-type UnsafeOperationServer interface {
-	mustEmbedUnimplementedOperationServer()
+type UnsafeThumbClassServer interface {
+	mustEmbedUnimplementedThumbClassServer()
 }
 
-func RegisterOperationServer(s grpc.ServiceRegistrar, srv OperationServer) {
-	s.RegisterService(&Operation_ServiceDesc, srv)
+func RegisterThumbClassServer(s grpc.ServiceRegistrar, srv ThumbClassServer) {
+	s.RegisterService(&ThumbClass_ServiceDesc, srv)
 }
 
-func _Operation_AddCollectionGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddCollectionGroupReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).AddCollectionGroup(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_AddCollectionGroup_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).AddCollectionGroup(ctx, req.(*AddCollectionGroupReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_GetCollectionGroupList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCollectionGroupListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).GetCollectionGroupList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_GetCollectionGroupList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).GetCollectionGroupList(ctx, req.(*GetCollectionGroupListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_GetCollectionGroupById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCollectionGroupByIdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).GetCollectionGroupById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_GetCollectionGroupById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).GetCollectionGroupById(ctx, req.(*GetCollectionGroupByIdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_CheckExistByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckExistByNameReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).CheckExistByName(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_CheckExistByName_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).CheckExistByName(ctx, req.(*CheckExistByNameReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_UpdateCollectionGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateCollectionGroupReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).UpdateCollectionGroup(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_UpdateCollectionGroup_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).UpdateCollectionGroup(ctx, req.(*UpdateCollectionGroupReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_DeleteCollectionGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteCollectionGroupReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).DeleteCollectionGroup(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_DeleteCollectionGroup_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).DeleteCollectionGroup(ctx, req.(*DeleteCollectionGroupReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_AddCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddCollectionReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).AddCollection(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_AddCollection_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).AddCollection(ctx, req.(*AddCollectionReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_DeleteCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteCollectionReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).DeleteCollection(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_DeleteCollection_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).DeleteCollection(ctx, req.(*DeleteCollectionReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_GetCollectionList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCollectionListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).GetCollectionList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_GetCollectionList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).GetCollectionList(ctx, req.(*GetCollectionListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_GetCollectionById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCollectionByIdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).GetCollectionById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_GetCollectionById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).GetCollectionById(ctx, req.(*GetCollectionByIdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_AddPostShare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddPostShareReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperationServer).AddPostShare(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Operation_AddPostShare_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).AddPostShare(ctx, req.(*AddPostShareReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Operation_AddThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ThumbClass_AddThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddThumbReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperationServer).AddThumb(ctx, in)
+		return srv.(ThumbClassServer).AddThumb(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Operation_AddThumb_FullMethodName,
+		FullMethod: ThumbClass_AddThumb_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).AddThumb(ctx, req.(*AddThumbReq))
+		return srv.(ThumbClassServer).AddThumb(ctx, req.(*AddThumbReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Operation_UpdateThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ThumbClass_UpdateThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateThumbReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperationServer).UpdateThumb(ctx, in)
+		return srv.(ThumbClassServer).UpdateThumb(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Operation_UpdateThumb_FullMethodName,
+		FullMethod: ThumbClass_UpdateThumb_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).UpdateThumb(ctx, req.(*UpdateThumbReq))
+		return srv.(ThumbClassServer).UpdateThumb(ctx, req.(*UpdateThumbReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Operation_GetThumbDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ThumbClass_GetThumbDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetThumbDetailReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperationServer).GetThumbDetail(ctx, in)
+		return srv.(ThumbClassServer).GetThumbDetail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Operation_GetThumbDetail_FullMethodName,
+		FullMethod: ThumbClass_GetThumbDetail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).GetThumbDetail(ctx, req.(*GetThumbDetailReq))
+		return srv.(ThumbClassServer).GetThumbDetail(ctx, req.(*GetThumbDetailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Operation_AddCommentThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ThumbClass_AddCommentThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddCommentThumbReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperationServer).AddCommentThumb(ctx, in)
+		return srv.(ThumbClassServer).AddCommentThumb(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Operation_AddCommentThumb_FullMethodName,
+		FullMethod: ThumbClass_AddCommentThumb_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).AddCommentThumb(ctx, req.(*AddCommentThumbReq))
+		return srv.(ThumbClassServer).AddCommentThumb(ctx, req.(*AddCommentThumbReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Operation_UpdateCommentThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ThumbClass_UpdateCommentThumb_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateCommentThumbReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperationServer).UpdateCommentThumb(ctx, in)
+		return srv.(ThumbClassServer).UpdateCommentThumb(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Operation_UpdateCommentThumb_FullMethodName,
+		FullMethod: ThumbClass_UpdateCommentThumb_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).UpdateCommentThumb(ctx, req.(*UpdateCommentThumbReq))
+		return srv.(ThumbClassServer).UpdateCommentThumb(ctx, req.(*UpdateCommentThumbReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Operation_GetCommentThumbDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ThumbClass_GetCommentThumbDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetCommentThumbDetailReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperationServer).GetCommentThumbDetail(ctx, in)
+		return srv.(ThumbClassServer).GetCommentThumbDetail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Operation_GetCommentThumbDetail_FullMethodName,
+		FullMethod: ThumbClass_GetCommentThumbDetail_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperationServer).GetCommentThumbDetail(ctx, req.(*GetCommentThumbDetailReq))
+		return srv.(ThumbClassServer).GetCommentThumbDetail(ctx, req.(*GetCommentThumbDetailReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Operation_ServiceDesc is the grpc.ServiceDesc for Operation service.
+// ThumbClass_ServiceDesc is the grpc.ServiceDesc for ThumbClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Operation_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "operation.Operation",
-	HandlerType: (*OperationServer)(nil),
+var ThumbClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "operation.ThumbClass",
+	HandlerType: (*ThumbClassServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "AddCollectionGroup",
-			Handler:    _Operation_AddCollectionGroup_Handler,
-		},
-		{
-			MethodName: "GetCollectionGroupList",
-			Handler:    _Operation_GetCollectionGroupList_Handler,
-		},
-		{
-			MethodName: "GetCollectionGroupById",
-			Handler:    _Operation_GetCollectionGroupById_Handler,
-		},
-		{
-			MethodName: "CheckExistByName",
-			Handler:    _Operation_CheckExistByName_Handler,
-		},
-		{
-			MethodName: "UpdateCollectionGroup",
-			Handler:    _Operation_UpdateCollectionGroup_Handler,
-		},
-		{
-			MethodName: "DeleteCollectionGroup",
-			Handler:    _Operation_DeleteCollectionGroup_Handler,
-		},
-		{
-			MethodName: "AddCollection",
-			Handler:    _Operation_AddCollection_Handler,
-		},
-		{
-			MethodName: "DeleteCollection",
-			Handler:    _Operation_DeleteCollection_Handler,
-		},
-		{
-			MethodName: "GetCollectionList",
-			Handler:    _Operation_GetCollectionList_Handler,
-		},
-		{
-			MethodName: "GetCollectionById",
-			Handler:    _Operation_GetCollectionById_Handler,
-		},
-		{
-			MethodName: "AddPostShare",
-			Handler:    _Operation_AddPostShare_Handler,
-		},
-		{
 			MethodName: "AddThumb",
-			Handler:    _Operation_AddThumb_Handler,
+			Handler:    _ThumbClass_AddThumb_Handler,
 		},
 		{
 			MethodName: "UpdateThumb",
-			Handler:    _Operation_UpdateThumb_Handler,
+			Handler:    _ThumbClass_UpdateThumb_Handler,
 		},
 		{
 			MethodName: "GetThumbDetail",
-			Handler:    _Operation_GetThumbDetail_Handler,
+			Handler:    _ThumbClass_GetThumbDetail_Handler,
 		},
 		{
 			MethodName: "AddCommentThumb",
-			Handler:    _Operation_AddCommentThumb_Handler,
+			Handler:    _ThumbClass_AddCommentThumb_Handler,
 		},
 		{
 			MethodName: "UpdateCommentThumb",
-			Handler:    _Operation_UpdateCommentThumb_Handler,
+			Handler:    _ThumbClass_UpdateCommentThumb_Handler,
 		},
 		{
 			MethodName: "GetCommentThumbDetail",
-			Handler:    _Operation_GetCommentThumbDetail_Handler,
+			Handler:    _ThumbClass_GetCommentThumbDetail_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/operation.proto",
+}
+
+const (
+	CommentClass_AddComment_FullMethodName          = "/operation.CommentClass/AddComment"
+	CommentClass_DeleteComment_FullMethodName       = "/operation.CommentClass/DeleteComment"
+	CommentClass_AddCommentReply_FullMethodName     = "/operation.CommentClass/AddCommentReply"
+	CommentClass_DeleteCommentReply_FullMethodName  = "/operation.CommentClass/DeleteCommentReply"
+	CommentClass_GetCommentList_FullMethodName      = "/operation.CommentClass/GetCommentList"
+	CommentClass_GetCommentReplyList_FullMethodName = "/operation.CommentClass/GetCommentReplyList"
+)
+
+// CommentClassClient is the client API for CommentClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CommentClassClient interface {
+	// group: Comment
+	AddComment(ctx context.Context, in *AddCommentReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: Comment
+	DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: Comment
+	AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: Comment
+	DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: Comment
+	GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
+	// group: Comment
+	GetCommentReplyList(ctx context.Context, in *GetCommentReplyListReq, opts ...grpc.CallOption) (*GetCommentReplyListResp, error)
+}
+
+type commentClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCommentClassClient(cc grpc.ClientConnInterface) CommentClassClient {
+	return &commentClassClient{cc}
+}
+
+func (c *commentClassClient) AddComment(ctx context.Context, in *AddCommentReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CommentClass_AddComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentClassClient) DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CommentClass_DeleteComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentClassClient) AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CommentClass_AddCommentReply_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentClassClient) DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CommentClass_DeleteCommentReply_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentClassClient) GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error) {
+	out := new(GetCommentListResp)
+	err := c.cc.Invoke(ctx, CommentClass_GetCommentList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentClassClient) GetCommentReplyList(ctx context.Context, in *GetCommentReplyListReq, opts ...grpc.CallOption) (*GetCommentReplyListResp, error) {
+	out := new(GetCommentReplyListResp)
+	err := c.cc.Invoke(ctx, CommentClass_GetCommentReplyList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CommentClassServer is the server API for CommentClass service.
+// All implementations must embed UnimplementedCommentClassServer
+// for forward compatibility
+type CommentClassServer interface {
+	// group: Comment
+	AddComment(context.Context, *AddCommentReq) (*OkResp, error)
+	// group: Comment
+	DeleteComment(context.Context, *DeleteCommentReq) (*OkResp, error)
+	// group: Comment
+	AddCommentReply(context.Context, *AddCommentReplyReq) (*OkResp, error)
+	// group: Comment
+	DeleteCommentReply(context.Context, *DeleteCommentReplyReq) (*OkResp, error)
+	// group: Comment
+	GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error)
+	// group: Comment
+	GetCommentReplyList(context.Context, *GetCommentReplyListReq) (*GetCommentReplyListResp, error)
+	mustEmbedUnimplementedCommentClassServer()
+}
+
+// UnimplementedCommentClassServer must be embedded to have forward compatible implementations.
+type UnimplementedCommentClassServer struct {
+}
+
+func (UnimplementedCommentClassServer) AddComment(context.Context, *AddCommentReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddComment not implemented")
+}
+func (UnimplementedCommentClassServer) DeleteComment(context.Context, *DeleteCommentReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteComment not implemented")
+}
+func (UnimplementedCommentClassServer) AddCommentReply(context.Context, *AddCommentReplyReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCommentReply not implemented")
+}
+func (UnimplementedCommentClassServer) DeleteCommentReply(context.Context, *DeleteCommentReplyReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCommentReply not implemented")
+}
+func (UnimplementedCommentClassServer) GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCommentList not implemented")
+}
+func (UnimplementedCommentClassServer) GetCommentReplyList(context.Context, *GetCommentReplyListReq) (*GetCommentReplyListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCommentReplyList not implemented")
+}
+func (UnimplementedCommentClassServer) mustEmbedUnimplementedCommentClassServer() {}
+
+// UnsafeCommentClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CommentClassServer will
+// result in compilation errors.
+type UnsafeCommentClassServer interface {
+	mustEmbedUnimplementedCommentClassServer()
+}
+
+func RegisterCommentClassServer(s grpc.ServiceRegistrar, srv CommentClassServer) {
+	s.RegisterService(&CommentClass_ServiceDesc, srv)
+}
+
+func _CommentClass_AddComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCommentReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).AddComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_AddComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).AddComment(ctx, req.(*AddCommentReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentClass_DeleteComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCommentReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).DeleteComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_DeleteComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).DeleteComment(ctx, req.(*DeleteCommentReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentClass_AddCommentReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCommentReplyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).AddCommentReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_AddCommentReply_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).AddCommentReply(ctx, req.(*AddCommentReplyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentClass_DeleteCommentReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCommentReplyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).DeleteCommentReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_DeleteCommentReply_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).DeleteCommentReply(ctx, req.(*DeleteCommentReplyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentClass_GetCommentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCommentListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).GetCommentList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_GetCommentList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).GetCommentList(ctx, req.(*GetCommentListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentClass_GetCommentReplyList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCommentReplyListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).GetCommentReplyList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_GetCommentReplyList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).GetCommentReplyList(ctx, req.(*GetCommentReplyListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CommentClass_ServiceDesc is the grpc.ServiceDesc for CommentClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CommentClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "operation.CommentClass",
+	HandlerType: (*CommentClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddComment",
+			Handler:    _CommentClass_AddComment_Handler,
+		},
+		{
+			MethodName: "DeleteComment",
+			Handler:    _CommentClass_DeleteComment_Handler,
+		},
+		{
+			MethodName: "AddCommentReply",
+			Handler:    _CommentClass_AddCommentReply_Handler,
+		},
+		{
+			MethodName: "DeleteCommentReply",
+			Handler:    _CommentClass_DeleteCommentReply_Handler,
+		},
+		{
+			MethodName: "GetCommentList",
+			Handler:    _CommentClass_GetCommentList_Handler,
+		},
+		{
+			MethodName: "GetCommentReplyList",
+			Handler:    _CommentClass_GetCommentReplyList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

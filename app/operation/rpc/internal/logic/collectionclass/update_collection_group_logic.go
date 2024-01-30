@@ -1,4 +1,4 @@
-package logic
+package collectionclasslogic
 
 import (
 	"context"
@@ -23,7 +23,7 @@ func NewUpdateCollectionGroupLogic(ctx context.Context, svcCtx *svc.ServiceConte
 	}
 }
 
-// group: CollectionGroup
+// group: Collection
 func (l *UpdateCollectionGroupLogic) UpdateCollectionGroup(in *operation.UpdateCollectionGroupReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
 	group, err := l.svcCtx.CollectionGroupModel.FindOne(l.ctx, in.Id)

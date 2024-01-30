@@ -7,7 +7,7 @@ import (
 	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
-	"qinglv-backend/app/operation/rpc/operation_client"
+	"qinglv-backend/app/operation/rpc/client/thumbclass"
 	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/snowflake"
 
@@ -44,7 +44,7 @@ func (l *HandlePostThumbUpLogic) HandlePostThumbUp(req *types.HandlePostThumbUpR
 	if err != nil {
 		return err
 	}
-	thumbResp, err := l.svcCtx.OperationRpc.GetThumbDetail(l.ctx, &operation_client.GetThumbDetailReq{
+	thumbResp, err := l.svcCtx.ThumbRpc.GetThumbDetail(l.ctx, &thumbclass.GetThumbDetailReq{
 		CreatorId: uint64(userId),
 		PostId:    req.PostId,
 		Type:      1,
@@ -63,7 +63,7 @@ func (l *HandlePostThumbUpLogic) HandlePostThumbUp(req *types.HandlePostThumbUpR
 			thumbUpCount, thumbDownCount = 1, -1
 			thumbResp.Post[0].Dislike = globalKey.ThumbNo
 		}
-		if _, err = l.svcCtx.OperationRpc.UpdateThumb(l.ctx, &operation_client.UpdateThumbReq{
+		if _, err = l.svcCtx.ThumbRpc.UpdateThumb(l.ctx, &thumbclass.UpdateThumbReq{
 			Id:      thumbResp.Post[0].Id,
 			Like:    1 - thumbResp.Post[0].Like,
 			Dislike: thumbResp.Post[0].Dislike,
@@ -74,7 +74,7 @@ func (l *HandlePostThumbUpLogic) HandlePostThumbUp(req *types.HandlePostThumbUpR
 	} else {
 		id := snowflake.MustID()
 		thumbUpCount, thumbDownCount = 1, 0
-		if _, err = l.svcCtx.OperationRpc.AddThumb(l.ctx, &operation_client.AddThumbReq{
+		if _, err = l.svcCtx.ThumbRpc.AddThumb(l.ctx, &thumbclass.AddThumbReq{
 			Id:        id,
 			CreatorId: uint64(userId),
 			PostId:    req.PostId,

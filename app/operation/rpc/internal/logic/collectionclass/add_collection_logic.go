@@ -1,38 +1,38 @@
-package logic
+package collectionclasslogic
 
 import (
 	"context"
 	"time"
 
-	"qinglv-backend/app/operation/rpc/internal/model/share"
+	"qinglv-backend/app/operation/rpc/internal/model/collection"
 	"qinglv-backend/app/operation/rpc/internal/svc"
 	"qinglv-backend/app/operation/rpc/operation"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type AddPostShareLogic struct {
+type AddCollectionLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewAddPostShareLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddPostShareLogic {
-	return &AddPostShareLogic{
+func NewAddCollectionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCollectionLogic {
+	return &AddCollectionLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// group: Share
-func (l *AddPostShareLogic) AddPostShare(in *operation.AddPostShareReq) (*operation.OkResp, error) {
+// group: Collection
+func (l *AddCollectionLogic) AddCollection(in *operation.AddCollectionReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
-	_, err := l.svcCtx.PostShareModel.Insert(l.ctx, nil, &share.PostShare{
+	_, err := l.svcCtx.CollectionModel.Insert(l.ctx, nil, &collection.Collection{
 		Id:        in.Id,
+		TargetId:  in.TargetId,
+		GroupId:   in.GroupId,
 		CreatorId: in.CreatorId,
-		PostId:    in.PostId,
-		Type:      uint64(in.Type),
 		DeletedAt: time.Now(),
 		Version:   1,
 	})

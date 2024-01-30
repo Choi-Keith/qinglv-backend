@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
-	"qinglv-backend/app/operation/rpc/operation_client"
+	"qinglv-backend/app/operation/rpc/operation"
 	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -33,7 +33,7 @@ func (l *AddCollectionGroupLogic) AddCollectionGroup(req *types.AddCollectionGro
 		return err
 	}
 	id := snowflake.MustID()
-	_, err = l.svcCtx.OperationRpc.AddCollectionGroup(l.ctx, &operation_client.AddCollectionGroupReq{
+	_, err = l.svcCtx.CollectionRpc.AddCollectionGroup(l.ctx, &operation.AddCollectionGroupReq{
 		Id:         id,
 		CreatorId:  uint64(userId),
 		Name:       req.Name,

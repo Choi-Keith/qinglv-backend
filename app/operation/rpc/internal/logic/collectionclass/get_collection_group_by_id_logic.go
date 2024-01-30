@@ -1,4 +1,4 @@
-package logic
+package collectionclasslogic
 
 import (
 	"context"
@@ -23,9 +23,10 @@ func NewGetCollectionGroupByIdLogic(ctx context.Context, svcCtx *svc.ServiceCont
 	}
 }
 
-// group: CollectionGroup
+// group: Collection
 func (l *GetCollectionGroupByIdLogic) GetCollectionGroupById(in *operation.GetCollectionGroupByIdReq) (*operation.GetCollectionGroupByIdResp, error) {
 	// todo: add your logic here and delete this line
+
 	collectionGroup, err := l.svcCtx.CollectionGroupModel.FindOne(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

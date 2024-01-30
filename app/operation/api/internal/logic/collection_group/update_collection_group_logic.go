@@ -7,7 +7,7 @@ import (
 
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
-	"qinglv-backend/app/operation/rpc/operation_client"
+	"qinglv-backend/app/operation/rpc/operation"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,7 +32,7 @@ func (l *UpdateCollectionGroupLogic) UpdateCollectionGroup(req *types.UpdateColl
 	if err != nil {
 		return err
 	}
-	groupListResp, err := l.svcCtx.OperationRpc.CheckExistByName(l.ctx, &operation_client.CheckExistByNameReq{
+	groupListResp, err := l.svcCtx.CollectionRpc.CheckExistByName(l.ctx, &operation.CheckExistByNameReq{
 		Name:      req.Name,
 		CreatorId: uint64(userId),
 		BizType:   req.BizType,
@@ -40,7 +40,7 @@ func (l *UpdateCollectionGroupLogic) UpdateCollectionGroup(req *types.UpdateColl
 	if err == nil && len(groupListResp.Data) > 0 {
 		return errors.New("该收藏夹已存在")
 	}
-	_, err = l.svcCtx.OperationRpc.UpdateCollectionGroup(l.ctx, &operation_client.UpdateCollectionGroupReq{
+	_, err = l.svcCtx.CollectionRpc.UpdateCollectionGroup(l.ctx, &operation.UpdateCollectionGroupReq{
 		Id:         req.Id,
 		BizType:    req.BizType,
 		Name:       req.Name,

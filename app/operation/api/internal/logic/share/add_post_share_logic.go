@@ -7,7 +7,7 @@ import (
 	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
-	"qinglv-backend/app/operation/rpc/operation_client"
+	"qinglv-backend/app/operation/rpc/operation"
 	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -40,7 +40,7 @@ func (l *AddPostShareLogic) AddPostShare(req *types.AddPostShareReq) error {
 		return err
 	}
 	id := snowflake.MustID()
-	if _, err = l.svcCtx.OperationRpc.AddPostShare(l.ctx, &operation_client.AddPostShareReq{
+	if _, err = l.svcCtx.ShareRpc.AddPostShare(l.ctx, &operation.AddPostShareReq{
 		Id:        id,
 		CreatorId: uint64(userId),
 		PostId:    req.PostId,

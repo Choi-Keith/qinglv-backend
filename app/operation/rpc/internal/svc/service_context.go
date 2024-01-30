@@ -12,22 +12,24 @@ import (
 )
 
 type ServiceContext struct {
-	Config               config.Config
-	CollectionModel      collection.CollectionModel
-	CollectionGroupModel collection_group.CollectionGroupModel
-	PostShareModel       share.PostShareModel
-	PostThumbModel       thumb.PostThumbModel
-	RedisClient          *redis.Redis
+	Config                config.Config
+	CollectionModel       collection.CollectionModel
+	CollectionGroupModel  collection_group.CollectionGroupModel
+	PostShareModel        share.PostShareModel
+	PostCommentThumbModel thumb.PostCommentThumbModel
+	PostThumbModel        thumb.PostThumbModel
+	RedisClient           *redis.Redis
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	sqlConn := sqlx.NewMysql(c.Mysql.Datasource)
 	return &ServiceContext{
-		Config:               c,
-		CollectionGroupModel: collection_group.NewCollectionGroupModel(sqlConn, c.Cache),
-		CollectionModel:      collection.NewCollectionModel(sqlConn, c.Cache),
-		PostShareModel:       share.NewPostShareModel(sqlConn, c.Cache),
-		PostThumbModel:       thumb.NewPostThumbModel(sqlConn, c.Cache),
+		Config:                c,
+		CollectionModel:       collection.NewCollectionModel(sqlConn, c.Cache),
+		CollectionGroupModel:  collection_group.NewCollectionGroupModel(sqlConn, c.Cache),
+		PostShareModel:        share.NewPostShareModel(sqlConn, c.Cache),
+		PostCommentThumbModel: thumb.NewPostCommentThumbModel(sqlConn, c.Cache),
+		PostThumbModel:        thumb.NewPostThumbModel(sqlConn, c.Cache),
 		RedisClient: redis.New(c.Redis.Host, func(r *redis.Redis) {
 			r.Pass = c.Redis.Pass
 			r.Type = c.Redis.Type

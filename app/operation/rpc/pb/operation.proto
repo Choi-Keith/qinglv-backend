@@ -7,7 +7,7 @@ message OkResp {
     string pong = 1;
 }
 
-//==========================CollectionGroup==========================
+//==========================Collection==========================
 message CollectionGroupItem {
     uint64 id = 1;
     uint64 creatorId = 2;
@@ -63,9 +63,6 @@ message UpdateCollectionGroupReq{
 message DeleteCollectionGroupReq {
     uint64 id = 1;
 }
-
-//==========================CollectionGroup==========================
-
 message CollectionItem {
     uint64 id = 1;
     uint64 groupId = 2;
@@ -99,6 +96,28 @@ message GetCollectionByIdReq{
 message GetCollectionByIdResp{
     CollectionItem collection = 1;
 }
+service CollectionClass{
+    // group: Collection
+    rpc AddCollectionGroup(AddCollectionGroupReq) returns(OkResp);
+    // group: Collection
+    rpc GetCollectionGroupList(GetCollectionGroupListReq) returns(GetCollectionGroupListResp);
+    // group: Collection
+    rpc GetCollectionGroupById(GetCollectionGroupByIdReq) returns(GetCollectionGroupByIdResp);
+    // group: Collection
+    rpc CheckExistByName(CheckExistByNameReq) returns(CheckExistByNameResp);
+    // group: Collection
+    rpc UpdateCollectionGroup(UpdateCollectionGroupReq) returns(OkResp);
+    // group: Collection
+    rpc DeleteCollectionGroup(DeleteCollectionGroupReq) returns(OkResp);
+    // group: Collection
+    rpc AddCollection(AddCollectionReq) returns(OkResp);
+    // group: Collection
+    rpc DeleteCollection(DeleteCollectionReq) returns(OkResp);
+    // group: Collection
+    rpc GetCollectionList(GetCollectionListReq) returns(GetCollectionListResp);
+    // group: Collection
+    rpc GetCollectionById(GetCollectionByIdReq) returns(GetCollectionByIdResp);
+}
 
 //==========================Share==========================
 
@@ -107,6 +126,10 @@ message AddPostShareReq {
     uint64 creatorId = 2;
     uint64 postId = 3;
     int32 type = 4;
+}
+service ShareClass{
+    // group: Share
+    rpc AddPostShare(AddPostShareReq) returns(OkResp);
 }
 
 //==========================Thumb==========================
@@ -155,7 +178,6 @@ message GetThumbDetailResp {
     repeated ArticleThumbItem article = 2;
 }
 
-//==========================CommentThumb==========================
 
 message PostCommentThumbItem {
     uint64 id = 1;
@@ -214,6 +236,22 @@ message GetCommentThumbDetailReq {
 message GetCommentThumbDetailResp {
     repeated PostCommentThumbItem post = 1;
     repeated ArticleCommentThumbItem article = 2;
+}
+
+service ThumbClass {
+    // group: Thumb
+    rpc AddThumb(AddThumbReq) returns(OkResp);
+    // group: PostThumb
+    rpc UpdateThumb(UpdateThumbReq) returns(OkResp);
+    // group: PostThumb
+    rpc GetThumbDetail(GetThumbDetailReq) returns(GetThumbDetailResp);
+
+    // group: CommentThumb
+    rpc AddCommentThumb(AddCommentThumbReq) returns(OkResp);
+    // group: PostCommentThumb
+    rpc UpdateCommentThumb(UpdateCommentThumbReq) returns(OkResp);
+    // group: PostCommentThumb
+    rpc GetCommentThumbDetail(GetCommentThumbDetailReq) returns(GetCommentThumbDetailReq);
 }
 
 //==========================Comment==========================
@@ -281,10 +319,6 @@ message GetCommentListResp {
 
 }
 
-
-
-
-//==========================CommentReply====================
 message ArticleCommentReplyItem {
     uint64 id = 1;
     uint64 creatorId = 2;
@@ -335,61 +369,20 @@ message GetCommentReplyListReq {
     uint64 pageSize = 6;
     int32 type = 7; // 1帖子，2文章，3视频
 }
-message PostCommentResp {
+message PostCommentReplyResp {
     repeated PostCommentItem data = 1;
     uint64 total = 2;
 }
-message ArticleCommentResp {
-    repeated ArticleCommentItem data = 1;
+message ArticleCommentReplyResp {
+    repeated ArticleCommentReplyItem data = 1;
     uint64 total = 2;
 }
 message GetCommentReplyListResp {
-    PostCommentResp post = 1;
-    ArticleCommentResp article = 2;
+    PostCommentReplyResp post = 1;
+    ArticleCommentReplyResp article = 2;
 }
 
-
-
-service Operation {
-    // group: CollectionGroup
-    rpc AddCollectionGroup(AddCollectionGroupReq) returns(OkResp);
-    // group: CollectionGroup
-    rpc GetCollectionGroupList(GetCollectionGroupListReq) returns(GetCollectionGroupListResp);
-    // group: CollectionGroup
-    rpc GetCollectionGroupById(GetCollectionGroupByIdReq) returns(GetCollectionGroupByIdResp);
-    // group: CollectionGroup
-    rpc CheckExistByName(CheckExistByNameReq) returns(CheckExistByNameResp);
-    // group: CollectionGroup
-    rpc UpdateCollectionGroup(UpdateCollectionGroupReq) returns(OkResp);
-    // group: CollectionGroup
-    rpc DeleteCollectionGroup(DeleteCollectionGroupReq) returns(OkResp);
-
-    // group: Collection
-    rpc AddCollection(AddCollectionReq) returns(OkResp);
-    // group: Collection
-    rpc DeleteCollection(DeleteCollectionReq) returns(OkResp);
-    // group: Collection
-    rpc GetCollectionList(GetCollectionListReq) returns(GetCollectionListResp);
-    // group: Collection
-    rpc GetCollectionById(GetCollectionByIdReq) returns(GetCollectionByIdResp);
-
-    // group: Share
-    rpc AddPostShare(AddPostShareReq) returns(OkResp);
-
-    // group: Thumb
-    rpc AddThumb(AddThumbReq) returns(OkResp);
-    // group: PostThumb
-    rpc UpdateThumb(UpdateThumbReq) returns(OkResp);
-    // group: PostThumb
-    rpc GetThumbDetail(GetThumbDetailReq) returns(GetThumbDetailResp);
-
-    // group: CommentThumb
-    rpc AddCommentThumb(AddCommentThumbReq) returns(OkResp);
-    // group: PostCommentThumb
-    rpc UpdateCommentThumb(UpdateCommentThumbReq) returns(OkResp);
-    // group: PostCommentThumb
-    rpc GetCommentThumbDetail(GetCommentThumbDetailReq) returns(GetCommentThumbDetailReq);
-
+service CommentClass {
     // group: Comment
     rpc AddComment(AddCommentReq) returns(OkResp);
     // group: Comment

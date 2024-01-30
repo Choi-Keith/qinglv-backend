@@ -1,4 +1,4 @@
-package logic
+package collectionclasslogic
 
 import (
 	"context"
@@ -24,7 +24,7 @@ func NewCheckExistByNameLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-// group: CollectionGroup
+// group: Collection
 func (l *CheckExistByNameLogic) CheckExistByName(in *operation.CheckExistByNameReq) (*operation.CheckExistByNameResp, error) {
 	// todo: add your logic here and delete this line
 	whereBuilder := l.svcCtx.CollectionGroupModel.SelectBuilder()

@@ -1,4 +1,4 @@
-package logic
+package collectionclasslogic
 
 import (
 	"context"
@@ -25,7 +25,7 @@ func NewAddCollectionGroupLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-// group: CollectionGroup
+// group: Collection
 func (l *AddCollectionGroupLogic) AddCollectionGroup(in *operation.AddCollectionGroupReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
 	_, err := l.svcCtx.CollectionGroupModel.Insert(l.ctx, nil, &collection_group.CollectionGroup{

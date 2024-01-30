@@ -17,7 +17,7 @@
 `sudo docker run --restart=always -d -p 16379:6379 -v /home/ubuntu/redis/data:/data:rw  --name redis redis:latest --requirepass xxx`
 
 在rpc目录下生成rpc服务
-`goctl rpc protoc ./pb/user.proto --go_out=. --go-grpc_out=. --zrpc_out=. --style=go_zero`
+`goctl rpc protoc ./pb/user.proto --go_out=. --go-grpc_out=. --zrpc_out=. --style=go_zero -m`
 
 请求rpc服务
 `grpcurl -d '{"nickname": "keith"}' -plaintext 127.0.0.1:8080 user.User.Register`

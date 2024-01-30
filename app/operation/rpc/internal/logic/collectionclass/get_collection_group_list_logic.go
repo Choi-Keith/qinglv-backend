@@ -1,4 +1,4 @@
-package logic
+package collectionclasslogic
 
 import (
 	"context"
@@ -26,7 +26,7 @@ func NewGetCollectionGroupListLogic(ctx context.Context, svcCtx *svc.ServiceCont
 	}
 }
 
-// group: CollectionGroup
+// group: Collection
 func (l *GetCollectionGroupListLogic) GetCollectionGroupList(in *operation.GetCollectionGroupListReq) (*operation.GetCollectionGroupListResp, error) {
 	// todo: add your logic here and delete this line
 	whereBuilder := l.svcCtx.CollectionGroupModel.SelectBuilder()

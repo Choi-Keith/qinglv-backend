@@ -8,7 +8,7 @@ import (
 	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
-	"qinglv-backend/app/operation/rpc/operation_client"
+	"qinglv-backend/app/operation/rpc/operation"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -35,7 +35,7 @@ func (l *DeleteCollectionLogic) DeleteCollection(req *types.DeleteCollectionReq)
 	}
 	roleId, _ := l.ctx.Value("roleId").(json.Number).Int64()
 
-	collectionResp, err := l.svcCtx.OperationRpc.GetCollectionById(l.ctx, &operation_client.GetCollectionByIdReq{
+	collectionResp, err := l.svcCtx.CollectionRpc.GetCollectionById(l.ctx, &operation.GetCollectionByIdReq{
 		Id: req.Id,
 	})
 	if err != nil {
@@ -44,12 +44,12 @@ func (l *DeleteCollectionLogic) DeleteCollection(req *types.DeleteCollectionReq)
 	if collectionResp.Collection.CreatorId != uint64(userId) && roleId > 2 {
 		return errors.New("没有权限删除")
 	}
-	if _, err = l.svcCtx.OperationRpc.DeleteCollection(l.ctx, &operation_client.DeleteCollectionReq{
+	if _, err = l.svcCtx.CollectionRpc.DeleteCollection(l.ctx, &operation.DeleteCollectionReq{
 		Id: req.Id,
 	}); err != nil {
 		return err
 	}
-	groupResp, err := l.svcCtx.OperationRpc.GetCollectionGroupById(l.ctx, &operation_client.GetCollectionGroupByIdReq{
+	groupResp, err := l.svcCtx.CollectionRpc.GetCollectionGroupById(l.ctx, &operation.GetCollectionGroupByIdReq{
 		Id: collectionResp.Collection.GroupId,
 	})
 	if err != nil {

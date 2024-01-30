@@ -5,7 +5,7 @@ import (
 
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
-	"qinglv-backend/app/operation/rpc/operation_client"
+	"qinglv-backend/app/operation/rpc/operation"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -27,7 +27,7 @@ func NewGetCollectionGroupListLogic(ctx context.Context, svcCtx *svc.ServiceCont
 
 func (l *GetCollectionGroupListLogic) GetCollectionGroupList(req *types.GetCollectionGroupListReq) (resp *types.GetCollectionGropListResp, err error) {
 	// todo: add your logic here and delete this line
-	groupListResp, err := l.svcCtx.OperationRpc.GetCollectionGroupList(l.ctx, &operation_client.GetCollectionGroupListReq{
+	groupListResp, err := l.svcCtx.CollectionRpc.GetCollectionGroupList(l.ctx, &operation.GetCollectionGroupListReq{
 		Name:       req.Name,
 		Visibility: req.Visibility,
 		BizType:    req.BizType,

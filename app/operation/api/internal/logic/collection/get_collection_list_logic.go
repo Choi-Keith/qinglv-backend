@@ -10,7 +10,6 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
-	"qinglv-backend/app/operation/rpc/operation_client"
 	"qinglv-backend/app/user/rpc/user_client"
 	"qinglv-backend/pkg/jwtx"
 
@@ -37,7 +36,7 @@ func NewGetCollectionListLogic(ctx context.Context, svcCtx *svc.ServiceContext, 
 
 func (l *GetCollectionListLogic) GetCollectionList(req *types.GetCollectionListReq) (resp *types.GetCollectionListResp, err error) {
 	// todo: add your logic here and delete this line
-	collectionListResp, err := l.svcCtx.OperationRpc.GetCollectionList(l.ctx, &operation_client.GetCollectionListReq{
+	collectionListResp, err := l.svcCtx.CollectionRpc.GetCollectionList(l.ctx, &operation.GetCollectionListReq{
 		GroupId:  req.GroupId,
 		PageNum:  uint64(req.PageNum),
 		PageSize: uint64(req.PageNum),

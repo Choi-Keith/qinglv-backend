@@ -1,4 +1,4 @@
-package logic
+package collectionclasslogic
 
 import (
 	"context"
@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type AddCommentThumbLogic struct {
+type DeleteCollectionGroupLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewAddCommentThumbLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCommentThumbLogic {
-	return &AddCommentThumbLogic{
+func NewDeleteCollectionGroupLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteCollectionGroupLogic {
+	return &DeleteCollectionGroupLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// group: CommentThumb
-func (l *AddCommentThumbLogic) AddCommentThumb(in *operation.AddCommentThumbReq) (*operation.OkResp, error) {
+// group: Collection
+func (l *DeleteCollectionGroupLogic) DeleteCollectionGroup(in *operation.DeleteCollectionGroupReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
 
 	return &operation.OkResp{}, nil
