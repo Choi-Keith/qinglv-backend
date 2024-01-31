@@ -70,6 +70,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		secretKey,
 		seconds,
 		jwtx.WithOption("userId", userResp.User.Id),
+		jwtx.WithOption("nickname", userResp.User.Nickname),
 		jwtx.WithOption("roleId", userResp.User.RoleId),
 		jwtx.WithOption("email", userResp.User.Email),
 	)
