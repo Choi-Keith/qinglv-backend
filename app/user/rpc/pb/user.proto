@@ -5,31 +5,57 @@ option go_package="./user";
 
 message Empty{}
 
+//===========================Email============================
 message VerifyRegisterCodeReq {
     string code = 1;
 }
-
 message VerifyRegisterCodeResp {
     string codeContent = 1;
 }
+service EmailClass {
+  // group: email
+  rpc VerifyRegisterCode(VerifyRegisterCodeReq) returns(VerifyRegisterCodeResp);
+}
+
+//===========================Captcha============================
+message GenerateCaptchaResp{
+  string key = 1;
+  string base64Img = 2;
+}
+message VerifyCaptchaReq {
+  string key = 1;
+  string captcha = 2;
+}
+message VerifyCaptchaResp {
+  bool isCorrect = 1;
+}
+service CaptchaClass {
+  // group: captcha
+  rpc GenerateCaptcha(Empty) returns(GenerateCaptchaResp);
+  // group: captcha
+  rpc VerifyCaptcha(VerifyCaptchaReq) returns(VerifyCaptchaResp);
+}
 
 
+//===========================Role============================
 message RoleItem {
     uint64 id = 1;
     string name = 2;
     uint64 createdAt = 3;
     uint64 updatedAt = 4;
 }
-
 message GetRoleInfoReq {
     uint64 id = 1;
 }
-
 message GetRoleInfoResp {
     RoleItem Role = 1;
 }
+service RoleClass {
+  // group: role
+  rpc GetRoleInfo(GetRoleInfoReq) returns(GetRoleInfoResp);
+}
 
-
+//===========================User============================
 message UserItem {
   uint64 id = 1;
   uint64 roleId = 2;
@@ -107,7 +133,6 @@ message GetUserByIdResp {
   UserItem user = 1;
 }
 
-
 message GetUserListReq {
   int32 pageNum = 1;
   int32 pageSize = 2;
@@ -124,7 +149,6 @@ message GetUserListResp {
   uint64 total = 1;
   repeated UserItem data = 2;
 }
-
 
 message DeleteUserReq{
   uint64 userId = 1;
@@ -157,26 +181,12 @@ message UpdateUserResp {
   string pong = 1;
 }
 
-
-
-
 message UpdateEmailStatusReq {
   uint64 userId = 1;
   int32 mailStatus = 2;
 }
 message UpdateEmailStatusResp {
   string pong = 1;
-}
-message GenerateCaptchaResp{
-  string key = 1;
-  string base64Img = 2;
-}
-message VerifyCaptchaReq {
-  string key = 1;
-  string captcha = 2;
-}
-message VerifyCaptchaResp {
-  bool isCorrect = 1;
 }
 
 message UpdatePasswordReq {
@@ -204,9 +214,36 @@ message UpdateProfileBgReq {
 message UpdateProfileBgResp {
   string pong = 1;
 }
+service UserClass {
+  // group: user
+  rpc Register(RegisterReq) returns(RegisterResp);
+  // group: user
+  rpc Login(LoginReq) returns(LoginResp);
+  // group: user
+  rpc CheckNicknameExist(CheckNicknameExistReq) returns(CheckNicknameExistResp);
+  // group: user
+  rpc CheckEmailExist(CheckEmailExistReq) returns(CheckEmailExistResp);
+  // group: user
+  rpc GetUserById(GetUserByIdReq) returns(GetUserByIdResp);
+  // group: user
+  rpc GetUserList(GetUserListReq) returns(GetUserListResp);
+  // group: user
+  rpc DeleteUser(DeleteUserReq) returns(DeleteUserResp);
+  // group: user
+  rpc BanUser(BanUserReq) returns(BanUserResp);
+  // group: user
+  rpc UpdateUser(UpdateUserReq) returns(UpdateUserResp);
+  // group: user
+  rpc UpdatePassword(UpdatePasswordReq) returns(UpdatePasswordResp);
+  // group: user
+  rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
+  // group: user
+  rpc UpdateAvatar(UpdateAvatarReq) returns(UpdateAvatarResp);
+  // group: user
+  rpc UpdateProfileBg(UpdateProfileBgReq) returns(UpdateProfileBgResp);
+}
 
 // =================Following=================
-
 message FollowingItem {
   uint64 id = 1;
   uint64 userId = 2;
@@ -248,53 +285,18 @@ message CheckFollowingReq {
 message CheckFollowingResp {
   bool isFollowing = 1;
 }
-
-// =================Follower=================
-
-message FollowerItem {
-  uint64 id = 1;
-  uint64 userId = 2;
-  uint64 followerId = 3;
-  uint64 createdAt = 4;
-  uint64 updatedAt = 5;
-}
-
-message AddFollowerReq {
-  uint64 id = 1;
-  uint64 userId = 2;
-  uint64 followerId = 3;
-}
-message AddFollowerResp {
-  string pong = 1;
-}
-
-message DeleteFollowerReq {
-  uint64 id = 1;
-}
-message DeleteFollowerResp {
-  string pong = 1;
-}
-
-message GetFollowerListReq {
-  uint64 userId = 1;
-  uint64 followerId = 2;
-  int32 pageNum = 3;
-  int32 pageSize = 4;
-}
-message GetFollowerListResp {
-  uint64 total = 1;
-  repeated FollowerItem data = 2;
-}
-message CheckFollowerReq {
-  uint64 userId = 1;
-  uint64 followerId = 2;
-}
-message CheckFollowerResp {
-  bool isFollower = 1;
+service FollowingClass {
+  // group: following
+  rpc AddFollowing(AddFollowingReq) returns(AddFollowingResp);
+  // group: following
+  rpc DeleteFollowing(DeleteFollowingReq) returns(DeleteFollowingResp);
+  // group: following
+  rpc GetFollowingList(GetFollowingListReq) returns(GetFollowingListResp);
+  // group: following
+  rpc CheckFollowing(CheckFollowingReq) returns(CheckFollowingResp);
 }
 
 // =================BlackItem=================
-
 message BlackItem {
   uint64 id = 1;
   uint64 userId = 2;
@@ -336,63 +338,7 @@ message CheckBlackItemReq {
 message CheckBlackItemResp {
   bool isBlackItem = 1;
 }
-
-service User {
-  // group: role
-  rpc GetRoleInfo(GetRoleInfoReq) returns(GetRoleInfoResp);
-  // group: user
-  rpc Register(RegisterReq) returns(RegisterResp);
-  // group: user
-  rpc Login(LoginReq) returns(LoginResp);
-  // group: user
-  rpc CheckNicknameExist(CheckNicknameExistReq) returns(CheckNicknameExistResp);
-  // group: user
-  rpc CheckEmailExist(CheckEmailExistReq) returns(CheckEmailExistResp);
-  // group: user
-  rpc GetUserById(GetUserByIdReq) returns(GetUserByIdResp);
-  // group: user
-  rpc GetUserList(GetUserListReq) returns(GetUserListResp);
-  // group: user
-  rpc DeleteUser(DeleteUserReq) returns(DeleteUserResp);
-  // group: user
-  rpc BanUser(BanUserReq) returns(BanUserResp);
-  // group: user
-  rpc UpdateUser(UpdateUserReq) returns(UpdateUserResp);
-  // group: user
-  rpc UpdatePassword(UpdatePasswordReq) returns(UpdatePasswordResp);
-  // group: user
-  rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
-  // group: user
-  rpc UpdateAvatar(UpdateAvatarReq) returns(UpdateAvatarResp);
-  // group: user
-  rpc UpdateProfileBg(UpdateProfileBgReq) returns(UpdateProfileBgResp);
-
-  // group: email
-  rpc VerifyRegisterCode(VerifyRegisterCodeReq) returns(VerifyRegisterCodeResp);
-
-  // group: captcha
-  rpc GenerateCaptcha(Empty) returns(GenerateCaptchaResp);
-  // group: captcha
-  rpc VerifyCaptcha(VerifyCaptchaReq) returns(VerifyCaptchaResp);
-
-  // group: following
-  rpc AddFollowing(AddFollowingReq) returns(AddFollowingResp);
-  // group: following
-  rpc DeleteFollowing(DeleteFollowingReq) returns(DeleteFollowingResp);
-  // group: following
-  rpc GetFollowingList(GetFollowingListReq) returns(GetFollowingListResp);
-  // group: following
-  rpc CheckFollowing(CheckFollowingReq) returns(CheckFollowingResp);
-
-  // group: follower
-  rpc AddFollower(AddFollowerReq) returns(AddFollowerResp);
-  // group: follower
-  rpc DeleteFollower(DeleteFollowerReq) returns(DeleteFollowerResp);
-  // group: follower
-  rpc GetFollowerList(GetFollowerListReq) returns(GetFollowerListResp);
-  // group: follower
-  rpc CheckFollower(CheckFollowerReq) returns(CheckFollowerResp);
-
+service BlacklistClass {
   // group: blacklist
   rpc AddBlackItem(AddBlackItemReq) returns(AddBlackItemResp);
   // group: blacklist
@@ -401,6 +347,6 @@ service User {
   rpc GetBlackList(GetBlackListReq) returns(GetBlackListResp);
   // group: blacklist
   rpc CheckBlackItem(CheckBlackItemReq) returns(CheckBlackItemResp);
-
 }
+
 

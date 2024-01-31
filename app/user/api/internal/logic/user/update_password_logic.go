@@ -7,7 +7,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/password"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -33,7 +33,7 @@ func (l *UpdatePasswordLogic) UpdatePassword(req *types.PasswordReq) error {
 	if err != nil {
 		return err
 	}
-	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 		UserId: uint64(userId),
 	})
 	if err != nil {
@@ -47,7 +47,7 @@ func (l *UpdatePasswordLogic) UpdatePassword(req *types.PasswordReq) error {
 	if err != nil {
 		return err
 	}
-	_, err = l.svcCtx.UserRpc.UpdatePassword(l.ctx, &user_client.UpdatePasswordReq{
+	_, err = l.svcCtx.UserRpc.UpdatePassword(l.ctx, &user.UpdatePasswordReq{
 		UserId:      uint64(userId),
 		NewPassword: newPassword,
 	})

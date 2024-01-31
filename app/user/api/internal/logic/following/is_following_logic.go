@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,7 +31,7 @@ func (l *IsFollowingLogic) IsFollowing(req *types.IsFollowingReq) (resp *types.I
 	if err != nil {
 		return nil, err
 	}
-	checkResp, err := l.svcCtx.UserRpc.CheckFollowing(l.ctx, &user_client.CheckFollowingReq{
+	checkResp, err := l.svcCtx.FollowingRpc.CheckFollowing(l.ctx, &user.CheckFollowingReq{
 		UserId:      uint64(userId),
 		FollowingId: req.FollowingId,
 	})

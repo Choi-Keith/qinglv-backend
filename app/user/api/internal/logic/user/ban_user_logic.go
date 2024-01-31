@@ -7,7 +7,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -35,7 +35,7 @@ func (l *BanUserLogic) BanUser(req *types.BanUserReq) error {
 	if roleId != 1 && roleId != 2 {
 		return errors.New("没有权限")
 	}
-	_, err = l.svcCtx.UserRpc.BanUser(l.ctx, &user_client.BanUserReq{
+	_, err = l.svcCtx.UserRpc.BanUser(l.ctx, &user.BanUserReq{
 		UserId: req.Id,
 	})
 	if err != nil {

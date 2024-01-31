@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -32,7 +32,7 @@ func (l *GetCurrentUserLogic) GetCurrentUser() (resp *types.User, err error) {
 	if err != nil {
 		return nil, err
 	}
-	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 		UserId: uint64(userId),
 	})
 	if err != nil {
@@ -41,7 +41,7 @@ func (l *GetCurrentUserLogic) GetCurrentUser() (resp *types.User, err error) {
 	var userDetail types.User
 	_ = copier.Copy(&userDetail, userResp.User)
 
-	roleItem, err := l.svcCtx.UserRpc.GetRoleInfo(l.ctx, &user_client.GetRoleInfoReq{
+	roleItem, err := l.svcCtx.RoleRpc.GetRoleInfo(l.ctx, &user.GetRoleInfoReq{
 		Id: userResp.User.RoleId,
 	})
 	if err != nil {

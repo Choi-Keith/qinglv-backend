@@ -7,7 +7,6 @@ import (
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
 	"qinglv-backend/app/user/rpc/user"
-	"qinglv-backend/app/user/rpc/user_client"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,7 +33,7 @@ func (l *GetFollowerListLogic) GetFollowerList(req *types.FollowerListReq) (resp
 	if err != nil {
 		return nil, err
 	}
-	followerListResp, err := l.svcCtx.UserRpc.GetFollowingList(l.ctx, &user.GetFollowingListReq{
+	followerListResp, err := l.svcCtx.FollowingRpc.GetFollowingList(l.ctx, &user.GetFollowingListReq{
 		UserId:      req.FollowerId,
 		FollowingId: uint64(userId),
 		PageNum:     int32(req.PageNum),
@@ -53,7 +52,7 @@ func (l *GetFollowerListLogic) GetFollowerList(req *types.FollowerListReq) (resp
 		}
 	}, func(item types.Follower, writer mr.Writer[types.Follower], cancel func(error)) {
 		followerItem := item
-		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 			UserId: followerItem.FollowingId,
 		})
 		if err != nil {

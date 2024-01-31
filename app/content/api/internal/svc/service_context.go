@@ -8,7 +8,8 @@ import (
 	"qinglv-backend/app/content/rpc/client/mediafileclass"
 	"qinglv-backend/app/content/rpc/client/postclass"
 	"qinglv-backend/app/content/rpc/client/topicclass"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/client/followingclass"
+	"qinglv-backend/app/user/rpc/client/userclass"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -20,7 +21,8 @@ type ServiceContext struct {
 	MediaFileRpc mediafileclass.MediaFileClass
 	PostRpc      postclass.PostClass
 	TopicRpc     topicclass.TopicClass
-	UserRpc      user_client.User
+	UserRpc      userclass.UserClass
+	FollowingRpc followingclass.FollowingClass
 	CosClient    *cos.Client
 }
 
@@ -40,7 +42,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		MediaFileRpc: mediafileclass.NewMediaFileClass(zrpc.MustNewClient(c.ContentRpc)),
 		PostRpc:      postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
 		TopicRpc:     topicclass.NewTopicClass(zrpc.MustNewClient(c.ContentRpc)),
-		UserRpc:      user_client.NewUser(zrpc.MustNewClient(c.UserRpc)),
+		UserRpc:      userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
+		FollowingRpc: followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
 		CosClient:    client,
 	}
 }

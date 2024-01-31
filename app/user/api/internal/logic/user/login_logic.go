@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/jwtx"
 	"qinglv-backend/pkg/password"
 
@@ -29,7 +29,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
 	// todo: add your logic here and delete this line
-	userResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user_client.CheckEmailExistReq{
+	userResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user.CheckEmailExistReq{
 		Email: req.Email,
 	})
 	if err != nil {
@@ -46,7 +46,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	if userResp.User.Status != 2 {
 		return nil, errors.New("该用户已被注销")
 	}
-	verifyCaptchaResp, err := l.svcCtx.UserRpc.VerifyCaptcha(l.ctx, &user_client.VerifyCaptchaReq{
+	verifyCaptchaResp, err := l.svcCtx.CaptchaRpc.VerifyCaptcha(l.ctx, &user.VerifyCaptchaReq{
 		Key:     req.CaptchaCode,
 		Captcha: req.CaptchaValue,
 	})

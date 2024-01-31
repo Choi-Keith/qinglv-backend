@@ -19,43 +19,340 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_GetRoleInfo_FullMethodName        = "/user.User/GetRoleInfo"
-	User_Register_FullMethodName           = "/user.User/Register"
-	User_Login_FullMethodName              = "/user.User/Login"
-	User_CheckNicknameExist_FullMethodName = "/user.User/CheckNicknameExist"
-	User_CheckEmailExist_FullMethodName    = "/user.User/CheckEmailExist"
-	User_GetUserById_FullMethodName        = "/user.User/GetUserById"
-	User_GetUserList_FullMethodName        = "/user.User/GetUserList"
-	User_DeleteUser_FullMethodName         = "/user.User/DeleteUser"
-	User_BanUser_FullMethodName            = "/user.User/BanUser"
-	User_UpdateUser_FullMethodName         = "/user.User/UpdateUser"
-	User_UpdatePassword_FullMethodName     = "/user.User/UpdatePassword"
-	User_UpdateEmailStatus_FullMethodName  = "/user.User/UpdateEmailStatus"
-	User_UpdateAvatar_FullMethodName       = "/user.User/UpdateAvatar"
-	User_UpdateProfileBg_FullMethodName    = "/user.User/UpdateProfileBg"
-	User_VerifyRegisterCode_FullMethodName = "/user.User/VerifyRegisterCode"
-	User_GenerateCaptcha_FullMethodName    = "/user.User/GenerateCaptcha"
-	User_VerifyCaptcha_FullMethodName      = "/user.User/VerifyCaptcha"
-	User_AddFollowing_FullMethodName       = "/user.User/AddFollowing"
-	User_DeleteFollowing_FullMethodName    = "/user.User/DeleteFollowing"
-	User_GetFollowingList_FullMethodName   = "/user.User/GetFollowingList"
-	User_CheckFollowing_FullMethodName     = "/user.User/CheckFollowing"
-	User_AddFollower_FullMethodName        = "/user.User/AddFollower"
-	User_DeleteFollower_FullMethodName     = "/user.User/DeleteFollower"
-	User_GetFollowerList_FullMethodName    = "/user.User/GetFollowerList"
-	User_CheckFollower_FullMethodName      = "/user.User/CheckFollower"
-	User_AddBlackItem_FullMethodName       = "/user.User/AddBlackItem"
-	User_DeleteBlackItem_FullMethodName    = "/user.User/DeleteBlackItem"
-	User_GetBlackList_FullMethodName       = "/user.User/GetBlackList"
-	User_CheckBlackItem_FullMethodName     = "/user.User/CheckBlackItem"
+	EmailClass_VerifyRegisterCode_FullMethodName = "/user.EmailClass/VerifyRegisterCode"
 )
 
-// UserClient is the client API for User service.
+// EmailClassClient is the client API for EmailClass service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UserClient interface {
+type EmailClassClient interface {
+	// group: email
+	VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
+}
+
+type emailClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewEmailClassClient(cc grpc.ClientConnInterface) EmailClassClient {
+	return &emailClassClient{cc}
+}
+
+func (c *emailClassClient) VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
+	out := new(VerifyRegisterCodeResp)
+	err := c.cc.Invoke(ctx, EmailClass_VerifyRegisterCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// EmailClassServer is the server API for EmailClass service.
+// All implementations must embed UnimplementedEmailClassServer
+// for forward compatibility
+type EmailClassServer interface {
+	// group: email
+	VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error)
+	mustEmbedUnimplementedEmailClassServer()
+}
+
+// UnimplementedEmailClassServer must be embedded to have forward compatible implementations.
+type UnimplementedEmailClassServer struct {
+}
+
+func (UnimplementedEmailClassServer) VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyRegisterCode not implemented")
+}
+func (UnimplementedEmailClassServer) mustEmbedUnimplementedEmailClassServer() {}
+
+// UnsafeEmailClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to EmailClassServer will
+// result in compilation errors.
+type UnsafeEmailClassServer interface {
+	mustEmbedUnimplementedEmailClassServer()
+}
+
+func RegisterEmailClassServer(s grpc.ServiceRegistrar, srv EmailClassServer) {
+	s.RegisterService(&EmailClass_ServiceDesc, srv)
+}
+
+func _EmailClass_VerifyRegisterCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyRegisterCodeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmailClassServer).VerifyRegisterCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EmailClass_VerifyRegisterCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmailClassServer).VerifyRegisterCode(ctx, req.(*VerifyRegisterCodeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// EmailClass_ServiceDesc is the grpc.ServiceDesc for EmailClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var EmailClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.EmailClass",
+	HandlerType: (*EmailClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "VerifyRegisterCode",
+			Handler:    _EmailClass_VerifyRegisterCode_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/user.proto",
+}
+
+const (
+	CaptchaClass_GenerateCaptcha_FullMethodName = "/user.CaptchaClass/GenerateCaptcha"
+	CaptchaClass_VerifyCaptcha_FullMethodName   = "/user.CaptchaClass/VerifyCaptcha"
+)
+
+// CaptchaClassClient is the client API for CaptchaClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CaptchaClassClient interface {
+	// group: captcha
+	GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error)
+	// group: captcha
+	VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error)
+}
+
+type captchaClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCaptchaClassClient(cc grpc.ClientConnInterface) CaptchaClassClient {
+	return &captchaClassClient{cc}
+}
+
+func (c *captchaClassClient) GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error) {
+	out := new(GenerateCaptchaResp)
+	err := c.cc.Invoke(ctx, CaptchaClass_GenerateCaptcha_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *captchaClassClient) VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error) {
+	out := new(VerifyCaptchaResp)
+	err := c.cc.Invoke(ctx, CaptchaClass_VerifyCaptcha_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CaptchaClassServer is the server API for CaptchaClass service.
+// All implementations must embed UnimplementedCaptchaClassServer
+// for forward compatibility
+type CaptchaClassServer interface {
+	// group: captcha
+	GenerateCaptcha(context.Context, *Empty) (*GenerateCaptchaResp, error)
+	// group: captcha
+	VerifyCaptcha(context.Context, *VerifyCaptchaReq) (*VerifyCaptchaResp, error)
+	mustEmbedUnimplementedCaptchaClassServer()
+}
+
+// UnimplementedCaptchaClassServer must be embedded to have forward compatible implementations.
+type UnimplementedCaptchaClassServer struct {
+}
+
+func (UnimplementedCaptchaClassServer) GenerateCaptcha(context.Context, *Empty) (*GenerateCaptchaResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerateCaptcha not implemented")
+}
+func (UnimplementedCaptchaClassServer) VerifyCaptcha(context.Context, *VerifyCaptchaReq) (*VerifyCaptchaResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyCaptcha not implemented")
+}
+func (UnimplementedCaptchaClassServer) mustEmbedUnimplementedCaptchaClassServer() {}
+
+// UnsafeCaptchaClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CaptchaClassServer will
+// result in compilation errors.
+type UnsafeCaptchaClassServer interface {
+	mustEmbedUnimplementedCaptchaClassServer()
+}
+
+func RegisterCaptchaClassServer(s grpc.ServiceRegistrar, srv CaptchaClassServer) {
+	s.RegisterService(&CaptchaClass_ServiceDesc, srv)
+}
+
+func _CaptchaClass_GenerateCaptcha_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CaptchaClassServer).GenerateCaptcha(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CaptchaClass_GenerateCaptcha_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CaptchaClassServer).GenerateCaptcha(ctx, req.(*Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CaptchaClass_VerifyCaptcha_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyCaptchaReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CaptchaClassServer).VerifyCaptcha(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CaptchaClass_VerifyCaptcha_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CaptchaClassServer).VerifyCaptcha(ctx, req.(*VerifyCaptchaReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CaptchaClass_ServiceDesc is the grpc.ServiceDesc for CaptchaClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CaptchaClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.CaptchaClass",
+	HandlerType: (*CaptchaClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GenerateCaptcha",
+			Handler:    _CaptchaClass_GenerateCaptcha_Handler,
+		},
+		{
+			MethodName: "VerifyCaptcha",
+			Handler:    _CaptchaClass_VerifyCaptcha_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/user.proto",
+}
+
+const (
+	RoleClass_GetRoleInfo_FullMethodName = "/user.RoleClass/GetRoleInfo"
+)
+
+// RoleClassClient is the client API for RoleClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type RoleClassClient interface {
 	// group: role
 	GetRoleInfo(ctx context.Context, in *GetRoleInfoReq, opts ...grpc.CallOption) (*GetRoleInfoResp, error)
+}
+
+type roleClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewRoleClassClient(cc grpc.ClientConnInterface) RoleClassClient {
+	return &roleClassClient{cc}
+}
+
+func (c *roleClassClient) GetRoleInfo(ctx context.Context, in *GetRoleInfoReq, opts ...grpc.CallOption) (*GetRoleInfoResp, error) {
+	out := new(GetRoleInfoResp)
+	err := c.cc.Invoke(ctx, RoleClass_GetRoleInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// RoleClassServer is the server API for RoleClass service.
+// All implementations must embed UnimplementedRoleClassServer
+// for forward compatibility
+type RoleClassServer interface {
+	// group: role
+	GetRoleInfo(context.Context, *GetRoleInfoReq) (*GetRoleInfoResp, error)
+	mustEmbedUnimplementedRoleClassServer()
+}
+
+// UnimplementedRoleClassServer must be embedded to have forward compatible implementations.
+type UnimplementedRoleClassServer struct {
+}
+
+func (UnimplementedRoleClassServer) GetRoleInfo(context.Context, *GetRoleInfoReq) (*GetRoleInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoleInfo not implemented")
+}
+func (UnimplementedRoleClassServer) mustEmbedUnimplementedRoleClassServer() {}
+
+// UnsafeRoleClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to RoleClassServer will
+// result in compilation errors.
+type UnsafeRoleClassServer interface {
+	mustEmbedUnimplementedRoleClassServer()
+}
+
+func RegisterRoleClassServer(s grpc.ServiceRegistrar, srv RoleClassServer) {
+	s.RegisterService(&RoleClass_ServiceDesc, srv)
+}
+
+func _RoleClass_GetRoleInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoleInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleClassServer).GetRoleInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RoleClass_GetRoleInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleClassServer).GetRoleInfo(ctx, req.(*GetRoleInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// RoleClass_ServiceDesc is the grpc.ServiceDesc for RoleClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var RoleClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.RoleClass",
+	HandlerType: (*RoleClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetRoleInfo",
+			Handler:    _RoleClass_GetRoleInfo_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/user.proto",
+}
+
+const (
+	UserClass_Register_FullMethodName           = "/user.UserClass/Register"
+	UserClass_Login_FullMethodName              = "/user.UserClass/Login"
+	UserClass_CheckNicknameExist_FullMethodName = "/user.UserClass/CheckNicknameExist"
+	UserClass_CheckEmailExist_FullMethodName    = "/user.UserClass/CheckEmailExist"
+	UserClass_GetUserById_FullMethodName        = "/user.UserClass/GetUserById"
+	UserClass_GetUserList_FullMethodName        = "/user.UserClass/GetUserList"
+	UserClass_DeleteUser_FullMethodName         = "/user.UserClass/DeleteUser"
+	UserClass_BanUser_FullMethodName            = "/user.UserClass/BanUser"
+	UserClass_UpdateUser_FullMethodName         = "/user.UserClass/UpdateUser"
+	UserClass_UpdatePassword_FullMethodName     = "/user.UserClass/UpdatePassword"
+	UserClass_UpdateEmailStatus_FullMethodName  = "/user.UserClass/UpdateEmailStatus"
+	UserClass_UpdateAvatar_FullMethodName       = "/user.UserClass/UpdateAvatar"
+	UserClass_UpdateProfileBg_FullMethodName    = "/user.UserClass/UpdateProfileBg"
+)
+
+// UserClassClient is the client API for UserClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type UserClassClient interface {
 	// group: user
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
 	// group: user
@@ -82,313 +379,137 @@ type UserClient interface {
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
 	// group: user
 	UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
-	// group: email
-	VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
-	// group: captcha
-	GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error)
-	// group: captcha
-	VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error)
-	// group: following
-	AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error)
-	// group: following
-	DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error)
-	// group: following
-	GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error)
-	// group: following
-	CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error)
-	// group: follower
-	AddFollower(ctx context.Context, in *AddFollowerReq, opts ...grpc.CallOption) (*AddFollowerResp, error)
-	// group: follower
-	DeleteFollower(ctx context.Context, in *DeleteFollowerReq, opts ...grpc.CallOption) (*DeleteFollowerResp, error)
-	// group: follower
-	GetFollowerList(ctx context.Context, in *GetFollowerListReq, opts ...grpc.CallOption) (*GetFollowerListResp, error)
-	// group: follower
-	CheckFollower(ctx context.Context, in *CheckFollowerReq, opts ...grpc.CallOption) (*CheckFollowerResp, error)
-	// group: blacklist
-	AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error)
-	// group: blacklist
-	DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error)
-	// group: blacklist
-	GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error)
-	// group: blacklist
-	CheckBlackItem(ctx context.Context, in *CheckBlackItemReq, opts ...grpc.CallOption) (*CheckBlackItemResp, error)
 }
 
-type userClient struct {
+type userClassClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUserClient(cc grpc.ClientConnInterface) UserClient {
-	return &userClient{cc}
+func NewUserClassClient(cc grpc.ClientConnInterface) UserClassClient {
+	return &userClassClient{cc}
 }
 
-func (c *userClient) GetRoleInfo(ctx context.Context, in *GetRoleInfoReq, opts ...grpc.CallOption) (*GetRoleInfoResp, error) {
-	out := new(GetRoleInfoResp)
-	err := c.cc.Invoke(ctx, User_GetRoleInfo_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
+func (c *userClassClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
 	out := new(RegisterResp)
-	err := c.cc.Invoke(ctx, User_Register_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_Register_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+func (c *userClassClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	out := new(LoginResp)
-	err := c.cc.Invoke(ctx, User_Login_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_Login_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error) {
+func (c *userClassClient) CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error) {
 	out := new(CheckNicknameExistResp)
-	err := c.cc.Invoke(ctx, User_CheckNicknameExist_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_CheckNicknameExist_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error) {
+func (c *userClassClient) CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error) {
 	out := new(CheckEmailExistResp)
-	err := c.cc.Invoke(ctx, User_CheckEmailExist_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_CheckEmailExist_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error) {
+func (c *userClassClient) GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error) {
 	out := new(GetUserByIdResp)
-	err := c.cc.Invoke(ctx, User_GetUserById_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_GetUserById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error) {
+func (c *userClassClient) GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error) {
 	out := new(GetUserListResp)
-	err := c.cc.Invoke(ctx, User_GetUserList_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_GetUserList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error) {
+func (c *userClassClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error) {
 	out := new(DeleteUserResp)
-	err := c.cc.Invoke(ctx, User_DeleteUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_DeleteUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error) {
+func (c *userClassClient) BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error) {
 	out := new(BanUserResp)
-	err := c.cc.Invoke(ctx, User_BanUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_BanUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error) {
+func (c *userClassClient) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error) {
 	out := new(UpdateUserResp)
-	err := c.cc.Invoke(ctx, User_UpdateUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_UpdateUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error) {
+func (c *userClassClient) UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error) {
 	out := new(UpdatePasswordResp)
-	err := c.cc.Invoke(ctx, User_UpdatePassword_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_UpdatePassword_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
+func (c *userClassClient) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
 	out := new(UpdateEmailStatusResp)
-	err := c.cc.Invoke(ctx, User_UpdateEmailStatus_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_UpdateEmailStatus_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error) {
+func (c *userClassClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error) {
 	out := new(UpdateAvatarResp)
-	err := c.cc.Invoke(ctx, User_UpdateAvatar_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_UpdateAvatar_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error) {
+func (c *userClassClient) UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error) {
 	out := new(UpdateProfileBgResp)
-	err := c.cc.Invoke(ctx, User_UpdateProfileBg_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, UserClass_UpdateProfileBg_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClient) VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
-	out := new(VerifyRegisterCodeResp)
-	err := c.cc.Invoke(ctx, User_VerifyRegisterCode_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) GenerateCaptcha(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*GenerateCaptchaResp, error) {
-	out := new(GenerateCaptchaResp)
-	err := c.cc.Invoke(ctx, User_GenerateCaptcha_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) VerifyCaptcha(ctx context.Context, in *VerifyCaptchaReq, opts ...grpc.CallOption) (*VerifyCaptchaResp, error) {
-	out := new(VerifyCaptchaResp)
-	err := c.cc.Invoke(ctx, User_VerifyCaptcha_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error) {
-	out := new(AddFollowingResp)
-	err := c.cc.Invoke(ctx, User_AddFollowing_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error) {
-	out := new(DeleteFollowingResp)
-	err := c.cc.Invoke(ctx, User_DeleteFollowing_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error) {
-	out := new(GetFollowingListResp)
-	err := c.cc.Invoke(ctx, User_GetFollowingList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error) {
-	out := new(CheckFollowingResp)
-	err := c.cc.Invoke(ctx, User_CheckFollowing_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) AddFollower(ctx context.Context, in *AddFollowerReq, opts ...grpc.CallOption) (*AddFollowerResp, error) {
-	out := new(AddFollowerResp)
-	err := c.cc.Invoke(ctx, User_AddFollower_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) DeleteFollower(ctx context.Context, in *DeleteFollowerReq, opts ...grpc.CallOption) (*DeleteFollowerResp, error) {
-	out := new(DeleteFollowerResp)
-	err := c.cc.Invoke(ctx, User_DeleteFollower_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) GetFollowerList(ctx context.Context, in *GetFollowerListReq, opts ...grpc.CallOption) (*GetFollowerListResp, error) {
-	out := new(GetFollowerListResp)
-	err := c.cc.Invoke(ctx, User_GetFollowerList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) CheckFollower(ctx context.Context, in *CheckFollowerReq, opts ...grpc.CallOption) (*CheckFollowerResp, error) {
-	out := new(CheckFollowerResp)
-	err := c.cc.Invoke(ctx, User_CheckFollower_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error) {
-	out := new(AddBlackItemResp)
-	err := c.cc.Invoke(ctx, User_AddBlackItem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error) {
-	out := new(DeleteBlackItemResp)
-	err := c.cc.Invoke(ctx, User_DeleteBlackItem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error) {
-	out := new(GetBlackListResp)
-	err := c.cc.Invoke(ctx, User_GetBlackList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userClient) CheckBlackItem(ctx context.Context, in *CheckBlackItemReq, opts ...grpc.CallOption) (*CheckBlackItemResp, error) {
-	out := new(CheckBlackItemResp)
-	err := c.cc.Invoke(ctx, User_CheckBlackItem_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// UserServer is the server API for User service.
-// All implementations must embed UnimplementedUserServer
+// UserClassServer is the server API for UserClass service.
+// All implementations must embed UnimplementedUserClassServer
 // for forward compatibility
-type UserServer interface {
-	// group: role
-	GetRoleInfo(context.Context, *GetRoleInfoReq) (*GetRoleInfoResp, error)
+type UserClassServer interface {
 	// group: user
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
 	// group: user
@@ -415,12 +536,432 @@ type UserServer interface {
 	UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error)
 	// group: user
 	UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error)
-	// group: email
-	VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error)
-	// group: captcha
-	GenerateCaptcha(context.Context, *Empty) (*GenerateCaptchaResp, error)
-	// group: captcha
-	VerifyCaptcha(context.Context, *VerifyCaptchaReq) (*VerifyCaptchaResp, error)
+	mustEmbedUnimplementedUserClassServer()
+}
+
+// UnimplementedUserClassServer must be embedded to have forward compatible implementations.
+type UnimplementedUserClassServer struct {
+}
+
+func (UnimplementedUserClassServer) Register(context.Context, *RegisterReq) (*RegisterResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedUserClassServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedUserClassServer) CheckNicknameExist(context.Context, *CheckNicknameExistReq) (*CheckNicknameExistResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckNicknameExist not implemented")
+}
+func (UnimplementedUserClassServer) CheckEmailExist(context.Context, *CheckEmailExistReq) (*CheckEmailExistResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckEmailExist not implemented")
+}
+func (UnimplementedUserClassServer) GetUserById(context.Context, *GetUserByIdReq) (*GetUserByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
+}
+func (UnimplementedUserClassServer) GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
+}
+func (UnimplementedUserClassServer) DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedUserClassServer) BanUser(context.Context, *BanUserReq) (*BanUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BanUser not implemented")
+}
+func (UnimplementedUserClassServer) UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedUserClassServer) UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePassword not implemented")
+}
+func (UnimplementedUserClassServer) UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmailStatus not implemented")
+}
+func (UnimplementedUserClassServer) UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
+}
+func (UnimplementedUserClassServer) UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfileBg not implemented")
+}
+func (UnimplementedUserClassServer) mustEmbedUnimplementedUserClassServer() {}
+
+// UnsafeUserClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserClassServer will
+// result in compilation errors.
+type UnsafeUserClassServer interface {
+	mustEmbedUnimplementedUserClassServer()
+}
+
+func RegisterUserClassServer(s grpc.ServiceRegistrar, srv UserClassServer) {
+	s.RegisterService(&UserClass_ServiceDesc, srv)
+}
+
+func _UserClass_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).Register(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_Register_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).Register(ctx, req.(*RegisterReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_Login_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).Login(ctx, req.(*LoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_CheckNicknameExist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckNicknameExistReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).CheckNicknameExist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_CheckNicknameExist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).CheckNicknameExist(ctx, req.(*CheckNicknameExistReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_CheckEmailExist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckEmailExistReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).CheckEmailExist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_CheckEmailExist_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).CheckEmailExist(ctx, req.(*CheckEmailExistReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_GetUserById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).GetUserById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_GetUserById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).GetUserById(ctx, req.(*GetUserByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).GetUserList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_GetUserList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).GetUserList(ctx, req.(*GetUserListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_DeleteUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).DeleteUser(ctx, req.(*DeleteUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_BanUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BanUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).BanUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_BanUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).BanUser(ctx, req.(*BanUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_UpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).UpdateUser(ctx, req.(*UpdateUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_UpdatePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePasswordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).UpdatePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_UpdatePassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).UpdatePassword(ctx, req.(*UpdatePasswordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_UpdateEmailStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateEmailStatusReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).UpdateEmailStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_UpdateEmailStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).UpdateEmailStatus(ctx, req.(*UpdateEmailStatusReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_UpdateAvatar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAvatarReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).UpdateAvatar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_UpdateAvatar_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).UpdateAvatar(ctx, req.(*UpdateAvatarReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_UpdateProfileBg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProfileBgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).UpdateProfileBg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_UpdateProfileBg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).UpdateProfileBg(ctx, req.(*UpdateProfileBgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// UserClass_ServiceDesc is the grpc.ServiceDesc for UserClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var UserClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.UserClass",
+	HandlerType: (*UserClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Register",
+			Handler:    _UserClass_Register_Handler,
+		},
+		{
+			MethodName: "Login",
+			Handler:    _UserClass_Login_Handler,
+		},
+		{
+			MethodName: "CheckNicknameExist",
+			Handler:    _UserClass_CheckNicknameExist_Handler,
+		},
+		{
+			MethodName: "CheckEmailExist",
+			Handler:    _UserClass_CheckEmailExist_Handler,
+		},
+		{
+			MethodName: "GetUserById",
+			Handler:    _UserClass_GetUserById_Handler,
+		},
+		{
+			MethodName: "GetUserList",
+			Handler:    _UserClass_GetUserList_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _UserClass_DeleteUser_Handler,
+		},
+		{
+			MethodName: "BanUser",
+			Handler:    _UserClass_BanUser_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _UserClass_UpdateUser_Handler,
+		},
+		{
+			MethodName: "UpdatePassword",
+			Handler:    _UserClass_UpdatePassword_Handler,
+		},
+		{
+			MethodName: "UpdateEmailStatus",
+			Handler:    _UserClass_UpdateEmailStatus_Handler,
+		},
+		{
+			MethodName: "UpdateAvatar",
+			Handler:    _UserClass_UpdateAvatar_Handler,
+		},
+		{
+			MethodName: "UpdateProfileBg",
+			Handler:    _UserClass_UpdateProfileBg_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/user.proto",
+}
+
+const (
+	FollowingClass_AddFollowing_FullMethodName     = "/user.FollowingClass/AddFollowing"
+	FollowingClass_DeleteFollowing_FullMethodName  = "/user.FollowingClass/DeleteFollowing"
+	FollowingClass_GetFollowingList_FullMethodName = "/user.FollowingClass/GetFollowingList"
+	FollowingClass_CheckFollowing_FullMethodName   = "/user.FollowingClass/CheckFollowing"
+)
+
+// FollowingClassClient is the client API for FollowingClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type FollowingClassClient interface {
+	// group: following
+	AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error)
+	// group: following
+	DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error)
+	// group: following
+	GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error)
+	// group: following
+	CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error)
+}
+
+type followingClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewFollowingClassClient(cc grpc.ClientConnInterface) FollowingClassClient {
+	return &followingClassClient{cc}
+}
+
+func (c *followingClassClient) AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error) {
+	out := new(AddFollowingResp)
+	err := c.cc.Invoke(ctx, FollowingClass_AddFollowing_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingClassClient) DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error) {
+	out := new(DeleteFollowingResp)
+	err := c.cc.Invoke(ctx, FollowingClass_DeleteFollowing_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingClassClient) GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error) {
+	out := new(GetFollowingListResp)
+	err := c.cc.Invoke(ctx, FollowingClass_GetFollowingList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *followingClassClient) CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error) {
+	out := new(CheckFollowingResp)
+	err := c.cc.Invoke(ctx, FollowingClass_CheckFollowing_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// FollowingClassServer is the server API for FollowingClass service.
+// All implementations must embed UnimplementedFollowingClassServer
+// for forward compatibility
+type FollowingClassServer interface {
 	// group: following
 	AddFollowing(context.Context, *AddFollowingReq) (*AddFollowingResp, error)
 	// group: following
@@ -429,14 +970,207 @@ type UserServer interface {
 	GetFollowingList(context.Context, *GetFollowingListReq) (*GetFollowingListResp, error)
 	// group: following
 	CheckFollowing(context.Context, *CheckFollowingReq) (*CheckFollowingResp, error)
-	// group: follower
-	AddFollower(context.Context, *AddFollowerReq) (*AddFollowerResp, error)
-	// group: follower
-	DeleteFollower(context.Context, *DeleteFollowerReq) (*DeleteFollowerResp, error)
-	// group: follower
-	GetFollowerList(context.Context, *GetFollowerListReq) (*GetFollowerListResp, error)
-	// group: follower
-	CheckFollower(context.Context, *CheckFollowerReq) (*CheckFollowerResp, error)
+	mustEmbedUnimplementedFollowingClassServer()
+}
+
+// UnimplementedFollowingClassServer must be embedded to have forward compatible implementations.
+type UnimplementedFollowingClassServer struct {
+}
+
+func (UnimplementedFollowingClassServer) AddFollowing(context.Context, *AddFollowingReq) (*AddFollowingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddFollowing not implemented")
+}
+func (UnimplementedFollowingClassServer) DeleteFollowing(context.Context, *DeleteFollowingReq) (*DeleteFollowingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFollowing not implemented")
+}
+func (UnimplementedFollowingClassServer) GetFollowingList(context.Context, *GetFollowingListReq) (*GetFollowingListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingList not implemented")
+}
+func (UnimplementedFollowingClassServer) CheckFollowing(context.Context, *CheckFollowingReq) (*CheckFollowingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckFollowing not implemented")
+}
+func (UnimplementedFollowingClassServer) mustEmbedUnimplementedFollowingClassServer() {}
+
+// UnsafeFollowingClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to FollowingClassServer will
+// result in compilation errors.
+type UnsafeFollowingClassServer interface {
+	mustEmbedUnimplementedFollowingClassServer()
+}
+
+func RegisterFollowingClassServer(s grpc.ServiceRegistrar, srv FollowingClassServer) {
+	s.RegisterService(&FollowingClass_ServiceDesc, srv)
+}
+
+func _FollowingClass_AddFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddFollowingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingClassServer).AddFollowing(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingClass_AddFollowing_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingClassServer).AddFollowing(ctx, req.(*AddFollowingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingClass_DeleteFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteFollowingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingClassServer).DeleteFollowing(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingClass_DeleteFollowing_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingClassServer).DeleteFollowing(ctx, req.(*DeleteFollowingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingClass_GetFollowingList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFollowingListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingClassServer).GetFollowingList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingClass_GetFollowingList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingClassServer).GetFollowingList(ctx, req.(*GetFollowingListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FollowingClass_CheckFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckFollowingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingClassServer).CheckFollowing(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingClass_CheckFollowing_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingClassServer).CheckFollowing(ctx, req.(*CheckFollowingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// FollowingClass_ServiceDesc is the grpc.ServiceDesc for FollowingClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var FollowingClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.FollowingClass",
+	HandlerType: (*FollowingClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddFollowing",
+			Handler:    _FollowingClass_AddFollowing_Handler,
+		},
+		{
+			MethodName: "DeleteFollowing",
+			Handler:    _FollowingClass_DeleteFollowing_Handler,
+		},
+		{
+			MethodName: "GetFollowingList",
+			Handler:    _FollowingClass_GetFollowingList_Handler,
+		},
+		{
+			MethodName: "CheckFollowing",
+			Handler:    _FollowingClass_CheckFollowing_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/user.proto",
+}
+
+const (
+	BlacklistClass_AddBlackItem_FullMethodName    = "/user.BlacklistClass/AddBlackItem"
+	BlacklistClass_DeleteBlackItem_FullMethodName = "/user.BlacklistClass/DeleteBlackItem"
+	BlacklistClass_GetBlackList_FullMethodName    = "/user.BlacklistClass/GetBlackList"
+	BlacklistClass_CheckBlackItem_FullMethodName  = "/user.BlacklistClass/CheckBlackItem"
+)
+
+// BlacklistClassClient is the client API for BlacklistClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type BlacklistClassClient interface {
+	// group: blacklist
+	AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error)
+	// group: blacklist
+	DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error)
+	// group: blacklist
+	GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error)
+	// group: blacklist
+	CheckBlackItem(ctx context.Context, in *CheckBlackItemReq, opts ...grpc.CallOption) (*CheckBlackItemResp, error)
+}
+
+type blacklistClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewBlacklistClassClient(cc grpc.ClientConnInterface) BlacklistClassClient {
+	return &blacklistClassClient{cc}
+}
+
+func (c *blacklistClassClient) AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error) {
+	out := new(AddBlackItemResp)
+	err := c.cc.Invoke(ctx, BlacklistClass_AddBlackItem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *blacklistClassClient) DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error) {
+	out := new(DeleteBlackItemResp)
+	err := c.cc.Invoke(ctx, BlacklistClass_DeleteBlackItem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *blacklistClassClient) GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error) {
+	out := new(GetBlackListResp)
+	err := c.cc.Invoke(ctx, BlacklistClass_GetBlackList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *blacklistClassClient) CheckBlackItem(ctx context.Context, in *CheckBlackItemReq, opts ...grpc.CallOption) (*CheckBlackItemResp, error) {
+	out := new(CheckBlackItemResp)
+	err := c.cc.Invoke(ctx, BlacklistClass_CheckBlackItem_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// BlacklistClassServer is the server API for BlacklistClass service.
+// All implementations must embed UnimplementedBlacklistClassServer
+// for forward compatibility
+type BlacklistClassServer interface {
 	// group: blacklist
 	AddBlackItem(context.Context, *AddBlackItemReq) (*AddBlackItemResp, error)
 	// group: blacklist
@@ -445,757 +1179,132 @@ type UserServer interface {
 	GetBlackList(context.Context, *GetBlackListReq) (*GetBlackListResp, error)
 	// group: blacklist
 	CheckBlackItem(context.Context, *CheckBlackItemReq) (*CheckBlackItemResp, error)
-	mustEmbedUnimplementedUserServer()
+	mustEmbedUnimplementedBlacklistClassServer()
 }
 
-// UnimplementedUserServer must be embedded to have forward compatible implementations.
-type UnimplementedUserServer struct {
+// UnimplementedBlacklistClassServer must be embedded to have forward compatible implementations.
+type UnimplementedBlacklistClassServer struct {
 }
 
-func (UnimplementedUserServer) GetRoleInfo(context.Context, *GetRoleInfoReq) (*GetRoleInfoResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetRoleInfo not implemented")
-}
-func (UnimplementedUserServer) Register(context.Context, *RegisterReq) (*RegisterResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
-}
-func (UnimplementedUserServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
-}
-func (UnimplementedUserServer) CheckNicknameExist(context.Context, *CheckNicknameExistReq) (*CheckNicknameExistResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckNicknameExist not implemented")
-}
-func (UnimplementedUserServer) CheckEmailExist(context.Context, *CheckEmailExistReq) (*CheckEmailExistResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckEmailExist not implemented")
-}
-func (UnimplementedUserServer) GetUserById(context.Context, *GetUserByIdReq) (*GetUserByIdResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
-}
-func (UnimplementedUserServer) GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserList not implemented")
-}
-func (UnimplementedUserServer) DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
-}
-func (UnimplementedUserServer) BanUser(context.Context, *BanUserReq) (*BanUserResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method BanUser not implemented")
-}
-func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
-}
-func (UnimplementedUserServer) UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePassword not implemented")
-}
-func (UnimplementedUserServer) UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmailStatus not implemented")
-}
-func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
-}
-func (UnimplementedUserServer) UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfileBg not implemented")
-}
-func (UnimplementedUserServer) VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyRegisterCode not implemented")
-}
-func (UnimplementedUserServer) GenerateCaptcha(context.Context, *Empty) (*GenerateCaptchaResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GenerateCaptcha not implemented")
-}
-func (UnimplementedUserServer) VerifyCaptcha(context.Context, *VerifyCaptchaReq) (*VerifyCaptchaResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyCaptcha not implemented")
-}
-func (UnimplementedUserServer) AddFollowing(context.Context, *AddFollowingReq) (*AddFollowingResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddFollowing not implemented")
-}
-func (UnimplementedUserServer) DeleteFollowing(context.Context, *DeleteFollowingReq) (*DeleteFollowingResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteFollowing not implemented")
-}
-func (UnimplementedUserServer) GetFollowingList(context.Context, *GetFollowingListReq) (*GetFollowingListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingList not implemented")
-}
-func (UnimplementedUserServer) CheckFollowing(context.Context, *CheckFollowingReq) (*CheckFollowingResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckFollowing not implemented")
-}
-func (UnimplementedUserServer) AddFollower(context.Context, *AddFollowerReq) (*AddFollowerResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddFollower not implemented")
-}
-func (UnimplementedUserServer) DeleteFollower(context.Context, *DeleteFollowerReq) (*DeleteFollowerResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteFollower not implemented")
-}
-func (UnimplementedUserServer) GetFollowerList(context.Context, *GetFollowerListReq) (*GetFollowerListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFollowerList not implemented")
-}
-func (UnimplementedUserServer) CheckFollower(context.Context, *CheckFollowerReq) (*CheckFollowerResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CheckFollower not implemented")
-}
-func (UnimplementedUserServer) AddBlackItem(context.Context, *AddBlackItemReq) (*AddBlackItemResp, error) {
+func (UnimplementedBlacklistClassServer) AddBlackItem(context.Context, *AddBlackItemReq) (*AddBlackItemResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddBlackItem not implemented")
 }
-func (UnimplementedUserServer) DeleteBlackItem(context.Context, *DeleteBlackItemReq) (*DeleteBlackItemResp, error) {
+func (UnimplementedBlacklistClassServer) DeleteBlackItem(context.Context, *DeleteBlackItemReq) (*DeleteBlackItemResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteBlackItem not implemented")
 }
-func (UnimplementedUserServer) GetBlackList(context.Context, *GetBlackListReq) (*GetBlackListResp, error) {
+func (UnimplementedBlacklistClassServer) GetBlackList(context.Context, *GetBlackListReq) (*GetBlackListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBlackList not implemented")
 }
-func (UnimplementedUserServer) CheckBlackItem(context.Context, *CheckBlackItemReq) (*CheckBlackItemResp, error) {
+func (UnimplementedBlacklistClassServer) CheckBlackItem(context.Context, *CheckBlackItemReq) (*CheckBlackItemResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckBlackItem not implemented")
 }
-func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
+func (UnimplementedBlacklistClassServer) mustEmbedUnimplementedBlacklistClassServer() {}
 
-// UnsafeUserServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UserServer will
+// UnsafeBlacklistClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BlacklistClassServer will
 // result in compilation errors.
-type UnsafeUserServer interface {
-	mustEmbedUnimplementedUserServer()
+type UnsafeBlacklistClassServer interface {
+	mustEmbedUnimplementedBlacklistClassServer()
 }
 
-func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
-	s.RegisterService(&User_ServiceDesc, srv)
+func RegisterBlacklistClassServer(s grpc.ServiceRegistrar, srv BlacklistClassServer) {
+	s.RegisterService(&BlacklistClass_ServiceDesc, srv)
 }
 
-func _User_GetRoleInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRoleInfoReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).GetRoleInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_GetRoleInfo_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetRoleInfo(ctx, req.(*GetRoleInfoReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).Register(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_Register_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).Register(ctx, req.(*RegisterReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).Login(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_Login_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).Login(ctx, req.(*LoginReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_CheckNicknameExist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckNicknameExistReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).CheckNicknameExist(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_CheckNicknameExist_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).CheckNicknameExist(ctx, req.(*CheckNicknameExistReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_CheckEmailExist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckEmailExistReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).CheckEmailExist(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_CheckEmailExist_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).CheckEmailExist(ctx, req.(*CheckEmailExistReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_GetUserById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserByIdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).GetUserById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_GetUserById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetUserById(ctx, req.(*GetUserByIdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_GetUserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).GetUserList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_GetUserList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetUserList(ctx, req.(*GetUserListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteUserReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).DeleteUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_DeleteUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).DeleteUser(ctx, req.(*DeleteUserReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_BanUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(BanUserReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).BanUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_BanUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).BanUser(ctx, req.(*BanUserReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateUserReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).UpdateUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_UpdateUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).UpdateUser(ctx, req.(*UpdateUserReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_UpdatePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePasswordReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).UpdatePassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_UpdatePassword_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).UpdatePassword(ctx, req.(*UpdatePasswordReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_UpdateEmailStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateEmailStatusReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).UpdateEmailStatus(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_UpdateEmailStatus_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).UpdateEmailStatus(ctx, req.(*UpdateEmailStatusReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_UpdateAvatar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateAvatarReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).UpdateAvatar(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_UpdateAvatar_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).UpdateAvatar(ctx, req.(*UpdateAvatarReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_UpdateProfileBg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateProfileBgReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).UpdateProfileBg(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_UpdateProfileBg_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).UpdateProfileBg(ctx, req.(*UpdateProfileBgReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_VerifyRegisterCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VerifyRegisterCodeReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).VerifyRegisterCode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_VerifyRegisterCode_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).VerifyRegisterCode(ctx, req.(*VerifyRegisterCodeReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_GenerateCaptcha_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).GenerateCaptcha(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_GenerateCaptcha_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GenerateCaptcha(ctx, req.(*Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_VerifyCaptcha_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VerifyCaptchaReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).VerifyCaptcha(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_VerifyCaptcha_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).VerifyCaptcha(ctx, req.(*VerifyCaptchaReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_AddFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddFollowingReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).AddFollowing(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_AddFollowing_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).AddFollowing(ctx, req.(*AddFollowingReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_DeleteFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteFollowingReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).DeleteFollowing(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_DeleteFollowing_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).DeleteFollowing(ctx, req.(*DeleteFollowingReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_GetFollowingList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFollowingListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).GetFollowingList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_GetFollowingList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetFollowingList(ctx, req.(*GetFollowingListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_CheckFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckFollowingReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).CheckFollowing(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_CheckFollowing_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).CheckFollowing(ctx, req.(*CheckFollowingReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_AddFollower_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddFollowerReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).AddFollower(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_AddFollower_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).AddFollower(ctx, req.(*AddFollowerReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_DeleteFollower_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteFollowerReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).DeleteFollower(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_DeleteFollower_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).DeleteFollower(ctx, req.(*DeleteFollowerReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_GetFollowerList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFollowerListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).GetFollowerList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_GetFollowerList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetFollowerList(ctx, req.(*GetFollowerListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_CheckFollower_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CheckFollowerReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServer).CheckFollower(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: User_CheckFollower_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).CheckFollower(ctx, req.(*CheckFollowerReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _User_AddBlackItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BlacklistClass_AddBlackItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddBlackItemReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).AddBlackItem(ctx, in)
+		return srv.(BlacklistClassServer).AddBlackItem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_AddBlackItem_FullMethodName,
+		FullMethod: BlacklistClass_AddBlackItem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).AddBlackItem(ctx, req.(*AddBlackItemReq))
+		return srv.(BlacklistClassServer).AddBlackItem(ctx, req.(*AddBlackItemReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_DeleteBlackItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BlacklistClass_DeleteBlackItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteBlackItemReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).DeleteBlackItem(ctx, in)
+		return srv.(BlacklistClassServer).DeleteBlackItem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_DeleteBlackItem_FullMethodName,
+		FullMethod: BlacklistClass_DeleteBlackItem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).DeleteBlackItem(ctx, req.(*DeleteBlackItemReq))
+		return srv.(BlacklistClassServer).DeleteBlackItem(ctx, req.(*DeleteBlackItemReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_GetBlackList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BlacklistClass_GetBlackList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetBlackListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).GetBlackList(ctx, in)
+		return srv.(BlacklistClassServer).GetBlackList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_GetBlackList_FullMethodName,
+		FullMethod: BlacklistClass_GetBlackList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).GetBlackList(ctx, req.(*GetBlackListReq))
+		return srv.(BlacklistClassServer).GetBlackList(ctx, req.(*GetBlackListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_CheckBlackItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _BlacklistClass_CheckBlackItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CheckBlackItemReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).CheckBlackItem(ctx, in)
+		return srv.(BlacklistClassServer).CheckBlackItem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_CheckBlackItem_FullMethodName,
+		FullMethod: BlacklistClass_CheckBlackItem_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).CheckBlackItem(ctx, req.(*CheckBlackItemReq))
+		return srv.(BlacklistClassServer).CheckBlackItem(ctx, req.(*CheckBlackItemReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// User_ServiceDesc is the grpc.ServiceDesc for User service.
+// BlacklistClass_ServiceDesc is the grpc.ServiceDesc for BlacklistClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var User_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "user.User",
-	HandlerType: (*UserServer)(nil),
+var BlacklistClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.BlacklistClass",
+	HandlerType: (*BlacklistClassServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetRoleInfo",
-			Handler:    _User_GetRoleInfo_Handler,
-		},
-		{
-			MethodName: "Register",
-			Handler:    _User_Register_Handler,
-		},
-		{
-			MethodName: "Login",
-			Handler:    _User_Login_Handler,
-		},
-		{
-			MethodName: "CheckNicknameExist",
-			Handler:    _User_CheckNicknameExist_Handler,
-		},
-		{
-			MethodName: "CheckEmailExist",
-			Handler:    _User_CheckEmailExist_Handler,
-		},
-		{
-			MethodName: "GetUserById",
-			Handler:    _User_GetUserById_Handler,
-		},
-		{
-			MethodName: "GetUserList",
-			Handler:    _User_GetUserList_Handler,
-		},
-		{
-			MethodName: "DeleteUser",
-			Handler:    _User_DeleteUser_Handler,
-		},
-		{
-			MethodName: "BanUser",
-			Handler:    _User_BanUser_Handler,
-		},
-		{
-			MethodName: "UpdateUser",
-			Handler:    _User_UpdateUser_Handler,
-		},
-		{
-			MethodName: "UpdatePassword",
-			Handler:    _User_UpdatePassword_Handler,
-		},
-		{
-			MethodName: "UpdateEmailStatus",
-			Handler:    _User_UpdateEmailStatus_Handler,
-		},
-		{
-			MethodName: "UpdateAvatar",
-			Handler:    _User_UpdateAvatar_Handler,
-		},
-		{
-			MethodName: "UpdateProfileBg",
-			Handler:    _User_UpdateProfileBg_Handler,
-		},
-		{
-			MethodName: "VerifyRegisterCode",
-			Handler:    _User_VerifyRegisterCode_Handler,
-		},
-		{
-			MethodName: "GenerateCaptcha",
-			Handler:    _User_GenerateCaptcha_Handler,
-		},
-		{
-			MethodName: "VerifyCaptcha",
-			Handler:    _User_VerifyCaptcha_Handler,
-		},
-		{
-			MethodName: "AddFollowing",
-			Handler:    _User_AddFollowing_Handler,
-		},
-		{
-			MethodName: "DeleteFollowing",
-			Handler:    _User_DeleteFollowing_Handler,
-		},
-		{
-			MethodName: "GetFollowingList",
-			Handler:    _User_GetFollowingList_Handler,
-		},
-		{
-			MethodName: "CheckFollowing",
-			Handler:    _User_CheckFollowing_Handler,
-		},
-		{
-			MethodName: "AddFollower",
-			Handler:    _User_AddFollower_Handler,
-		},
-		{
-			MethodName: "DeleteFollower",
-			Handler:    _User_DeleteFollower_Handler,
-		},
-		{
-			MethodName: "GetFollowerList",
-			Handler:    _User_GetFollowerList_Handler,
-		},
-		{
-			MethodName: "CheckFollower",
-			Handler:    _User_CheckFollower_Handler,
-		},
-		{
 			MethodName: "AddBlackItem",
-			Handler:    _User_AddBlackItem_Handler,
+			Handler:    _BlacklistClass_AddBlackItem_Handler,
 		},
 		{
 			MethodName: "DeleteBlackItem",
-			Handler:    _User_DeleteBlackItem_Handler,
+			Handler:    _BlacklistClass_DeleteBlackItem_Handler,
 		},
 		{
 			MethodName: "GetBlackList",
-			Handler:    _User_GetBlackList_Handler,
+			Handler:    _BlacklistClass_GetBlackList_Handler,
 		},
 		{
 			MethodName: "CheckBlackItem",
-			Handler:    _User_CheckBlackItem_Handler,
+			Handler:    _BlacklistClass_CheckBlackItem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

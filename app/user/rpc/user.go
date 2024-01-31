@@ -5,7 +5,12 @@ import (
 	"fmt"
 
 	"qinglv-backend/app/user/rpc/internal/config"
-	"qinglv-backend/app/user/rpc/internal/server"
+	blacklistclassServer "qinglv-backend/app/user/rpc/internal/server/blacklistclass"
+	captchaclassServer "qinglv-backend/app/user/rpc/internal/server/captchaclass"
+	emailclassServer "qinglv-backend/app/user/rpc/internal/server/emailclass"
+	followingclassServer "qinglv-backend/app/user/rpc/internal/server/followingclass"
+	roleclassServer "qinglv-backend/app/user/rpc/internal/server/roleclass"
+	userclassServer "qinglv-backend/app/user/rpc/internal/server/userclass"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
 
@@ -34,13 +39,17 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		user.RegisterUserServer(grpcServer, server.NewUserServer(ctx))
+		user.RegisterEmailClassServer(grpcServer, emailclassServer.NewEmailClassServer(ctx))
+		user.RegisterCaptchaClassServer(grpcServer, captchaclassServer.NewCaptchaClassServer(ctx))
+		user.RegisterRoleClassServer(grpcServer, roleclassServer.NewRoleClassServer(ctx))
+		user.RegisterUserClassServer(grpcServer, userclassServer.NewUserClassServer(ctx))
+		user.RegisterFollowingClassServer(grpcServer, followingclassServer.NewFollowingClassServer(ctx))
+		user.RegisterBlacklistClassServer(grpcServer, blacklistclassServer.NewBlacklistClassServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
 		}
 	})
-	// s.AddUnaryInterceptors(rpcserver.LoggerInterceptor)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

@@ -8,7 +8,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/jwtx"
 
 	"github.com/jinzhu/copier"
@@ -47,7 +47,7 @@ func (l *GetPostByIdLogic) GetPostById(req *types.GetPostByIdReq, r *http.Reques
 		logx.Errorf("[Post] GetPostContentByPostId failed: %+v\n", err)
 		return nil, err
 	}
-	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 		UserId: postResp.Post.CreatorId,
 	})
 	if err != nil {
@@ -65,7 +65,7 @@ func (l *GetPostByIdLogic) GetPostById(req *types.GetPostByIdReq, r *http.Reques
 				logx.Errorf("[Post] get userId failed: %+v\n", err)
 				return nil, err
 			}
-			followingResp, err := l.svcCtx.UserRpc.GetFollowingList(l.ctx, &user_client.GetFollowingListReq{
+			followingResp, err := l.svcCtx.FollowingRpc.GetFollowingList(l.ctx, &user.GetFollowingListReq{
 				UserId:      uint64(userId),
 				FollowingId: postItem.Creator.Id,
 			})

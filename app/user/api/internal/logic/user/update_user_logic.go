@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,14 +27,14 @@ func NewUpdateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 
 func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) error {
 	// todo: add your logic here and delete this line
-	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 		UserId: req.UserId,
 	})
 	if err != nil {
 		return err
 	}
 	if req.Email != "" && userResp.User.Email != req.Email {
-		checkEmailExistResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user_client.CheckEmailExistReq{
+		checkEmailExistResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user.CheckEmailExistReq{
 			Email: req.Email,
 		})
 		if err != nil {
@@ -45,7 +45,7 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) error {
 				return errors.New("邮箱已存在，请重新输入")
 			}
 			if checkEmailExistResp.User.MailStatus == 1 {
-				_, err := l.svcCtx.UserRpc.DeleteUser(l.ctx, &user_client.DeleteUserReq{
+				_, err := l.svcCtx.UserRpc.DeleteUser(l.ctx, &user.DeleteUserReq{
 					UserId: checkEmailExistResp.User.Id,
 				})
 				if err != nil {
@@ -55,7 +55,7 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) error {
 		}
 	}
 	if req.Nickname != "" && userResp.User.Nickname != req.Nickname {
-		checkNicknameExistResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user_client.CheckNicknameExistReq{
+		checkNicknameExistResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user.CheckNicknameExistReq{
 			Nickname: req.Nickname,
 		})
 		if err != nil {
@@ -65,7 +65,7 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) error {
 			return errors.New("昵称已存在，请重新输入")
 		}
 	}
-	_, err = l.svcCtx.UserRpc.UpdateUser(l.ctx, &user_client.UpdateUserReq{
+	_, err = l.svcCtx.UserRpc.UpdateUser(l.ctx, &user.UpdateUserReq{
 		UserId:     req.UserId,
 		Email:      req.Email,
 		Phone:      req.Phone,

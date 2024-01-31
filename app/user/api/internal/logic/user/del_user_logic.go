@@ -7,7 +7,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -35,7 +35,7 @@ func (l *DelUserLogic) DelUser(req *types.DelUserReq) error {
 	if roleId != 1 && roleId != 2 {
 		return errors.New("没有权限")
 	}
-	_, err = l.svcCtx.UserRpc.DeleteUser(l.ctx, &user_client.DeleteUserReq{
+	_, err = l.svcCtx.UserRpc.DeleteUser(l.ctx, &user.DeleteUserReq{
 		UserId: req.Id,
 	})
 	if err != nil {

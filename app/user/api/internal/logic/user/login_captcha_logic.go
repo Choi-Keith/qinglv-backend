@@ -5,7 +5,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +26,7 @@ func NewLoginCaptchaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Logi
 
 func (l *LoginCaptchaLogic) LoginCaptcha() (resp *types.LoginCaptchaResp, err error) {
 	// todo: add your logic here and delete this line
-	generateCaptchaResp, err := l.svcCtx.UserRpc.GenerateCaptcha(l.ctx, &user_client.Empty{})
+	generateCaptchaResp, err := l.svcCtx.CaptchaRpc.GenerateCaptcha(l.ctx, &user.Empty{})
 	if err != nil {
 		return nil, err
 	}

@@ -7,7 +7,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -33,7 +33,7 @@ func (l *AddBlacklistLogic) AddBlacklist(req *types.AddBlackItemReq) error {
 	if err != nil {
 		return err
 	}
-	checkResp, err := l.svcCtx.UserRpc.CheckBlackItem(l.ctx, &user_client.CheckBlackItemReq{
+	checkResp, err := l.svcCtx.BlacklistRpc.CheckBlackItem(l.ctx, &user.CheckBlackItemReq{
 		UserId:      uint64(userId),
 		BlackItemId: req.BlackItemId,
 	})
@@ -44,7 +44,7 @@ func (l *AddBlacklistLogic) AddBlacklist(req *types.AddBlackItemReq) error {
 		return errors.New("该用户已被拉黑名单")
 	}
 	id := snowflake.MustID()
-	_, err = l.svcCtx.UserRpc.AddBlackItem(l.ctx, &user_client.AddBlackItemReq{
+	_, err = l.svcCtx.BlacklistRpc.AddBlackItem(l.ctx, &user.AddBlackItemReq{
 		Id:          id,
 		UserId:      uint64(userId),
 		BlackItemId: req.BlackItemId,

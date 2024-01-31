@@ -5,7 +5,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +26,7 @@ func NewDelFollowingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelF
 
 func (l *DelFollowingLogic) DelFollowing(req *types.DelFollowingReq) error {
 	// todo: add your logic here and delete this line
-	_, err := l.svcCtx.UserRpc.DeleteFollowing(l.ctx, &user_client.DeleteFollowingReq{
+	_, err := l.svcCtx.FollowingRpc.DeleteFollowing(l.ctx, &user.DeleteFollowingReq{
 		Id: req.Id,
 	})
 	if err != nil {

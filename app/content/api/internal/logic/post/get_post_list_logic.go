@@ -9,7 +9,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/jwtx"
 
@@ -38,7 +38,7 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 	// todo: add your logic here and delete this line
 	var creatorId uint64
 	if req.Creator != "" {
-		userResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user_client.CheckNicknameExistReq{
+		userResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user.CheckNicknameExistReq{
 			Nickname: req.Creator,
 		})
 		if err != nil {
@@ -73,7 +73,7 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 			cancel(err)
 			return
 		}
-		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 			UserId: item.CreatorId,
 		})
 		if err != nil {
@@ -92,7 +92,7 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 					cancel(err)
 					return
 				}
-				followingResp, err := l.svcCtx.UserRpc.GetFollowingList(l.ctx, &user_client.GetFollowingListReq{
+				followingResp, err := l.svcCtx.FollowingRpc.GetFollowingList(l.ctx, &user.GetFollowingListReq{
 					UserId:      uint64(userId),
 					FollowingId: postItem.Creator.Id,
 				})

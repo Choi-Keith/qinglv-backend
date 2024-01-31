@@ -9,7 +9,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -47,7 +47,7 @@ func (l *UpdateProfileBgLogic) UpdateProfileBg(req *types.UpdateProfileReq) erro
 	if err != nil {
 		return err
 	}
-	_, err = l.svcCtx.UserRpc.UpdateProfileBg(l.ctx, &user_client.UpdateProfileBgReq{
+	_, err = l.svcCtx.UserRpc.UpdateProfileBg(l.ctx, &user.UpdateProfileBgReq{
 		ProfileBg: fmt.Sprintf("%s%s", l.svcCtx.Config.Cos.Endpoint, key),
 		UserId:    req.Id,
 	})

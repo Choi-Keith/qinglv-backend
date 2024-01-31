@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/password"
 	"qinglv-backend/pkg/snowflake"
 
@@ -30,7 +30,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 
 func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err error) {
 	// todo: add your logic here and delete this line
-	checkEmailExistResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user_client.CheckEmailExistReq{
+	checkEmailExistResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user.CheckEmailExistReq{
 		Email: req.Email,
 	})
 	if err != nil {
@@ -41,7 +41,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 			return nil, errors.New("邮箱已存在，请重新输入")
 		}
 		if checkEmailExistResp.User.MailStatus == 1 {
-			_, err := l.svcCtx.UserRpc.DeleteUser(l.ctx, &user_client.DeleteUserReq{
+			_, err := l.svcCtx.UserRpc.DeleteUser(l.ctx, &user.DeleteUserReq{
 				UserId: checkEmailExistResp.User.Id,
 			})
 			if err != nil {
@@ -49,7 +49,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 			}
 		}
 	}
-	checkNicknameExistResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user_client.CheckNicknameExistReq{
+	checkNicknameExistResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user.CheckNicknameExistReq{
 		Nickname: req.Nickname,
 	})
 	if err != nil {
@@ -60,7 +60,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 	}
 	id := snowflake.MustID()
 	password, _ := password.EncryptPassword(req.Password)
-	registerResp, err := l.svcCtx.UserRpc.Register(l.ctx, &user_client.RegisterReq{
+	registerResp, err := l.svcCtx.UserRpc.Register(l.ctx, &user.RegisterReq{
 		Id:       id,
 		Email:    req.Email,
 		Password: password,
@@ -74,7 +74,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.User, err 
 	}
 	_ = copier.Copy(&userDetail, registerResp.User)
 
-	roleItem, err := l.svcCtx.UserRpc.GetRoleInfo(l.ctx, &user_client.GetRoleInfoReq{
+	roleItem, err := l.svcCtx.RoleRpc.GetRoleInfo(l.ctx, &user.GetRoleInfoReq{
 		Id: req.RoleId,
 	})
 	if err != nil {

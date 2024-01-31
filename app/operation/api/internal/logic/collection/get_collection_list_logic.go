@@ -10,7 +10,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/jwtx"
 
 	"github.com/jinzhu/copier"
@@ -93,7 +93,7 @@ func (l *GetCollectionListLogic) HanldePost(collectionListResp *operation.GetCol
 			cancel(err)
 			return
 		}
-		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 			UserId: postResp.Post.CreatorId,
 		})
 		if err != nil {
@@ -113,7 +113,7 @@ func (l *GetCollectionListLogic) HanldePost(collectionListResp *operation.GetCol
 					cancel(err)
 					return
 				}
-				followingResp, err := l.svcCtx.UserRpc.GetFollowingList(l.ctx, &user_client.GetFollowingListReq{
+				followingResp, err := l.svcCtx.FollowingRpc.GetFollowingList(l.ctx, &user.GetFollowingListReq{
 					UserId:      uint64(userId),
 					FollowingId: userResp.User.Id,
 				})

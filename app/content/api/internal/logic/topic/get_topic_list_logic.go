@@ -6,7 +6,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -31,7 +31,7 @@ func (l *GetTopicListLogic) GetTopicList(req *types.GetTopicListReq) (resp *type
 	// todo: add your logic here and delete this line
 	var userId uint64 = 0
 	if req.Creator != "" {
-		userResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user_client.CheckNicknameExistReq{
+		userResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user.CheckNicknameExistReq{
 			Nickname: req.Creator,
 		})
 		if err != nil {
@@ -59,7 +59,7 @@ func (l *GetTopicListLogic) GetTopicList(req *types.GetTopicListReq) (resp *type
 			source <- *topicItem
 		}
 	}, func(item content.TopicItem, writer mr.Writer[types.TopicItem], cancel func(error)) {
-		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 			UserId: item.CreatorId,
 		})
 		if err != nil {

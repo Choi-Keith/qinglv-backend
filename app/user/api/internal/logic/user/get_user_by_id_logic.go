@@ -5,7 +5,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -27,7 +27,7 @@ func NewGetUserByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 
 func (l *GetUserByIdLogic) GetUserById(req *types.GetUserByIdReq) (resp *types.User, err error) {
 	// todo: add your logic here and delete this line
-	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 		UserId: req.Id,
 	})
 	if err != nil {
@@ -36,7 +36,7 @@ func (l *GetUserByIdLogic) GetUserById(req *types.GetUserByIdReq) (resp *types.U
 	var userDetail types.User
 	_ = copier.Copy(&userDetail, userResp.User)
 
-	roleItem, err := l.svcCtx.UserRpc.GetRoleInfo(l.ctx, &user_client.GetRoleInfoReq{
+	roleItem, err := l.svcCtx.RoleRpc.GetRoleInfo(l.ctx, &user.GetRoleInfoReq{
 		Id: userResp.User.RoleId,
 	})
 	if err != nil {

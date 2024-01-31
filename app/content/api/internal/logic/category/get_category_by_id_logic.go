@@ -6,7 +6,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,7 +34,7 @@ func (l *GetCategoryByIdLogic) GetCategoryById(req *types.GetCategoryByIdReq) (r
 	if err != nil {
 		return nil, err
 	}
-	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 		UserId: categoryResp.Category.CreatorId,
 	})
 	if err != nil {

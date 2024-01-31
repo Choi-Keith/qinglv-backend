@@ -17,7 +17,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
 
@@ -95,7 +95,7 @@ func (l *UploadImagesLogic) handleUpload(file multipart.File, fh multipart.FileH
 	}
 	defer file.Close()
 
-	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+	userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 		UserId: uint64(userId),
 	})
 	if err != nil {

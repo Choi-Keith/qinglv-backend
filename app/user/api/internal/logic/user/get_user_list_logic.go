@@ -5,7 +5,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -27,7 +27,7 @@ func NewGetUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 
 func (l *GetUserListLogic) GetUserList(req *types.UserListReq) (resp *types.UserListResp, err error) {
 	// todo: add your logic here and delete this line
-	userListResp, err := l.svcCtx.UserRpc.GetUserList(l.ctx, &user_client.GetUserListReq{
+	userListResp, err := l.svcCtx.UserRpc.GetUserList(l.ctx, &user.GetUserListReq{
 		Email:      req.Email,
 		Nickname:   req.Nickname,
 		PageNum:    int32(req.PageNum),

@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -33,7 +33,7 @@ func (l *GetBlacklistLogic) GetBlacklist(req *types.BlacklistReq) (resp *types.B
 	if err != nil {
 		return nil, err
 	}
-	blackListResp, err := l.svcCtx.UserRpc.GetBlackList(l.ctx, &user_client.GetBlackListReq{
+	blackListResp, err := l.svcCtx.BlacklistRpc.GetBlackList(l.ctx, &user.GetBlackListReq{
 		UserId:      uint64(userId),
 		BlackItemId: req.BlackItemId,
 		PageNum:     int32(req.PageNum),
@@ -54,7 +54,7 @@ func (l *GetBlacklistLogic) GetBlacklist(req *types.BlacklistReq) (resp *types.B
 	},
 		func(item types.BlackItem, writer mr.Writer[types.BlackItem], cancel func(error)) {
 			blackItem := item
-			blackUser, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user_client.GetUserByIdReq{
+			blackUser, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 				UserId: blackItem.BlackItemId,
 			})
 			if err != nil {

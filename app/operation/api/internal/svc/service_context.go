@@ -9,7 +9,8 @@ import (
 	"qinglv-backend/app/operation/rpc/client/collectionclass"
 	"qinglv-backend/app/operation/rpc/client/shareclass"
 	"qinglv-backend/app/operation/rpc/client/thumbclass"
-	"qinglv-backend/app/user/rpc/user_client"
+	"qinglv-backend/app/user/rpc/client/followingclass"
+	"qinglv-backend/app/user/rpc/client/userclass"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -22,7 +23,8 @@ type ServiceContext struct {
 	ThumbRpc      thumbclass.ThumbClass
 	PostRpc       postclass.PostClass
 	CategoryRpc   categoryclass.CategoryClass
-	UserRpc       user_client.User
+	UserRpc       userclass.UserClass
+	FollowingRpc  followingclass.FollowingClass
 	CosClient     *cos.Client
 }
 
@@ -41,7 +43,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		CollectionRpc: collectionclass.NewCollectionClass(zrpc.MustNewClient(c.OperationRpc)),
 		ShareRpc:      shareclass.NewShareClass(zrpc.MustNewClient(c.OperationRpc)),
 		ThumbRpc:      thumbclass.NewThumbClass(zrpc.MustNewClient(c.OperationRpc)),
-		UserRpc:       user_client.NewUser(zrpc.MustNewClient(c.UserRpc)),
+		UserRpc:       userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
+		FollowingRpc:  followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
 		PostRpc:       postclass.NewPostClass(zrpc.MustNewClient(c.OperationRpc)),
 		CategoryRpc:   categoryclass.NewCategoryClass(zrpc.MustNewClient(c.OperationRpc)),
 		CosClient:     client,
