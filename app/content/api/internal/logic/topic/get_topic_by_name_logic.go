@@ -5,7 +5,7 @@ import (
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/user/rpc/user_client"
 
 	"github.com/jinzhu/copier"
@@ -28,7 +28,7 @@ func NewGetTopicByNameLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 
 func (l *GetTopicByNameLogic) GetTopicByName(req *types.GetTopicByNameReq) (resp *types.GetTopicByNameResp, err error) {
 	// todo: add your logic here and delete this line
-	topicResp, err := l.svcCtx.ContentRpc.GetTopicByName(l.ctx, &content_client.GetTopicByNameReq{
+	topicResp, err := l.svcCtx.TopicRpc.GetTopicByName(l.ctx, &content.GetTopicByNameReq{
 		Name: req.Name,
 	})
 	if err != nil {

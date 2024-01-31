@@ -3,7 +3,8 @@ package svc
 import (
 	"net/http"
 	"net/url"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/client/categoryclass"
+	"qinglv-backend/app/content/rpc/client/postclass"
 	"qinglv-backend/app/operation/api/internal/config"
 	"qinglv-backend/app/operation/rpc/client/collectionclass"
 	"qinglv-backend/app/operation/rpc/client/shareclass"
@@ -19,7 +20,8 @@ type ServiceContext struct {
 	CollectionRpc collectionclass.CollectionClass
 	ShareRpc      shareclass.ShareClass
 	ThumbRpc      thumbclass.ThumbClass
-	ContentRpc    content_client.Content
+	PostRpc       postclass.PostClass
+	CategoryRpc   categoryclass.CategoryClass
 	UserRpc       user_client.User
 	CosClient     *cos.Client
 }
@@ -39,8 +41,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		CollectionRpc: collectionclass.NewCollectionClass(zrpc.MustNewClient(c.OperationRpc)),
 		ShareRpc:      shareclass.NewShareClass(zrpc.MustNewClient(c.OperationRpc)),
 		ThumbRpc:      thumbclass.NewThumbClass(zrpc.MustNewClient(c.OperationRpc)),
-		ContentRpc:    content_client.NewContent(zrpc.MustNewClient(c.ContentRpc)),
 		UserRpc:       user_client.NewUser(zrpc.MustNewClient(c.UserRpc)),
+		PostRpc:       postclass.NewPostClass(zrpc.MustNewClient(c.OperationRpc)),
+		CategoryRpc:   categoryclass.NewCategoryClass(zrpc.MustNewClient(c.OperationRpc)),
 		CosClient:     client,
 	}
 }

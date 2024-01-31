@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
@@ -79,14 +79,14 @@ func (l *GetCollectionListLogic) HanldePost(collectionListResp *operation.GetCol
 			source <- *collectionItem
 		}
 	}, func(item operation.CollectionItem, writer mr.Writer[types.PostItem], cancel func(error)) {
-		postResp, err := l.svcCtx.ContentRpc.GetPostDetail(l.ctx, &content_client.GetPostDetailReq{
+		postResp, err := l.svcCtx.PostRpc.GetPostDetail(l.ctx, &content.GetPostDetailReq{
 			Id: item.TargetId,
 		})
 		if err != nil {
 			cancel(err)
 			return
 		}
-		postContentResp, err := l.svcCtx.ContentRpc.GetPostContentByPostId(l.ctx, &content_client.GetPostContentDetailReq{
+		postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
 			Id: postResp.Post.Id,
 		})
 		if err != nil {
@@ -128,7 +128,7 @@ func (l *GetCollectionListLogic) HanldePost(collectionListResp *operation.GetCol
 		}
 		var categoryItem types.CollectionCategory
 		if postContentResp.PostContent.CategoryId != 0 {
-			categoryResp, err := l.svcCtx.ContentRpc.GetCategoryDetail(l.ctx, &content_client.GetCategoryDetailReq{
+			categoryResp, err := l.svcCtx.CategoryRpc.GetCategoryDetail(l.ctx, &content.GetCategoryDetailReq{
 				Id: postContentResp.PostContent.CategoryId,
 			})
 			if err != nil {

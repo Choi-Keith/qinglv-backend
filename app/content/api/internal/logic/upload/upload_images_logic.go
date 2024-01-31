@@ -16,7 +16,7 @@ import (
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/user/rpc/user_client"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
@@ -64,7 +64,7 @@ func (l *UploadImagesLogic) UploadImages(req *types.UploadImagesReq, r *http.Req
 		}
 		id := snowflake.MustID()
 		image := fmt.Sprintf("%s%s", l.svcCtx.Config.Cos.Endpoint, key)
-		_, err = l.svcCtx.ContentRpc.AddMediaFile(l.ctx, &content_client.AddMediaFileReq{
+		_, err = l.svcCtx.MediaFileRpc.AddMediaFile(l.ctx, &content.AddMediaFileReq{
 			Id:        id,
 			Content:   image,
 			CreatorId: uint64(userId),

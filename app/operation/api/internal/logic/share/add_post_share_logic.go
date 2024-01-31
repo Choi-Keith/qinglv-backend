@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
@@ -33,7 +33,7 @@ func (l *AddPostShareLogic) AddPostShare(req *types.AddPostShareReq) error {
 	if err != nil {
 		return err
 	}
-	postResp, err := l.svcCtx.ContentRpc.GetPostDetail(l.ctx, &content_client.GetPostDetailReq{
+	postResp, err := l.svcCtx.PostRpc.GetPostDetail(l.ctx, &content.GetPostDetailReq{
 		Id: req.PostId,
 	})
 	if err != nil {
@@ -49,7 +49,7 @@ func (l *AddPostShareLogic) AddPostShare(req *types.AddPostShareReq) error {
 		return err
 	}
 
-	if _, err = l.svcCtx.ContentRpc.UpdatePost(l.ctx, &content_client.UpdatePostReq{
+	if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 		Id:              req.PostId,
 		ShareCount:      postResp.Post.ShareCount + 1,
 		Score:           postResp.Post.Score + 1,

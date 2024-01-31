@@ -19,36 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Content_AddTopic_FullMethodName               = "/content.Content/AddTopic"
-	Content_DeleteTopic_FullMethodName            = "/content.Content/DeleteTopic"
-	Content_UpdateTopic_FullMethodName            = "/content.Content/UpdateTopic"
-	Content_GetTopicById_FullMethodName           = "/content.Content/GetTopicById"
-	Content_GetTopicByName_FullMethodName         = "/content.Content/GetTopicByName"
-	Content_GetTopicList_FullMethodName           = "/content.Content/GetTopicList"
-	Content_AddCategory_FullMethodName            = "/content.Content/AddCategory"
-	Content_DeleteCategory_FullMethodName         = "/content.Content/DeleteCategory"
-	Content_UpdateCategory_FullMethodName         = "/content.Content/UpdateCategory"
-	Content_GetCategoryDetail_FullMethodName      = "/content.Content/GetCategoryDetail"
-	Content_GetCategoryList_FullMethodName        = "/content.Content/GetCategoryList"
-	Content_AddPost_FullMethodName                = "/content.Content/AddPost"
-	Content_DeletePost_FullMethodName             = "/content.Content/DeletePost"
-	Content_UpdatePost_FullMethodName             = "/content.Content/UpdatePost"
-	Content_GetPostDetail_FullMethodName          = "/content.Content/GetPostDetail"
-	Content_GetPostList_FullMethodName            = "/content.Content/GetPostList"
-	Content_AddPostContent_FullMethodName         = "/content.Content/AddPostContent"
-	Content_GetPostContentDetail_FullMethodName   = "/content.Content/GetPostContentDetail"
-	Content_GetPostContentByPostId_FullMethodName = "/content.Content/GetPostContentByPostId"
-	Content_GetPostContentList_FullMethodName     = "/content.Content/GetPostContentList"
-	Content_AddMediaFile_FullMethodName           = "/content.Content/AddMediaFile"
-	Content_DeleteMediaFile_FullMethodName        = "/content.Content/DeleteMediaFile"
-	Content_GetMediaFileByContent_FullMethodName  = "/content.Content/GetMediaFileByContent"
-	Content_GetMediaFileList_FullMethodName       = "/content.Content/GetMediaFileList"
+	TopicClass_AddTopic_FullMethodName       = "/content.TopicClass/AddTopic"
+	TopicClass_DeleteTopic_FullMethodName    = "/content.TopicClass/DeleteTopic"
+	TopicClass_UpdateTopic_FullMethodName    = "/content.TopicClass/UpdateTopic"
+	TopicClass_GetTopicById_FullMethodName   = "/content.TopicClass/GetTopicById"
+	TopicClass_GetTopicByName_FullMethodName = "/content.TopicClass/GetTopicByName"
+	TopicClass_GetTopicList_FullMethodName   = "/content.TopicClass/GetTopicList"
 )
 
-// ContentClient is the client API for Content service.
+// TopicClassClient is the client API for TopicClass service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ContentClient interface {
+type TopicClassClient interface {
 	// group: topic
 	AddTopic(ctx context.Context, in *AddTopicReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: topic
@@ -61,6 +43,280 @@ type ContentClient interface {
 	GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error)
 	// group: topic
 	GetTopicList(ctx context.Context, in *GetTopicListReq, opts ...grpc.CallOption) (*GetTopicListResp, error)
+}
+
+type topicClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTopicClassClient(cc grpc.ClientConnInterface) TopicClassClient {
+	return &topicClassClient{cc}
+}
+
+func (c *topicClassClient) AddTopic(ctx context.Context, in *AddTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, TopicClass_AddTopic_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *topicClassClient) DeleteTopic(ctx context.Context, in *DeleteTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, TopicClass_DeleteTopic_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *topicClassClient) UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, TopicClass_UpdateTopic_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *topicClassClient) GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error) {
+	out := new(GetTopicByIdResp)
+	err := c.cc.Invoke(ctx, TopicClass_GetTopicById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *topicClassClient) GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error) {
+	out := new(GetTopicByNameResp)
+	err := c.cc.Invoke(ctx, TopicClass_GetTopicByName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *topicClassClient) GetTopicList(ctx context.Context, in *GetTopicListReq, opts ...grpc.CallOption) (*GetTopicListResp, error) {
+	out := new(GetTopicListResp)
+	err := c.cc.Invoke(ctx, TopicClass_GetTopicList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TopicClassServer is the server API for TopicClass service.
+// All implementations must embed UnimplementedTopicClassServer
+// for forward compatibility
+type TopicClassServer interface {
+	// group: topic
+	AddTopic(context.Context, *AddTopicReq) (*OkResp, error)
+	// group: topic
+	DeleteTopic(context.Context, *DeleteTopicReq) (*OkResp, error)
+	// group: topic
+	UpdateTopic(context.Context, *UpdateTopicReq) (*OkResp, error)
+	// group: topic
+	GetTopicById(context.Context, *GetTopicByIdReq) (*GetTopicByIdResp, error)
+	// group: topic
+	GetTopicByName(context.Context, *GetTopicByNameReq) (*GetTopicByNameResp, error)
+	// group: topic
+	GetTopicList(context.Context, *GetTopicListReq) (*GetTopicListResp, error)
+	mustEmbedUnimplementedTopicClassServer()
+}
+
+// UnimplementedTopicClassServer must be embedded to have forward compatible implementations.
+type UnimplementedTopicClassServer struct {
+}
+
+func (UnimplementedTopicClassServer) AddTopic(context.Context, *AddTopicReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddTopic not implemented")
+}
+func (UnimplementedTopicClassServer) DeleteTopic(context.Context, *DeleteTopicReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTopic not implemented")
+}
+func (UnimplementedTopicClassServer) UpdateTopic(context.Context, *UpdateTopicReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTopic not implemented")
+}
+func (UnimplementedTopicClassServer) GetTopicById(context.Context, *GetTopicByIdReq) (*GetTopicByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopicById not implemented")
+}
+func (UnimplementedTopicClassServer) GetTopicByName(context.Context, *GetTopicByNameReq) (*GetTopicByNameResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopicByName not implemented")
+}
+func (UnimplementedTopicClassServer) GetTopicList(context.Context, *GetTopicListReq) (*GetTopicListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopicList not implemented")
+}
+func (UnimplementedTopicClassServer) mustEmbedUnimplementedTopicClassServer() {}
+
+// UnsafeTopicClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TopicClassServer will
+// result in compilation errors.
+type UnsafeTopicClassServer interface {
+	mustEmbedUnimplementedTopicClassServer()
+}
+
+func RegisterTopicClassServer(s grpc.ServiceRegistrar, srv TopicClassServer) {
+	s.RegisterService(&TopicClass_ServiceDesc, srv)
+}
+
+func _TopicClass_AddTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddTopicReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicClassServer).AddTopic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicClass_AddTopic_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicClassServer).AddTopic(ctx, req.(*AddTopicReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TopicClass_DeleteTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteTopicReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicClassServer).DeleteTopic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicClass_DeleteTopic_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicClassServer).DeleteTopic(ctx, req.(*DeleteTopicReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TopicClass_UpdateTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTopicReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicClassServer).UpdateTopic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicClass_UpdateTopic_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicClassServer).UpdateTopic(ctx, req.(*UpdateTopicReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TopicClass_GetTopicById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopicByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicClassServer).GetTopicById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicClass_GetTopicById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicClassServer).GetTopicById(ctx, req.(*GetTopicByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TopicClass_GetTopicByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopicByNameReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicClassServer).GetTopicByName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicClass_GetTopicByName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicClassServer).GetTopicByName(ctx, req.(*GetTopicByNameReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TopicClass_GetTopicList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopicListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TopicClassServer).GetTopicList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TopicClass_GetTopicList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TopicClassServer).GetTopicList(ctx, req.(*GetTopicListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TopicClass_ServiceDesc is the grpc.ServiceDesc for TopicClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TopicClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "content.TopicClass",
+	HandlerType: (*TopicClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddTopic",
+			Handler:    _TopicClass_AddTopic_Handler,
+		},
+		{
+			MethodName: "DeleteTopic",
+			Handler:    _TopicClass_DeleteTopic_Handler,
+		},
+		{
+			MethodName: "UpdateTopic",
+			Handler:    _TopicClass_UpdateTopic_Handler,
+		},
+		{
+			MethodName: "GetTopicById",
+			Handler:    _TopicClass_GetTopicById_Handler,
+		},
+		{
+			MethodName: "GetTopicByName",
+			Handler:    _TopicClass_GetTopicByName_Handler,
+		},
+		{
+			MethodName: "GetTopicList",
+			Handler:    _TopicClass_GetTopicList_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/content.proto",
+}
+
+const (
+	CategoryClass_AddCategory_FullMethodName       = "/content.CategoryClass/AddCategory"
+	CategoryClass_DeleteCategory_FullMethodName    = "/content.CategoryClass/DeleteCategory"
+	CategoryClass_UpdateCategory_FullMethodName    = "/content.CategoryClass/UpdateCategory"
+	CategoryClass_GetCategoryDetail_FullMethodName = "/content.CategoryClass/GetCategoryDetail"
+	CategoryClass_GetCategoryList_FullMethodName   = "/content.CategoryClass/GetCategoryList"
+)
+
+// CategoryClassClient is the client API for CategoryClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type CategoryClassClient interface {
 	// group: category
 	AddCategory(ctx context.Context, in *AddCategoryReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: category
@@ -71,6 +327,248 @@ type ContentClient interface {
 	GetCategoryDetail(ctx context.Context, in *GetCategoryDetailReq, opts ...grpc.CallOption) (*GetCategoryDetailResp, error)
 	// group: category
 	GetCategoryList(ctx context.Context, in *GetCategoryListReq, opts ...grpc.CallOption) (*GetCategoryListResp, error)
+}
+
+type categoryClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCategoryClassClient(cc grpc.ClientConnInterface) CategoryClassClient {
+	return &categoryClassClient{cc}
+}
+
+func (c *categoryClassClient) AddCategory(ctx context.Context, in *AddCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CategoryClass_AddCategory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryClassClient) DeleteCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CategoryClass_DeleteCategory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryClassClient) UpdateCategory(ctx context.Context, in *UpdateCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CategoryClass_UpdateCategory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryClassClient) GetCategoryDetail(ctx context.Context, in *GetCategoryDetailReq, opts ...grpc.CallOption) (*GetCategoryDetailResp, error) {
+	out := new(GetCategoryDetailResp)
+	err := c.cc.Invoke(ctx, CategoryClass_GetCategoryDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *categoryClassClient) GetCategoryList(ctx context.Context, in *GetCategoryListReq, opts ...grpc.CallOption) (*GetCategoryListResp, error) {
+	out := new(GetCategoryListResp)
+	err := c.cc.Invoke(ctx, CategoryClass_GetCategoryList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// CategoryClassServer is the server API for CategoryClass service.
+// All implementations must embed UnimplementedCategoryClassServer
+// for forward compatibility
+type CategoryClassServer interface {
+	// group: category
+	AddCategory(context.Context, *AddCategoryReq) (*OkResp, error)
+	// group: category
+	DeleteCategory(context.Context, *DeleteCategoryReq) (*OkResp, error)
+	// group: category
+	UpdateCategory(context.Context, *UpdateCategoryReq) (*OkResp, error)
+	// group: category
+	GetCategoryDetail(context.Context, *GetCategoryDetailReq) (*GetCategoryDetailResp, error)
+	// group: category
+	GetCategoryList(context.Context, *GetCategoryListReq) (*GetCategoryListResp, error)
+	mustEmbedUnimplementedCategoryClassServer()
+}
+
+// UnimplementedCategoryClassServer must be embedded to have forward compatible implementations.
+type UnimplementedCategoryClassServer struct {
+}
+
+func (UnimplementedCategoryClassServer) AddCategory(context.Context, *AddCategoryReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddCategory not implemented")
+}
+func (UnimplementedCategoryClassServer) DeleteCategory(context.Context, *DeleteCategoryReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
+}
+func (UnimplementedCategoryClassServer) UpdateCategory(context.Context, *UpdateCategoryReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
+}
+func (UnimplementedCategoryClassServer) GetCategoryDetail(context.Context, *GetCategoryDetailReq) (*GetCategoryDetailResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCategoryDetail not implemented")
+}
+func (UnimplementedCategoryClassServer) GetCategoryList(context.Context, *GetCategoryListReq) (*GetCategoryListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCategoryList not implemented")
+}
+func (UnimplementedCategoryClassServer) mustEmbedUnimplementedCategoryClassServer() {}
+
+// UnsafeCategoryClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CategoryClassServer will
+// result in compilation errors.
+type UnsafeCategoryClassServer interface {
+	mustEmbedUnimplementedCategoryClassServer()
+}
+
+func RegisterCategoryClassServer(s grpc.ServiceRegistrar, srv CategoryClassServer) {
+	s.RegisterService(&CategoryClass_ServiceDesc, srv)
+}
+
+func _CategoryClass_AddCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddCategoryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryClassServer).AddCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CategoryClass_AddCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryClassServer).AddCategory(ctx, req.(*AddCategoryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryClass_DeleteCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteCategoryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryClassServer).DeleteCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CategoryClass_DeleteCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryClassServer).DeleteCategory(ctx, req.(*DeleteCategoryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryClass_UpdateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCategoryReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryClassServer).UpdateCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CategoryClass_UpdateCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryClassServer).UpdateCategory(ctx, req.(*UpdateCategoryReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryClass_GetCategoryDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCategoryDetailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryClassServer).GetCategoryDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CategoryClass_GetCategoryDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryClassServer).GetCategoryDetail(ctx, req.(*GetCategoryDetailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CategoryClass_GetCategoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCategoryListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryClassServer).GetCategoryList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CategoryClass_GetCategoryList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryClassServer).GetCategoryList(ctx, req.(*GetCategoryListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// CategoryClass_ServiceDesc is the grpc.ServiceDesc for CategoryClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CategoryClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "content.CategoryClass",
+	HandlerType: (*CategoryClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddCategory",
+			Handler:    _CategoryClass_AddCategory_Handler,
+		},
+		{
+			MethodName: "DeleteCategory",
+			Handler:    _CategoryClass_DeleteCategory_Handler,
+		},
+		{
+			MethodName: "UpdateCategory",
+			Handler:    _CategoryClass_UpdateCategory_Handler,
+		},
+		{
+			MethodName: "GetCategoryDetail",
+			Handler:    _CategoryClass_GetCategoryDetail_Handler,
+		},
+		{
+			MethodName: "GetCategoryList",
+			Handler:    _CategoryClass_GetCategoryList_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/content.proto",
+}
+
+const (
+	PostClass_AddPost_FullMethodName                = "/content.PostClass/AddPost"
+	PostClass_DeletePost_FullMethodName             = "/content.PostClass/DeletePost"
+	PostClass_UpdatePost_FullMethodName             = "/content.PostClass/UpdatePost"
+	PostClass_GetPostDetail_FullMethodName          = "/content.PostClass/GetPostDetail"
+	PostClass_GetPostList_FullMethodName            = "/content.PostClass/GetPostList"
+	PostClass_AddPostContent_FullMethodName         = "/content.PostClass/AddPostContent"
+	PostClass_GetPostContentDetail_FullMethodName   = "/content.PostClass/GetPostContentDetail"
+	PostClass_GetPostContentByPostId_FullMethodName = "/content.PostClass/GetPostContentByPostId"
+	PostClass_GetPostContentList_FullMethodName     = "/content.PostClass/GetPostContentList"
+)
+
+// PostClassClient is the client API for PostClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type PostClassClient interface {
 	// group: post
 	AddPost(ctx context.Context, in *AddPostReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: post
@@ -89,266 +587,101 @@ type ContentClient interface {
 	GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
 	// group: postContent
 	GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error)
-	// group: mediaFile
-	AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: mediaFile
-	DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: mediaFile
-	GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error)
-	// group: mediaFile
-	GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error)
 }
 
-type contentClient struct {
+type postClassClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewContentClient(cc grpc.ClientConnInterface) ContentClient {
-	return &contentClient{cc}
+func NewPostClassClient(cc grpc.ClientConnInterface) PostClassClient {
+	return &postClassClient{cc}
 }
 
-func (c *contentClient) AddTopic(ctx context.Context, in *AddTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *postClassClient) AddPost(ctx context.Context, in *AddPostReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_AddTopic_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_AddPost_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) DeleteTopic(ctx context.Context, in *DeleteTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *postClassClient) DeletePost(ctx context.Context, in *DeletePostReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_DeleteTopic_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_DeletePost_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *postClassClient) UpdatePost(ctx context.Context, in *UpdatePostReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_UpdateTopic_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_UpdatePost_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error) {
-	out := new(GetTopicByIdResp)
-	err := c.cc.Invoke(ctx, Content_GetTopicById_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error) {
-	out := new(GetTopicByNameResp)
-	err := c.cc.Invoke(ctx, Content_GetTopicByName_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) GetTopicList(ctx context.Context, in *GetTopicListReq, opts ...grpc.CallOption) (*GetTopicListResp, error) {
-	out := new(GetTopicListResp)
-	err := c.cc.Invoke(ctx, Content_GetTopicList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) AddCategory(ctx context.Context, in *AddCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_AddCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) DeleteCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_DeleteCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) UpdateCategory(ctx context.Context, in *UpdateCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_UpdateCategory_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) GetCategoryDetail(ctx context.Context, in *GetCategoryDetailReq, opts ...grpc.CallOption) (*GetCategoryDetailResp, error) {
-	out := new(GetCategoryDetailResp)
-	err := c.cc.Invoke(ctx, Content_GetCategoryDetail_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) GetCategoryList(ctx context.Context, in *GetCategoryListReq, opts ...grpc.CallOption) (*GetCategoryListResp, error) {
-	out := new(GetCategoryListResp)
-	err := c.cc.Invoke(ctx, Content_GetCategoryList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) AddPost(ctx context.Context, in *AddPostReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_AddPost_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) DeletePost(ctx context.Context, in *DeletePostReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_DeletePost_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) UpdatePost(ctx context.Context, in *UpdatePostReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_UpdatePost_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) GetPostDetail(ctx context.Context, in *GetPostDetailReq, opts ...grpc.CallOption) (*GetPostDetailResp, error) {
+func (c *postClassClient) GetPostDetail(ctx context.Context, in *GetPostDetailReq, opts ...grpc.CallOption) (*GetPostDetailResp, error) {
 	out := new(GetPostDetailResp)
-	err := c.cc.Invoke(ctx, Content_GetPostDetail_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_GetPostDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) GetPostList(ctx context.Context, in *GetPostListReq, opts ...grpc.CallOption) (*GetPostListResp, error) {
+func (c *postClassClient) GetPostList(ctx context.Context, in *GetPostListReq, opts ...grpc.CallOption) (*GetPostListResp, error) {
 	out := new(GetPostListResp)
-	err := c.cc.Invoke(ctx, Content_GetPostList_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_GetPostList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) AddPostContent(ctx context.Context, in *AddPostContentReq, opts ...grpc.CallOption) (*OkResp, error) {
+func (c *postClassClient) AddPostContent(ctx context.Context, in *AddPostContentReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_AddPostContent_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_AddPostContent_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
+func (c *postClassClient) GetPostContentDetail(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
 	out := new(GetPostContentDetailResp)
-	err := c.cc.Invoke(ctx, Content_GetPostContentDetail_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_GetPostContentDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
+func (c *postClassClient) GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
 	out := new(GetPostContentDetailResp)
-	err := c.cc.Invoke(ctx, Content_GetPostContentByPostId_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_GetPostContentByPostId_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error) {
+func (c *postClassClient) GetPostContentList(ctx context.Context, in *GetPostContentListReq, opts ...grpc.CallOption) (*GetPostContentListResp, error) {
 	out := new(GetPostContentListResp)
-	err := c.cc.Invoke(ctx, Content_GetPostContentList_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, PostClass_GetPostContentList_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *contentClient) AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_AddMediaFile_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error) {
-	out := new(OkResp)
-	err := c.cc.Invoke(ctx, Content_DeleteMediaFile_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error) {
-	out := new(GetMediaFileByContentResp)
-	err := c.cc.Invoke(ctx, Content_GetMediaFileByContent_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *contentClient) GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error) {
-	out := new(GetMediaFileListResp)
-	err := c.cc.Invoke(ctx, Content_GetMediaFileList_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// ContentServer is the server API for Content service.
-// All implementations must embed UnimplementedContentServer
+// PostClassServer is the server API for PostClass service.
+// All implementations must embed UnimplementedPostClassServer
 // for forward compatibility
-type ContentServer interface {
-	// group: topic
-	AddTopic(context.Context, *AddTopicReq) (*OkResp, error)
-	// group: topic
-	DeleteTopic(context.Context, *DeleteTopicReq) (*OkResp, error)
-	// group: topic
-	UpdateTopic(context.Context, *UpdateTopicReq) (*OkResp, error)
-	// group: topic
-	GetTopicById(context.Context, *GetTopicByIdReq) (*GetTopicByIdResp, error)
-	// group: topic
-	GetTopicByName(context.Context, *GetTopicByNameReq) (*GetTopicByNameResp, error)
-	// group: topic
-	GetTopicList(context.Context, *GetTopicListReq) (*GetTopicListResp, error)
-	// group: category
-	AddCategory(context.Context, *AddCategoryReq) (*OkResp, error)
-	// group: category
-	DeleteCategory(context.Context, *DeleteCategoryReq) (*OkResp, error)
-	// group: category
-	UpdateCategory(context.Context, *UpdateCategoryReq) (*OkResp, error)
-	// group: category
-	GetCategoryDetail(context.Context, *GetCategoryDetailReq) (*GetCategoryDetailResp, error)
-	// group: category
-	GetCategoryList(context.Context, *GetCategoryListReq) (*GetCategoryListResp, error)
+type PostClassServer interface {
 	// group: post
 	AddPost(context.Context, *AddPostReq) (*OkResp, error)
 	// group: post
@@ -367,6 +700,332 @@ type ContentServer interface {
 	GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error)
 	// group: postContent
 	GetPostContentList(context.Context, *GetPostContentListReq) (*GetPostContentListResp, error)
+	mustEmbedUnimplementedPostClassServer()
+}
+
+// UnimplementedPostClassServer must be embedded to have forward compatible implementations.
+type UnimplementedPostClassServer struct {
+}
+
+func (UnimplementedPostClassServer) AddPost(context.Context, *AddPostReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPost not implemented")
+}
+func (UnimplementedPostClassServer) DeletePost(context.Context, *DeletePostReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePost not implemented")
+}
+func (UnimplementedPostClassServer) UpdatePost(context.Context, *UpdatePostReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePost not implemented")
+}
+func (UnimplementedPostClassServer) GetPostDetail(context.Context, *GetPostDetailReq) (*GetPostDetailResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostDetail not implemented")
+}
+func (UnimplementedPostClassServer) GetPostList(context.Context, *GetPostListReq) (*GetPostListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostList not implemented")
+}
+func (UnimplementedPostClassServer) AddPostContent(context.Context, *AddPostContentReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPostContent not implemented")
+}
+func (UnimplementedPostClassServer) GetPostContentDetail(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentDetail not implemented")
+}
+func (UnimplementedPostClassServer) GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentByPostId not implemented")
+}
+func (UnimplementedPostClassServer) GetPostContentList(context.Context, *GetPostContentListReq) (*GetPostContentListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentList not implemented")
+}
+func (UnimplementedPostClassServer) mustEmbedUnimplementedPostClassServer() {}
+
+// UnsafePostClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PostClassServer will
+// result in compilation errors.
+type UnsafePostClassServer interface {
+	mustEmbedUnimplementedPostClassServer()
+}
+
+func RegisterPostClassServer(s grpc.ServiceRegistrar, srv PostClassServer) {
+	s.RegisterService(&PostClass_ServiceDesc, srv)
+}
+
+func _PostClass_AddPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPostReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).AddPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_AddPost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).AddPost(ctx, req.(*AddPostReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_DeletePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePostReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).DeletePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_DeletePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).DeletePost(ctx, req.(*DeletePostReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_UpdatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePostReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).UpdatePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_UpdatePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).UpdatePost(ctx, req.(*UpdatePostReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_GetPostDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostDetailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).GetPostDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_GetPostDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).GetPostDetail(ctx, req.(*GetPostDetailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_GetPostList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).GetPostList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_GetPostList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).GetPostList(ctx, req.(*GetPostListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_AddPostContent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPostContentReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).AddPostContent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_AddPostContent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).AddPostContent(ctx, req.(*AddPostContentReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_GetPostContentDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostContentDetailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).GetPostContentDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_GetPostContentDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).GetPostContentDetail(ctx, req.(*GetPostContentDetailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_GetPostContentByPostId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostContentDetailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).GetPostContentByPostId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_GetPostContentByPostId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).GetPostContentByPostId(ctx, req.(*GetPostContentDetailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_GetPostContentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostContentListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).GetPostContentList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_GetPostContentList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).GetPostContentList(ctx, req.(*GetPostContentListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// PostClass_ServiceDesc is the grpc.ServiceDesc for PostClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var PostClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "content.PostClass",
+	HandlerType: (*PostClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddPost",
+			Handler:    _PostClass_AddPost_Handler,
+		},
+		{
+			MethodName: "DeletePost",
+			Handler:    _PostClass_DeletePost_Handler,
+		},
+		{
+			MethodName: "UpdatePost",
+			Handler:    _PostClass_UpdatePost_Handler,
+		},
+		{
+			MethodName: "GetPostDetail",
+			Handler:    _PostClass_GetPostDetail_Handler,
+		},
+		{
+			MethodName: "GetPostList",
+			Handler:    _PostClass_GetPostList_Handler,
+		},
+		{
+			MethodName: "AddPostContent",
+			Handler:    _PostClass_AddPostContent_Handler,
+		},
+		{
+			MethodName: "GetPostContentDetail",
+			Handler:    _PostClass_GetPostContentDetail_Handler,
+		},
+		{
+			MethodName: "GetPostContentByPostId",
+			Handler:    _PostClass_GetPostContentByPostId_Handler,
+		},
+		{
+			MethodName: "GetPostContentList",
+			Handler:    _PostClass_GetPostContentList_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/content.proto",
+}
+
+const (
+	MediaFileClass_AddMediaFile_FullMethodName          = "/content.MediaFileClass/AddMediaFile"
+	MediaFileClass_DeleteMediaFile_FullMethodName       = "/content.MediaFileClass/DeleteMediaFile"
+	MediaFileClass_GetMediaFileByContent_FullMethodName = "/content.MediaFileClass/GetMediaFileByContent"
+	MediaFileClass_GetMediaFileList_FullMethodName      = "/content.MediaFileClass/GetMediaFileList"
+)
+
+// MediaFileClassClient is the client API for MediaFileClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type MediaFileClassClient interface {
+	// group: mediaFile
+	AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: mediaFile
+	DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
+	// group: mediaFile
+	GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error)
+	// group: mediaFile
+	GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error)
+}
+
+type mediaFileClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewMediaFileClassClient(cc grpc.ClientConnInterface) MediaFileClassClient {
+	return &mediaFileClassClient{cc}
+}
+
+func (c *mediaFileClassClient) AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, MediaFileClass_AddMediaFile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaFileClassClient) DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, MediaFileClass_DeleteMediaFile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaFileClassClient) GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error) {
+	out := new(GetMediaFileByContentResp)
+	err := c.cc.Invoke(ctx, MediaFileClass_GetMediaFileByContent_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaFileClassClient) GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error) {
+	out := new(GetMediaFileListResp)
+	err := c.cc.Invoke(ctx, MediaFileClass_GetMediaFileList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MediaFileClassServer is the server API for MediaFileClass service.
+// All implementations must embed UnimplementedMediaFileClassServer
+// for forward compatibility
+type MediaFileClassServer interface {
 	// group: mediaFile
 	AddMediaFile(context.Context, *AddMediaFileReq) (*OkResp, error)
 	// group: mediaFile
@@ -375,632 +1034,132 @@ type ContentServer interface {
 	GetMediaFileByContent(context.Context, *GetMediaFileByContentReq) (*GetMediaFileByContentResp, error)
 	// group: mediaFile
 	GetMediaFileList(context.Context, *GetMediaFileListReq) (*GetMediaFileListResp, error)
-	mustEmbedUnimplementedContentServer()
+	mustEmbedUnimplementedMediaFileClassServer()
 }
 
-// UnimplementedContentServer must be embedded to have forward compatible implementations.
-type UnimplementedContentServer struct {
+// UnimplementedMediaFileClassServer must be embedded to have forward compatible implementations.
+type UnimplementedMediaFileClassServer struct {
 }
 
-func (UnimplementedContentServer) AddTopic(context.Context, *AddTopicReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddTopic not implemented")
-}
-func (UnimplementedContentServer) DeleteTopic(context.Context, *DeleteTopicReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteTopic not implemented")
-}
-func (UnimplementedContentServer) UpdateTopic(context.Context, *UpdateTopicReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTopic not implemented")
-}
-func (UnimplementedContentServer) GetTopicById(context.Context, *GetTopicByIdReq) (*GetTopicByIdResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTopicById not implemented")
-}
-func (UnimplementedContentServer) GetTopicByName(context.Context, *GetTopicByNameReq) (*GetTopicByNameResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTopicByName not implemented")
-}
-func (UnimplementedContentServer) GetTopicList(context.Context, *GetTopicListReq) (*GetTopicListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTopicList not implemented")
-}
-func (UnimplementedContentServer) AddCategory(context.Context, *AddCategoryReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddCategory not implemented")
-}
-func (UnimplementedContentServer) DeleteCategory(context.Context, *DeleteCategoryReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteCategory not implemented")
-}
-func (UnimplementedContentServer) UpdateCategory(context.Context, *UpdateCategoryReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateCategory not implemented")
-}
-func (UnimplementedContentServer) GetCategoryDetail(context.Context, *GetCategoryDetailReq) (*GetCategoryDetailResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCategoryDetail not implemented")
-}
-func (UnimplementedContentServer) GetCategoryList(context.Context, *GetCategoryListReq) (*GetCategoryListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCategoryList not implemented")
-}
-func (UnimplementedContentServer) AddPost(context.Context, *AddPostReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddPost not implemented")
-}
-func (UnimplementedContentServer) DeletePost(context.Context, *DeletePostReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeletePost not implemented")
-}
-func (UnimplementedContentServer) UpdatePost(context.Context, *UpdatePostReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePost not implemented")
-}
-func (UnimplementedContentServer) GetPostDetail(context.Context, *GetPostDetailReq) (*GetPostDetailResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostDetail not implemented")
-}
-func (UnimplementedContentServer) GetPostList(context.Context, *GetPostListReq) (*GetPostListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostList not implemented")
-}
-func (UnimplementedContentServer) AddPostContent(context.Context, *AddPostContentReq) (*OkResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddPostContent not implemented")
-}
-func (UnimplementedContentServer) GetPostContentDetail(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentDetail not implemented")
-}
-func (UnimplementedContentServer) GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentByPostId not implemented")
-}
-func (UnimplementedContentServer) GetPostContentList(context.Context, *GetPostContentListReq) (*GetPostContentListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentList not implemented")
-}
-func (UnimplementedContentServer) AddMediaFile(context.Context, *AddMediaFileReq) (*OkResp, error) {
+func (UnimplementedMediaFileClassServer) AddMediaFile(context.Context, *AddMediaFileReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddMediaFile not implemented")
 }
-func (UnimplementedContentServer) DeleteMediaFile(context.Context, *DeleteMediaFileReq) (*OkResp, error) {
+func (UnimplementedMediaFileClassServer) DeleteMediaFile(context.Context, *DeleteMediaFileReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMediaFile not implemented")
 }
-func (UnimplementedContentServer) GetMediaFileByContent(context.Context, *GetMediaFileByContentReq) (*GetMediaFileByContentResp, error) {
+func (UnimplementedMediaFileClassServer) GetMediaFileByContent(context.Context, *GetMediaFileByContentReq) (*GetMediaFileByContentResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMediaFileByContent not implemented")
 }
-func (UnimplementedContentServer) GetMediaFileList(context.Context, *GetMediaFileListReq) (*GetMediaFileListResp, error) {
+func (UnimplementedMediaFileClassServer) GetMediaFileList(context.Context, *GetMediaFileListReq) (*GetMediaFileListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMediaFileList not implemented")
 }
-func (UnimplementedContentServer) mustEmbedUnimplementedContentServer() {}
+func (UnimplementedMediaFileClassServer) mustEmbedUnimplementedMediaFileClassServer() {}
 
-// UnsafeContentServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ContentServer will
+// UnsafeMediaFileClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to MediaFileClassServer will
 // result in compilation errors.
-type UnsafeContentServer interface {
-	mustEmbedUnimplementedContentServer()
+type UnsafeMediaFileClassServer interface {
+	mustEmbedUnimplementedMediaFileClassServer()
 }
 
-func RegisterContentServer(s grpc.ServiceRegistrar, srv ContentServer) {
-	s.RegisterService(&Content_ServiceDesc, srv)
+func RegisterMediaFileClassServer(s grpc.ServiceRegistrar, srv MediaFileClassServer) {
+	s.RegisterService(&MediaFileClass_ServiceDesc, srv)
 }
 
-func _Content_AddTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddTopicReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).AddTopic(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_AddTopic_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).AddTopic(ctx, req.(*AddTopicReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_DeleteTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTopicReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).DeleteTopic(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_DeleteTopic_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).DeleteTopic(ctx, req.(*DeleteTopicReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_UpdateTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateTopicReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).UpdateTopic(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_UpdateTopic_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).UpdateTopic(ctx, req.(*UpdateTopicReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetTopicById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTopicByIdReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetTopicById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetTopicById_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetTopicById(ctx, req.(*GetTopicByIdReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetTopicByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTopicByNameReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetTopicByName(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetTopicByName_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetTopicByName(ctx, req.(*GetTopicByNameReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetTopicList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTopicListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetTopicList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetTopicList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetTopicList(ctx, req.(*GetTopicListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_AddCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddCategoryReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).AddCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_AddCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).AddCategory(ctx, req.(*AddCategoryReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_DeleteCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteCategoryReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).DeleteCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_DeleteCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).DeleteCategory(ctx, req.(*DeleteCategoryReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_UpdateCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateCategoryReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).UpdateCategory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_UpdateCategory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).UpdateCategory(ctx, req.(*UpdateCategoryReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetCategoryDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCategoryDetailReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetCategoryDetail(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetCategoryDetail_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetCategoryDetail(ctx, req.(*GetCategoryDetailReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetCategoryList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCategoryListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetCategoryList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetCategoryList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetCategoryList(ctx, req.(*GetCategoryListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_AddPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddPostReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).AddPost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_AddPost_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).AddPost(ctx, req.(*AddPostReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_DeletePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeletePostReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).DeletePost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_DeletePost_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).DeletePost(ctx, req.(*DeletePostReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_UpdatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdatePostReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).UpdatePost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_UpdatePost_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).UpdatePost(ctx, req.(*UpdatePostReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetPostDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostDetailReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetPostDetail(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetPostDetail_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetPostDetail(ctx, req.(*GetPostDetailReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetPostList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetPostList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetPostList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetPostList(ctx, req.(*GetPostListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_AddPostContent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddPostContentReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).AddPostContent(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_AddPostContent_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).AddPostContent(ctx, req.(*AddPostContentReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetPostContentDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostContentDetailReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetPostContentDetail(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetPostContentDetail_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetPostContentDetail(ctx, req.(*GetPostContentDetailReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetPostContentByPostId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostContentDetailReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetPostContentByPostId(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetPostContentByPostId_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetPostContentByPostId(ctx, req.(*GetPostContentDetailReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_GetPostContentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostContentListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ContentServer).GetPostContentList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Content_GetPostContentList_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetPostContentList(ctx, req.(*GetPostContentListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Content_AddMediaFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MediaFileClass_AddMediaFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddMediaFileReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServer).AddMediaFile(ctx, in)
+		return srv.(MediaFileClassServer).AddMediaFile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Content_AddMediaFile_FullMethodName,
+		FullMethod: MediaFileClass_AddMediaFile_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).AddMediaFile(ctx, req.(*AddMediaFileReq))
+		return srv.(MediaFileClassServer).AddMediaFile(ctx, req.(*AddMediaFileReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Content_DeleteMediaFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MediaFileClass_DeleteMediaFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteMediaFileReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServer).DeleteMediaFile(ctx, in)
+		return srv.(MediaFileClassServer).DeleteMediaFile(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Content_DeleteMediaFile_FullMethodName,
+		FullMethod: MediaFileClass_DeleteMediaFile_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).DeleteMediaFile(ctx, req.(*DeleteMediaFileReq))
+		return srv.(MediaFileClassServer).DeleteMediaFile(ctx, req.(*DeleteMediaFileReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Content_GetMediaFileByContent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MediaFileClass_GetMediaFileByContent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetMediaFileByContentReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServer).GetMediaFileByContent(ctx, in)
+		return srv.(MediaFileClassServer).GetMediaFileByContent(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Content_GetMediaFileByContent_FullMethodName,
+		FullMethod: MediaFileClass_GetMediaFileByContent_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetMediaFileByContent(ctx, req.(*GetMediaFileByContentReq))
+		return srv.(MediaFileClassServer).GetMediaFileByContent(ctx, req.(*GetMediaFileByContentReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Content_GetMediaFileList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MediaFileClass_GetMediaFileList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetMediaFileListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContentServer).GetMediaFileList(ctx, in)
+		return srv.(MediaFileClassServer).GetMediaFileList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Content_GetMediaFileList_FullMethodName,
+		FullMethod: MediaFileClass_GetMediaFileList_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContentServer).GetMediaFileList(ctx, req.(*GetMediaFileListReq))
+		return srv.(MediaFileClassServer).GetMediaFileList(ctx, req.(*GetMediaFileListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Content_ServiceDesc is the grpc.ServiceDesc for Content service.
+// MediaFileClass_ServiceDesc is the grpc.ServiceDesc for MediaFileClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Content_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "content.Content",
-	HandlerType: (*ContentServer)(nil),
+var MediaFileClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "content.MediaFileClass",
+	HandlerType: (*MediaFileClassServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "AddTopic",
-			Handler:    _Content_AddTopic_Handler,
-		},
-		{
-			MethodName: "DeleteTopic",
-			Handler:    _Content_DeleteTopic_Handler,
-		},
-		{
-			MethodName: "UpdateTopic",
-			Handler:    _Content_UpdateTopic_Handler,
-		},
-		{
-			MethodName: "GetTopicById",
-			Handler:    _Content_GetTopicById_Handler,
-		},
-		{
-			MethodName: "GetTopicByName",
-			Handler:    _Content_GetTopicByName_Handler,
-		},
-		{
-			MethodName: "GetTopicList",
-			Handler:    _Content_GetTopicList_Handler,
-		},
-		{
-			MethodName: "AddCategory",
-			Handler:    _Content_AddCategory_Handler,
-		},
-		{
-			MethodName: "DeleteCategory",
-			Handler:    _Content_DeleteCategory_Handler,
-		},
-		{
-			MethodName: "UpdateCategory",
-			Handler:    _Content_UpdateCategory_Handler,
-		},
-		{
-			MethodName: "GetCategoryDetail",
-			Handler:    _Content_GetCategoryDetail_Handler,
-		},
-		{
-			MethodName: "GetCategoryList",
-			Handler:    _Content_GetCategoryList_Handler,
-		},
-		{
-			MethodName: "AddPost",
-			Handler:    _Content_AddPost_Handler,
-		},
-		{
-			MethodName: "DeletePost",
-			Handler:    _Content_DeletePost_Handler,
-		},
-		{
-			MethodName: "UpdatePost",
-			Handler:    _Content_UpdatePost_Handler,
-		},
-		{
-			MethodName: "GetPostDetail",
-			Handler:    _Content_GetPostDetail_Handler,
-		},
-		{
-			MethodName: "GetPostList",
-			Handler:    _Content_GetPostList_Handler,
-		},
-		{
-			MethodName: "AddPostContent",
-			Handler:    _Content_AddPostContent_Handler,
-		},
-		{
-			MethodName: "GetPostContentDetail",
-			Handler:    _Content_GetPostContentDetail_Handler,
-		},
-		{
-			MethodName: "GetPostContentByPostId",
-			Handler:    _Content_GetPostContentByPostId_Handler,
-		},
-		{
-			MethodName: "GetPostContentList",
-			Handler:    _Content_GetPostContentList_Handler,
-		},
-		{
 			MethodName: "AddMediaFile",
-			Handler:    _Content_AddMediaFile_Handler,
+			Handler:    _MediaFileClass_AddMediaFile_Handler,
 		},
 		{
 			MethodName: "DeleteMediaFile",
-			Handler:    _Content_DeleteMediaFile_Handler,
+			Handler:    _MediaFileClass_DeleteMediaFile_Handler,
 		},
 		{
 			MethodName: "GetMediaFileByContent",
-			Handler:    _Content_GetMediaFileByContent_Handler,
+			Handler:    _MediaFileClass_GetMediaFileByContent_Handler,
 		},
 		{
 			MethodName: "GetMediaFileList",
-			Handler:    _Content_GetMediaFileList_Handler,
+			Handler:    _MediaFileClass_GetMediaFileList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +29,7 @@ func (l *UpdateTopicLogic) UpdateTopic(req *types.UpdateTopicReq) error {
 	// todo: add your logic here and delete this line
 	var oldImage string
 	if req.Bg != "" {
-		topicResp, err := l.svcCtx.ContentRpc.GetTopicById(l.ctx, &content_client.GetTopicByIdReq{
+		topicResp, err := l.svcCtx.TopicRpc.GetTopicById(l.ctx, &content.GetTopicByIdReq{
 			Id: req.Id,
 		})
 		if err != nil {
@@ -37,7 +37,7 @@ func (l *UpdateTopicLogic) UpdateTopic(req *types.UpdateTopicReq) error {
 		}
 		oldImage = topicResp.Topic.Bg
 	}
-	_, err := l.svcCtx.ContentRpc.UpdateTopic(l.ctx, &content_client.UpdateTopicReq{
+	_, err := l.svcCtx.TopicRpc.UpdateTopic(l.ctx, &content.UpdateTopicReq{
 		Id:          req.Id,
 		Bg:          req.Bg,
 		Description: req.Description,

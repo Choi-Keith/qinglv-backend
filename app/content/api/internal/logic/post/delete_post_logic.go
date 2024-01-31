@@ -7,7 +7,7 @@ import (
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -33,7 +33,7 @@ func (l *DeletePostLogic) DeletePost(req *types.DeletePostReq) error {
 		return err
 	}
 	roleId, _ := l.ctx.Value("roleId").(json.Number).Int64()
-	postResp, err := l.svcCtx.ContentRpc.GetPostDetail(l.ctx, &content_client.GetPostDetailReq{
+	postResp, err := l.svcCtx.PostRpc.GetPostDetail(l.ctx, &content.GetPostDetailReq{
 		Id: req.Id,
 	})
 	if err != nil {
@@ -42,10 +42,10 @@ func (l *DeletePostLogic) DeletePost(req *types.DeletePostReq) error {
 	if userId != int64(postResp.Post.CreatorId) && roleId > 2 {
 		return errors.New("没有权限删除")
 	}
-	postContentResp, err := l.svcCtx.ContentRpc.GetPostContentByPostId(l.ctx, &content_client.GetPostContentDetailReq{
+	postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
 		Id: postResp.Post.Id,
 	})
-	_, err = l.svcCtx.ContentRpc.DeletePost(l.ctx, &content_client.DeletePostReq{
+	_, err = l.svcCtx.PostRpc.DeletePost(l.ctx, &content.DeletePostReq{
 		Id:            req.Id,
 		PostContentId: postContentResp.PostContent.Id,
 	})

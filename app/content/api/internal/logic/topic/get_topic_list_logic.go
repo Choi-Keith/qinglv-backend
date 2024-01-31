@@ -6,7 +6,6 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/user/rpc/user_client"
 
 	"github.com/jinzhu/copier"
@@ -41,7 +40,7 @@ func (l *GetTopicListLogic) GetTopicList(req *types.GetTopicListReq) (resp *type
 		}
 		userId = userResp.User.Id
 	}
-	topicListResp, err := l.svcCtx.ContentRpc.GetTopicList(l.ctx, &content_client.GetTopicListReq{
+	topicListResp, err := l.svcCtx.TopicRpc.GetTopicList(l.ctx, &content.GetTopicListReq{
 		Name:      req.Name,
 		CreatorId: userId,
 		Sort:      req.Sort,

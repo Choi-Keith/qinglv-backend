@@ -8,7 +8,6 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/jwtx"
 
@@ -48,7 +47,7 @@ func (l *GetUserPostListLogic) GetUserPostList(req *types.GetUserPostListReq, r 
 		// TODO：如果是朋友，则需要再处理
 	}
 
-	postListResp, err := l.svcCtx.ContentRpc.GetPostList(l.ctx, &content_client.GetPostListReq{
+	postListResp, err := l.svcCtx.PostRpc.GetPostList(l.ctx, &content.GetPostListReq{
 		CreatorId:  req.UserId,
 		Sort:       req.Sort,
 		Visibility: args,
@@ -63,7 +62,7 @@ func (l *GetUserPostListLogic) GetUserPostList(req *types.GetUserPostListReq, r 
 			source <- *postItem
 		}
 	}, func(item content.PostItem, writer mr.Writer[types.PostItem], cancel func(error)) {
-		postContentResp, err := l.svcCtx.ContentRpc.GetPostContentByPostId(l.ctx, &content_client.GetPostContentDetailReq{
+		postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
 			Id: item.Id,
 		})
 		if err != nil {
@@ -74,7 +73,7 @@ func (l *GetUserPostListLogic) GetUserPostList(req *types.GetUserPostListReq, r 
 		_ = copier.Copy(&postItem, &item)
 		var categoryItem types.PostCategory
 		if postContentResp.PostContent.CategoryId != 0 {
-			categoryResp, err := l.svcCtx.ContentRpc.GetCategoryDetail(l.ctx, &content_client.GetCategoryDetailReq{
+			categoryResp, err := l.svcCtx.CategoryRpc.GetCategoryDetail(l.ctx, &content.GetCategoryDetailReq{
 				Id: postContentResp.PostContent.CategoryId,
 			})
 			if err != nil {

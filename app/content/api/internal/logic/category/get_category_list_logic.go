@@ -6,7 +6,6 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/user/rpc/user_client"
 
 	"github.com/jinzhu/copier"
@@ -42,7 +41,7 @@ func (l *GetCategoryListLogic) GetCategoryList(req *types.GetCategoryListReq) (r
 			creatorId = userResp.User.Id
 		}
 	}
-	categoryListResp, err := l.svcCtx.ContentRpc.GetCategoryList(l.ctx, &content_client.GetCategoryListReq{
+	categoryListResp, err := l.svcCtx.CategoryRpc.GetCategoryList(l.ctx, &content.GetCategoryListReq{
 		CreatorId:  creatorId,
 		Name:       req.Name,
 		QuoteCount: req.QuoteCount,

@@ -8,7 +8,7 @@ import (
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -39,7 +39,7 @@ func (l *RemoveImagesLogic) RemoveImages(req *types.RemoveImagesReq) error {
 	}
 	if len(req.Images) != 0 {
 		for _, image := range req.Images {
-			mediaResp, err := l.svcCtx.ContentRpc.GetMediaFileByContent(l.ctx, &content_client.GetMediaFileByContentReq{
+			mediaResp, err := l.svcCtx.MediaFileRpc.GetMediaFileByContent(l.ctx, &content.GetMediaFileByContentReq{
 				Content: image,
 			})
 			if err != nil {
@@ -48,7 +48,7 @@ func (l *RemoveImagesLogic) RemoveImages(req *types.RemoveImagesReq) error {
 			if userId != int64(mediaResp.File.CreatorId) && roleId > 2 {
 				return errors.New("没有权限删除")
 			}
-			_, err = l.svcCtx.ContentRpc.DeleteMediaFile(l.ctx, &content_client.DeleteMediaFileReq{
+			_, err = l.svcCtx.MediaFileRpc.DeleteMediaFile(l.ctx, &content.DeleteMediaFileReq{
 				Id: mediaResp.File.Id,
 			})
 			if err != nil {

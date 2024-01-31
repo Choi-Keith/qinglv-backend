@@ -4,7 +4,10 @@ import (
 	"net/http"
 	"net/url"
 	"qinglv-backend/app/content/api/internal/config"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/client/categoryclass"
+	"qinglv-backend/app/content/rpc/client/mediafileclass"
+	"qinglv-backend/app/content/rpc/client/postclass"
+	"qinglv-backend/app/content/rpc/client/topicclass"
 	"qinglv-backend/app/user/rpc/user_client"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
@@ -12,10 +15,13 @@ import (
 )
 
 type ServiceContext struct {
-	Config     config.Config
-	ContentRpc content_client.Content
-	UserRpc    user_client.User
-	CosClient  *cos.Client
+	Config       config.Config
+	CategoryRpc  categoryclass.CategoryClass
+	MediaFileRpc mediafileclass.MediaFileClass
+	PostRpc      postclass.PostClass
+	TopicRpc     topicclass.TopicClass
+	UserRpc      user_client.User
+	CosClient    *cos.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -29,9 +35,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		},
 	})
 	return &ServiceContext{
-		Config:     c,
-		ContentRpc: content_client.NewContent(zrpc.MustNewClient(c.ContentRpc)),
-		UserRpc:    user_client.NewUser(zrpc.MustNewClient(c.UserRpc)),
-		CosClient:  client,
+		Config:       c,
+		CategoryRpc:  categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
+		MediaFileRpc: mediafileclass.NewMediaFileClass(zrpc.MustNewClient(c.ContentRpc)),
+		PostRpc:      postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
+		TopicRpc:     topicclass.NewTopicClass(zrpc.MustNewClient(c.ContentRpc)),
+		UserRpc:      user_client.NewUser(zrpc.MustNewClient(c.UserRpc)),
+		CosClient:    client,
 	}
 }

@@ -6,7 +6,10 @@ import (
 
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/internal/config"
-	"qinglv-backend/app/content/rpc/internal/server"
+	categoryclassServer "qinglv-backend/app/content/rpc/internal/server/categoryclass"
+	mediafileclassServer "qinglv-backend/app/content/rpc/internal/server/mediafileclass"
+	postclassServer "qinglv-backend/app/content/rpc/internal/server/postclass"
+	topicclassServer "qinglv-backend/app/content/rpc/internal/server/topicclass"
 	"qinglv-backend/app/content/rpc/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -28,13 +31,15 @@ func main() {
 		Level: "debug",
 	}
 	logx.MustSetup(logConf)
-
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		content.RegisterContentServer(grpcServer, server.NewContentServer(ctx))
+		content.RegisterTopicClassServer(grpcServer, topicclassServer.NewTopicClassServer(ctx))
+		content.RegisterCategoryClassServer(grpcServer, categoryclassServer.NewCategoryClassServer(ctx))
+		content.RegisterPostClassServer(grpcServer, postclassServer.NewPostClassServer(ctx))
+		content.RegisterMediaFileClassServer(grpcServer, mediafileclassServer.NewMediaFileClassServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

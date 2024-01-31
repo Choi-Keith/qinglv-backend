@@ -6,7 +6,7 @@ import (
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -33,7 +33,7 @@ func (l *AddTopicLogic) AddTopic(req *types.AddTopicReq) error {
 		return err
 	}
 	id := snowflake.MustID()
-	_, err = l.svcCtx.ContentRpc.AddTopic(l.ctx, &content_client.AddTopicReq{
+	_, err = l.svcCtx.TopicRpc.AddTopic(l.ctx, &content.AddTopicReq{
 		Id:          id,
 		CreatorId:   uint64(userId),
 		Name:        req.Name,

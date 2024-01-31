@@ -9,7 +9,6 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/content/rpc/content_client"
 	"qinglv-backend/app/user/rpc/user_client"
 	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/jwtx"
@@ -50,7 +49,7 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 		}
 	}
 	args := []int32{globalKey.PostVisitPublic}
-	postListResp, err := l.svcCtx.ContentRpc.GetPostList(l.ctx, &content_client.GetPostListReq{
+	postListResp, err := l.svcCtx.PostRpc.GetPostList(l.ctx, &content.GetPostListReq{
 		Status:     int32(req.Status),
 		Visibility: args,
 		Score:      req.Score,
@@ -67,7 +66,7 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 			source <- *postItem
 		}
 	}, func(item content.PostItem, writer mr.Writer[types.PostItem], cancel func(error)) {
-		postContentResp, err := l.svcCtx.ContentRpc.GetPostContentByPostId(l.ctx, &content_client.GetPostContentDetailReq{
+		postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
 			Id: item.Id,
 		})
 		if err != nil {
@@ -108,7 +107,7 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 		}
 		var categoryItem types.PostCategory
 		if postContentResp.PostContent.CategoryId != 0 {
-			categoryResp, err := l.svcCtx.ContentRpc.GetCategoryDetail(l.ctx, &content_client.GetCategoryDetailReq{
+			categoryResp, err := l.svcCtx.CategoryRpc.GetCategoryDetail(l.ctx, &content.GetCategoryDetailReq{
 				Id: postContentResp.PostContent.CategoryId,
 			})
 			if err != nil {

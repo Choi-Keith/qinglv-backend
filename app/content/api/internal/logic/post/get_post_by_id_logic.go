@@ -7,7 +7,7 @@ import (
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/user/rpc/user_client"
 	"qinglv-backend/pkg/jwtx"
 
@@ -33,14 +33,14 @@ func NewGetPostByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext, r *htt
 
 func (l *GetPostByIdLogic) GetPostById(req *types.GetPostByIdReq, r *http.Request) (resp *types.GetPostByIdResp, err error) {
 	// todo: add your logic here and delete this line
-	postResp, err := l.svcCtx.ContentRpc.GetPostDetail(l.ctx, &content_client.GetPostDetailReq{
+	postResp, err := l.svcCtx.PostRpc.GetPostDetail(l.ctx, &content.GetPostDetailReq{
 		Id: req.Id,
 	})
 	if err != nil {
 		logx.Errorf("[Post] GetPostDetail failed: %+v\n", err)
 		return nil, err
 	}
-	postContentResp, err := l.svcCtx.ContentRpc.GetPostContentByPostId(l.ctx, &content_client.GetPostContentDetailReq{
+	postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
 		Id: postResp.Post.Id,
 	})
 	if err != nil {
@@ -80,7 +80,7 @@ func (l *GetPostByIdLogic) GetPostById(req *types.GetPostByIdReq, r *http.Reques
 	}
 	var categoryItem types.PostCategory
 	if postContentResp.PostContent.CategoryId != 0 {
-		categoryResp, err := l.svcCtx.ContentRpc.GetCategoryDetail(l.ctx, &content_client.GetCategoryDetailReq{
+		categoryResp, err := l.svcCtx.CategoryRpc.GetCategoryDetail(l.ctx, &content.GetCategoryDetailReq{
 			Id: postContentResp.PostContent.CategoryId,
 		})
 		if err != nil {

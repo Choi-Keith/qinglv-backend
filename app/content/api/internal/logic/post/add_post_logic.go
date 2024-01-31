@@ -8,7 +8,7 @@ import (
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
-	"qinglv-backend/app/content/rpc/content_client"
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
 
@@ -39,7 +39,7 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 		return err
 	}
 	if req.CategoryId != 0 {
-		if _, err := l.svcCtx.ContentRpc.GetCategoryDetail(l.ctx, &content_client.GetCategoryDetailReq{
+		if _, err := l.svcCtx.CategoryRpc.GetCategoryDetail(l.ctx, &content.GetCategoryDetailReq{
 			Id: req.CategoryId,
 		}); err != nil {
 			return err
@@ -58,7 +58,7 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 	}
 	logx.Debugf("[Post] AddPost loc: %+v\n", loc)
 	location := loc.Province
-	_, err = l.svcCtx.ContentRpc.AddPost(l.ctx, &content_client.AddPostReq{
+	_, err = l.svcCtx.PostRpc.AddPost(l.ctx, &content.AddPostReq{
 		Id:         id,
 		CreatorId:  uint64(userId),
 		Location:   location,
@@ -71,7 +71,7 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 	}
 	topics := strings.Join(req.Topics, ",")
 	contentId := snowflake.MustID()
-	_, err = l.svcCtx.ContentRpc.AddPostContent(l.ctx, &content_client.AddPostContentReq{
+	_, err = l.svcCtx.PostRpc.AddPostContent(l.ctx, &content.AddPostContentReq{
 		Id:         contentId,
 		PostId:     id,
 		CategoryId: req.CategoryId,
@@ -88,11 +88,11 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 
 func (l *AddPostLogic) checkAndCreateTopic(req *types.AddPostReq, userId uint64) error {
 	for _, topic := range req.Topics {
-		if _, err := l.svcCtx.ContentRpc.GetTopicByName(l.ctx, &content_client.GetTopicByNameReq{
+		if _, err := l.svcCtx.TopicRpc.GetTopicByName(l.ctx, &content.GetTopicByNameReq{
 			Name: topic,
 		}); err != nil {
 			topicId := snowflake.MustID()
-			_, err := l.svcCtx.ContentRpc.AddTopic(l.ctx, &content_client.AddTopicReq{
+			_, err := l.svcCtx.TopicRpc.AddTopic(l.ctx, &content.AddTopicReq{
 				Id:          topicId,
 				CreatorId:   uint64(userId),
 				Name:        topic,

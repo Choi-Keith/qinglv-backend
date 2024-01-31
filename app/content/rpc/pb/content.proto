@@ -64,6 +64,20 @@ message GetTopicListResp {
     repeated TopicItem data = 1;
     uint64 total = 2;
 }
+service TopicClass {
+    // group: topic
+    rpc AddTopic(AddTopicReq) returns(OkResp);
+    // group: topic
+    rpc DeleteTopic(DeleteTopicReq) returns(OkResp);
+    // group: topic
+    rpc UpdateTopic(UpdateTopicReq) returns(OkResp);
+    // group: topic
+    rpc GetTopicById(GetTopicByIdReq) returns(GetTopicByIdResp);
+    // group: topic
+    rpc GetTopicByName(GetTopicByNameReq) returns(GetTopicByNameResp);
+    // group: topic
+    rpc GetTopicList(GetTopicListReq) returns(GetTopicListResp);
+}
 
 
 //==========================Category==========================
@@ -111,6 +125,18 @@ message GetCategoryListReq {
 message GetCategoryListResp {
     repeated CategoryItem data = 1;
     uint64 total = 2;
+}
+service CategoryClass {
+    // group: category
+    rpc AddCategory(AddCategoryReq) returns(OkResp);
+    // group: category
+    rpc DeleteCategory(DeleteCategoryReq) returns(OkResp);
+    // group: category
+    rpc UpdateCategory(UpdateCategoryReq) returns(OkResp);
+    // group: category
+    rpc GetCategoryDetail(GetCategoryDetailReq) returns(GetCategoryDetailResp);
+    // group: category
+    rpc GetCategoryList(GetCategoryListReq) returns(GetCategoryListResp);
 }
 
 //==========================Post==========================
@@ -178,6 +204,26 @@ message GetPostListReq {
 message GetPostListResp {
     repeated PostItem data = 1;
     uint64 total = 2;
+}
+service PostClass {
+    // group: post
+    rpc AddPost(AddPostReq) returns(OkResp);
+    // group: post
+    rpc DeletePost(DeletePostReq) returns(OkResp);
+    // group: post
+    rpc UpdatePost(UpdatePostReq) returns(OkResp);
+    // group: post
+    rpc GetPostDetail(GetPostDetailReq) returns(GetPostDetailResp);
+    // group: post
+    rpc GetPostList(GetPostListReq) returns(GetPostListResp);
+    // group: postContent
+    rpc AddPostContent(AddPostContentReq) returns(OkResp);
+    // group: postContent
+    rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
+    // group: postContent
+    rpc GetPostContentByPostId(GetPostContentDetailReq) returns(GetPostContentDetailResp);
+    // group: postContent
+    rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
 }
 
 
@@ -259,51 +305,7 @@ message GetMediaFileListResp {
     uint64 total = 2;
 }
 
-service Content {
-    // group: topic
-    rpc AddTopic(AddTopicReq) returns(OkResp);
-    // group: topic
-    rpc DeleteTopic(DeleteTopicReq) returns(OkResp);
-    // group: topic
-    rpc UpdateTopic(UpdateTopicReq) returns(OkResp);
-    // group: topic
-    rpc GetTopicById(GetTopicByIdReq) returns(GetTopicByIdResp);
-    // group: topic
-    rpc GetTopicByName(GetTopicByNameReq) returns(GetTopicByNameResp);
-    // group: topic
-    rpc GetTopicList(GetTopicListReq) returns(GetTopicListResp);
-
-    // group: category
-    rpc AddCategory(AddCategoryReq) returns(OkResp);
-    // group: category
-    rpc DeleteCategory(DeleteCategoryReq) returns(OkResp);
-    // group: category
-    rpc UpdateCategory(UpdateCategoryReq) returns(OkResp);
-    // group: category
-    rpc GetCategoryDetail(GetCategoryDetailReq) returns(GetCategoryDetailResp);
-    // group: category
-    rpc GetCategoryList(GetCategoryListReq) returns(GetCategoryListResp);
-
-    // group: post
-    rpc AddPost(AddPostReq) returns(OkResp);
-    // group: post
-    rpc DeletePost(DeletePostReq) returns(OkResp);
-    // group: post
-    rpc UpdatePost(UpdatePostReq) returns(OkResp);
-    // group: post
-    rpc GetPostDetail(GetPostDetailReq) returns(GetPostDetailResp);
-    // group: post
-    rpc GetPostList(GetPostListReq) returns(GetPostListResp);
-
-    // group: postContent
-    rpc AddPostContent(AddPostContentReq) returns(OkResp);
-    // group: postContent
-    rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
-    // group: postContent
-    rpc GetPostContentByPostId(GetPostContentDetailReq) returns(GetPostContentDetailResp);
-    // group: postContent
-    rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
-
+service MediaFileClass {
     // group: mediaFile
     rpc AddMediaFile(AddMediaFileReq) returns(OkResp);
     // group: mediaFile
