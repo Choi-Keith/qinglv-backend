@@ -4,6 +4,7 @@ import (
 	"qinglv-backend/app/operation/rpc/internal/config"
 	"qinglv-backend/app/operation/rpc/internal/model/collection"
 	"qinglv-backend/app/operation/rpc/internal/model/collection_group"
+	"qinglv-backend/app/operation/rpc/internal/model/comment"
 	"qinglv-backend/app/operation/rpc/internal/model/share"
 	"qinglv-backend/app/operation/rpc/internal/model/thumb"
 
@@ -16,6 +17,8 @@ type ServiceContext struct {
 	CollectionModel       collection.CollectionModel
 	CollectionGroupModel  collection_group.CollectionGroupModel
 	PostShareModel        share.PostShareModel
+	PostCommentModel      comment.PostCommentModel
+	PostCommentReplyModel comment.PostCommentReplyModel
 	PostCommentThumbModel thumb.PostCommentThumbModel
 	PostThumbModel        thumb.PostThumbModel
 	RedisClient           *redis.Redis
@@ -30,6 +33,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PostShareModel:        share.NewPostShareModel(sqlConn, c.Cache),
 		PostCommentThumbModel: thumb.NewPostCommentThumbModel(sqlConn, c.Cache),
 		PostThumbModel:        thumb.NewPostThumbModel(sqlConn, c.Cache),
+		PostCommentModel:      comment.NewPostCommentModel(sqlConn, c.Cache),
+		PostCommentReplyModel: comment.NewPostCommentReplyModel(sqlConn, c.Cache),
 		RedisClient: redis.New(c.Redis.Host, func(r *redis.Redis) {
 			r.Pass = c.Redis.Pass
 			r.Type = c.Redis.Type

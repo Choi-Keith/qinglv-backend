@@ -843,9 +843,11 @@ var ThumbClass_ServiceDesc = grpc.ServiceDesc{
 const (
 	CommentClass_AddComment_FullMethodName          = "/operation.CommentClass/AddComment"
 	CommentClass_DeleteComment_FullMethodName       = "/operation.CommentClass/DeleteComment"
+	CommentClass_GetCommentById_FullMethodName      = "/operation.CommentClass/GetCommentById"
+	CommentClass_GetCommentList_FullMethodName      = "/operation.CommentClass/GetCommentList"
 	CommentClass_AddCommentReply_FullMethodName     = "/operation.CommentClass/AddCommentReply"
 	CommentClass_DeleteCommentReply_FullMethodName  = "/operation.CommentClass/DeleteCommentReply"
-	CommentClass_GetCommentList_FullMethodName      = "/operation.CommentClass/GetCommentList"
+	CommentClass_GetCommentReplyById_FullMethodName = "/operation.CommentClass/GetCommentReplyById"
 	CommentClass_GetCommentReplyList_FullMethodName = "/operation.CommentClass/GetCommentReplyList"
 )
 
@@ -858,11 +860,15 @@ type CommentClassClient interface {
 	// group: Comment
 	DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: Comment
+	GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error)
+	// group: Comment
+	GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
+	// group: Comment
 	AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: Comment
 	DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: Comment
-	GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
+	GetCommentReplyById(ctx context.Context, in *GetCommentReplyByIdReq, opts ...grpc.CallOption) (*GetCommentReplyByIdResp, error)
 	// group: Comment
 	GetCommentReplyList(ctx context.Context, in *GetCommentReplyListReq, opts ...grpc.CallOption) (*GetCommentReplyListResp, error)
 }
@@ -893,6 +899,24 @@ func (c *commentClassClient) DeleteComment(ctx context.Context, in *DeleteCommen
 	return out, nil
 }
 
+func (c *commentClassClient) GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error) {
+	out := new(GetCommentByIdResp)
+	err := c.cc.Invoke(ctx, CommentClass_GetCommentById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentClassClient) GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error) {
+	out := new(GetCommentListResp)
+	err := c.cc.Invoke(ctx, CommentClass_GetCommentList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *commentClassClient) AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
 	err := c.cc.Invoke(ctx, CommentClass_AddCommentReply_FullMethodName, in, out, opts...)
@@ -911,9 +935,9 @@ func (c *commentClassClient) DeleteCommentReply(ctx context.Context, in *DeleteC
 	return out, nil
 }
 
-func (c *commentClassClient) GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error) {
-	out := new(GetCommentListResp)
-	err := c.cc.Invoke(ctx, CommentClass_GetCommentList_FullMethodName, in, out, opts...)
+func (c *commentClassClient) GetCommentReplyById(ctx context.Context, in *GetCommentReplyByIdReq, opts ...grpc.CallOption) (*GetCommentReplyByIdResp, error) {
+	out := new(GetCommentReplyByIdResp)
+	err := c.cc.Invoke(ctx, CommentClass_GetCommentReplyById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -938,11 +962,15 @@ type CommentClassServer interface {
 	// group: Comment
 	DeleteComment(context.Context, *DeleteCommentReq) (*OkResp, error)
 	// group: Comment
+	GetCommentById(context.Context, *GetCommentByIdReq) (*GetCommentByIdResp, error)
+	// group: Comment
+	GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error)
+	// group: Comment
 	AddCommentReply(context.Context, *AddCommentReplyReq) (*OkResp, error)
 	// group: Comment
 	DeleteCommentReply(context.Context, *DeleteCommentReplyReq) (*OkResp, error)
 	// group: Comment
-	GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error)
+	GetCommentReplyById(context.Context, *GetCommentReplyByIdReq) (*GetCommentReplyByIdResp, error)
 	// group: Comment
 	GetCommentReplyList(context.Context, *GetCommentReplyListReq) (*GetCommentReplyListResp, error)
 	mustEmbedUnimplementedCommentClassServer()
@@ -958,14 +986,20 @@ func (UnimplementedCommentClassServer) AddComment(context.Context, *AddCommentRe
 func (UnimplementedCommentClassServer) DeleteComment(context.Context, *DeleteCommentReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteComment not implemented")
 }
+func (UnimplementedCommentClassServer) GetCommentById(context.Context, *GetCommentByIdReq) (*GetCommentByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCommentById not implemented")
+}
+func (UnimplementedCommentClassServer) GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCommentList not implemented")
+}
 func (UnimplementedCommentClassServer) AddCommentReply(context.Context, *AddCommentReplyReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddCommentReply not implemented")
 }
 func (UnimplementedCommentClassServer) DeleteCommentReply(context.Context, *DeleteCommentReplyReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCommentReply not implemented")
 }
-func (UnimplementedCommentClassServer) GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCommentList not implemented")
+func (UnimplementedCommentClassServer) GetCommentReplyById(context.Context, *GetCommentReplyByIdReq) (*GetCommentReplyByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCommentReplyById not implemented")
 }
 func (UnimplementedCommentClassServer) GetCommentReplyList(context.Context, *GetCommentReplyListReq) (*GetCommentReplyListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCommentReplyList not implemented")
@@ -1019,6 +1053,42 @@ func _CommentClass_DeleteComment_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CommentClass_GetCommentById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCommentByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).GetCommentById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_GetCommentById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).GetCommentById(ctx, req.(*GetCommentByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentClass_GetCommentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCommentListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).GetCommentList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_GetCommentList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).GetCommentList(ctx, req.(*GetCommentListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CommentClass_AddCommentReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddCommentReplyReq)
 	if err := dec(in); err != nil {
@@ -1055,20 +1125,20 @@ func _CommentClass_DeleteCommentReply_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommentClass_GetCommentList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCommentListReq)
+func _CommentClass_GetCommentReplyById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCommentReplyByIdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommentClassServer).GetCommentList(ctx, in)
+		return srv.(CommentClassServer).GetCommentReplyById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CommentClass_GetCommentList_FullMethodName,
+		FullMethod: CommentClass_GetCommentReplyById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommentClassServer).GetCommentList(ctx, req.(*GetCommentListReq))
+		return srv.(CommentClassServer).GetCommentReplyById(ctx, req.(*GetCommentReplyByIdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1107,6 +1177,14 @@ var CommentClass_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CommentClass_DeleteComment_Handler,
 		},
 		{
+			MethodName: "GetCommentById",
+			Handler:    _CommentClass_GetCommentById_Handler,
+		},
+		{
+			MethodName: "GetCommentList",
+			Handler:    _CommentClass_GetCommentList_Handler,
+		},
+		{
 			MethodName: "AddCommentReply",
 			Handler:    _CommentClass_AddCommentReply_Handler,
 		},
@@ -1115,8 +1193,8 @@ var CommentClass_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CommentClass_DeleteCommentReply_Handler,
 		},
 		{
-			MethodName: "GetCommentList",
-			Handler:    _CommentClass_GetCommentList_Handler,
+			MethodName: "GetCommentReplyById",
+			Handler:    _CommentClass_GetCommentReplyById_Handler,
 		},
 		{
 			MethodName: "GetCommentReplyList",

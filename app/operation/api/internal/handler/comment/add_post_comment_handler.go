@@ -3,26 +3,28 @@ package comment
 import (
 	"net/http"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"qinglv-backend/app/operation/api/internal/logic/comment"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
+	"qinglv-backend/common/response"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func AddPostCommentHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.AddPostCommentReq
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.ParamsFail(w, err)
 			return
 		}
 
-		l := comment.NewAddPostCommentLogic(r.Context(), svcCtx)
+		l := comment.NewAddPostCommentLogic(r.Context(), svcCtx, r)
 		err := l.AddPostComment(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.FailCodeMsg(w, http.StatusBadRequest, err)
 		} else {
-			httpx.Ok(w)
+			response.Ok(w)
 		}
 	}
 }

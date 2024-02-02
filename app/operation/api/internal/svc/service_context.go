@@ -7,6 +7,7 @@ import (
 	"qinglv-backend/app/content/rpc/client/postclass"
 	"qinglv-backend/app/operation/api/internal/config"
 	"qinglv-backend/app/operation/rpc/client/collectionclass"
+	"qinglv-backend/app/operation/rpc/client/commentclass"
 	"qinglv-backend/app/operation/rpc/client/shareclass"
 	"qinglv-backend/app/operation/rpc/client/thumbclass"
 	"qinglv-backend/app/user/rpc/client/followingclass"
@@ -21,6 +22,7 @@ type ServiceContext struct {
 	CollectionRpc collectionclass.CollectionClass
 	ShareRpc      shareclass.ShareClass
 	ThumbRpc      thumbclass.ThumbClass
+	CommentRpc    commentclass.CommentClass
 	PostRpc       postclass.PostClass
 	CategoryRpc   categoryclass.CategoryClass
 	UserRpc       userclass.UserClass
@@ -43,10 +45,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		CollectionRpc: collectionclass.NewCollectionClass(zrpc.MustNewClient(c.OperationRpc)),
 		ShareRpc:      shareclass.NewShareClass(zrpc.MustNewClient(c.OperationRpc)),
 		ThumbRpc:      thumbclass.NewThumbClass(zrpc.MustNewClient(c.OperationRpc)),
+		CommentRpc:    commentclass.NewCommentClass(zrpc.MustNewClient(c.OperationRpc)),
 		UserRpc:       userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
 		FollowingRpc:  followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
-		PostRpc:       postclass.NewPostClass(zrpc.MustNewClient(c.OperationRpc)),
-		CategoryRpc:   categoryclass.NewCategoryClass(zrpc.MustNewClient(c.OperationRpc)),
+		PostRpc:       postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
+		CategoryRpc:   categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
 		CosClient:     client,
 	}
 }

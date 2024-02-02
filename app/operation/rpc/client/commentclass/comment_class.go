@@ -42,8 +42,12 @@ type (
 	GetCollectionGroupListResp = operation.GetCollectionGroupListResp
 	GetCollectionListReq       = operation.GetCollectionListReq
 	GetCollectionListResp      = operation.GetCollectionListResp
+	GetCommentByIdReq          = operation.GetCommentByIdReq
+	GetCommentByIdResp         = operation.GetCommentByIdResp
 	GetCommentListReq          = operation.GetCommentListReq
 	GetCommentListResp         = operation.GetCommentListResp
+	GetCommentReplyByIdReq     = operation.GetCommentReplyByIdReq
+	GetCommentReplyByIdResp    = operation.GetCommentReplyByIdResp
 	GetCommentReplyListReq     = operation.GetCommentReplyListReq
 	GetCommentReplyListResp    = operation.GetCommentReplyListResp
 	GetCommentThumbDetailReq   = operation.GetCommentThumbDetailReq
@@ -67,11 +71,15 @@ type (
 		// group: Comment
 		DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: Comment
+		GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error)
+		// group: Comment
+		GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
+		// group: Comment
 		AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: Comment
 		DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: Comment
-		GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
+		GetCommentReplyById(ctx context.Context, in *GetCommentReplyByIdReq, opts ...grpc.CallOption) (*GetCommentReplyByIdResp, error)
 		// group: Comment
 		GetCommentReplyList(ctx context.Context, in *GetCommentReplyListReq, opts ...grpc.CallOption) (*GetCommentReplyListResp, error)
 	}
@@ -100,6 +108,18 @@ func (m *defaultCommentClass) DeleteComment(ctx context.Context, in *DeleteComme
 }
 
 // group: Comment
+func (m *defaultCommentClass) GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error) {
+	client := operation.NewCommentClassClient(m.cli.Conn())
+	return client.GetCommentById(ctx, in, opts...)
+}
+
+// group: Comment
+func (m *defaultCommentClass) GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error) {
+	client := operation.NewCommentClassClient(m.cli.Conn())
+	return client.GetCommentList(ctx, in, opts...)
+}
+
+// group: Comment
 func (m *defaultCommentClass) AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.AddCommentReply(ctx, in, opts...)
@@ -112,9 +132,9 @@ func (m *defaultCommentClass) DeleteCommentReply(ctx context.Context, in *Delete
 }
 
 // group: Comment
-func (m *defaultCommentClass) GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error) {
+func (m *defaultCommentClass) GetCommentReplyById(ctx context.Context, in *GetCommentReplyByIdReq, opts ...grpc.CallOption) (*GetCommentReplyByIdResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
-	return client.GetCommentList(ctx, in, opts...)
+	return client.GetCommentReplyById(ctx, in, opts...)
 }
 
 // group: Comment

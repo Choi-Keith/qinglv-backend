@@ -26,6 +26,9 @@ func NewDeleteCommentReplyLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 // group: Comment
 func (l *DeleteCommentReplyLogic) DeleteCommentReply(in *operation.DeleteCommentReplyReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
-
+	err := l.svcCtx.PostCommentModel.Delete(l.ctx, nil, in.Id)
+	if err != nil {
+		return nil, err
+	}
 	return &operation.OkResp{}, nil
 }

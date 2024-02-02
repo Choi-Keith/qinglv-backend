@@ -54,19 +54,20 @@ type (
 	}
 
 	PostComment struct {
-		Id           uint64         `db:"id"`
-		PostId       uint64         `db:"post_id"`
-		CreatorId    uint64         `db:"creator_id"`
-		Content      sql.NullString `db:"content"`       // 评论内容
-		LikeCount    uint64         `db:"like_count"`    // 点赞数
-		DislikeCount uint64         `db:"dislike_count"` // 点踩数
-		Score        uint64         `db:"score"`         // 热度分数:一个点赞一分,一个点踩扣2分
-		Location     string         `db:"location"`      // ip城市
-		CreatedAt    time.Time      `db:"created_at"`    // 创建时间
-		UpdatedAt    time.Time      `db:"updated_at"`    // 修改时间
-		DeletedAt    time.Time      `db:"deleted_at"`    // 删除时间
-		IsDel        int64          `db:"is_del"`
-		Version      int64          `db:"version"` // 版本号
+		Id           uint64    `db:"id"`
+		PostId       uint64    `db:"post_id"`
+		CreatorId    uint64    `db:"creator_id"`
+		CreatorName  string    `db:"creator_name"`
+		Content      string    `db:"content"`       // 评论内容
+		LikeCount    uint64    `db:"like_count"`    // 点赞数
+		DislikeCount uint64    `db:"dislike_count"` // 点踩数
+		Score        uint64    `db:"score"`         // 热度分数:一个点赞一分,一个点踩扣2分
+		Location     string    `db:"location"`      // ip城市
+		CreatedAt    time.Time `db:"created_at"`    // 创建时间
+		UpdatedAt    time.Time `db:"updated_at"`    // 修改时间
+		DeletedAt    time.Time `db:"deleted_at"`    // 删除时间
+		IsDel        int64     `db:"is_del"`
+		Version      int64     `db:"version"` // 版本号
 	}
 )
 
@@ -82,11 +83,11 @@ func (m *defaultPostCommentModel) Insert(ctx context.Context, session sqlx.Sessi
 	data.IsDel = globalKey.DelStateNo
 	qOperationPostCommentIdKey := fmt.Sprintf("%s%v", cacheQOperationPostCommentIdPrefix, data.Id)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, postCommentRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, postCommentRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.PostId, data.CreatorId, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version)
+			return session.ExecCtx(ctx, query, data.Id, data.PostId, data.CreatorId, data.CreatorName, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.PostId, data.CreatorId, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version)
+		return conn.ExecCtx(ctx, query, data.Id, data.PostId, data.CreatorId, data.CreatorName, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version)
 	}, qOperationPostCommentIdKey)
 }
 
@@ -112,9 +113,9 @@ func (m *defaultPostCommentModel) Update(ctx context.Context, session sqlx.Sessi
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, postCommentRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.PostId, data.CreatorId, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version, data.Id)
+			return session.ExecCtx(ctx, query, data.PostId, data.CreatorId, data.CreatorName, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version, data.Id)
 		}
-		return conn.ExecCtx(ctx, query, data.PostId, data.CreatorId, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version, data.Id)
+		return conn.ExecCtx(ctx, query, data.PostId, data.CreatorId, data.CreatorName, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version, data.Id)
 	}, qOperationPostCommentIdKey)
 }
 
@@ -130,9 +131,9 @@ func (m *defaultPostCommentModel) UpdateWithVersion(ctx context.Context, session
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, postCommentRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.PostId, data.CreatorId, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+			return session.ExecCtx(ctx, query, data.PostId, data.CreatorId, data.CreatorName, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, data.PostId, data.CreatorId, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+		return conn.ExecCtx(ctx, query, data.PostId, data.CreatorId, data.CreatorName, data.Content, data.LikeCount, data.DislikeCount, data.Score, data.Location, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 	}, qOperationPostCommentIdKey)
 	if err != nil {
 		return err

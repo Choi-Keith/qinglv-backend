@@ -15,6 +15,7 @@ type AddCollectionReq struct {
 type AddPostCommentReplyReq struct {
 	PostId    uint64 `json:"postId,string"`
 	CommentId uint64 `json:"commentId,string"`
+	AtUserId  uint64 `json:"atUserId,string"`
 	Content   string `json:"content"`
 }
 
@@ -145,6 +146,7 @@ type GetCollectionListResp struct {
 
 type GetPostCommentListReq struct {
 	PostId   uint64 `form:"postId"`
+	Sort     string `form:"sort,default=score|desc"`
 	PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
 	PageSize int32  `form:"pageSize" validate:"required,gt=0"`
 }
@@ -158,6 +160,7 @@ type GetPostCommentListResp struct {
 type GetPostCommentReplyListReq struct {
 	PostId    uint64 `form:"postId"`
 	CommentId uint64 `form:"commentId"`
+	Sort      string `form:"sort,default=score|desc"`
 	PageNum   int32  `form:"pageNum" validate:"required,gt=0"`
 	PageSize  int32  `form:"pageSize" validate:"required,gt=0"`
 }

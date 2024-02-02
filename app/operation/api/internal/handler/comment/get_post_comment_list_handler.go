@@ -3,26 +3,33 @@ package comment
 import (
 	"net/http"
 
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"qinglv-backend/app/operation/api/internal/logic/comment"
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
+	"qinglv-backend/common/response"
+	"qinglv-backend/pkg/validate"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func GetPostCommentListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.GetPostCommentListReq
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.ParamsFail(w, err)
+			return
+		}
+		if err := validate.Validate(req); err != nil {
+			response.ParamsFail(w, err)
 			return
 		}
 
 		l := comment.NewGetPostCommentListLogic(r.Context(), svcCtx)
-		err := l.GetPostCommentList(&req)
+		resp, err := l.GetPostCommentList(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			response.FailCodeMsg(w, http.StatusBadRequest, err)
 		} else {
-			httpx.Ok(w)
+			response.OkWithData(w, resp)
 		}
 	}
 }

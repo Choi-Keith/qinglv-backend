@@ -268,6 +268,323 @@
         ]
       }
     },
+    "/operation/v1/post/comment": {
+      "get": {
+        "summary": "帖子评论",
+        "operationId": "getPostCommentList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetPostCommentListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "sort default=score|desc",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "comment"
+        ]
+      },
+      "post": {
+        "summary": "添加评论",
+        "operationId": "addPostComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddPostCommentReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/operation/v1/post/comment/reply": {
+      "get": {
+        "summary": "帖子评论回复",
+        "operationId": "getPostCommentReplyList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetPostCommentReplyListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "commentId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "sort default=score|desc",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "comment"
+        ]
+      },
+      "post": {
+        "summary": "添加评论回复",
+        "operationId": "addPostCommentReply",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddPostCommentReplyReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/operation/v1/post/comment/reply/thumb/down": {
+      "post": {
+        "summary": "帖子回复评论点踩",
+        "operationId": "handlePostCommentReplyThumbDown",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HandlePostCommentReplyThumbDownReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "thumb"
+        ]
+      }
+    },
+    "/operation/v1/post/comment/reply/thumb/up": {
+      "post": {
+        "summary": "帖子回复评论点赞",
+        "operationId": "handlePostCommentReplyThumbUp",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HandlePostCommentReplyThumbUpReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "thumb"
+        ]
+      }
+    },
+    "/operation/v1/post/comment/reply/{id}": {
+      "delete": {
+        "summary": "删除评论回复",
+        "operationId": "deletePostCommentReply",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeletePostCommentReplyReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "comment"
+        ]
+      }
+    },
+    "/operation/v1/post/comment/thumb/down": {
+      "post": {
+        "summary": "帖子评论点踩",
+        "operationId": "handlePostCommentThumbDown",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HandlePostCommentThumbDownReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "thumb"
+        ]
+      }
+    },
+    "/operation/v1/post/comment/thumb/up": {
+      "post": {
+        "summary": "帖子评论点赞",
+        "operationId": "handlePostCommentThumbUp",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HandlePostCommentThumbUpReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "thumb"
+        ]
+      }
+    },
+    "/operation/v1/post/comment/{id}": {
+      "delete": {
+        "summary": "删除评论",
+        "operationId": "deletePostComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeletePostCommentReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "comment"
+        ]
+      }
+    },
     "/operation/v1/post/share": {
       "post": {
         "summary": "分享",
@@ -296,7 +613,7 @@
     },
     "/operation/v1/post/thumb/down": {
       "post": {
-        "summary": "点踩",
+        "summary": "帖子点踩",
         "operationId": "handlePostThumbDown",
         "responses": {
           "200": {
@@ -322,7 +639,7 @@
     },
     "/operation/v1/post/thumb/up": {
       "post": {
-        "summary": "点赞",
+        "summary": "帖子点赞",
         "operationId": "handlePostThumbUp",
         "responses": {
           "200": {
@@ -387,6 +704,50 @@
       "required": [
         "targetId",
         "groupId"
+      ]
+    },
+    "AddPostCommentReplyReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "atUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "title": "AddPostCommentReplyReq",
+      "required": [
+        "postId",
+        "commentId",
+        "atUserId",
+        "content"
+      ]
+    },
+    "AddPostCommentReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "title": "AddPostCommentReq",
+      "required": [
+        "postId",
+        "content"
       ]
     },
     "AddPostShareReq": {
@@ -743,6 +1104,32 @@
         "id"
       ]
     },
+    "DeletePostCommentReplyReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeletePostCommentReplyReq",
+      "required": [
+        "id"
+      ]
+    },
+    "DeletePostCommentReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeletePostCommentReq",
+      "required": [
+        "id"
+      ]
+    },
     "GetCollectionGropListResp": {
       "type": "object",
       "properties": {
@@ -848,6 +1235,199 @@
         "article"
       ]
     },
+    "GetPostCommentListReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort default=score|desc": {
+          "type": "string"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetPostCommentListReq",
+      "required": [
+        "postId",
+        "sort default=score|desc",
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetPostCommentListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostCommentItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetPostCommentListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "GetPostCommentReplyListReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "sort default=score|desc": {
+          "type": "string"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetPostCommentReplyListReq",
+      "required": [
+        "postId",
+        "commentId",
+        "sort default=score|desc",
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetPostCommentReplyListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostCommentReplyItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetPostCommentReplyListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "HandlePostCommentReplyThumbDownReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "replyId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "HandlePostCommentReplyThumbDownReq",
+      "required": [
+        "postId",
+        "commentId",
+        "replyId"
+      ]
+    },
+    "HandlePostCommentReplyThumbUpReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "replyId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "HandlePostCommentReplyThumbUpReq",
+      "required": [
+        "postId",
+        "commentId",
+        "replyId"
+      ]
+    },
+    "HandlePostCommentThumbDownReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "HandlePostCommentThumbDownReq",
+      "required": [
+        "postId",
+        "commentId"
+      ]
+    },
+    "HandlePostCommentThumbUpReq": {
+      "type": "object",
+      "properties": {
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "HandlePostCommentThumbUpReq",
+      "required": [
+        "postId",
+        "commentId"
+      ]
+    },
     "HandlePostThumbDownReq": {
       "type": "object",
       "properties": {
@@ -872,6 +1452,130 @@
       "title": "HandlePostThumbUpReq",
       "required": [
         "postId"
+      ]
+    },
+    "PostCommentItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "creatorName": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "likeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dislikeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "location": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PostCommentItem",
+      "required": [
+        "id",
+        "postId",
+        "creatorId",
+        "creatorName",
+        "content",
+        "likeCount",
+        "dislikeCount",
+        "score",
+        "location",
+        "createdAt"
+      ]
+    },
+    "PostCommentReplyItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "postId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "creatorName": {
+          "type": "string"
+        },
+        "atUserId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "atUserName": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "likeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dislikeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "location": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PostCommentReplyItem",
+      "required": [
+        "id",
+        "commentId",
+        "postId",
+        "creatorId",
+        "creatorName",
+        "atUserId",
+        "atUserName",
+        "content",
+        "likeCount",
+        "dislikeCount",
+        "score",
+        "location",
+        "createdAt"
       ]
     },
     "PostItem": {

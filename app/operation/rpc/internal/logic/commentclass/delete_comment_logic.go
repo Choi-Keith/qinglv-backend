@@ -6,7 +6,9 @@ import (
 	"qinglv-backend/app/operation/rpc/internal/svc"
 	"qinglv-backend/app/operation/rpc/operation"
 
+	"github.com/Masterminds/squirrel"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type DeleteCommentLogic struct {
@@ -26,6 +28,27 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 // group: Comment
 func (l *DeleteCommentLogic) DeleteComment(in *operation.DeleteCommentReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
+	if in.Type == 1 {
+		whereBuilder := l.svcCtx.PostCommentReplyModel.SelectBuilder().Where(squirrel.Eq{
+			"comment_id": in.Id,
+		})
+		postCommentReplyResp, err := l.svcCtx.PostCommentReplyModel.FindAll(l.ctx, whereBuilder, "")
+		if err != nil {
+			return nil, err
+		}
+		logx.Debugf("[PostComment] postCommentReply: %+v\n", postCommentReplyResp)
+		l.svcCtx.PostCommentModel.Trans(l.ctx, func(ctx context.Context, session sqlx.Session) error {
+			for _, item := range postCommentReplyResp {
+				if err := l.svcCtx.PostCommentReplyModel.Delete(ctx, session, item.Id); err != nil {
+					return err
+				}
+			}
+			if err := l.svcCtx.PostCommentModel.Delete(ctx, session, in.Id); err != nil {
+				return err
+			}
+			return nil
+		})
 
+	}
 	return &operation.OkResp{}, nil
 }

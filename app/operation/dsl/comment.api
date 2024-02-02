@@ -49,6 +49,7 @@ type DeletePostCommentReq {
 type AddPostCommentReplyReq {
 	PostId    uint64 `json:"postId,string"`
 	CommentId uint64 `json:"commentId,string"`
+	AtUserId  uint64 `json:"atUserId,string"`
 	Content   string `json:"content"`
 }
 
@@ -59,6 +60,7 @@ type DeletePostCommentReplyReq {
 type (
 	GetPostCommentListReq {
 		PostId   uint64 `form:"postId"`
+		Sort     string `form:"sort,default=score|desc"`
 		PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
 		PageSize int32  `form:"pageSize" validate:"required,gt=0"`
 	}
@@ -73,6 +75,7 @@ type (
 	GetPostCommentReplyListReq {
 		PostId    uint64 `form:"postId"`
 		CommentId uint64 `form:"commentId"`
+		Sort      string `form:"sort,default=score|desc"`
 		PageNum   int32  `form:"pageNum" validate:"required,gt=0"`
 		PageSize  int32  `form:"pageSize" validate:"required,gt=0"`
 	}

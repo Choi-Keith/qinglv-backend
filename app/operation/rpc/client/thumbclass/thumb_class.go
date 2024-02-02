@@ -42,8 +42,12 @@ type (
 	GetCollectionGroupListResp = operation.GetCollectionGroupListResp
 	GetCollectionListReq       = operation.GetCollectionListReq
 	GetCollectionListResp      = operation.GetCollectionListResp
+	GetCommentByIdReq          = operation.GetCommentByIdReq
+	GetCommentByIdResp         = operation.GetCommentByIdResp
 	GetCommentListReq          = operation.GetCommentListReq
 	GetCommentListResp         = operation.GetCommentListResp
+	GetCommentReplyByIdReq     = operation.GetCommentReplyByIdReq
+	GetCommentReplyByIdResp    = operation.GetCommentReplyByIdResp
 	GetCommentReplyListReq     = operation.GetCommentReplyListReq
 	GetCommentReplyListResp    = operation.GetCommentReplyListResp
 	GetCommentThumbDetailReq   = operation.GetCommentThumbDetailReq

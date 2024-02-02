@@ -5,7 +5,9 @@ import (
 
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
+	"qinglv-backend/app/operation/rpc/operation"
 
+	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -23,8 +25,30 @@ func NewGetPostCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *GetPostCommentListLogic) GetPostCommentList(req *types.GetPostCommentListReq) error {
+func (l *GetPostCommentListLogic) GetPostCommentList(req *types.GetPostCommentListReq) (resp *types.GetPostCommentListResp, err error) {
 	// todo: add your logic here and delete this line
+	commentListResp, err := l.svcCtx.CommentRpc.GetCommentList(l.ctx, &operation.GetCommentListReq{
+		PostId:   req.PostId,
+		Sort:     req.Sort,
+		PageNum:  uint64(req.PageNum),
+		PageSize: uint64(req.PageSize),
+		Type:     1,
+	})
+	if err != nil {
+		return nil, err
+	}
+	commentList := make([]types.PostCommentItem, len(commentListResp.Post.Data))
+	for idx, commentItem := range commentListResp.Post.Data {
+		_ = copier.Copy(&commentList[idx], commentItem)
+	}
+	isEnd := false
+	if commentListResp.Post.Total <= uint64(req.PageNum-1)*uint64(req.PageSize)+uint64(req.PageSize) {
+		isEnd = true
+	}
 
-	return nil
+	return &types.GetPostCommentListResp{
+		List:  commentList,
+		IsEnd: isEnd,
+		Total: commentListResp.Post.Total,
+	}, nil
 }
