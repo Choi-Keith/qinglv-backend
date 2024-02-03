@@ -63,18 +63,18 @@ func (l *GetCommentReplyListLogic) GetCommentReplyList(in *operation.GetCommentR
 
 func genCommentReplyItem(item *postCommentReplyModel.PostCommentReply) *operation.PostCommentReplyItem {
 	return &operation.PostCommentReplyItem{
-		Id:             item.Id,
-		PostId:         item.PostId,
-		CommentId:      item.CommentId,
-		CreatorId:      item.CreatorId,
-		CreatorName:    item.CreatorName,
-		AtUserId:       item.AtUserId,
-		AtUserNickname: item.AtUserName,
-		Content:        item.Content,
-		LikeCount:      item.LikeCount,
-		DislikeCount:   item.DislikeCount,
-		Location:       item.Location,
-		Score:          item.Score,
-		CreatedAt:      uint64(item.CreatedAt.Unix() * 1000),
+		Id:           item.Id,
+		PostId:       item.PostId,
+		CommentId:    item.CommentId,
+		CreatorId:    item.CreatorId,
+		CreatorName:  item.CreatorName,
+		AtUserId:     item.AtUserId,
+		AtUserName:   item.AtUserName,
+		Content:      item.Content,
+		LikeCount:    item.LikeCount,
+		DislikeCount: item.DislikeCount,
+		Location:     item.Location,
+		Score:        item.Score,
+		CreatedAt:    uint64(item.CreatedAt.Unix() * 1000),
 	}
 }

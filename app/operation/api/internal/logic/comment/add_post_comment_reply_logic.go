@@ -52,16 +52,16 @@ func (l *AddPostCommentReplyLogic) AddPostCommentReply(req *types.AddPostComment
 		return err
 	}
 	if _, err = l.svcCtx.CommentRpc.AddCommentReply(l.ctx, &operation.AddCommentReplyReq{
-		Id:             id,
-		PostId:         req.PostId,
-		CommentId:      req.CommentId,
-		AtUserId:       req.AtUserId,
-		AtUserNickname: userResp.User.Nickname,
-		CreatorId:      uint64(userId),
-		CreatorName:    creatorName,
-		Content:        req.Content,
-		Type:           1,
-		Location:       loc.Province,
+		Id:          id,
+		PostId:      req.PostId,
+		CommentId:   req.CommentId,
+		AtUserId:    req.AtUserId,
+		AtUserName:  userResp.User.Nickname,
+		CreatorId:   uint64(userId),
+		CreatorName: creatorName,
+		Content:     req.Content,
+		Type:        1,
+		Location:    loc.Province,
 	}); err != nil {
 		return err
 	}

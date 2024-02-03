@@ -35,7 +35,7 @@ func (l *AddCommentReplyLogic) AddCommentReply(in *operation.AddCommentReplyReq)
 			CreatorId:    in.CreatorId,
 			CreatorName:  in.CreatorName,
 			AtUserId:     in.AtUserId,
-			AtUserName:   in.AtUserNickname,
+			AtUserName:   in.AtUserName,
 			Content:      in.Content,
 			Location:     in.Location,
 			Version:      1,
