@@ -53,7 +53,7 @@ func (s *ThumbClassServer) UpdateCommentThumb(ctx context.Context, in *operation
 }
 
 // group: PostCommentThumb
-func (s *ThumbClassServer) GetCommentThumbDetail(ctx context.Context, in *operation.GetCommentThumbDetailReq) (*operation.GetCommentThumbDetailReq, error) {
+func (s *ThumbClassServer) GetCommentThumbDetail(ctx context.Context, in *operation.GetCommentThumbDetailReq) (*operation.GetCommentThumbDetailResp, error) {
 	l := thumbclasslogic.NewGetCommentThumbDetailLogic(ctx, s.svcCtx)
 	return l.GetCommentThumbDetail(in)
 }

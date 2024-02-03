@@ -134,6 +134,8 @@ CREATE TABLE `post_comment_thumb` (
     `comment_type` tinyint(3) NOT NULL DEFAULT '1' COMMENT '评论类型 1为帖子评论、2为帖子评论回复',
     `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建人',
     `creator_name` varchar(50) NOT NULL DEFAULT '', 
+    `like` tinyint(3) DEFAULT '0' COMMENT '1喜欢，0取消',
+    `dislike` tinyint(3) DEFAULT '0' COMMENT '1不喜欢，0取消',
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',

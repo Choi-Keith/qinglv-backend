@@ -62,6 +62,8 @@ type (
 	PostCommentThumbItem       = operation.PostCommentThumbItem
 	PostThumbItem              = operation.PostThumbItem
 	UpdateCollectionGroupReq   = operation.UpdateCollectionGroupReq
+	UpdateCommentReplyReq      = operation.UpdateCommentReplyReq
+	UpdateCommentReq           = operation.UpdateCommentReq
 	UpdateCommentThumbReq      = operation.UpdateCommentThumbReq
 	UpdateThumbReq             = operation.UpdateThumbReq
 

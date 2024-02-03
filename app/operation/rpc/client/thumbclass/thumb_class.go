@@ -62,6 +62,8 @@ type (
 	PostCommentThumbItem       = operation.PostCommentThumbItem
 	PostThumbItem              = operation.PostThumbItem
 	UpdateCollectionGroupReq   = operation.UpdateCollectionGroupReq
+	UpdateCommentReplyReq      = operation.UpdateCommentReplyReq
+	UpdateCommentReq           = operation.UpdateCommentReq
 	UpdateCommentThumbReq      = operation.UpdateCommentThumbReq
 	UpdateThumbReq             = operation.UpdateThumbReq
 
@@ -77,7 +79,7 @@ type (
 		// group: PostCommentThumb
 		UpdateCommentThumb(ctx context.Context, in *UpdateCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error)
 		// group: PostCommentThumb
-		GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error)
+		GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailResp, error)
 	}
 
 	defaultThumbClass struct {
@@ -122,7 +124,7 @@ func (m *defaultThumbClass) UpdateCommentThumb(ctx context.Context, in *UpdateCo
 }
 
 // group: PostCommentThumb
-func (m *defaultThumbClass) GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error) {
+func (m *defaultThumbClass) GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailResp, error) {
 	client := operation.NewThumbClassClient(m.cli.Conn())
 	return client.GetCommentThumbDetail(ctx, in, opts...)
 }

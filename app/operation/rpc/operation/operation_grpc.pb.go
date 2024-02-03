@@ -577,7 +577,7 @@ type ThumbClassClient interface {
 	// group: PostCommentThumb
 	UpdateCommentThumb(ctx context.Context, in *UpdateCommentThumbReq, opts ...grpc.CallOption) (*OkResp, error)
 	// group: PostCommentThumb
-	GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error)
+	GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailResp, error)
 }
 
 type thumbClassClient struct {
@@ -633,8 +633,8 @@ func (c *thumbClassClient) UpdateCommentThumb(ctx context.Context, in *UpdateCom
 	return out, nil
 }
 
-func (c *thumbClassClient) GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailReq, error) {
-	out := new(GetCommentThumbDetailReq)
+func (c *thumbClassClient) GetCommentThumbDetail(ctx context.Context, in *GetCommentThumbDetailReq, opts ...grpc.CallOption) (*GetCommentThumbDetailResp, error) {
+	out := new(GetCommentThumbDetailResp)
 	err := c.cc.Invoke(ctx, ThumbClass_GetCommentThumbDetail_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -657,7 +657,7 @@ type ThumbClassServer interface {
 	// group: PostCommentThumb
 	UpdateCommentThumb(context.Context, *UpdateCommentThumbReq) (*OkResp, error)
 	// group: PostCommentThumb
-	GetCommentThumbDetail(context.Context, *GetCommentThumbDetailReq) (*GetCommentThumbDetailReq, error)
+	GetCommentThumbDetail(context.Context, *GetCommentThumbDetailReq) (*GetCommentThumbDetailResp, error)
 	mustEmbedUnimplementedThumbClassServer()
 }
 
@@ -680,7 +680,7 @@ func (UnimplementedThumbClassServer) AddCommentThumb(context.Context, *AddCommen
 func (UnimplementedThumbClassServer) UpdateCommentThumb(context.Context, *UpdateCommentThumbReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCommentThumb not implemented")
 }
-func (UnimplementedThumbClassServer) GetCommentThumbDetail(context.Context, *GetCommentThumbDetailReq) (*GetCommentThumbDetailReq, error) {
+func (UnimplementedThumbClassServer) GetCommentThumbDetail(context.Context, *GetCommentThumbDetailReq) (*GetCommentThumbDetailResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCommentThumbDetail not implemented")
 }
 func (UnimplementedThumbClassServer) mustEmbedUnimplementedThumbClassServer() {}
@@ -845,32 +845,28 @@ const (
 	CommentClass_DeleteComment_FullMethodName       = "/operation.CommentClass/DeleteComment"
 	CommentClass_GetCommentById_FullMethodName      = "/operation.CommentClass/GetCommentById"
 	CommentClass_GetCommentList_FullMethodName      = "/operation.CommentClass/GetCommentList"
+	CommentClass_UpdateComment_FullMethodName       = "/operation.CommentClass/UpdateComment"
 	CommentClass_AddCommentReply_FullMethodName     = "/operation.CommentClass/AddCommentReply"
 	CommentClass_DeleteCommentReply_FullMethodName  = "/operation.CommentClass/DeleteCommentReply"
 	CommentClass_GetCommentReplyById_FullMethodName = "/operation.CommentClass/GetCommentReplyById"
 	CommentClass_GetCommentReplyList_FullMethodName = "/operation.CommentClass/GetCommentReplyList"
+	CommentClass_UpdateCommentReply_FullMethodName  = "/operation.CommentClass/UpdateCommentReply"
 )
 
 // CommentClassClient is the client API for CommentClass service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CommentClassClient interface {
-	// group: Comment
 	AddComment(ctx context.Context, in *AddCommentReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Comment
 	DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Comment
 	GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error)
-	// group: Comment
 	GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
-	// group: Comment
+	UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*OkResp, error)
 	AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Comment
 	DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Comment
 	GetCommentReplyById(ctx context.Context, in *GetCommentReplyByIdReq, opts ...grpc.CallOption) (*GetCommentReplyByIdResp, error)
-	// group: Comment
 	GetCommentReplyList(ctx context.Context, in *GetCommentReplyListReq, opts ...grpc.CallOption) (*GetCommentReplyListResp, error)
+	UpdateCommentReply(ctx context.Context, in *UpdateCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type commentClassClient struct {
@@ -917,6 +913,15 @@ func (c *commentClassClient) GetCommentList(ctx context.Context, in *GetCommentL
 	return out, nil
 }
 
+func (c *commentClassClient) UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CommentClass_UpdateComment_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *commentClassClient) AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
 	out := new(OkResp)
 	err := c.cc.Invoke(ctx, CommentClass_AddCommentReply_FullMethodName, in, out, opts...)
@@ -953,26 +958,29 @@ func (c *commentClassClient) GetCommentReplyList(ctx context.Context, in *GetCom
 	return out, nil
 }
 
+func (c *commentClassClient) UpdateCommentReply(ctx context.Context, in *UpdateCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, CommentClass_UpdateCommentReply_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CommentClassServer is the server API for CommentClass service.
 // All implementations must embed UnimplementedCommentClassServer
 // for forward compatibility
 type CommentClassServer interface {
-	// group: Comment
 	AddComment(context.Context, *AddCommentReq) (*OkResp, error)
-	// group: Comment
 	DeleteComment(context.Context, *DeleteCommentReq) (*OkResp, error)
-	// group: Comment
 	GetCommentById(context.Context, *GetCommentByIdReq) (*GetCommentByIdResp, error)
-	// group: Comment
 	GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error)
-	// group: Comment
+	UpdateComment(context.Context, *UpdateCommentReq) (*OkResp, error)
 	AddCommentReply(context.Context, *AddCommentReplyReq) (*OkResp, error)
-	// group: Comment
 	DeleteCommentReply(context.Context, *DeleteCommentReplyReq) (*OkResp, error)
-	// group: Comment
 	GetCommentReplyById(context.Context, *GetCommentReplyByIdReq) (*GetCommentReplyByIdResp, error)
-	// group: Comment
 	GetCommentReplyList(context.Context, *GetCommentReplyListReq) (*GetCommentReplyListResp, error)
+	UpdateCommentReply(context.Context, *UpdateCommentReplyReq) (*OkResp, error)
 	mustEmbedUnimplementedCommentClassServer()
 }
 
@@ -992,6 +1000,9 @@ func (UnimplementedCommentClassServer) GetCommentById(context.Context, *GetComme
 func (UnimplementedCommentClassServer) GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCommentList not implemented")
 }
+func (UnimplementedCommentClassServer) UpdateComment(context.Context, *UpdateCommentReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
+}
 func (UnimplementedCommentClassServer) AddCommentReply(context.Context, *AddCommentReplyReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddCommentReply not implemented")
 }
@@ -1003,6 +1014,9 @@ func (UnimplementedCommentClassServer) GetCommentReplyById(context.Context, *Get
 }
 func (UnimplementedCommentClassServer) GetCommentReplyList(context.Context, *GetCommentReplyListReq) (*GetCommentReplyListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCommentReplyList not implemented")
+}
+func (UnimplementedCommentClassServer) UpdateCommentReply(context.Context, *UpdateCommentReplyReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCommentReply not implemented")
 }
 func (UnimplementedCommentClassServer) mustEmbedUnimplementedCommentClassServer() {}
 
@@ -1089,6 +1103,24 @@ func _CommentClass_GetCommentList_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CommentClass_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCommentReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).UpdateComment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_UpdateComment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).UpdateComment(ctx, req.(*UpdateCommentReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CommentClass_AddCommentReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddCommentReplyReq)
 	if err := dec(in); err != nil {
@@ -1161,6 +1193,24 @@ func _CommentClass_GetCommentReplyList_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CommentClass_UpdateCommentReply_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCommentReplyReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).UpdateCommentReply(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_UpdateCommentReply_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).UpdateCommentReply(ctx, req.(*UpdateCommentReplyReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CommentClass_ServiceDesc is the grpc.ServiceDesc for CommentClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1185,6 +1235,10 @@ var CommentClass_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CommentClass_GetCommentList_Handler,
 		},
 		{
+			MethodName: "UpdateComment",
+			Handler:    _CommentClass_UpdateComment_Handler,
+		},
+		{
 			MethodName: "AddCommentReply",
 			Handler:    _CommentClass_AddCommentReply_Handler,
 		},
@@ -1199,6 +1253,10 @@ var CommentClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCommentReplyList",
 			Handler:    _CommentClass_GetCommentReplyList_Handler,
+		},
+		{
+			MethodName: "UpdateCommentReply",
+			Handler:    _CommentClass_UpdateCommentReply_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

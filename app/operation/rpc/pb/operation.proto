@@ -251,7 +251,7 @@ service ThumbClass {
     // group: PostCommentThumb
     rpc UpdateCommentThumb(UpdateCommentThumbReq) returns(OkResp);
     // group: PostCommentThumb
-    rpc GetCommentThumbDetail(GetCommentThumbDetailReq) returns(GetCommentThumbDetailReq);
+    rpc GetCommentThumbDetail(GetCommentThumbDetailReq) returns(GetCommentThumbDetailResp);
 }
 
 //==========================Comment==========================
@@ -335,6 +335,13 @@ message GetCommentListResp {
     ArticleCommentResp article = 2;
 
 }
+message UpdateCommentReq {
+    uint64 id = 1;
+    uint64 likeCount = 2;
+    uint64 dislikeCount = 3;
+    uint64 score = 4;
+    int32 type = 5;
+}
 
 message ArticleCommentReplyItem {
     uint64 id = 1;
@@ -409,23 +416,24 @@ message GetCommentReplyListResp {
     PostCommentReplyResp post = 1;
     ArticleCommentReplyResp article = 2;
 }
+message UpdateCommentReplyReq {
+    uint64 id = 1;
+    uint64 likeCount = 2;
+    uint64 dislikeCount = 3;
+    uint64 score = 4;
+    int32 type = 5;
+}
 
 service CommentClass {
-    // group: Comment
     rpc AddComment(AddCommentReq) returns(OkResp);
-    // group: Comment
     rpc DeleteComment(DeleteCommentReq) returns(OkResp);
-    // group: Comment
     rpc GetCommentById(GetCommentByIdReq) returns(GetCommentByIdResp);
-    // group: Comment
     rpc GetCommentList(GetCommentListReq) returns(GetCommentListResp);
-    // group: Comment
+    rpc UpdateComment(UpdateCommentReq) returns(OkResp);
     rpc AddCommentReply(AddCommentReplyReq) returns(OkResp);
-    // group: Comment
     rpc DeleteCommentReply(DeleteCommentReplyReq) returns(OkResp);
-    // group: Comment
     rpc GetCommentReplyById(GetCommentReplyByIdReq) returns(GetCommentReplyByIdResp);
-    // group: Comment
     rpc GetCommentReplyList(GetCommentReplyListReq) returns(GetCommentReplyListResp);
+    rpc UpdateCommentReply(UpdateCommentReplyReq) returns(OkResp);
 
 }

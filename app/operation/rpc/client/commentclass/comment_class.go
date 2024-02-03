@@ -62,26 +62,22 @@ type (
 	PostCommentThumbItem       = operation.PostCommentThumbItem
 	PostThumbItem              = operation.PostThumbItem
 	UpdateCollectionGroupReq   = operation.UpdateCollectionGroupReq
+	UpdateCommentReplyReq      = operation.UpdateCommentReplyReq
+	UpdateCommentReq           = operation.UpdateCommentReq
 	UpdateCommentThumbReq      = operation.UpdateCommentThumbReq
 	UpdateThumbReq             = operation.UpdateThumbReq
 
 	CommentClass interface {
-		// group: Comment
 		AddComment(ctx context.Context, in *AddCommentReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Comment
 		DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Comment
 		GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error)
-		// group: Comment
 		GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
-		// group: Comment
+		UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*OkResp, error)
 		AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Comment
 		DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Comment
 		GetCommentReplyById(ctx context.Context, in *GetCommentReplyByIdReq, opts ...grpc.CallOption) (*GetCommentReplyByIdResp, error)
-		// group: Comment
 		GetCommentReplyList(ctx context.Context, in *GetCommentReplyListReq, opts ...grpc.CallOption) (*GetCommentReplyListResp, error)
+		UpdateCommentReply(ctx context.Context, in *UpdateCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultCommentClass struct {
@@ -95,50 +91,52 @@ func NewCommentClass(cli zrpc.Client) CommentClass {
 	}
 }
 
-// group: Comment
 func (m *defaultCommentClass) AddComment(ctx context.Context, in *AddCommentReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.AddComment(ctx, in, opts...)
 }
 
-// group: Comment
 func (m *defaultCommentClass) DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.DeleteComment(ctx, in, opts...)
 }
 
-// group: Comment
 func (m *defaultCommentClass) GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.GetCommentById(ctx, in, opts...)
 }
 
-// group: Comment
 func (m *defaultCommentClass) GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.GetCommentList(ctx, in, opts...)
 }
 
-// group: Comment
+func (m *defaultCommentClass) UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewCommentClassClient(m.cli.Conn())
+	return client.UpdateComment(ctx, in, opts...)
+}
+
 func (m *defaultCommentClass) AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.AddCommentReply(ctx, in, opts...)
 }
 
-// group: Comment
 func (m *defaultCommentClass) DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.DeleteCommentReply(ctx, in, opts...)
 }
 
-// group: Comment
 func (m *defaultCommentClass) GetCommentReplyById(ctx context.Context, in *GetCommentReplyByIdReq, opts ...grpc.CallOption) (*GetCommentReplyByIdResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.GetCommentReplyById(ctx, in, opts...)
 }
 
-// group: Comment
 func (m *defaultCommentClass) GetCommentReplyList(ctx context.Context, in *GetCommentReplyListReq, opts ...grpc.CallOption) (*GetCommentReplyListResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.GetCommentReplyList(ctx, in, opts...)
+}
+
+func (m *defaultCommentClass) UpdateCommentReply(ctx context.Context, in *UpdateCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewCommentClassClient(m.cli.Conn())
+	return client.UpdateCommentReply(ctx, in, opts...)
 }

@@ -2,7 +2,10 @@ package thumbclasslogic
 
 import (
 	"context"
+	"database/sql"
+	"time"
 
+	"qinglv-backend/app/operation/rpc/internal/model/thumb"
 	"qinglv-backend/app/operation/rpc/internal/svc"
 	"qinglv-backend/app/operation/rpc/operation"
 
@@ -26,6 +29,25 @@ func NewAddCommentThumbLogic(ctx context.Context, svcCtx *svc.ServiceContext) *A
 // group: CommentThumb
 func (l *AddCommentThumbLogic) AddCommentThumb(in *operation.AddCommentThumbReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
-
+	if in.Type == 1 {
+		_, err := l.svcCtx.PostCommentThumbModel.Insert(l.ctx, nil, &thumb.PostCommentThumb{
+			Id:          in.Id,
+			PostId:      in.PostId,
+			CommentId:   in.CommentId,
+			CreatorId:   in.CreatorId,
+			CreatorName: in.CreatorName,
+			CommentType: int64(in.CommentType),
+			Like:        int64(in.Like),
+			Dislike:     int64(in.Dislike),
+			DeletedAt:   time.Now(),
+			Version:     1,
+			ReplyId:     sql.NullInt64{Int64: int64(in.ReplyId), Valid: true},
+		})
+		if err != nil {
+			return nil, err
+		}
+	} else if in.Type == 2 {
+		// TODO: 文章点赞和点踩功能
+	}
 	return &operation.OkResp{}, nil
 }

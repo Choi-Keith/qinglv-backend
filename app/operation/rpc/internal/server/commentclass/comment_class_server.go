@@ -22,50 +22,52 @@ func NewCommentClassServer(svcCtx *svc.ServiceContext) *CommentClassServer {
 	}
 }
 
-// group: Comment
 func (s *CommentClassServer) AddComment(ctx context.Context, in *operation.AddCommentReq) (*operation.OkResp, error) {
 	l := commentclasslogic.NewAddCommentLogic(ctx, s.svcCtx)
 	return l.AddComment(in)
 }
 
-// group: Comment
 func (s *CommentClassServer) DeleteComment(ctx context.Context, in *operation.DeleteCommentReq) (*operation.OkResp, error) {
 	l := commentclasslogic.NewDeleteCommentLogic(ctx, s.svcCtx)
 	return l.DeleteComment(in)
 }
 
-// group: Comment
 func (s *CommentClassServer) GetCommentById(ctx context.Context, in *operation.GetCommentByIdReq) (*operation.GetCommentByIdResp, error) {
 	l := commentclasslogic.NewGetCommentByIdLogic(ctx, s.svcCtx)
 	return l.GetCommentById(in)
 }
 
-// group: Comment
 func (s *CommentClassServer) GetCommentList(ctx context.Context, in *operation.GetCommentListReq) (*operation.GetCommentListResp, error) {
 	l := commentclasslogic.NewGetCommentListLogic(ctx, s.svcCtx)
 	return l.GetCommentList(in)
 }
 
-// group: Comment
+func (s *CommentClassServer) UpdateComment(ctx context.Context, in *operation.UpdateCommentReq) (*operation.OkResp, error) {
+	l := commentclasslogic.NewUpdateCommentLogic(ctx, s.svcCtx)
+	return l.UpdateComment(in)
+}
+
 func (s *CommentClassServer) AddCommentReply(ctx context.Context, in *operation.AddCommentReplyReq) (*operation.OkResp, error) {
 	l := commentclasslogic.NewAddCommentReplyLogic(ctx, s.svcCtx)
 	return l.AddCommentReply(in)
 }
 
-// group: Comment
 func (s *CommentClassServer) DeleteCommentReply(ctx context.Context, in *operation.DeleteCommentReplyReq) (*operation.OkResp, error) {
 	l := commentclasslogic.NewDeleteCommentReplyLogic(ctx, s.svcCtx)
 	return l.DeleteCommentReply(in)
 }
 
-// group: Comment
 func (s *CommentClassServer) GetCommentReplyById(ctx context.Context, in *operation.GetCommentReplyByIdReq) (*operation.GetCommentReplyByIdResp, error) {
 	l := commentclasslogic.NewGetCommentReplyByIdLogic(ctx, s.svcCtx)
 	return l.GetCommentReplyById(in)
 }
 
-// group: Comment
 func (s *CommentClassServer) GetCommentReplyList(ctx context.Context, in *operation.GetCommentReplyListReq) (*operation.GetCommentReplyListResp, error) {
 	l := commentclasslogic.NewGetCommentReplyListLogic(ctx, s.svcCtx)
 	return l.GetCommentReplyList(in)
+}
+
+func (s *CommentClassServer) UpdateCommentReply(ctx context.Context, in *operation.UpdateCommentReplyReq) (*operation.OkResp, error) {
+	l := commentclasslogic.NewUpdateCommentReplyLogic(ctx, s.svcCtx)
+	return l.UpdateCommentReply(in)
 }

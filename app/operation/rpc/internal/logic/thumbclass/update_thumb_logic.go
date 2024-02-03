@@ -27,7 +27,6 @@ func NewUpdateThumbLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Updat
 func (l *UpdateThumbLogic) UpdateThumb(in *operation.UpdateThumbReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
 	if in.Type == 1 {
-		logx.Debugf("[PostThumb] UpdateThumb: %+v, %+v\n", in.Like, in.Dislike)
 		thumbResp, err := l.svcCtx.PostThumbModel.FindOne(l.ctx, in.Id)
 		if err != nil {
 			return nil, err

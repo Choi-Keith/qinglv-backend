@@ -14,7 +14,6 @@ import (
 
 	"github.com/Masterminds/squirrel"
 	"github.com/pkg/errors"
-	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
@@ -157,7 +156,6 @@ func (m *defaultPostThumbModel) UpdateWithVersion(ctx context.Context, session s
 	if err != nil {
 		return err
 	}
-	logx.Debugf("[PostThumb] UpdateWithVersion data: %+v, newData: %+v\n", data, newData)
 	qOperationPostThumbIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbIdPrefix, data.Id)
 	qOperationPostThumbPostIdKey := fmt.Sprintf("%s%v", cacheQOperationPostThumbPostIdPrefix, data.PostId)
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
