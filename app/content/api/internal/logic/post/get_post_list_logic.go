@@ -88,10 +88,6 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 			fmt.Printf("m: %+v\n", m)
 			userId, ok := m["userId"]
 			if ok && userId != 0 {
-				if err != nil {
-					cancel(err)
-					return
-				}
 				followingResp, err := l.svcCtx.FollowingRpc.GetFollowingList(l.ctx, &user.GetFollowingListReq{
 					UserId:      uint64(userId),
 					FollowingId: postItem.Creator.Id,

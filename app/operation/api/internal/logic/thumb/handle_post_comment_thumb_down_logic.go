@@ -92,7 +92,6 @@ func (l *HandlePostCommentThumbDownLogic) HandlePostCommentThumbDown(req *types.
 		Id:           postCommentResp.PostComment.Id,
 		LikeCount:    postCommentResp.PostComment.LikeCount + uint64(thumbUpCount),
 		DislikeCount: postCommentResp.PostComment.DislikeCount + uint64(thumbDownCount),
-		Score:        postCommentResp.PostComment.Score + uint64(thumbUpCount)*2,
 		Type:         1,
 	}); err != nil {
 		return err

@@ -97,7 +97,6 @@ func (l *HandlePostCommentReplyThumbUpLogic) HandlePostCommentReplyThumbUp(req *
 		Id:           postCommentResp.PostCommentReply.Id,
 		LikeCount:    postCommentResp.PostCommentReply.LikeCount + uint64(thumbUpCount),
 		DislikeCount: postCommentResp.PostCommentReply.DislikeCount + uint64(thumbDownCount),
-		Score:        postCommentResp.PostCommentReply.Score + uint64(thumbUpCount),
 		Type:         1,
 	}); err != nil {
 		return err

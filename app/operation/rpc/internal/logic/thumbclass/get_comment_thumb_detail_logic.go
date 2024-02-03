@@ -49,6 +49,11 @@ func (l *GetCommentThumbDetailLogic) GetCommentThumbDetail(in *operation.GetComm
 				"reply_id": in.ReplyId,
 			})
 		}
+		if in.CommentType != 0 {
+			whereBuilder = whereBuilder.Where(squirrel.Eq{
+				"comment_type": in.CommentType,
+			})
+		}
 		postCommentResp, err := l.svcCtx.PostCommentThumbModel.FindAll(l.ctx, whereBuilder, "")
 		if err != nil {
 			return nil, err
@@ -68,6 +73,7 @@ func (l *GetCommentThumbDetailLogic) GetCommentThumbDetail(in *operation.GetComm
 				UpdatedAt:   uint64(postThumbItem.UpdatedAt.Unix() * 1000),
 			}
 		}
+		logx.Debugf("[postCommentThumbList]: %+v\n", postCommentThumbList)
 		articleCommentThumbList := make([]*operation.ArticleCommentThumbItem, 0)
 		return &operation.GetCommentThumbDetailResp{
 			Post:    postCommentThumbList,

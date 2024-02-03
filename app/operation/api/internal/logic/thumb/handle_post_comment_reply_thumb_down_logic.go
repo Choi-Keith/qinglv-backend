@@ -90,11 +90,11 @@ func (l *HandlePostCommentReplyThumbDownLogic) HandlePostCommentReplyThumbDown(r
 			return err
 		}
 	}
+	logx.Debugf("[postCommentResp.PostCommentReply]: %+v, dislikeCount: %d\n", postCommentResp.PostCommentReply, postCommentResp.PostCommentReply.LikeCount+uint64(thumbUpCount))
 	if _, err = l.svcCtx.CommentRpc.UpdateCommentReply(l.ctx, &operation.UpdateCommentReplyReq{
 		Id:           postCommentResp.PostCommentReply.Id,
 		LikeCount:    postCommentResp.PostCommentReply.LikeCount + uint64(thumbUpCount),
 		DislikeCount: postCommentResp.PostCommentReply.DislikeCount + uint64(thumbDownCount),
-		Score:        postCommentResp.PostCommentReply.Score + uint64(thumbUpCount)*2,
 		Type:         1,
 	}); err != nil {
 		return err

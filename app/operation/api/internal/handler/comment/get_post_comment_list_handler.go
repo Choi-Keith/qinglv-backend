@@ -24,7 +24,7 @@ func GetPostCommentListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := comment.NewGetPostCommentListLogic(r.Context(), svcCtx)
+		l := comment.NewGetPostCommentListLogic(r.Context(), svcCtx, r)
 		resp, err := l.GetPostCommentList(&req)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)

@@ -146,7 +146,7 @@ type GetCollectionListResp struct {
 
 type GetPostCommentListReq struct {
 	PostId   uint64 `form:"postId"`
-	Sort     string `form:"sort,default=score|desc"`
+	Sort     string `form:"sort,default=like_count|desc"`
 	PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
 	PageSize int32  `form:"pageSize" validate:"required,gt=0"`
 }
@@ -155,12 +155,13 @@ type GetPostCommentListResp struct {
 	List  []PostCommentItem `json:"list"`
 	IsEnd bool              `json:"isEnd"`
 	Total uint64            `json:"total"`
+	Count uint64            `json:"count"`
 }
 
 type GetPostCommentReplyListReq struct {
 	PostId    uint64 `form:"postId"`
 	CommentId uint64 `form:"commentId"`
-	Sort      string `form:"sort,default=score|desc"`
+	Sort      string `form:"sort,default=like_count|desc"`
 	PageNum   int32  `form:"pageNum" validate:"required,gt=0"`
 	PageSize  int32  `form:"pageSize" validate:"required,gt=0"`
 }
@@ -209,6 +210,8 @@ type PostCommentItem struct {
 	Content      string `json:"content"`
 	LikeCount    uint64 `json:"likeCount"`
 	DislikeCount uint64 `json:"dislikeCount"`
+	Like         int32  `json:"like"`
+	Dislike      int32  `json:"dislike"`
 	Score        uint64 `json:"score"`
 	Location     string `json:"location"`
 	CreatedAt    uint64 `json:"createdAt"`
@@ -222,6 +225,8 @@ type PostCommentReplyItem struct {
 	CreatorName  string `json:"creatorName"`
 	AtUserId     uint64 `json:"atUserId,string"`
 	AtUserName   string `json:"atUserName"`
+	Like         int32  `json:"like"`
+	Dislike      int32  `json:"dislike"`
 	Content      string `json:"content"`
 	LikeCount    uint64 `json:"likeCount"`
 	DislikeCount uint64 `json:"dislikeCount"`
