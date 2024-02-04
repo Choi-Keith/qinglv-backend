@@ -29,9 +29,10 @@ service content {
 
 // need login
 @server (
-	prefix: /content/v1
-	group:  topic
-	jwt:    JWTAuth
+	prefix:     /content/v1
+	group:      topic
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service content {
 	@doc "新建帖子话题"
@@ -65,9 +66,10 @@ service content {
 
 // need login
 @server (
-	prefix: /content/v1
-	group:  category
-	jwt:    JWTAuth
+	prefix:     /content/v1
+	group:      category
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service content {
 	@doc "新建分类"
@@ -105,9 +107,10 @@ service content {
 
 // need login
 @server (
-	prefix: /content/v1
-	group:  post
-	jwt:    JWTAuth
+	prefix:     /content/v1
+	group:      post
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service content {
 	@doc (
@@ -125,9 +128,10 @@ service content {
 
 // need login
 @server (
-	prefix: /content/v1
-	group:  upload
-	jwt:    JWTAuth
+	prefix:     /content/v1
+	group:      upload
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service content {
 	@doc (

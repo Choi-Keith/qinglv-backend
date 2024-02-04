@@ -27,18 +27,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/collection",
-				Handler: collection.AddCollectionHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/collection/:id",
-				Handler: collection.DeleteCollectionHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/collection",
+					Handler: collection.AddCollectionHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/collection/:id",
+					Handler: collection.DeleteCollectionHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/operation/v1"),
 	)
@@ -55,23 +58,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/collection/group",
-				Handler: collection_group.AddCollectionGroupHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/collection/group/:id",
-				Handler: collection_group.DeleteCollectionGroupHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/collection/group/:id",
-				Handler: collection_group.UpdateCollectionGroupHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/collection/group",
+					Handler: collection_group.AddCollectionGroupHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/collection/group/:id",
+					Handler: collection_group.DeleteCollectionGroupHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/collection/group/:id",
+					Handler: collection_group.UpdateCollectionGroupHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/operation/v1"),
 	)
@@ -93,77 +99,86 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/comment",
-				Handler: comment.AddPostCommentHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/post/comment/:id",
-				Handler: comment.DeletePostCommentHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/comment/reply",
-				Handler: comment.AddPostCommentReplyHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/post/comment/reply/:id",
-				Handler: comment.DeletePostCommentReplyHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/comment",
+					Handler: comment.AddPostCommentHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/post/comment/:id",
+					Handler: comment.DeletePostCommentHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/comment/reply",
+					Handler: comment.AddPostCommentReplyHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/post/comment/reply/:id",
+					Handler: comment.DeletePostCommentReplyHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/operation/v1"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/share",
-				Handler: share.AddPostShareHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/share",
+					Handler: share.AddPostShareHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/operation/v1"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/comment/reply/thumb/down",
-				Handler: thumb.HandlePostCommentReplyThumbDownHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/comment/reply/thumb/up",
-				Handler: thumb.HandlePostCommentReplyThumbUpHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/comment/thumb/down",
-				Handler: thumb.HandlePostCommentThumbDownHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/comment/thumb/up",
-				Handler: thumb.HandlePostCommentThumbUpHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/thumb/down",
-				Handler: thumb.HandlePostThumbDownHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/post/thumb/up",
-				Handler: thumb.HandlePostThumbUpHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/comment/reply/thumb/down",
+					Handler: thumb.HandlePostCommentReplyThumbDownHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/comment/reply/thumb/up",
+					Handler: thumb.HandlePostCommentReplyThumbUpHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/comment/thumb/down",
+					Handler: thumb.HandlePostCommentThumbDownHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/comment/thumb/up",
+					Handler: thumb.HandlePostCommentThumbUpHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/thumb/down",
+					Handler: thumb.HandlePostThumbDownHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/post/thumb/up",
+					Handler: thumb.HandlePostThumbUpHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/operation/v1"),
 	)

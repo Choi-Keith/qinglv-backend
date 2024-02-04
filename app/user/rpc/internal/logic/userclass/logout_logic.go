@@ -9,25 +9,24 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type LoginLogic struct {
+type LogoutLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic {
-	return &LoginLogic{
+func NewLogoutLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LogoutLogic {
+	return &LogoutLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// group: user
-func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
+func (l *LogoutLogic) Logout(in *user.LogoutReq) (*user.LogoutResp, error) {
 	// todo: add your logic here and delete this line
-	if err := l.svcCtx.RedisClient.Setex(in.TokenKey, in.Token, int(in.ExpireAt)); err != nil {
+	if _, err := l.svcCtx.RedisClient.Del(in.TokenKey); err != nil {
 		return nil, err
 	}
-	return &user.LoginResp{}, nil
+	return &user.LogoutResp{}, nil
 }

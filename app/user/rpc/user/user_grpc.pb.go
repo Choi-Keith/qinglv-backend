@@ -336,6 +336,8 @@ var RoleClass_ServiceDesc = grpc.ServiceDesc{
 const (
 	UserClass_Register_FullMethodName           = "/user.UserClass/Register"
 	UserClass_Login_FullMethodName              = "/user.UserClass/Login"
+	UserClass_Logout_FullMethodName             = "/user.UserClass/Logout"
+	UserClass_GetToken_FullMethodName           = "/user.UserClass/GetToken"
 	UserClass_CheckNicknameExist_FullMethodName = "/user.UserClass/CheckNicknameExist"
 	UserClass_CheckEmailExist_FullMethodName    = "/user.UserClass/CheckEmailExist"
 	UserClass_GetUserById_FullMethodName        = "/user.UserClass/GetUserById"
@@ -353,31 +355,20 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClassClient interface {
-	// group: user
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
-	// group: user
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-	// group: user
+	Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutResp, error)
+	GetToken(ctx context.Context, in *GetTokenReq, opts ...grpc.CallOption) (*GetTokenResp, error)
 	CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error)
-	// group: user
 	CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error)
-	// group: user
 	GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error)
-	// group: user
 	GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
-	// group: user
 	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
-	// group: user
 	BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error)
-	// group: user
 	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
-	// group: user
 	UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
-	// group: user
 	UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
-	// group: user
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
-	// group: user
 	UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
 }
 
@@ -401,6 +392,24 @@ func (c *userClassClient) Register(ctx context.Context, in *RegisterReq, opts ..
 func (c *userClassClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	out := new(LoginResp)
 	err := c.cc.Invoke(ctx, UserClass_Login_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClassClient) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutResp, error) {
+	out := new(LogoutResp)
+	err := c.cc.Invoke(ctx, UserClass_Logout_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClassClient) GetToken(ctx context.Context, in *GetTokenReq, opts ...grpc.CallOption) (*GetTokenResp, error) {
+	out := new(GetTokenResp)
+	err := c.cc.Invoke(ctx, UserClass_GetToken_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -510,31 +519,20 @@ func (c *userClassClient) UpdateProfileBg(ctx context.Context, in *UpdateProfile
 // All implementations must embed UnimplementedUserClassServer
 // for forward compatibility
 type UserClassServer interface {
-	// group: user
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
-	// group: user
 	Login(context.Context, *LoginReq) (*LoginResp, error)
-	// group: user
+	Logout(context.Context, *LogoutReq) (*LogoutResp, error)
+	GetToken(context.Context, *GetTokenReq) (*GetTokenResp, error)
 	CheckNicknameExist(context.Context, *CheckNicknameExistReq) (*CheckNicknameExistResp, error)
-	// group: user
 	CheckEmailExist(context.Context, *CheckEmailExistReq) (*CheckEmailExistResp, error)
-	// group: user
 	GetUserById(context.Context, *GetUserByIdReq) (*GetUserByIdResp, error)
-	// group: user
 	GetUserList(context.Context, *GetUserListReq) (*GetUserListResp, error)
-	// group: user
 	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error)
-	// group: user
 	BanUser(context.Context, *BanUserReq) (*BanUserResp, error)
-	// group: user
 	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error)
-	// group: user
 	UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error)
-	// group: user
 	UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error)
-	// group: user
 	UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error)
-	// group: user
 	UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error)
 	mustEmbedUnimplementedUserClassServer()
 }
@@ -548,6 +546,12 @@ func (UnimplementedUserClassServer) Register(context.Context, *RegisterReq) (*Re
 }
 func (UnimplementedUserClassServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedUserClassServer) Logout(context.Context, *LogoutReq) (*LogoutResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
+}
+func (UnimplementedUserClassServer) GetToken(context.Context, *GetTokenReq) (*GetTokenResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetToken not implemented")
 }
 func (UnimplementedUserClassServer) CheckNicknameExist(context.Context, *CheckNicknameExistReq) (*CheckNicknameExistResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckNicknameExist not implemented")
@@ -627,6 +631,42 @@ func _UserClass_Login_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserClassServer).Login(ctx, req.(*LoginReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogoutReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).Logout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_Logout_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).Logout(ctx, req.(*LogoutReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserClass_GetToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTokenReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).GetToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_GetToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).GetToken(ctx, req.(*GetTokenReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -843,6 +883,14 @@ var UserClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _UserClass_Login_Handler,
+		},
+		{
+			MethodName: "Logout",
+			Handler:    _UserClass_Logout_Handler,
+		},
+		{
+			MethodName: "GetToken",
+			Handler:    _UserClass_GetToken_Handler,
 		},
 		{
 			MethodName: "CheckNicknameExist",

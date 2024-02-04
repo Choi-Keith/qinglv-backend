@@ -12,140 +12,148 @@ import (
 	group:  user
 )
 service user {
-	@doc "register"
+	@doc "注册"
 	@handler register
 	post /register (RegisterReq) returns (User)
 
-	@doc "verify email"
+	@doc "邮件验证"
 	@handler verifyEmail
 	get /email/verify (VerifyEmailReq) returns (VerifyEmailResp)
 
-	@doc "login captcha"
+	@doc "获取登录验证码"
 	@handler loginCaptcha
 	get /login/captcha returns (LoginCaptchaResp)
 
-	@doc "login"
+	@doc "登录"
 	@handler login
 	post /login (LoginReq) returns (LoginResp)
 
-	@doc "user list"
+	@doc "用户列表"
 	@handler getUserList
 	get /user (UserListReq) returns (UserListResp)
 
-	@doc "user detail by id"
+	@doc "用户详情"
 	@handler getUserById
 	get /user/:id (getUserByIdReq) returns (User)
 }
 
 // need login
 @server (
-	prefix: /user/v1
-	group:  user
-	jwt:    JWTAuth
+	prefix:     /user/v1
+	group:      user
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service user {
-	@doc "current user"
+	@doc "退出"
+	@handler logout
+	post /logout
+
+	@doc "获取当前用户"
 	@handler getCurrentUser
 	get /user/current returns (User)
 
-	@doc "update password"
+	@doc "修改密码"
 	@handler updatePassword
 	put /password (PasswordReq)
 
-	@doc "ban user"
+	@doc "禁止用户"
 	@handler banUser
 	put /user/ban/:id (BanUserReq)
 
-	@doc "update avatar"
+	@doc "修改用户头像"
 	@handler updateAvatar
 	put /user/:id/avatar (AvatarReq)
 
-	@doc "update profileBg"
+	@doc "修改个人主页背景"
 	@handler updateProfileBg
 	put /user/:id/background/image (UpdateProfileReq)
 
-	@doc "update user info"
+	@doc "更改个人信息"
 	@handler updateUser
 	put /user/:id (UpdateUserReq)
 
-	@doc "delete user"
+	@doc "删除用户"
 	@handler delUser
 	delete /user/:id (DelUserReq)
 }
 
 @server (
-	prefix: /user/v1
-	group:  role
-	jwt:    JWTAuth
+	prefix:     /user/v1
+	group:      role
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service user {
-	@doc "role list"
+	@doc "获取角色列表"
 	@handler getRoleList
 	get /role (RoleListReq) returns (RoleListResp)
 
-	@doc "role detail"
+	@doc "获取角色详情"
 	@handler getRoleByID
 	get /role/:id returns (Role)
 
-	@doc "create role"
+	@doc "创建角色"
 	@handler addRole
 	post /role (RoleReq)
 
-	@doc "update role"
+	@doc "更改角色"
 	@handler updateRole
 	put /role/:id (Role)
 
-	@doc "delete role"
+	@doc "删除角色"
 	@handler delRole
 	delete /role/:id
 }
 
 @server (
-	prefix: /user/v1
-	group:  following
-	jwt:    JWTAuth
+	prefix:     /user/v1
+	group:      following
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service user {
-	@doc "following list"
+	@doc "关注列表"
 	@handler getFollowingList
 	get /following (FollowingListReq) returns (FollowingListResp)
 
-	@doc "follower list"
+	@doc "粉丝列表"
 	@handler getFollowerList
 	get /follower (FollowerListReq) returns (FollowerListResp)
 
-	@doc "add following"
+	@doc "关注"
 	@handler addFollowing
 	post /following (AddFollowingReq)
 
-	@doc "cancel following"
+	@doc "取消关注"
 	@handler delFollowing
 	delete /following (DelFollowingReq)
 
-	@doc "is following"
+	@doc "查看是否关注"
 	@handler isFollowing
 	get /following/is (IsFollowingReq) returns (IsFollowingResp)
 }
 
 @server (
-	prefix: /user/v1
-	group:  blacklist
-	jwt:    JWTAuth
+	prefix:     /user/v1
+	group:      blacklist
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service user {
-	@doc "blacklist list"
+	@doc "黑名单"
 	@handler getBlacklist
 	get /blacklist (BlacklistReq) returns (BlacklistResp)
 
-	@doc "add blacklist"
+	@doc "添加黑名单"
 	@handler addBlacklist
 	post /blacklist (AddBlackItemReq)
 
-	@doc "cancel blacklist"
+	@doc "取消黑名单"
 	@handler delBlacklist
 	delete /blacklist (DelBlackItemReq)
 
-	@doc "is black"
+	@doc "是否黑名单"
 	@handler isBlackItem
 	get /blacklist/is (IsBlackItemReq) returns (IsBlackItemResp)
 }

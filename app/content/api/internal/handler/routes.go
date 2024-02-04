@@ -31,23 +31,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/category",
-				Handler: category.AddCategoryHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/category/:id",
-				Handler: category.DeleteCategoryHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/category/:id",
-				Handler: category.UpdateCategoryHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/category",
+					Handler: category.AddCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/category/:id",
+					Handler: category.DeleteCategoryHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/category/:id",
+					Handler: category.UpdateCategoryHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/content/v1"),
 	)
@@ -74,18 +77,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/post",
-				Handler: post.AddPostHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/post/:id",
-				Handler: post.DeletePostHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/post",
+					Handler: post.AddPostHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/post/:id",
+					Handler: post.DeletePostHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/content/v1"),
 	)
@@ -112,40 +118,46 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/topic",
-				Handler: topic.AddTopicHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/topic/:id",
-				Handler: topic.DeleteTopicHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/topic/:id",
-				Handler: topic.UpdateTopicHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/topic",
+					Handler: topic.AddTopicHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/topic/:id",
+					Handler: topic.DeleteTopicHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/topic/:id",
+					Handler: topic.UpdateTopicHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/content/v1"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodDelete,
-				Path:    "/image/remove",
-				Handler: upload.RemoveImagesHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/image/upload/:type",
-				Handler: upload.UploadImagesHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodDelete,
+					Path:    "/image/remove",
+					Handler: upload.RemoveImagesHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/image/upload/:type",
+					Handler: upload.UploadImagesHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/content/v1"),
 	)

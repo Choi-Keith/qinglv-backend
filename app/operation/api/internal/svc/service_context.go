@@ -6,6 +6,7 @@ import (
 	"qinglv-backend/app/content/rpc/client/categoryclass"
 	"qinglv-backend/app/content/rpc/client/postclass"
 	"qinglv-backend/app/operation/api/internal/config"
+	"qinglv-backend/app/operation/api/internal/middleware"
 	"qinglv-backend/app/operation/rpc/client/collectionclass"
 	"qinglv-backend/app/operation/rpc/client/commentclass"
 	"qinglv-backend/app/operation/rpc/client/shareclass"
@@ -14,11 +15,13 @@ import (
 	"qinglv-backend/app/user/rpc/client/userclass"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
+	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
 	Config        config.Config
+	Authority     rest.Middleware
 	CollectionRpc collectionclass.CollectionClass
 	ShareRpc      shareclass.ShareClass
 	ThumbRpc      thumbclass.ThumbClass
@@ -40,7 +43,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			SecretKey: c.Cos.SecretKey,
 		},
 	})
-	return &ServiceContext{
+	svc := &ServiceContext{
 		Config:        c,
 		CollectionRpc: collectionclass.NewCollectionClass(zrpc.MustNewClient(c.OperationRpc)),
 		ShareRpc:      shareclass.NewShareClass(zrpc.MustNewClient(c.OperationRpc)),
@@ -52,4 +55,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		CategoryRpc:   categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
 		CosClient:     client,
 	}
+	svc.Authority = middleware.NewAuthorityMiddleware(svc.UserRpc, &c).Handle
+
+	return svc
 }

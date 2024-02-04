@@ -15,92 +15,101 @@ import (
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/blacklist",
-				Handler: blacklist.GetBlacklistHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/blacklist",
-				Handler: blacklist.AddBlacklistHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/blacklist",
-				Handler: blacklist.DelBlacklistHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/blacklist/is",
-				Handler: blacklist.IsBlackItemHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/blacklist",
+					Handler: blacklist.GetBlacklistHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/blacklist",
+					Handler: blacklist.AddBlacklistHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/blacklist",
+					Handler: blacklist.DelBlacklistHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/blacklist/is",
+					Handler: blacklist.IsBlackItemHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/user/v1"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/follower",
-				Handler: following.GetFollowerListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/following",
-				Handler: following.GetFollowingListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/following",
-				Handler: following.AddFollowingHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/following",
-				Handler: following.DelFollowingHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/following/is",
-				Handler: following.IsFollowingHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/follower",
+					Handler: following.GetFollowerListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/following",
+					Handler: following.GetFollowingListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/following",
+					Handler: following.AddFollowingHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/following",
+					Handler: following.DelFollowingHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/following/is",
+					Handler: following.IsFollowingHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/user/v1"),
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/role",
-				Handler: role.GetRoleListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/role",
-				Handler: role.AddRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/role/:id",
-				Handler: role.GetRoleByIDHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/role/:id",
-				Handler: role.UpdateRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/role/:id",
-				Handler: role.DelRoleHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/role",
+					Handler: role.GetRoleListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/role",
+					Handler: role.AddRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/role/:id",
+					Handler: role.GetRoleByIDHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/role/:id",
+					Handler: role.UpdateRoleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/role/:id",
+					Handler: role.DelRoleHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/user/v1"),
 	)
@@ -142,43 +151,51 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPut,
-				Path:    "/password",
-				Handler: user.UpdatePasswordHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/:id",
-				Handler: user.UpdateUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/user/:id",
-				Handler: user.DelUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/:id/avatar",
-				Handler: user.UpdateAvatarHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/:id/background/image",
-				Handler: user.UpdateProfileBgHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/user/ban/:id",
-				Handler: user.BanUserHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/current",
-				Handler: user.GetCurrentUserHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/logout",
+					Handler: user.LogoutHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/password",
+					Handler: user.UpdatePasswordHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user/:id",
+					Handler: user.UpdateUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/user/:id",
+					Handler: user.DelUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user/:id/avatar",
+					Handler: user.UpdateAvatarHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user/:id/background/image",
+					Handler: user.UpdateProfileBgHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/user/ban/:id",
+					Handler: user.BanUserHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/user/current",
+					Handler: user.GetCurrentUserHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
 		rest.WithPrefix("/user/v1"),
 	)

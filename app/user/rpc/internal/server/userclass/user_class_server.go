@@ -22,79 +22,76 @@ func NewUserClassServer(svcCtx *svc.ServiceContext) *UserClassServer {
 	}
 }
 
-// group: user
 func (s *UserClassServer) Register(ctx context.Context, in *user.RegisterReq) (*user.RegisterResp, error) {
 	l := userclasslogic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
 
-// group: user
 func (s *UserClassServer) Login(ctx context.Context, in *user.LoginReq) (*user.LoginResp, error) {
 	l := userclasslogic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
 }
 
-// group: user
+func (s *UserClassServer) Logout(ctx context.Context, in *user.LogoutReq) (*user.LogoutResp, error) {
+	l := userclasslogic.NewLogoutLogic(ctx, s.svcCtx)
+	return l.Logout(in)
+}
+
+func (s *UserClassServer) GetToken(ctx context.Context, in *user.GetTokenReq) (*user.GetTokenResp, error) {
+	l := userclasslogic.NewGetTokenLogic(ctx, s.svcCtx)
+	return l.GetToken(in)
+}
+
 func (s *UserClassServer) CheckNicknameExist(ctx context.Context, in *user.CheckNicknameExistReq) (*user.CheckNicknameExistResp, error) {
 	l := userclasslogic.NewCheckNicknameExistLogic(ctx, s.svcCtx)
 	return l.CheckNicknameExist(in)
 }
 
-// group: user
 func (s *UserClassServer) CheckEmailExist(ctx context.Context, in *user.CheckEmailExistReq) (*user.CheckEmailExistResp, error) {
 	l := userclasslogic.NewCheckEmailExistLogic(ctx, s.svcCtx)
 	return l.CheckEmailExist(in)
 }
 
-// group: user
 func (s *UserClassServer) GetUserById(ctx context.Context, in *user.GetUserByIdReq) (*user.GetUserByIdResp, error) {
 	l := userclasslogic.NewGetUserByIdLogic(ctx, s.svcCtx)
 	return l.GetUserById(in)
 }
 
-// group: user
 func (s *UserClassServer) GetUserList(ctx context.Context, in *user.GetUserListReq) (*user.GetUserListResp, error) {
 	l := userclasslogic.NewGetUserListLogic(ctx, s.svcCtx)
 	return l.GetUserList(in)
 }
 
-// group: user
 func (s *UserClassServer) DeleteUser(ctx context.Context, in *user.DeleteUserReq) (*user.DeleteUserResp, error) {
 	l := userclasslogic.NewDeleteUserLogic(ctx, s.svcCtx)
 	return l.DeleteUser(in)
 }
 
-// group: user
 func (s *UserClassServer) BanUser(ctx context.Context, in *user.BanUserReq) (*user.BanUserResp, error) {
 	l := userclasslogic.NewBanUserLogic(ctx, s.svcCtx)
 	return l.BanUser(in)
 }
 
-// group: user
 func (s *UserClassServer) UpdateUser(ctx context.Context, in *user.UpdateUserReq) (*user.UpdateUserResp, error) {
 	l := userclasslogic.NewUpdateUserLogic(ctx, s.svcCtx)
 	return l.UpdateUser(in)
 }
 
-// group: user
 func (s *UserClassServer) UpdatePassword(ctx context.Context, in *user.UpdatePasswordReq) (*user.UpdatePasswordResp, error) {
 	l := userclasslogic.NewUpdatePasswordLogic(ctx, s.svcCtx)
 	return l.UpdatePassword(in)
 }
 
-// group: user
 func (s *UserClassServer) UpdateEmailStatus(ctx context.Context, in *user.UpdateEmailStatusReq) (*user.UpdateEmailStatusResp, error) {
 	l := userclasslogic.NewUpdateEmailStatusLogic(ctx, s.svcCtx)
 	return l.UpdateEmailStatus(in)
 }
 
-// group: user
 func (s *UserClassServer) UpdateAvatar(ctx context.Context, in *user.UpdateAvatarReq) (*user.UpdateAvatarResp, error) {
 	l := userclasslogic.NewUpdateAvatarLogic(ctx, s.svcCtx)
 	return l.UpdateAvatar(in)
 }
 
-// group: user
 func (s *UserClassServer) UpdateProfileBg(ctx context.Context, in *user.UpdateProfileBgReq) (*user.UpdateProfileBgResp, error) {
 	l := userclasslogic.NewUpdateProfileBgLogic(ctx, s.svcCtx)
 	return l.UpdateProfileBg(in)

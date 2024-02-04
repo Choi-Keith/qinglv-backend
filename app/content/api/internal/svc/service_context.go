@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/url"
 	"qinglv-backend/app/content/api/internal/config"
+	"qinglv-backend/app/content/api/internal/middleware"
 	"qinglv-backend/app/content/rpc/client/categoryclass"
 	"qinglv-backend/app/content/rpc/client/mediafileclass"
 	"qinglv-backend/app/content/rpc/client/postclass"
@@ -12,11 +13,13 @@ import (
 	"qinglv-backend/app/user/rpc/client/userclass"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
+	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type ServiceContext struct {
 	Config       config.Config
+	Authority    rest.Middleware
 	CategoryRpc  categoryclass.CategoryClass
 	MediaFileRpc mediafileclass.MediaFileClass
 	PostRpc      postclass.PostClass
@@ -36,7 +39,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			SecretKey: c.Cos.SecretKey,
 		},
 	})
-	return &ServiceContext{
+	svc := &ServiceContext{
 		Config:       c,
 		CategoryRpc:  categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
 		MediaFileRpc: mediafileclass.NewMediaFileClass(zrpc.MustNewClient(c.ContentRpc)),
@@ -46,4 +49,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		FollowingRpc: followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
 		CosClient:    client,
 	}
+	svc.Authority = middleware.NewAuthorityMiddleware(svc.UserRpc, &c).Handle
+	return svc
 }

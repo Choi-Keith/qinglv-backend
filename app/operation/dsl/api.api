@@ -20,9 +20,10 @@ service operation {
 
 // need login
 @server (
-	prefix: /operation/v1
-	group:  collection_group
-	jwt:    JWTAuth
+	prefix:     /operation/v1
+	group:      collection_group
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service operation {
 	@doc "新建收藏分组"
@@ -51,9 +52,10 @@ service operation {
 
 // need login
 @server (
-	prefix: /operation/v1
-	group:  collection
-	jwt:    JWTAuth
+	prefix:     /operation/v1
+	group:      collection
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service operation {
 	@doc "新建收藏"
@@ -67,9 +69,10 @@ service operation {
 
 // need login
 @server (
-	prefix: /operation/v1
-	group:  share
-	jwt:    JWTAuth
+	prefix:     /operation/v1
+	group:      share
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service operation {
 	@doc "分享"
@@ -79,9 +82,10 @@ service operation {
 
 // need login
 @server (
-	prefix: /operation/v1
-	group:  thumb
-	jwt:    JWTAuth
+	prefix:     /operation/v1
+	group:      thumb
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service operation {
 	@doc "帖子点赞"
@@ -126,9 +130,10 @@ service operation {
 
 // need login
 @server (
-	prefix: /operation/v1
-	group:  comment
-	jwt:    JWTAuth
+	prefix:     /operation/v1
+	group:      comment
+	jwt:        JWTAuth
+	middleware: Authority
 )
 service operation {
 	@doc "添加评论"

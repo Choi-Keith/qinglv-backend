@@ -43,12 +43,16 @@ type (
 	GetFollowingListResp   = user.GetFollowingListResp
 	GetRoleInfoReq         = user.GetRoleInfoReq
 	GetRoleInfoResp        = user.GetRoleInfoResp
+	GetTokenReq            = user.GetTokenReq
+	GetTokenResp           = user.GetTokenResp
 	GetUserByIdReq         = user.GetUserByIdReq
 	GetUserByIdResp        = user.GetUserByIdResp
 	GetUserListReq         = user.GetUserListReq
 	GetUserListResp        = user.GetUserListResp
 	LoginReq               = user.LoginReq
 	LoginResp              = user.LoginResp
+	LogoutReq              = user.LogoutReq
+	LogoutResp             = user.LogoutResp
 	RegisterReq            = user.RegisterReq
 	RegisterResp           = user.RegisterResp
 	RoleItem               = user.RoleItem

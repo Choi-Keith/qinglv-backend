@@ -43,12 +43,16 @@ type (
 	GetFollowingListResp   = user.GetFollowingListResp
 	GetRoleInfoReq         = user.GetRoleInfoReq
 	GetRoleInfoResp        = user.GetRoleInfoResp
+	GetTokenReq            = user.GetTokenReq
+	GetTokenResp           = user.GetTokenResp
 	GetUserByIdReq         = user.GetUserByIdReq
 	GetUserByIdResp        = user.GetUserByIdResp
 	GetUserListReq         = user.GetUserListReq
 	GetUserListResp        = user.GetUserListResp
 	LoginReq               = user.LoginReq
 	LoginResp              = user.LoginResp
+	LogoutReq              = user.LogoutReq
+	LogoutResp             = user.LogoutResp
 	RegisterReq            = user.RegisterReq
 	RegisterResp           = user.RegisterResp
 	RoleItem               = user.RoleItem
@@ -69,31 +73,20 @@ type (
 	VerifyRegisterCodeResp = user.VerifyRegisterCodeResp
 
 	UserClass interface {
-		// group: user
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
-		// group: user
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-		// group: user
+		Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutResp, error)
+		GetToken(ctx context.Context, in *GetTokenReq, opts ...grpc.CallOption) (*GetTokenResp, error)
 		CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error)
-		// group: user
 		CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error)
-		// group: user
 		GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error)
-		// group: user
 		GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error)
-		// group: user
 		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
-		// group: user
 		BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error)
-		// group: user
 		UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
-		// group: user
 		UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
-		// group: user
 		UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
-		// group: user
 		UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
-		// group: user
 		UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
 	}
 
@@ -108,79 +101,76 @@ func NewUserClass(cli zrpc.Client) UserClass {
 	}
 }
 
-// group: user
 func (m *defaultUserClass) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.Register(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.Login(ctx, in, opts...)
 }
 
-// group: user
+func (m *defaultUserClass) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*LogoutResp, error) {
+	client := user.NewUserClassClient(m.cli.Conn())
+	return client.Logout(ctx, in, opts...)
+}
+
+func (m *defaultUserClass) GetToken(ctx context.Context, in *GetTokenReq, opts ...grpc.CallOption) (*GetTokenResp, error) {
+	client := user.NewUserClassClient(m.cli.Conn())
+	return client.GetToken(ctx, in, opts...)
+}
+
 func (m *defaultUserClass) CheckNicknameExist(ctx context.Context, in *CheckNicknameExistReq, opts ...grpc.CallOption) (*CheckNicknameExistResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.CheckNicknameExist(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) CheckEmailExist(ctx context.Context, in *CheckEmailExistReq, opts ...grpc.CallOption) (*CheckEmailExistResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.CheckEmailExist(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.GetUserById(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) GetUserList(ctx context.Context, in *GetUserListReq, opts ...grpc.CallOption) (*GetUserListResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.GetUserList(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.DeleteUser(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) BanUser(ctx context.Context, in *BanUserReq, opts ...grpc.CallOption) (*BanUserResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.BanUser(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.UpdateUser(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.UpdatePassword(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.UpdateEmailStatus(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.UpdateAvatar(ctx, in, opts...)
 }
 
-// group: user
 func (m *defaultUserClass) UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.UpdateProfileBg(ctx, in, opts...)

@@ -3,10 +3,12 @@ package user
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
 	"qinglv-backend/app/user/rpc/user"
+	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/jwtx"
 	"qinglv-backend/pkg/password"
 
@@ -75,6 +77,13 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		jwtx.WithOption("email", userResp.User.Email),
 	)
 	if err != nil {
+		return nil, err
+	}
+	if _, err = l.svcCtx.UserRpc.Login(l.ctx, &user.LoginReq{
+		TokenKey: fmt.Sprintf("%s%d", globalKey.TokenPrefixKey, userResp.User.Id),
+		Token:    token,
+		ExpireAt: uint64(l.svcCtx.Config.JWTAuth.AccessExpire),
+	}); err != nil {
 		return nil, err
 	}
 	return &types.LoginResp{

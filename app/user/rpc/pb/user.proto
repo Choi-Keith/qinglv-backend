@@ -96,16 +96,25 @@ message RegisterResp {
 }
 
 message LoginReq {
-  string email = 1;
-  string phone = 2;
-  string nickname = 3;
-  string password = 4;
+  string token = 1;
+  string tokenKey = 2;
+  uint64 expireAt = 3;
 }
 
 message LoginResp {
-  string accessToken = 1;
-  string refreshToken = 2;
-  int64 expireAt = 3;
+  string pong = 1;
+}
+message LogoutReq {
+  string tokenKey = 1;
+}
+message LogoutResp {
+  string pong = 1;
+}
+message GetTokenReq{
+  string tokenKey = 1;
+}
+message GetTokenResp {
+  string token = 1;
 }
 
 message CheckNicknameExistReq{
@@ -215,31 +224,20 @@ message UpdateProfileBgResp {
   string pong = 1;
 }
 service UserClass {
-  // group: user
   rpc Register(RegisterReq) returns(RegisterResp);
-  // group: user
   rpc Login(LoginReq) returns(LoginResp);
-  // group: user
+  rpc Logout(LogoutReq) returns(LogoutResp);
+  rpc GetToken(GetTokenReq) returns(GetTokenResp);
   rpc CheckNicknameExist(CheckNicknameExistReq) returns(CheckNicknameExistResp);
-  // group: user
   rpc CheckEmailExist(CheckEmailExistReq) returns(CheckEmailExistResp);
-  // group: user
   rpc GetUserById(GetUserByIdReq) returns(GetUserByIdResp);
-  // group: user
   rpc GetUserList(GetUserListReq) returns(GetUserListResp);
-  // group: user
   rpc DeleteUser(DeleteUserReq) returns(DeleteUserResp);
-  // group: user
   rpc BanUser(BanUserReq) returns(BanUserResp);
-  // group: user
   rpc UpdateUser(UpdateUserReq) returns(UpdateUserResp);
-  // group: user
   rpc UpdatePassword(UpdatePasswordReq) returns(UpdatePasswordResp);
-  // group: user
   rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
-  // group: user
   rpc UpdateAvatar(UpdateAvatarReq) returns(UpdateAvatarResp);
-  // group: user
   rpc UpdateProfileBg(UpdateProfileBgReq) returns(UpdateProfileBgResp);
 }
 
