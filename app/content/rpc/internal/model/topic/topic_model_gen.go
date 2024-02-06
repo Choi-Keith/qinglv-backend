@@ -68,6 +68,7 @@ type (
 		DeletedAt   time.Time      `db:"deleted_at"`  // 删除时间
 		IsDel       int64          `db:"is_del"`
 		Version     int64          `db:"version"` // 版本号
+		Score       float64        `db:"score"`
 	}
 )
 
@@ -84,11 +85,11 @@ func (m *defaultTopicModel) Insert(ctx context.Context, session sqlx.Session, da
 	qContentTopicIdKey := fmt.Sprintf("%s%v", cacheQContentTopicIdPrefix, data.Id)
 	qContentTopicNameKey := fmt.Sprintf("%s%v", cacheQContentTopicNamePrefix, data.Name)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, topicRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, topicRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.Name, data.Bg, data.Type, data.Description, data.QuoteCount, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
+			return session.ExecCtx(ctx, query, data.Id, data.Name, data.Bg, data.Type, data.Description, data.QuoteCount, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Score)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.Name, data.Bg, data.Type, data.Description, data.QuoteCount, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
+		return conn.ExecCtx(ctx, query, data.Id, data.Name, data.Bg, data.Type, data.Description, data.QuoteCount, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.Score)
 	}, qContentTopicIdKey, qContentTopicNameKey)
 }
 
@@ -139,9 +140,9 @@ func (m *defaultTopicModel) Update(ctx context.Context, session sqlx.Session, ne
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, topicRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.Name, newData.Bg, newData.Type, newData.Description, newData.QuoteCount, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
+			return session.ExecCtx(ctx, query, newData.Name, newData.Bg, newData.Type, newData.Description, newData.QuoteCount, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Score, newData.Id)
 		}
-		return conn.ExecCtx(ctx, query, newData.Name, newData.Bg, newData.Type, newData.Description, newData.QuoteCount, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
+		return conn.ExecCtx(ctx, query, newData.Name, newData.Bg, newData.Type, newData.Description, newData.QuoteCount, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Score, newData.Id)
 	}, qContentTopicIdKey, qContentTopicNameKey)
 }
 
@@ -162,9 +163,9 @@ func (m *defaultTopicModel) UpdateWithVersion(ctx context.Context, session sqlx.
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, topicRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.Name, newData.Bg, newData.Type, newData.Description, newData.QuoteCount, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
+			return session.ExecCtx(ctx, query, newData.Name, newData.Bg, newData.Type, newData.Description, newData.QuoteCount, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Score, newData.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, newData.Name, newData.Bg, newData.Type, newData.Description, newData.QuoteCount, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
+		return conn.ExecCtx(ctx, query, newData.Name, newData.Bg, newData.Type, newData.Description, newData.QuoteCount, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Score, newData.Id, oldVersion)
 	}, qContentTopicIdKey, qContentTopicNameKey)
 	if err != nil {
 		return err

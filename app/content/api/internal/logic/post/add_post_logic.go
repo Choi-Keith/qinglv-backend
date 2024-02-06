@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
 
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
@@ -45,8 +46,10 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 			return err
 		}
 	}
+	var topicList []*content.TopicItem
 	if len(req.Topics) != 0 {
-		if err := l.checkAndCreateTopic(req, uint64(userId)); err != nil {
+		topicList, err = l.checkAndCreateTopic(req, uint64(userId))
+		if err != nil {
 			return err
 		}
 	}
@@ -56,7 +59,6 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 	if err != nil {
 		return err
 	}
-	logx.Debugf("[Post] AddPost loc: %+v\n", loc)
 	location := loc.Province
 	_, err = l.svcCtx.PostRpc.AddPost(l.ctx, &content.AddPostReq{
 		Id:         id,
@@ -83,14 +85,26 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 	if err != nil {
 		return err
 	}
+	for _, topicItem := range topicList {
+		score := utils.AddScore(topicItem.CreatedAt, 5, 1.5)
+		if _, err := l.svcCtx.TopicRpc.UpdateTopic(l.ctx, &content.UpdateTopicReq{
+			Id:         topicItem.Id,
+			Score:      topicItem.Score + score,
+			QuoteCount: topicItem.QuoteCount + 1,
+		}); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
-func (l *AddPostLogic) checkAndCreateTopic(req *types.AddPostReq, userId uint64) error {
+func (l *AddPostLogic) checkAndCreateTopic(req *types.AddPostReq, userId uint64) ([]*content.TopicItem, error) {
+	var scores []*content.TopicItem
 	for _, topic := range req.Topics {
-		if _, err := l.svcCtx.TopicRpc.GetTopicByName(l.ctx, &content.GetTopicByNameReq{
+		topicResp, err := l.svcCtx.TopicRpc.GetTopicByName(l.ctx, &content.GetTopicByNameReq{
 			Name: topic,
-		}); err != nil {
+		})
+		if err != nil {
 			topicId := snowflake.MustID()
 			_, err := l.svcCtx.TopicRpc.AddTopic(l.ctx, &content.AddTopicReq{
 				Id:          topicId,
@@ -99,11 +113,20 @@ func (l *AddPostLogic) checkAndCreateTopic(req *types.AddPostReq, userId uint64)
 				Type:        2,
 				Description: "",
 				Bg:          "https://qinglv-1304086226.cos.ap-guangzhou.myqcloud.com/images/topic/default.png",
+				Score:       10,
 			})
 			if err != nil {
-				return err
+				return scores, err
 			}
+			scores = append(scores, &content.TopicItem{
+				Id:         topicId,
+				Score:      10,
+				CreatedAt:  uint64(time.Now().Unix() * 1000),
+				QuoteCount: 0,
+			})
+		} else {
+			scores = append(scores, topicResp.Topic)
 		}
 	}
-	return nil
+	return scores, nil
 }

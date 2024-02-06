@@ -10,8 +10,6 @@ import (
 
 	"time"
 
-	"qinglv-backend/common/globalKey"
-
 	"github.com/Masterminds/squirrel"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/stores/builder"
@@ -19,6 +17,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/core/stringx"
+	"qinglv-backend/common/globalKey"
 )
 
 var (
@@ -55,11 +54,11 @@ type (
 	}
 
 	Post struct {
-		Id              uint64    `db:"id"`                // 主键id
-		Status          uint64    `db:"status"`            // 审核状态：1已通过,2正在审核中，3不通过
-		Visibility      uint64    `db:"visibility"`        // 可见性：1公开,私密,仅好友可见
-		IsTop           uint64    `db:"is_top"`            // 是否置顶:1是，2否
-		Score           uint64    `db:"score"`             // 积分
+		Id              uint64    `db:"id"`         // 主键id
+		Status          uint64    `db:"status"`     // 审核状态：1已通过,2正在审核中，3不通过
+		Visibility      uint64    `db:"visibility"` // 可见性：1公开,2仅好友可见,3私密,
+		IsTop           uint64    `db:"is_top"`     // 是否置顶:1否，2是
+		Score           float64   `db:"score"`
 		Location        string    `db:"location"`          // 位置
 		CommentCount    uint64    `db:"comment_count"`     // 评论数
 		CollectionCount uint64    `db:"collection_count"`  // 收藏数

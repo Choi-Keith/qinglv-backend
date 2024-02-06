@@ -26,7 +26,11 @@ type ServiceContext struct {
 	TopicRpc     topicclass.TopicClass
 	UserRpc      userclass.UserClass
 	FollowingRpc followingclass.FollowingClass
-	CosClient    *cos.Client
+	// ThumbRpc      thumbclass.ThumbClass
+	// CollectionRpc collectionclass.CollectionClass
+	// CommentRpc    commentclass.CommentClass
+	// ShareRpc      shareclass.ShareClass
+	CosClient *cos.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {

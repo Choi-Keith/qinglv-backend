@@ -65,7 +65,7 @@ func (l *UpdatePostLogic) UpdatePost(in *content.UpdatePostReq) (*content.OkResp
 	}
 	score := postItem.Score
 	if in.Score != 0 {
-		score = in.Score
+		score = float64(in.Score)
 	}
 	postItem.Status = status
 	postItem.Visibility = visibility

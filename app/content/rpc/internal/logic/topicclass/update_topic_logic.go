@@ -31,10 +31,26 @@ func (l *UpdateTopicLogic) UpdateTopic(in *content.UpdateTopicReq) (*content.OkR
 	if err != nil {
 		return nil, err
 	}
-	topicItem.Bg = in.Bg
-	topicItem.Description = sql.NullString{String: in.Description, Valid: true}
-	topicItem.QuoteCount = in.QuoteCount
-	topicItem.Type = int64(in.Type)
+	bg := topicItem.Bg
+	if in.Bg != "" {
+		bg = in.Bg
+	}
+	topicItem.Bg = bg
+	desc := topicItem.Description.String
+	if in.Description != "" {
+		desc = in.Description
+	}
+	topicItem.Description = sql.NullString{String: desc, Valid: true}
+	quoteCount := topicItem.QuoteCount
+	if in.QuoteCount != 0 {
+		quoteCount = in.QuoteCount
+	}
+	topicItem.QuoteCount = quoteCount
+	score := topicItem.Score
+	if in.Score != 0 {
+		score = in.Score
+	}
+	topicItem.Score = score
 	err = l.svcCtx.TopicModel.UpdateWithVersion(l.ctx, nil, topicItem)
 	if err != nil {
 		return nil, err

@@ -52,7 +52,7 @@ func (l *GetPostListLogic) GetPostList(req *types.GetPostListReq, r *http.Reques
 	postListResp, err := l.svcCtx.PostRpc.GetPostList(l.ctx, &content.GetPostListReq{
 		Status:     int32(req.Status),
 		Visibility: args,
-		Score:      req.Score,
+		Score:      float64(req.Score),
 		Sort:       req.Sort,
 		CreatorId:  creatorId,
 		PageNum:    uint64(req.PageNum),

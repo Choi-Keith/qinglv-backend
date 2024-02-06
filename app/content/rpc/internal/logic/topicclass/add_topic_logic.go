@@ -39,6 +39,7 @@ func (l *AddTopicLogic) AddTopic(in *content.AddTopicReq) (*content.OkResp, erro
 		DeletedAt:   time.Now(),
 		Version:     1,
 		Type:        int64(in.Type),
+		Score:       in.Score,
 	}
 	_, err := l.svcCtx.TopicModel.Insert(l.ctx, nil, topicItem)
 	if err != nil {

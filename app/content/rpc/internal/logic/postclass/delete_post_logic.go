@@ -34,6 +34,7 @@ func (l *DeletePostLogic) DeletePost(in *content.DeletePostReq) (*content.OkResp
 		if err := l.svcCtx.PostModel.Delete(ctx, session, in.Id); err != nil {
 			return err
 		}
+
 		return nil
 	})
 	if err != nil {

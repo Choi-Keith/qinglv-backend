@@ -45,6 +45,9 @@ func (l *DeletePostLogic) DeletePost(req *types.DeletePostReq) error {
 	postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
 		Id: postResp.Post.Id,
 	})
+	if err != nil {
+		return err
+	}
 	_, err = l.svcCtx.PostRpc.DeletePost(l.ctx, &content.DeletePostReq{
 		Id:            req.Id,
 		PostContentId: postContentResp.PostContent.Id,

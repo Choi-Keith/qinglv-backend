@@ -68,6 +68,7 @@ type (
 		DeletedAt  time.Time      `db:"deleted_at"`  // 删除时间
 		IsDel      int64          `db:"is_del"`
 		Version    int64          `db:"version"` // 版本号
+		ALink      string         `db:"a_link"`  // 链接分享
 	}
 )
 
@@ -84,11 +85,11 @@ func (m *defaultPostContentModel) Insert(ctx context.Context, session sqlx.Sessi
 	qContentPostContentIdKey := fmt.Sprintf("%s%v", cacheQContentPostContentIdPrefix, data.Id)
 	qContentPostContentPostIdKey := fmt.Sprintf("%s%v", cacheQContentPostContentPostIdPrefix, data.PostId)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, postContentRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, postContentRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.PostId, data.CategoryId, data.Topics, data.Content, data.Images, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
+			return session.ExecCtx(ctx, query, data.Id, data.PostId, data.CategoryId, data.Topics, data.Content, data.Images, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.ALink)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.PostId, data.CategoryId, data.Topics, data.Content, data.Images, data.CreatorId, data.DeletedAt, data.IsDel, data.Version)
+		return conn.ExecCtx(ctx, query, data.Id, data.PostId, data.CategoryId, data.Topics, data.Content, data.Images, data.CreatorId, data.DeletedAt, data.IsDel, data.Version, data.ALink)
 	}, qContentPostContentIdKey, qContentPostContentPostIdKey)
 }
 
@@ -139,9 +140,9 @@ func (m *defaultPostContentModel) Update(ctx context.Context, session sqlx.Sessi
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, postContentRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.PostId, newData.CategoryId, newData.Topics, newData.Content, newData.Images, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
+			return session.ExecCtx(ctx, query, newData.PostId, newData.CategoryId, newData.Topics, newData.Content, newData.Images, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.ALink, newData.Id)
 		}
-		return conn.ExecCtx(ctx, query, newData.PostId, newData.CategoryId, newData.Topics, newData.Content, newData.Images, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
+		return conn.ExecCtx(ctx, query, newData.PostId, newData.CategoryId, newData.Topics, newData.Content, newData.Images, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.ALink, newData.Id)
 	}, qContentPostContentIdKey, qContentPostContentPostIdKey)
 }
 
@@ -162,9 +163,9 @@ func (m *defaultPostContentModel) UpdateWithVersion(ctx context.Context, session
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, postContentRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, newData.PostId, newData.CategoryId, newData.Topics, newData.Content, newData.Images, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
+			return session.ExecCtx(ctx, query, newData.PostId, newData.CategoryId, newData.Topics, newData.Content, newData.Images, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.ALink, newData.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, newData.PostId, newData.CategoryId, newData.Topics, newData.Content, newData.Images, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
+		return conn.ExecCtx(ctx, query, newData.PostId, newData.CategoryId, newData.Topics, newData.Content, newData.Images, newData.CreatorId, newData.DeletedAt, newData.IsDel, newData.Version, newData.ALink, newData.Id, oldVersion)
 	}, qContentPostContentIdKey, qContentPostContentPostIdKey)
 	if err != nil {
 		return err

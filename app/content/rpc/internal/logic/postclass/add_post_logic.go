@@ -38,6 +38,7 @@ func (l *AddPostLogic) AddPost(in *content.AddPostReq) (*content.OkResp, error) 
 		Location:        in.Location,
 		DeletedAt:       time.Now(),
 		LatestRepliedOn: time.Now(),
+		Score:           10.000,
 	})
 	if err != nil {
 		return nil, err
