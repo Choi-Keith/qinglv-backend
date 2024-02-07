@@ -86,7 +86,7 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 		return err
 	}
 	for _, topicItem := range topicList {
-		score := utils.AddScore(topicItem.CreatedAt, 5, 1.5)
+		score := utils.HandleScore(topicItem.CreatedAt, 5, 1.5)
 		if _, err := l.svcCtx.TopicRpc.UpdateTopic(l.ctx, &content.UpdateTopicReq{
 			Id:         topicItem.Id,
 			Score:      topicItem.Score + score,

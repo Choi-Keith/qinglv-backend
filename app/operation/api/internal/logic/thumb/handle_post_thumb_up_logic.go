@@ -10,6 +10,7 @@ import (
 	"qinglv-backend/app/operation/rpc/client/thumbclass"
 	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/snowflake"
+	"qinglv-backend/pkg/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -85,10 +86,17 @@ func (l *HandlePostThumbUpLogic) HandlePostThumbUp(req *types.HandlePostThumbUpR
 			return err
 		}
 	}
+	var score float64
+	if thumbUpCount > 0 {
+		score = postResp.Post.Score + utils.HandleScore(postResp.Post.CreatedAt, 1, 1.5)
+	} else {
+		score = postResp.Post.Score - utils.HandleScore(postResp.Post.CreatedAt, 1, 1.5)
+	}
 	if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 		Id:           postResp.Post.Id,
 		LikeCount:    postResp.Post.LikeCount + uint64(thumbUpCount),
 		DislikeCount: postResp.Post.DislikeCount + uint64(thumbDownCount),
+		Score:        score,
 	}); err != nil {
 		return err
 	}

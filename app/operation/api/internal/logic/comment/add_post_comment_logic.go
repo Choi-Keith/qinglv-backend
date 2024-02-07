@@ -3,7 +3,6 @@ package comment
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"qinglv-backend/app/content/rpc/content"
@@ -40,7 +39,6 @@ func (l *AddPostCommentLogic) AddPostComment(req *types.AddPostCommentReq) error
 		return err
 	}
 	creatorName := l.ctx.Value("nickname").(string)
-	fmt.Printf("userId, %d, creatorName: %s\n", userId, creatorName)
 	id := snowflake.MustID()
 	ip := utils.GetClientIP(l.r)
 	loc, err := ip2location.Get(ip)
@@ -64,10 +62,11 @@ func (l *AddPostCommentLogic) AddPostComment(req *types.AddPostCommentReq) error
 	}); err != nil {
 		return err
 	}
+	score := utils.HandleScore(postResp.Post.CreatedAt, 1, 1.5)
 	if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 		Id:           req.PostId,
 		CommentCount: postResp.Post.CommentCount + 1,
-		Score:        postResp.Post.Score + 1,
+		Score:        postResp.Post.Score + score,
 	}); err != nil {
 		return err
 	}

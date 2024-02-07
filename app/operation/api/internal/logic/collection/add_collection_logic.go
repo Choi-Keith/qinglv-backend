@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
 	"qinglv-backend/pkg/snowflake"
+	"qinglv-backend/pkg/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -55,10 +56,11 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 		if err != nil {
 			return err
 		}
+		score := utils.HandleScore(postResp.Post.CreatedAt, 2, 1.5)
 		if _, err := l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 			Id:              req.TargetId,
 			CollectionCount: postResp.Post.CollectionCount + 1,
-			Score:           postResp.Post.Score + 1,
+			Score:           postResp.Post.Score + score,
 		}); err != nil {
 			return err
 		}

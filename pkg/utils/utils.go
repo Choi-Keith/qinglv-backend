@@ -11,8 +11,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 const (
@@ -115,9 +113,8 @@ func handleFloat64(value float64, prec int) float64 {
 	return value
 }
 
-func AddScore(createdAt uint64, weight, g float64) float64 {
+func HandleScore(createdAt uint64, weight, g float64) float64 {
 	t := float64((time.Now().Unix()*1000 - int64(createdAt)) / (3600 * 1000)) // 单位为小时
-	logx.Debugf("[AddScore] t: %f\n", t)
 	newScore := handleFloat64(weight/math.Pow(t+1, g), 3)
 	return newScore
 }

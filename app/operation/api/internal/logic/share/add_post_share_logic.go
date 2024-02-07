@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
 	"qinglv-backend/pkg/snowflake"
+	"qinglv-backend/pkg/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -48,11 +49,11 @@ func (l *AddPostShareLogic) AddPostShare(req *types.AddPostShareReq) error {
 	}); err != nil {
 		return err
 	}
-
+	score := utils.HandleScore(postResp.Post.CreatedAt, 2, 1.5)
 	if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 		Id:              req.PostId,
 		ShareCount:      postResp.Post.ShareCount + 1,
-		Score:           postResp.Post.Score + 1,
+		Score:           postResp.Post.Score + score,
 		CollectionCount: postResp.Post.CollectionCount,
 	}); err != nil {
 		return err
