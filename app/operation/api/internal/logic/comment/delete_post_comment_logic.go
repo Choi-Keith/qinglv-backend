@@ -44,9 +44,17 @@ func (l *DeletePostCommentLogic) DeletePostComment(req *types.DeletePostCommentR
 	if commentResp.PostComment.CreatorId != uint64(userId) && roleId > 2 {
 		return errors.New("没有权限删除")
 	}
+	commentThumbResp, err := l.svcCtx.ThumbRpc.GetCommentThumbDetail(l.ctx, &operation.GetCommentThumbDetailReq{
+		CommentId: req.Id,
+		Type:      1,
+	})
+	if err != nil {
+		return err
+	}
 	if _, err = l.svcCtx.CommentRpc.DeleteComment(l.ctx, &operation.DeleteCommentReq{
-		Id:   req.Id,
-		Type: 1,
+		Id:                   req.Id,
+		Type:                 1,
+		PostCommentThumbList: commentThumbResp.Post,
 	}); err != nil {
 		return err
 	}
@@ -59,7 +67,6 @@ func (l *DeletePostCommentLogic) DeletePostComment(req *types.DeletePostCommentR
 	if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 		Id:           postResp.Post.Id,
 		CommentCount: postResp.Post.CommentCount - 1,
-		Score:        postResp.Post.Score - 1,
 	}); err != nil {
 		return err
 	}

@@ -43,9 +43,18 @@ func (l *DeletePostCommentReplyLogic) DeletePostCommentReply(req *types.DeletePo
 	if commentResp.PostCommentReply.CreatorId != uint64(userId) && roleId > 2 {
 		return errors.New("没有权限删除")
 	}
+	postCommentThumbResp, err := l.svcCtx.ThumbRpc.GetCommentThumbDetail(l.ctx, &operation.GetCommentThumbDetailReq{
+		ReplyId: req.Id,
+		Type:    1,
+	})
+	if err != nil {
+		return err
+	}
+	logx.Debugf("[DeletePostCommentReply]: %+v\n", postCommentThumbResp.Post)
 	if _, err = l.svcCtx.CommentRpc.DeleteCommentReply(l.ctx, &operation.DeleteCommentReplyReq{
-		Id:   req.Id,
-		Type: 1,
+		Id:                   req.Id,
+		Type:                 1,
+		PostCommentThumbList: postCommentThumbResp.Post,
 	}); err != nil {
 		return err
 	}

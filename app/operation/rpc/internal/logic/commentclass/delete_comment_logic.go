@@ -36,7 +36,6 @@ func (l *DeleteCommentLogic) DeleteComment(in *operation.DeleteCommentReq) (*ope
 		if err != nil {
 			return nil, err
 		}
-		logx.Debugf("[PostComment] postCommentReply: %+v\n", postCommentReplyResp)
 		l.svcCtx.PostCommentModel.Trans(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 			for _, item := range postCommentReplyResp {
 				if err := l.svcCtx.PostCommentReplyModel.Delete(ctx, session, item.Id); err != nil {
@@ -45,6 +44,11 @@ func (l *DeleteCommentLogic) DeleteComment(in *operation.DeleteCommentReq) (*ope
 			}
 			if err := l.svcCtx.PostCommentModel.Delete(ctx, session, in.Id); err != nil {
 				return err
+			}
+			for _, postCommentThumbItem := range in.PostCommentThumbList {
+				if err := l.svcCtx.PostCommentThumbModel.Delete(l.ctx, session, postCommentThumbItem.Id); err != nil {
+					return err
+				}
 			}
 			return nil
 		})

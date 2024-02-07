@@ -92,11 +92,16 @@ func (l *HandlePostThumbDownLogic) HandlePostThumbDown(req *types.HandlePostThum
 	} else {
 		score = postResp.Post.Score + utils.HandleScore(postResp.Post.CreatedAt, 1, 1.5)
 	}
+	status := 1
+	if postResp.Post.LikeCount+uint64(thumbUpCount) < (postResp.Post.DislikeCount+uint64(thumbDownCount))*2 && postResp.Post.DislikeCount+uint64(thumbDownCount) > 5 {
+		status = 2
+	}
 	if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 		Id:           postResp.Post.Id,
 		LikeCount:    postResp.Post.LikeCount + uint64(thumbUpCount),
 		DislikeCount: postResp.Post.DislikeCount + uint64(thumbDownCount),
 		Score:        score,
+		Status:       int32(status),
 	}); err != nil {
 		return err
 	}

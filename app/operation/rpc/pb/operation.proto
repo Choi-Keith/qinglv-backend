@@ -295,6 +295,7 @@ message AddCommentReq {
 message DeleteCommentReq{
     uint64 id = 1;
     int32 type = 12; // 1帖子，2文章，3视频
+    repeated PostCommentThumbItem  postCommentThumbList = 3;
 }
 message GetCommentListReq {
     uint64 postId = 1;
@@ -392,6 +393,7 @@ message AddCommentReplyReq {
 message DeleteCommentReplyReq{
     uint64 id = 1;
     int32 type = 2; // 1帖子，2文章，3视频
+    repeated PostCommentThumbItem postCommentThumbList = 3;
 }
 message GetCommentReplyListReq {
     uint64 postId = 1;
