@@ -1,14 +1,14 @@
 syntax = "v1"
 
 info (
-	title:   "话题"
-	desc:    "帖子话题"
+	title:   "标签"
+	desc:    "文章标签"
 	author:  "choikeith"
 	email:   "aksoncai@gmail.com"
 	version: "v1"
 )
 
-type TopicUser {
+type TagUser {
 	Id         uint64 `json:"id"`
 	Nickname   string `json:"nickname"`
 	Motto      string `json:"motto"`
@@ -20,57 +20,57 @@ type TopicUser {
 	Score      int    `json:"score"`
 }
 
-type TopicItem {
-	Id          uint64    `json:"id,string"`
-	Name        string    `json:"name"`
-	Bg          string    `json:"bg"`
-	Description string    `json:"description"`
-	QuoteCount  uint64    `json:"quoteCount"`
-	Creator     TopicUser `json:"creator"`
-	Type        int       `json:"type"`
-	CreatedAt   uint64    `json:"createdAt"`
-	UpdatedAt   uint64    `json:"updatedAt"`
+type TagItem {
+	Id          uint64  `json:"id,string"`
+	Name        string  `json:"name"`
+	Bg          string  `json:"bg"`
+	Description string  `json:"description"`
+	QuoteCount  uint64  `json:"quoteCount"`
+	Creator     TagUser `json:"creator"`
+	Type        int     `json:"type"`
+	CreatedAt   uint64  `json:"createdAt"`
+	UpdatedAt   uint64  `json:"updatedAt"`
 }
 
 type (
-	GetTopicByIdReq {
+	GetTagByIdReq {
 		Id uint64 `path:"id,string"`
 	}
-	GetTopicByIdResp {
-		Topic TopicItem `json:"topic"`
+	GetTagByIdResp {
+		Tag TagItem `json:"tag"`
 	}
 )
 
 type (
-	GetTopicByNameReq {
+	GetTagByNameReq {
 		Name string `form:"name"`
 	}
-	GetTopicByNameResp {
-		Topic TopicItem `json:"topic"`
+	GetTagByNameResp {
+		Tag TagItem `json:"tag"`
 	}
 )
 
-type AddTopicReq {
+type AddTagReq {
 	Name        string `json:"name",validate:"max=40"`
-	Bg          string `json:"bg,optional",validate:"200"`
-	Description string `json:"description,optional",validate:"200"`
+	Bg          string `json:"bg,optional",validate:"120"`
+	Description string `json:"description,optional",validate:"120"`
 	Type        int    `json:"type,options=[1,2]"`
 }
 
-type DeleteTopicReq {
+type DeleteTagReq {
 	Id uint64 `path:"id,string"`
 }
 
-type UpdateTopicReq {
+type UpdateTagReq {
 	Id          uint64 `json:"id,string"`
-	Bg          string `json:"bg,optional",validate:"200"`
-	Description string `json:"description,optional",validate:"200"`
+	Bg          string `json:"bg,optional",validate:"120"`
+	Description string `json:"description,optional",validate:"120"`
 	QuoteCount  uint64 `json:"quoteCount",validate:"gt=0"`
 	Type        int    `json:"type,options=[1,2]"`
 }
 
 type (
-	GetTopicListReq {
+	GetTagListReq {
 		Name       string `form:"name,optional"`
 		Creator    string `form:"creator,optional"`
 		QuoteCount uint64 `form:"quoteCount,optional"`
@@ -79,10 +79,10 @@ type (
 		PageNum    int32  `form:"pageNum" validate:"required,gt=0"`
 		PageSize   int32  `form:"pageSize" validate:"required,gt=0"`
 	}
-	GetTopicListResp {
-		List  []TopicItem `json:"list"`
-		IsEnd bool        `json:"isEnd"`
-		Total uint64      `json:"total"`
+	GetTagListResp {
+		List  []TagItem `json:"list"`
+		IsEnd bool      `json:"isEnd"`
+		Total uint64    `json:"total"`
 	}
 )
 

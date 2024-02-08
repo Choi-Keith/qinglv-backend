@@ -9,27 +9,16 @@ info (
 )
 
 type ArticleUser {
-	Id            uint64 `json:"id"`
-	IsFollowing   bool   `json:"isFollowing"`
-	RoleId        uint64 `json:"roleId"`
-	Nickname      string `json:"nickname"`
-	Email         string `json:"email"`
-	WeChat        string `json:"weChat"`
-	Motto         string `json:"motto"`
-	Avatar        string `json:"avatar"`
-	Profession    string `json:"profession"`
-	ProfileBg     string `json:"profileBg"`
-	Age           int    `json:"age,range=[0:120]"`
-	Gender        int    `json:"gender,options=[1,2],default=1"`
-	Location      string `json:"location"`
-	Address       string `json:"address"`
-	Status        int    `json:"status"`
-	Level         int    `json:"level"`
-	Score         int    `json:"score"`
-	MailStatus    int    `json:"mailStatus"`
-	LastLoginTime uint64 `json:"lastLoginTime"`
-	CreatedAt     uint64 `json:"createdAt"`
-	UpdatedAt     uint64 `json:"updatedAt"`
+	Id          uint64 `json:"id"`
+	IsFollowing bool   `json:"isFollowing"`
+	Nickname    string `json:"nickname"`
+	Motto       string `json:"motto"`
+	Avatar      string `json:"avatar"`
+	Profession  string `json:"profession"`
+	Age         int    `json:"age,range=[0:120]"`
+	Gender      int    `json:"gender,options=[1,2],default=1"`
+	Level       int    `json:"level"`
+	Score       int    `json:"score"`
 }
 
 type ArticleCategory {
@@ -45,7 +34,7 @@ type ArticleItem {
 	Category        ArticleCategory `json:"category"`
 	Tag             []string        `json:"tag"`
 	Title           string          `json:"title"`
-	Desc            string          `json:"desc"`
+	Introduction    string          `json:"introduction"`
 	Content         string          `json:"content"`
 	CoverImage      string          `json:"coverImage"`
 	Creator         ArticleUser     `json:"creator"`
@@ -58,7 +47,6 @@ type ArticleItem {
 	LikeCount       uint64          `json:"likeCount"`
 	DislikeCount    uint64          `json:"dislikeCount"`
 	ShareCount      uint64          `json:"shareCount"`
-	LastReplyTime   uint64          `json:"lastReplyTime"`
 	CreatedAt       uint64          `json:"createdAt"`
 	UpdatedAt       uint64          `json:"updatedAt"`
 }
@@ -66,12 +54,22 @@ type ArticleItem {
 type AddArticleReq {
 	CategoryId uint64   `json:"categoryId,string,optional"`
 	Tag        []string `json:"tag,optional"`
-	Title      string   `json:"title"`
-	Desc       string   `json:"desc,optional"`
+	Title      string   `json:"title" validate:"max=40"`
+	Desc       string   `json:"desc,optional" validate:"max=200"`
 	Content    string   `json:"content"`
 	CoverImage string   `json:"coverImage,optional"`
 	Visibility int      `json:"visibility,optional"`
-	IsTop      int      `json:"isTop,optional"`
+}
+
+type UpdateArticleReq {
+	Id         uint64   `json:"id,string"`
+	CategoryId uint64   `json:"categoryId,string,optional"`
+	Tag        []string `json:"tag,optional"`
+	Title      string   `json:"title" validate:"max=40"`
+	Desc       string   `json:"desc,optional" validate:"max=200"`
+	Content    string   `json:"content"`
+	CoverImage string   `json:"coverImage,optional"`
+	Visibility int      `json:"visibility,optional"`
 }
 
 type DeleteArticleReq {

@@ -103,6 +103,75 @@ CREATE TABLE `post_content` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子内容表';
 
 
+CREATE TABLE `tag` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
+    `name` varchar(128) NOT NULL DEFAULT '' COMMENT '标签名称',
+    `image` varchar(128) NOT NULL DEFAULT '' COMMENT '标签图片',
+    `type` tinyint(3) NOT NULL DEFAULT 1 COMMENT '创建类型:1管理员创建的,2普通用户创建的',
+    `description` text COMMENT '标签描述',
+    `quote_count` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '标签引用数量',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建者',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`name`),
+    KEY `idx_name` (`name`),
+    KEY `idx_type` (`type`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章标签';
+
+
+CREATE TABLE `article` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
+    `status` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT '审核状态：1已通过,2正在审核中，3不通过',
+    `visibility` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT '可见性：1公开,私密,仅好友可见',
+    `is_top` tinyint(3) unsigned NOT NULL DEFAULT 2 COMMENT '是否置顶:1是，2否',
+    `score` float(7,3) NOT NULL DEFAULT 0 COMMENT '积分',
+    `comment_count`  bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '评论数',
+    `collection_count`  bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '收藏数',
+    `like_count`  bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '点赞数',
+    `dislike_count`  bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '点踩数',
+    `share_count`  bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '分享',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_is_top` (`is_top`),
+    KEY `idx_visibility` (`visibility`),
+    KEY `idx_status` (`status`),
+    KEY `idx_creator_id` (`creator_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章表';
+
+
+CREATE TABLE `article_content` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
+    `article_id` bigint(20) unsigned NOT NULL COMMENT '帖子id',
+    `category_id` bigint(20) unsigned COMMENT '分类id',
+    `tags` varchar(128) COMMENT '标签',
+    `title` varchar(40) NOT NULL DEFAULT '' COMMENT '文章标题',
+    `introduction` varchar(255) NOT NULL DEFAULT '' COMMENT '简介',
+    `content` text NOT NULL COMMENT '内容',
+    `cover_image` json COMMENT '封面图',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`article_id`),
+    KEY `idx_category_id` (`category_id`),
+    KEY `idx_tags` (`tags`),
+    KEY `idx_article_id` (`article_id`),
+    KEY `idx_creator_id` (`creator_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章内容表';
+
+
 
 
 

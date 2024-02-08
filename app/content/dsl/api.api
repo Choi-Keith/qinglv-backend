@@ -5,6 +5,8 @@ import (
 	"category.api"
 	"upload.api"
 	"post.api"
+	"tag.api"
+	"article.api"
 )
 
 // ===========================Topic==============================
@@ -145,5 +147,93 @@ service content {
 	)
 	@handler removeImages
 	delete /image/remove (RemoveImagesReq)
+}
+
+// ===========================Tag==============================
+//no need login
+@server (
+	prefix: /content/v1
+	group:  tag
+)
+service content {
+	@doc "标签列表"
+	@handler getTagList
+	get /tag (GetTagListReq) returns (GetTagListResp)
+
+	@doc "通过Id获取标签详情"
+	@handler getTagById
+	get /tag/:id (GetTagByIdReq) returns (GetTagByIdResp)
+
+	@doc "通过name获取标签详情"
+	@handler getTagByName
+	get /tag/name (GetTagByNameReq) returns (GetTagByNameResp)
+}
+
+// need login
+@server (
+	prefix:     /content/v1
+	group:      tag
+	jwt:        JWTAuth
+	middleware: Authority
+)
+service content {
+	@doc "新建标签"
+	@handler addTag
+	post /tag (AddTagReq)
+
+	@doc "删除标签"
+	@handler deleteTag
+	delete /tag/:id (DeleteTagReq)
+
+	@doc "修改标签"
+	@handler updateTag
+	put /tag/:id (UpdateTagReq)
+}
+
+// ===========================Article==============================
+// no need login
+@server (
+	prefix: /content/v1
+	group:  article
+)
+service content {
+	@doc "文章列表"
+	@handler getArticleList
+	get /article (GetArticleListReq) returns (GetArticleListResp)
+
+	@doc "根据id获取文章详情"
+	@handler getArticleById
+	get /article/:id (GetArticleByIdReq) returns (GetArticleByIdResp)
+
+	@doc "我的文章列表"
+	@handler getUserArticleList
+	get /user/article (GetUserArticleListReq) returns (GetUserArticleListResp)
+}
+
+// need login
+@server (
+	prefix:     /content/v1
+	group:      article
+	jwt:        JWTAuth
+	middleware: Authority
+)
+service content {
+	@doc (
+		summary: "新建文章"
+	)
+	@handler addArticle
+	post /article (AddArticleReq)
+
+	@doc (
+		summary: "修改文章"
+	)
+	@handler updateArticle
+	put /article (UpdateArticleReq)
+
+	@doc (
+		summary: "删除"
+	)
+	@handler deleteArticle
+	delete /article/:id (DeleteArticleReq)
 }
 

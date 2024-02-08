@@ -4,8 +4,10 @@ package handler
 import (
 	"net/http"
 
+	article "qinglv-backend/app/content/api/internal/handler/article"
 	category "qinglv-backend/app/content/api/internal/handler/category"
 	post "qinglv-backend/app/content/api/internal/handler/post"
+	tag "qinglv-backend/app/content/api/internal/handler/tag"
 	topic "qinglv-backend/app/content/api/internal/handler/topic"
 	upload "qinglv-backend/app/content/api/internal/handler/upload"
 	"qinglv-backend/app/content/api/internal/svc"
@@ -14,6 +16,52 @@ import (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/article",
+				Handler: article.GetArticleListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/article/:id",
+				Handler: article.GetArticleByIdHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/article",
+				Handler: article.GetUserArticleListHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/content/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/article",
+					Handler: article.AddArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/article",
+					Handler: article.UpdateArticleHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/article/:id",
+					Handler: article.DeleteArticleHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/content/v1"),
+	)
+
 	server.AddRoutes(
 		[]rest.Route{
 			{
@@ -89,6 +137,52 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodDelete,
 					Path:    "/post/:id",
 					Handler: post.DeletePostHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/content/v1"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/tag",
+				Handler: tag.GetTagListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/tag/:id",
+				Handler: tag.GetTagByIdHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/tag/name",
+				Handler: tag.GetTagByNameHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/content/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/tag",
+					Handler: tag.AddTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/tag/:id",
+					Handler: tag.DeleteTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/tag/:id",
+					Handler: tag.UpdateTagHandler(serverCtx),
 				},
 			}...,
 		),
