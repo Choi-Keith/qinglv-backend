@@ -209,24 +209,13 @@ message GetPostListResp {
     uint64 total = 2;
 }
 service PostClass {
-    // group: post
     rpc AddPost(AddPostReq) returns(OkResp);
-    // group: post
     rpc DeletePost(DeletePostReq) returns(OkResp);
-    // group: post
     rpc UpdatePost(UpdatePostReq) returns(OkResp);
-    // group: post
     rpc GetPostDetail(GetPostDetailReq) returns(GetPostDetailResp);
-    // group: post
     rpc GetPostList(GetPostListReq) returns(GetPostListResp);
-    // group: postContent
     rpc AddPostContent(AddPostContentReq) returns(OkResp);
-    // group: postContent
-    rpc GetPostContentDetail(GetPostContentDetailReq) returns(GetPostContentDetailResp);
-    // group: postContent
     rpc GetPostContentByPostId(GetPostContentDetailReq) returns(GetPostContentDetailResp);
-    // group: postContent
-    rpc GetPostContentList(GetPostContentListReq) returns(GetPostContentListResp);
 }
 
 
@@ -317,4 +306,196 @@ service MediaFileClass {
     rpc GetMediaFileByContent(GetMediaFileByContentReq) returns(GetMediaFileByContentResp);
     // group: mediaFile
     rpc GetMediaFileList(GetMediaFileListReq) returns(GetMediaFileListResp);
+}
+
+//==========================Tag==========================
+message TagItem {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	string name = 3; 
+	string image = 4;          
+	string description = 5;
+    uint64 quoteCount = 6; 
+    uint64 createdAt = 7;
+    uint64 updatedAt = 8;
+    int32 type = 9;
+}
+message AddTagReq {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	string name = 3; 
+	string image = 4;          
+	string description = 5;
+    uint64 quoteCount = 6;
+    int32 type = 7;
+    string creatorName = 8;
+}
+message DeleteTagReq {
+    uint64 id = 1;
+}
+message UpdateTagReq {
+    uint64 id  = 1;
+   	string name = 3; 
+	string image = 4;          
+	string description = 5;
+    uint64 quoteCount = 6;
+    int32 type = 7;
+}
+message GetTagByIdReq {
+    uint64 id = 1;
+}
+message GetTagByIdResp {
+    TagItem tag  = 1;
+}
+message GetTagByNameReq {
+    string name = 1;
+}
+message GetTagByNameResp {
+    TagItem tag  = 1;
+}
+message GetTagListReq {
+    string name = 1;
+    string creatorName = 2;
+    uint64 quoteCount = 3;
+    uint64 pageNum = 4;
+    uint64 pageSize = 5;
+    int32 type = 6;
+    string sort = 7;
+}
+message GetTagListResp {
+    repeated TagItem data = 1;
+    uint64 total = 2;
+}
+service TagClass {
+    rpc AddTag(AddTagReq) returns(OkResp);
+    rpc DeleteTag(DeleteTagReq) returns(OkResp);
+    rpc UpdateTag(UpdateTagReq) returns(OkResp);
+    rpc GetTagById(GetTagByIdReq) returns(GetTagByIdResp);
+    rpc GetTagByName(GetTagByNameReq) returns(GetTagByNameResp);
+    rpc GetTagList(GetTagListReq) returns(GetTagListResp);
+}
+
+//==========================Article==========================
+message ArticleItem {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+    int32 status = 3;
+    int32 visibility = 4;
+    int32 isTop = 5;
+    double score = 6;
+    uint64 commentCount = 7;    
+    uint64 collectionCount = 8;    
+    uint64 likeCount = 9;    
+    uint64 dislikeCount = 10;    
+    uint64 shareCount = 11;    
+    uint64 lastReplyTime = 12;
+    uint64 createdAt = 13;
+    uint64 updatedAt = 14;
+}
+message AddArticleReq {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	int32 status = 3; 
+	int32 visibility = 4;          
+	int32 isTop = 5;
+
+    uint64 articleContentId  = 6;
+    string title = 7;
+    string introduction = 8;
+    string coverImage = 9;
+    string content = 10;
+	uint64 categoryId = 11;
+    string tags = 12;  
+    string creatorName = 13;
+}
+message DeleteArticleReq {
+    uint64 id = 1;
+    uint64 ArticleContentId = 2;
+}
+message UpdateArticleReq {
+    uint64 id  = 1;
+    uint64 creatorId = 2;
+   	int32 status = 3; 
+	int32 visibility = 4;          
+	int32 isTop = 5;
+    double score = 6;
+    uint64 commentCount = 7;    
+    uint64 collectionCount = 8;    
+    uint64 likeCount = 9;    
+    uint64 dislikeCount = 10;    
+    uint64 shareCount = 11;    
+}
+message GetArticleDetailReq {
+    uint64 id = 1;
+}
+message GetArticleDetailResp {
+    ArticleItem Article  = 1;
+}
+message GetArticleListReq {
+    int32 status = 1;
+    repeated int32 visibility = 2;
+    int32 isTop = 3;
+    double score = 4;
+    uint64 creatorId = 5;
+    string keyword = 6; 
+    string creatorName = 7;
+    uint64 pageNum = 8;
+    uint64 pageSize = 9;
+    string sort = 10;
+}
+message GetArticleListResp {
+    repeated ArticleItem data = 1;
+    uint64 total = 2;
+}
+
+message ArticleContentItem {
+    uint64 id = 1;
+    uint64 articleId = 2;
+    uint64 categoryId = 3;
+    string tags = 4;
+    string title = 5;
+    string introduction = 6;
+    string coverImage = 7;
+   	string content = 8; 
+    uint64 creatorId = 9;
+    uint64 createdAt = 10;
+    uint64 updatedAt = 11;
+}
+message UpdateArticleContentReq {
+    uint64 id  = 1;
+    string title = 2;
+    string introduction = 3;
+    string coverImage = 4;
+    string content = 5;
+    uint64 creatorId = 6;
+   	uint64 articleId = 7; 
+	uint64 categoryId = 8;
+    string tags = 9;          
+}
+
+message GetArticleContentDetailReq {
+    uint64 id = 1;
+}
+message GetArticleContentDetailResp {
+    ArticleContentItem articleContent  = 1;
+}
+message GetArticleContentListReq {
+    string content = 1; 
+    uint64 creatorId = 2;
+    uint64 categoryId = 3;
+    uint64 pageNum = 4;
+    uint64 pageSize = 5;
+}
+message GetArticleContentListResp {
+    repeated ArticleContentItem data = 1;
+    uint64 total = 2;
+}
+service ArticleClass {
+    rpc AddArticle(AddArticleReq) returns(OkResp);
+    rpc DeleteArticle(DeleteArticleReq) returns(OkResp);
+    rpc UpdateArticle(UpdateArticleReq) returns(OkResp);
+    rpc GetArticleDetail(GetArticleDetailReq) returns(GetArticleDetailResp);
+    rpc GetArticleList(GetArticleListReq) returns(GetArticleListResp);
+    rpc UpdateArticleContent(UpdateArticleContentReq) returns(OkResp);
+    rpc GetArticleContentByArticleId(GetArticleContentDetailReq) returns(GetArticleContentDetailResp);
 }

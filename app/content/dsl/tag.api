@@ -23,7 +23,7 @@ type TagUser {
 type TagItem {
 	Id          uint64  `json:"id,string"`
 	Name        string  `json:"name"`
-	Bg          string  `json:"bg"`
+	Image       string  `json:"image"`
 	Description string  `json:"description"`
 	QuoteCount  uint64  `json:"quoteCount"`
 	Creator     TagUser `json:"creator"`
@@ -52,7 +52,7 @@ type (
 
 type AddTagReq {
 	Name        string `json:"name",validate:"max=40"`
-	Bg          string `json:"bg,optional",validate:"120"`
+	Image       string `json:"image,optional",validate:"120"`
 	Description string `json:"description,optional",validate:"120"`
 	Type        int    `json:"type,options=[1,2]"`
 }
@@ -63,7 +63,7 @@ type DeleteTagReq {
 
 type UpdateTagReq {
 	Id          uint64 `json:"id,string"`
-	Bg          string `json:"bg,optional",validate:"120"`
+	Image       string `json:"image,optional",validate:"120"`
 	Description string `json:"description,optional",validate:"120"`
 	QuoteCount  uint64 `json:"quoteCount",validate:"gt=0"`
 	Type        int    `json:"type,options=[1,2]"`

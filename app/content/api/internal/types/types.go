@@ -28,7 +28,7 @@ type AddPostReq struct {
 
 type AddTagReq struct {
 	Name        string `json:"name",validate:"max=40"`
-	Bg          string `json:"bg,optional",validate:"120"`
+	Image       string `json:"image,optional",validate:"120"`
 	Description string `json:"description,optional",validate:"120"`
 	Type        int    `json:"type,options=[1,2]"`
 }
@@ -352,7 +352,7 @@ type RemoveImagesReq struct {
 type TagItem struct {
 	Id          uint64  `json:"id,string"`
 	Name        string  `json:"name"`
-	Bg          string  `json:"bg"`
+	Image       string  `json:"image"`
 	Description string  `json:"description"`
 	QuoteCount  uint64  `json:"quoteCount"`
 	Creator     TagUser `json:"creator"`
@@ -401,9 +401,9 @@ type UpdateArticleReq struct {
 	Id         uint64   `json:"id,string"`
 	CategoryId uint64   `json:"categoryId,string,optional"`
 	Tag        []string `json:"tag,optional"`
-	Title      string   `json:"title" validate:"max=40"`
+	Title      string   `json:"title,optional" validate:"max=40"`
 	Desc       string   `json:"desc,optional" validate:"max=200"`
-	Content    string   `json:"content"`
+	Content    string   `json:"content,optional"`
 	CoverImage string   `json:"coverImage,optional"`
 	Visibility int      `json:"visibility,optional"`
 }
@@ -416,7 +416,7 @@ type UpdateCategoryReq struct {
 
 type UpdateTagReq struct {
 	Id          uint64 `json:"id,string"`
-	Bg          string `json:"bg,optional",validate:"120"`
+	Image       string `json:"image,optional",validate:"120"`
 	Description string `json:"description,optional",validate:"120"`
 	QuoteCount  uint64 `json:"quoteCount",validate:"gt=0"`
 	Type        int    `json:"type,options=[1,2]"`

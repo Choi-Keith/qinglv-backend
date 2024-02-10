@@ -19,7 +19,7 @@ func GetArticleByIdHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := article.NewGetArticleByIdLogic(r.Context(), svcCtx)
+		l := article.NewGetArticleByIdLogic(r.Context(), svcCtx, r)
 		resp, err := l.GetArticleById(&req)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)

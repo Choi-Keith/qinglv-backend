@@ -22,56 +22,37 @@ func NewPostClassServer(svcCtx *svc.ServiceContext) *PostClassServer {
 	}
 }
 
-// group: post
 func (s *PostClassServer) AddPost(ctx context.Context, in *content.AddPostReq) (*content.OkResp, error) {
 	l := postclasslogic.NewAddPostLogic(ctx, s.svcCtx)
 	return l.AddPost(in)
 }
 
-// group: post
 func (s *PostClassServer) DeletePost(ctx context.Context, in *content.DeletePostReq) (*content.OkResp, error) {
 	l := postclasslogic.NewDeletePostLogic(ctx, s.svcCtx)
 	return l.DeletePost(in)
 }
 
-// group: post
 func (s *PostClassServer) UpdatePost(ctx context.Context, in *content.UpdatePostReq) (*content.OkResp, error) {
 	l := postclasslogic.NewUpdatePostLogic(ctx, s.svcCtx)
 	return l.UpdatePost(in)
 }
 
-// group: post
 func (s *PostClassServer) GetPostDetail(ctx context.Context, in *content.GetPostDetailReq) (*content.GetPostDetailResp, error) {
 	l := postclasslogic.NewGetPostDetailLogic(ctx, s.svcCtx)
 	return l.GetPostDetail(in)
 }
 
-// group: post
 func (s *PostClassServer) GetPostList(ctx context.Context, in *content.GetPostListReq) (*content.GetPostListResp, error) {
 	l := postclasslogic.NewGetPostListLogic(ctx, s.svcCtx)
 	return l.GetPostList(in)
 }
 
-// group: postContent
 func (s *PostClassServer) AddPostContent(ctx context.Context, in *content.AddPostContentReq) (*content.OkResp, error) {
 	l := postclasslogic.NewAddPostContentLogic(ctx, s.svcCtx)
 	return l.AddPostContent(in)
 }
 
-// group: postContent
-func (s *PostClassServer) GetPostContentDetail(ctx context.Context, in *content.GetPostContentDetailReq) (*content.GetPostContentDetailResp, error) {
-	l := postclasslogic.NewGetPostContentDetailLogic(ctx, s.svcCtx)
-	return l.GetPostContentDetail(in)
-}
-
-// group: postContent
 func (s *PostClassServer) GetPostContentByPostId(ctx context.Context, in *content.GetPostContentDetailReq) (*content.GetPostContentDetailResp, error) {
 	l := postclasslogic.NewGetPostContentByPostIdLogic(ctx, s.svcCtx)
 	return l.GetPostContentByPostId(in)
-}
-
-// group: postContent
-func (s *PostClassServer) GetPostContentList(ctx context.Context, in *content.GetPostContentListReq) (*content.GetPostContentListResp, error) {
-	l := postclasslogic.NewGetPostContentListLogic(ctx, s.svcCtx)
-	return l.GetPostContentList(in)
 }

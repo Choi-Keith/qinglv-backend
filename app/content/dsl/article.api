@@ -65,9 +65,9 @@ type UpdateArticleReq {
 	Id         uint64   `json:"id,string"`
 	CategoryId uint64   `json:"categoryId,string,optional"`
 	Tag        []string `json:"tag,optional"`
-	Title      string   `json:"title" validate:"max=40"`
+	Title      string   `json:"title,optional" validate:"max=40"`
 	Desc       string   `json:"desc,optional" validate:"max=200"`
-	Content    string   `json:"content"`
+	Content    string   `json:"content,optional"`
 	CoverImage string   `json:"coverImage,optional"`
 	Visibility int      `json:"visibility,optional"`
 }

@@ -24,7 +24,7 @@ func GetArticleListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := article.NewGetArticleListLogic(r.Context(), svcCtx)
+		l := article.NewGetArticleListLogic(r.Context(), svcCtx, r)
 		resp, err := l.GetArticleList(&req)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)
