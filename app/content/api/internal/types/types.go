@@ -2,13 +2,13 @@
 package types
 
 type AddArticleReq struct {
-	CategoryId uint64   `json:"categoryId,string,optional"`
-	Tag        []string `json:"tag,optional"`
-	Title      string   `json:"title" validate:"max=40"`
-	Desc       string   `json:"desc,optional" validate:"max=200"`
-	Content    string   `json:"content"`
-	CoverImage string   `json:"coverImage,optional"`
-	Visibility int      `json:"visibility,optional"`
+	CategoryId   uint64   `json:"categoryId,string,optional"`
+	Tag          []string `json:"tag,optional"`
+	Title        string   `json:"title" validate:"max=40"`
+	Introduction string   `json:"introduction,optional" validate:"max=200"`
+	Content      string   `json:"content"`
+	CoverImage   string   `json:"coverImage,optional"`
+	Visibility   int      `json:"visibility,optional"`
 }
 
 type AddCategoryReq struct {
@@ -45,7 +45,7 @@ type ArticleCategory struct {
 	Name        string `json:"name"`
 	Image       string `json:"image"`
 	Description string `json:"description"`
-	QuoteCount  string `json:"quoteCount"`
+	QuoteCount  uint64 `json:"quoteCount"`
 }
 
 type ArticleItem struct {
@@ -295,7 +295,7 @@ type PostCategory struct {
 	Name        string `json:"name"`
 	Image       string `json:"image"`
 	Description string `json:"description"`
-	QuoteCount  string `json:"quoteCount"`
+	QuoteCount  uint64 `json:"quoteCount"`
 }
 
 type PostItem struct {
@@ -418,7 +418,7 @@ type UpdateTagReq struct {
 	Id          uint64 `json:"id,string"`
 	Image       string `json:"image,optional",validate:"120"`
 	Description string `json:"description,optional",validate:"120"`
-	QuoteCount  uint64 `json:"quoteCount",validate:"gt=0"`
+	QuoteCount  uint64 `json:"quoteCount,optional",validate:"gt=0"`
 	Type        int    `json:"type,options=[1,2]"`
 }
 

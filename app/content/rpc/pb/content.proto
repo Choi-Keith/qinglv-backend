@@ -319,6 +319,7 @@ message TagItem {
     uint64 createdAt = 7;
     uint64 updatedAt = 8;
     int32 type = 9;
+    string creatorName = 10;
 }
 message AddTagReq {
     uint64 id  = 1;
@@ -335,11 +336,9 @@ message DeleteTagReq {
 }
 message UpdateTagReq {
     uint64 id  = 1;
-   	string name = 3; 
-	string image = 4;          
-	string description = 5;
-    uint64 quoteCount = 6;
-    int32 type = 7;
+	string image = 2;          
+	string description = 3;
+    uint64 quoteCount = 4;
 }
 message GetTagByIdReq {
     uint64 id = 1;
@@ -391,6 +390,7 @@ message ArticleItem {
     uint64 lastReplyTime = 12;
     uint64 createdAt = 13;
     uint64 updatedAt = 14;
+    string creatorName = 15;
 }
 message AddArticleReq {
     uint64 id  = 1;
@@ -460,6 +460,7 @@ message ArticleContentItem {
     uint64 creatorId = 9;
     uint64 createdAt = 10;
     uint64 updatedAt = 11;
+    string creatorName = 12;
 }
 message UpdateArticleContentReq {
     uint64 id  = 1;

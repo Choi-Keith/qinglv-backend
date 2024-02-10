@@ -37,7 +37,7 @@ type PostCategory {
 	Name        string `json:"name"`
 	Image       string `json:"image"`
 	Description string `json:"description"`
-	QuoteCount  string `json:"quoteCount"`
+	QuoteCount  uint64 `json:"quoteCount"`
 }
 
 type PostItem {

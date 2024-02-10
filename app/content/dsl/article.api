@@ -26,7 +26,7 @@ type ArticleCategory {
 	Name        string `json:"name"`
 	Image       string `json:"image"`
 	Description string `json:"description"`
-	QuoteCount  string `json:"quoteCount"`
+	QuoteCount  uint64 `json:"quoteCount"`
 }
 
 type ArticleItem {
@@ -55,7 +55,7 @@ type AddArticleReq {
 	CategoryId uint64   `json:"categoryId,string,optional"`
 	Tag        []string `json:"tag,optional"`
 	Title      string   `json:"title" validate:"max=40"`
-	Desc       string   `json:"desc,optional" validate:"max=200"`
+	Introduction       string   `json:"introduction,optional" validate:"max=200"`
 	Content    string   `json:"content"`
 	CoverImage string   `json:"coverImage,optional"`
 	Visibility int      `json:"visibility,optional"`

@@ -56,21 +56,21 @@ type (
 	}
 
 	ArticleContent struct {
-		Id           uint64         `db:"id"`           // 主键id
-		ArticleId    uint64         `db:"article_id"`   // 帖子id
-		CategoryId   sql.NullInt64  `db:"category_id"`  // 分类id
-		Tags         sql.NullString `db:"tags"`         // 标签
-		Title        string         `db:"title"`        // 文章标题
-		Introduction string         `db:"introduction"` // 简介
-		Content      string         `db:"content"`      // 内容
-		CoverImage   sql.NullString `db:"cover_image"`  // 封面图
-		CreatorId    uint64         `db:"creator_id"`   // 发布者
-		CreatorName  string         `db:"creator_name"`
-		CreatedAt    time.Time      `db:"created_at"` // 创建时间
-		UpdatedAt    time.Time      `db:"updated_at"` // 修改时间
-		DeletedAt    time.Time      `db:"deleted_at"` // 删除时间
-		IsDel        int64          `db:"is_del"`
-		Version      int64          `db:"version"` // 版本号
+		Id           uint64    `db:"id"`         // 主键id
+		ArticleId    uint64    `db:"article_id"` // 帖子id
+		CategoryId   uint64    `db:"category_id"`
+		Tags         string    `db:"tags"`
+		Title        string    `db:"title"`        // 文章标题
+		Introduction string    `db:"introduction"` // 简介
+		Content      string    `db:"content"`      // 内容
+		CoverImage   string    `db:"cover_image"`
+		CreatorId    uint64    `db:"creator_id"` // 发布者
+		CreatorName  string    `db:"creator_name"`
+		CreatedAt    time.Time `db:"created_at"` // 创建时间
+		UpdatedAt    time.Time `db:"updated_at"` // 修改时间
+		DeletedAt    time.Time `db:"deleted_at"` // 删除时间
+		IsDel        int64     `db:"is_del"`
+		Version      int64     `db:"version"` // 版本号
 	}
 )
 

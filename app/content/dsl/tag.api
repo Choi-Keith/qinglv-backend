@@ -65,7 +65,7 @@ type UpdateTagReq {
 	Id          uint64 `json:"id,string"`
 	Image       string `json:"image,optional",validate:"120"`
 	Description string `json:"description,optional",validate:"120"`
-	QuoteCount  uint64 `json:"quoteCount",validate:"gt=0"`
+	QuoteCount  uint64 `json:"quoteCount,optional",validate:"gt=0"`
 	Type        int    `json:"type,options=[1,2]"`
 }
 

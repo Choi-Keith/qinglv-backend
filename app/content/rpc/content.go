@@ -6,9 +6,11 @@ import (
 
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/internal/config"
+	ArticleClassServer "qinglv-backend/app/content/rpc/internal/server/articleclass"
 	categoryclassServer "qinglv-backend/app/content/rpc/internal/server/categoryclass"
 	mediafileclassServer "qinglv-backend/app/content/rpc/internal/server/mediafileclass"
 	postclassServer "qinglv-backend/app/content/rpc/internal/server/postclass"
+	tagclassServer "qinglv-backend/app/content/rpc/internal/server/tagclass"
 	topicclassServer "qinglv-backend/app/content/rpc/internal/server/topicclass"
 	"qinglv-backend/app/content/rpc/internal/svc"
 
@@ -40,6 +42,8 @@ func main() {
 		content.RegisterCategoryClassServer(grpcServer, categoryclassServer.NewCategoryClassServer(ctx))
 		content.RegisterPostClassServer(grpcServer, postclassServer.NewPostClassServer(ctx))
 		content.RegisterMediaFileClassServer(grpcServer, mediafileclassServer.NewMediaFileClassServer(ctx))
+		content.RegisterTagClassServer(grpcServer, tagclassServer.NewTagClassServer(ctx))
+		content.RegisterArticleClassServer(grpcServer, ArticleClassServer.NewArticleClassServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

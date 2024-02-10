@@ -39,6 +39,7 @@ func (l *GetArticleDetailLogic) GetArticleDetail(in *content.GetArticleDetailReq
 func genArticleItem(item *articleModel.Article) *content.ArticleItem {
 	return &content.ArticleItem{
 		Id:              item.Id,
+		CreatorName:     item.CreatorName,
 		CreatorId:       item.CreatorId,
 		Visibility:      int32(item.Visibility),
 		IsTop:           int32(item.IsTop),

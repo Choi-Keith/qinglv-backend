@@ -27,6 +27,8 @@ func NewGetTagByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetTag
 func (l *GetTagByIdLogic) GetTagById(in *content.GetTagByIdReq) (*content.GetTagByIdResp, error) {
 	// todo: add your logic here and delete this line
 	tagResp, err := l.svcCtx.TagModel.FindOne(l.ctx, in.Id)
+	logx.Debugf("[GetTagById]  tagResp: %+v, id: %d\n", tagResp, in.Id)
+
 	if err != nil {
 		return nil, err
 	}
@@ -39,6 +41,7 @@ func (l *GetTagByIdLogic) GetTagById(in *content.GetTagByIdReq) (*content.GetTag
 func genTagItem(item *tagModel.Tag) *content.TagItem {
 	return &content.TagItem{
 		Id:          item.Id,
+		CreatorName: item.CreatorName,
 		Name:        item.Name,
 		Image:       item.Image,
 		Description: item.Description.String,

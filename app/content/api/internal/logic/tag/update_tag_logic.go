@@ -37,10 +37,12 @@ func (l *UpdateTagLogic) UpdateTag(req *types.UpdateTagReq) error {
 		Id: req.Id,
 	})
 	if userId != int64(tagResp.Tag.GetCreatorId()) && roleId > 2 {
-		return errors.New("没有权限删除")
+		return errors.New("没有权限修改")
 	}
-	if _, err := l.svcCtx.TagRpc.DeleteTag(l.ctx, &content.DeleteTagReq{
-		Id: req.Id,
+	if _, err := l.svcCtx.TagRpc.UpdateTag(l.ctx, &content.UpdateTagReq{
+		Id:          req.Id,
+		Description: req.Description,
+		Image:       req.Image,
 	}); err != nil {
 		return err
 	}

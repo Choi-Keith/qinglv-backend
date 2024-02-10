@@ -2,7 +2,6 @@ package articleclasslogic
 
 import (
 	"context"
-	"database/sql"
 
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/content/rpc/internal/model/article"
@@ -29,7 +28,7 @@ func NewAddArticleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddArt
 func (l *AddArticleLogic) AddArticle(in *content.AddArticleReq) (*content.OkResp, error) {
 	// todo: add your logic here and delete this line
 	err := l.svcCtx.ArticleModel.Trans(l.ctx, func(ctx context.Context, session sqlx.Session) error {
-		if _, err := l.svcCtx.ArticleModel.Insert(l.ctx, nil, &article.Article{
+		if _, err := l.svcCtx.ArticleModel.Insert(ctx, nil, &article.Article{
 			Id:          in.Id,
 			CreatorId:   in.CreatorId,
 			Visibility:  1,
@@ -42,13 +41,14 @@ func (l *AddArticleLogic) AddArticle(in *content.AddArticleReq) (*content.OkResp
 			return err
 		}
 
-		if _, err := l.svcCtx.ArticleContentModel.Insert(l.ctx, nil, &article.ArticleContent{
+		if _, err := l.svcCtx.ArticleContentModel.Insert(ctx, nil, &article.ArticleContent{
+			ArticleId:    in.Id,
 			Id:           in.ArticleContentId,
 			Title:        in.Title,
 			Introduction: in.Introduction,
-			CategoryId:   sql.NullInt64{Int64: int64(in.CategoryId), Valid: true},
-			Tags:         sql.NullString{String: in.Tags, Valid: true},
-			CoverImage:   sql.NullString{String: in.CoverImage, Valid: true},
+			CategoryId:   in.CategoryId,
+			Tags:         in.Tags,
+			CoverImage:   in.CoverImage,
 			Content:      in.Content,
 			CreatorId:    in.CreatorId,
 			Version:      1,

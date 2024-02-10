@@ -17,6 +17,183 @@
     "application/json"
   ],
   "paths": {
+    "/content/v1/article": {
+      "get": {
+        "summary": "文章列表",
+        "operationId": "getArticleList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetArticleListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "visibility",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "score",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "article"
+        ]
+      },
+      "post": {
+        "summary": "新建文章",
+        "operationId": "addArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddArticleReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "article"
+        ]
+      },
+      "put": {
+        "summary": "修改文章",
+        "operationId": "updateArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateArticleReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "article"
+        ]
+      }
+    },
+    "/content/v1/article/{id}": {
+      "get": {
+        "summary": "根据id获取文章详情",
+        "operationId": "getArticleById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetArticleByIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "article"
+        ]
+      },
+      "delete": {
+        "summary": "删除",
+        "operationId": "deleteArticle",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteArticleReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "article"
+        ]
+      }
+    },
     "/content/v1/category": {
       "get": {
         "summary": "分类列表",
@@ -180,6 +357,66 @@
         ]
       }
     },
+    "/content/v1/image/remove": {
+      "delete": {
+        "summary": "删除图片",
+        "operationId": "removeImages",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RemoveImagesReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "upload"
+        ]
+      }
+    },
+    "/content/v1/image/upload/{type}": {
+      "post": {
+        "summary": "上传图片",
+        "operationId": "uploadImages",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UploadImagesResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UploadImagesReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "upload"
+        ]
+      }
+    },
     "/content/v1/post": {
       "get": {
         "summary": "帖子列表",
@@ -214,11 +451,10 @@
             "format": "int32"
           },
           {
-            "name": "isTop",
+            "name": "sort",
             "in": "query",
             "required": false,
-            "type": "boolean",
-            "format": "boolean"
+            "type": "string"
           },
           {
             "name": "score",
@@ -270,59 +506,6 @@
             "schema": {
               "$ref": "#/definitions/AddPostReq"
             }
-          }
-        ],
-        "requestBody": {},
-        "tags": [
-          "post"
-        ]
-      }
-    },
-    "/content/v1/post/user/{id}": {
-      "get": {
-        "summary": "我的帖子列表",
-        "operationId": "getUserPostList",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/GetUserPostListResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "required",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "required",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
           }
         ],
         "requestBody": {},
@@ -387,6 +570,208 @@
         ]
       }
     },
+    "/content/v1/tag": {
+      "get": {
+        "summary": "标签列表",
+        "operationId": "getTagList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTagListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "quoteCount",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "tag"
+        ]
+      },
+      "post": {
+        "summary": "新建标签",
+        "operationId": "addTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddTagReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "tag"
+        ]
+      }
+    },
+    "/content/v1/tag/name": {
+      "get": {
+        "summary": "通过name获取标签详情",
+        "operationId": "getTagByName",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTagByNameResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "tag"
+        ]
+      }
+    },
+    "/content/v1/tag/{id}": {
+      "get": {
+        "summary": "通过Id获取标签详情",
+        "operationId": "getTagById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTagByIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "tag"
+        ]
+      },
+      "delete": {
+        "summary": "删除标签",
+        "operationId": "deleteTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteTagReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "tag"
+        ]
+      },
+      "put": {
+        "summary": "修改标签",
+        "operationId": "updateTag",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTagReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "tag"
+        ]
+      }
+    },
     "/content/v1/topic": {
       "get": {
         "summary": "帖子话题列表",
@@ -418,6 +803,19 @@
             "required": false,
             "type": "integer",
             "format": "int64"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
           },
           {
             "name": "required",
@@ -456,6 +854,32 @@
             "schema": {
               "$ref": "#/definitions/AddTopicReq"
             }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "topic"
+        ]
+      }
+    },
+    "/content/v1/topic/name": {
+      "get": {
+        "summary": "通过name获取话题详情",
+        "operationId": "getTopicByName",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTopicByNameResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "type": "string"
           }
         ],
         "requestBody": {},
@@ -550,34 +974,153 @@
         ]
       }
     },
-    "/content/v1/topic/{name}": {
+    "/content/v1/user/article": {
       "get": {
-        "summary": "通过name获取话题详情",
-        "operationId": "getTopicByName",
+        "summary": "我的文章列表",
+        "operationId": "getUserArticleList",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/GetTopicByNameResp"
+              "$ref": "#/definitions/GetUserArticleListResp"
             }
           }
         },
         "parameters": [
           {
-            "name": "name",
-            "in": "path",
+            "name": "creatorId",
+            "in": "query",
             "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
             "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "requestBody": {},
         "tags": [
-          "topic"
+          "article"
+        ]
+      }
+    },
+    "/content/v1/user/post": {
+      "get": {
+        "summary": "我的帖子列表",
+        "operationId": "getUserPostList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserPostListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "required",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "post"
         ]
       }
     }
   },
   "definitions": {
+    "AddArticleReq": {
+      "type": "object",
+      "properties": {
+        "categoryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "title": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "coverImage": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "AddArticleReq",
+      "required": [
+        "categoryId",
+        "title",
+        "max=40",
+        "max=200",
+        "content"
+      ]
+    },
     "AddCategoryReq": {
       "type": "object",
       "properties": {
@@ -636,6 +1179,31 @@
         "max=800"
       ]
     },
+    "AddTagReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "AddTagReq",
+      "required": [
+        "name",
+        "max=40",
+        "120",
+        "type"
+      ]
+    },
     "AddTopicReq": {
       "type": "object",
       "properties": {
@@ -647,13 +1215,201 @@
         },
         "description": {
           "type": "string"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
         }
       },
       "title": "AddTopicReq",
       "required": [
         "name",
         "max=40",
-        "200"
+        "200",
+        "type"
+      ]
+    },
+    "ArticleCategory": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "string"
+        }
+      },
+      "title": "ArticleCategory",
+      "required": [
+        "id",
+        "name",
+        "image",
+        "description",
+        "quoteCount"
+      ]
+    },
+    "ArticleItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "$ref": "#/definitions/ArticleCategory"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "title": {
+          "type": "string"
+        },
+        "introduction": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "coverImage": {
+          "type": "string"
+        },
+        "creator": {
+          "$ref": "#/definitions/ArticleUser"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isTop": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "commentCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "collectionCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "likeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "dislikeCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "shareCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ArticleItem",
+      "required": [
+        "id",
+        "category",
+        "tag",
+        "title",
+        "introduction",
+        "content",
+        "coverImage",
+        "creator",
+        "status",
+        "visibility",
+        "isTop",
+        "score",
+        "commentCount",
+        "collectionCount",
+        "likeCount",
+        "dislikeCount",
+        "shareCount",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ArticleUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "isFollowing": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "motto": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "gender": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ArticleUser",
+      "required": [
+        "id",
+        "isFollowing",
+        "nickname",
+        "motto",
+        "avatar",
+        "profession",
+        "age",
+        "gender",
+        "level",
+        "score"
       ]
     },
     "CategoryItem": {
@@ -673,7 +1429,8 @@
           "type": "string"
         },
         "quoteCount": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         },
         "creator": {
           "$ref": "#/definitions/CategoryUser"
@@ -706,21 +1463,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "isFollowing": {
-          "type": "boolean",
-          "format": "boolean"
-        },
-        "roleId": {
-          "type": "integer",
-          "format": "int64"
-        },
         "nickname": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "weChat": {
           "type": "string"
         },
         "motto": {
@@ -732,9 +1475,6 @@
         "profession": {
           "type": "string"
         },
-        "profileBg": {
-          "type": "string"
-        },
         "age": {
           "type": "integer",
           "format": "int32"
@@ -744,16 +1484,6 @@
           "format": "int32",
           "default": "1"
         },
-        "location": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int32"
-        },
         "level": {
           "type": "integer",
           "format": "int32"
@@ -761,47 +1491,32 @@
         "score": {
           "type": "integer",
           "format": "int32"
-        },
-        "mailStatus": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "lastLoginTime": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "createdAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "updatedAt": {
-          "type": "integer",
-          "format": "int64"
         }
       },
       "title": "CategoryUser",
       "required": [
         "id",
-        "isFollowing",
-        "roleId",
         "nickname",
-        "email",
-        "weChat",
         "motto",
         "avatar",
         "profession",
-        "profileBg",
         "age",
         "gender",
-        "location",
-        "address",
-        "status",
         "level",
-        "score",
-        "mailStatus",
-        "lastLoginTime",
-        "createdAt",
-        "updatedAt"
+        "score"
+      ]
+    },
+    "DeleteArticleReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteArticleReq",
+      "required": [
+        "id"
       ]
     },
     "DeleteCategoryReq": {
@@ -830,6 +1545,19 @@
         "id"
       ]
     },
+    "DeleteTagReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteTagReq",
+      "required": [
+        "id"
+      ]
+    },
     "DeleteTopicReq": {
       "type": "object",
       "properties": {
@@ -841,6 +1569,96 @@
       "title": "DeleteTopicReq",
       "required": [
         "id"
+      ]
+    },
+    "GetArticleByIdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetArticleByIdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetArticleByIdResp": {
+      "type": "object",
+      "properties": {
+        "article": {
+          "$ref": "#/definitions/ArticleItem"
+        }
+      },
+      "title": "GetArticleByIdResp",
+      "required": [
+        "article"
+      ]
+    },
+    "GetArticleListReq": {
+      "type": "object",
+      "properties": {
+        "creator": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "type": "string"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetArticleListReq",
+      "required": [
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetArticleListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticleItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetArticleListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
       ]
     },
     "GetCategoryByIdReq": {
@@ -961,9 +1779,8 @@
           "type": "integer",
           "format": "int32"
         },
-        "isTop": {
-          "type": "boolean",
-          "format": "boolean"
+        "sort": {
+          "type": "string"
         },
         "score": {
           "type": "integer",
@@ -1007,6 +1824,117 @@
         }
       },
       "title": "GetPostListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "GetTagByIdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetTagByIdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetTagByIdResp": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "$ref": "#/definitions/TagItem"
+        }
+      },
+      "title": "GetTagByIdResp",
+      "required": [
+        "tag"
+      ]
+    },
+    "GetTagByNameReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "GetTagByNameReq",
+      "required": [
+        "name"
+      ]
+    },
+    "GetTagByNameResp": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "$ref": "#/definitions/TagItem"
+        }
+      },
+      "title": "GetTagByNameResp",
+      "required": [
+        "tag"
+      ]
+    },
+    "GetTagListReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "type": "string"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetTagListReq",
+      "required": [
+        "type",
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetTagListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TagItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetTagListResp",
       "required": [
         "list",
         "isEnd",
@@ -1075,6 +2003,13 @@
           "type": "integer",
           "format": "int64"
         },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "type": "string"
+        },
         "pageNum": {
           "type": "integer",
           "format": "int32"
@@ -1086,6 +2021,7 @@
       },
       "title": "GetTopicListReq",
       "required": [
+        "type",
         "pageNum",
         "required",
         "pageSize"
@@ -1116,14 +2052,72 @@
         "total"
       ]
     },
-    "GetUserPostListReq": {
+    "GetUserArticleListReq": {
       "type": "object",
       "properties": {
-        "id": {
+        "creatorId": {
           "type": "integer",
           "format": "int64"
         },
         "keyword": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "string"
+        },
+        "pageNum": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetUserArticleListReq",
+      "required": [
+        "creatorId",
+        "pageNum",
+        "required",
+        "pageSize"
+      ]
+    },
+    "GetUserArticleListResp": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ArticleItem"
+          }
+        },
+        "isEnd": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetUserArticleListResp",
+      "required": [
+        "list",
+        "isEnd",
+        "total"
+      ]
+    },
+    "GetUserPostListReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "keyword": {
+          "type": "string"
+        },
+        "sort": {
           "type": "string"
         },
         "pageNum": {
@@ -1137,7 +2131,7 @@
       },
       "title": "GetUserPostListReq",
       "required": [
-        "id",
+        "userId",
         "pageNum",
         "required",
         "pageSize"
@@ -1210,7 +2204,7 @@
         "topic": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PostTopic"
+            "type": "string"
           }
         },
         "content": {
@@ -1300,41 +2294,16 @@
         "updatedAt"
       ]
     },
-    "PostTopic": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "bg": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "quoteCount": {
-          "type": "string"
-        }
-      },
-      "title": "PostTopic",
-      "required": [
-        "id",
-        "name",
-        "bg",
-        "description",
-        "quoteCount"
-      ]
-    },
     "PostUser": {
       "type": "object",
       "properties": {
         "id": {
           "type": "integer",
           "format": "int64"
+        },
+        "isFollowing": {
+          "type": "boolean",
+          "format": "boolean"
         },
         "roleId": {
           "type": "integer",
@@ -1408,10 +2377,10 @@
       "title": "PostUser",
       "required": [
         "id",
+        "isFollowing",
         "roleId",
         "nickname",
-        "email",
-        "weChat",
+        "-",
         "motto",
         "avatar",
         "profession",
@@ -1427,6 +2396,125 @@
         "lastLoginTime",
         "createdAt",
         "updatedAt"
+      ]
+    },
+    "RemoveImagesReq": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "RemoveImagesReq",
+      "required": [
+        "type",
+        "images"
+      ]
+    },
+    "TagItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "creator": {
+          "$ref": "#/definitions/TagUser"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "TagItem",
+      "required": [
+        "id",
+        "name",
+        "image",
+        "description",
+        "quoteCount",
+        "creator",
+        "type",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "TagUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "motto": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "gender": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "TagUser",
+      "required": [
+        "id",
+        "nickname",
+        "motto",
+        "avatar",
+        "profession",
+        "age",
+        "gender",
+        "level",
+        "score"
       ]
     },
     "TopicItem": {
@@ -1446,10 +2534,15 @@
           "type": "string"
         },
         "quoteCount": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         },
         "creator": {
           "$ref": "#/definitions/TopicUser"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
         },
         "createdAt": {
           "type": "integer",
@@ -1468,6 +2561,7 @@
         "description",
         "quoteCount",
         "creator",
+        "type",
         "createdAt",
         "updatedAt"
       ]
@@ -1479,17 +2573,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "roleId": {
-          "type": "integer",
-          "format": "int64"
-        },
         "nickname": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "weChat": {
           "type": "string"
         },
         "motto": {
@@ -1501,9 +2585,6 @@
         "profession": {
           "type": "string"
         },
-        "profileBg": {
-          "type": "string"
-        },
         "age": {
           "type": "integer",
           "format": "int32"
@@ -1513,16 +2594,6 @@
           "format": "int32",
           "default": "1"
         },
-        "location": {
-          "type": "string"
-        },
-        "address": {
-          "type": "string"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int32"
-        },
         "level": {
           "type": "integer",
           "format": "int32"
@@ -1530,46 +2601,61 @@
         "score": {
           "type": "integer",
           "format": "int32"
-        },
-        "mailStatus": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "lastLoginTime": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "createdAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "updatedAt": {
-          "type": "integer",
-          "format": "int64"
         }
       },
       "title": "TopicUser",
       "required": [
         "id",
-        "roleId",
         "nickname",
-        "email",
-        "weChat",
         "motto",
         "avatar",
         "profession",
-        "profileBg",
         "age",
         "gender",
-        "location",
-        "address",
-        "status",
         "level",
-        "score",
-        "mailStatus",
-        "lastLoginTime",
-        "createdAt",
-        "updatedAt"
+        "score"
+      ]
+    },
+    "UpdateArticleReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "categoryId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "tag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "title": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "coverImage": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "UpdateArticleReq",
+      "required": [
+        "id",
+        "categoryId",
+        "max=40",
+        "max=200"
       ]
     },
     "UpdateCategoryReq": {
@@ -1578,9 +2664,6 @@
         "id": {
           "type": "integer",
           "format": "int64"
-        },
-        "name": {
-          "type": "string"
         },
         "image": {
           "type": "string"
@@ -1592,9 +2675,38 @@
       "title": "UpdateCategoryReq",
       "required": [
         "id",
-        "name",
-        "required",
         "max=200"
+      ]
+    },
+    "UpdateTagReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "image": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "quoteCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "UpdateTagReq",
+      "required": [
+        "id",
+        "120",
+        "quoteCount",
+        "gt=0",
+        "type"
       ]
     },
     "UpdateTopicReq": {
@@ -1604,22 +2716,57 @@
           "type": "integer",
           "format": "int64"
         },
-        "name": {
-          "type": "string"
-        },
         "bg": {
           "type": "string"
         },
         "description": {
           "type": "string"
+        },
+        "quoteCount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32"
         }
       },
       "title": "UpdateTopicReq",
       "required": [
         "id",
-        "name",
-        "max=40",
-        "200"
+        "200",
+        "quoteCount",
+        "gt=0",
+        "type"
+      ]
+    },
+    "UploadImagesReq": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 1评论，2帖子，3文章，4个人图库"
+        }
+      },
+      "title": "UploadImagesReq",
+      "required": [
+        "type"
+      ]
+    },
+    "UploadImagesResp": {
+      "type": "object",
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "UploadImagesResp",
+      "required": [
+        "images"
       ]
     }
   },

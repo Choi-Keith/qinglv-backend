@@ -41,14 +41,16 @@ func (l *AddArticleLogic) AddArticle(req *types.AddArticleReq) error {
 			return err
 		}
 	}
+	var tagList []*content.TagItem
 	if len(req.Tag) > 0 {
 		for _, tag := range req.Tag {
-			_, err := l.svcCtx.TagRpc.GetTagByName(l.ctx, &content.GetTagByNameReq{
+			tagResp, err := l.svcCtx.TagRpc.GetTagByName(l.ctx, &content.GetTagByNameReq{
 				Name: tag,
 			})
 			if err != nil {
 				return err
 			}
+			tagList = append(tagList, tagResp.Tag)
 		}
 	}
 	id := snowflake.MustID()
@@ -60,7 +62,7 @@ func (l *AddArticleLogic) AddArticle(req *types.AddArticleReq) error {
 		Visibility:       int32(req.Visibility),
 		ArticleContentId: articleContentId,
 		Title:            req.Title,
-		Introduction:     req.Desc,
+		Introduction:     req.Introduction,
 		Tags:             tags,
 		CategoryId:       req.CategoryId,
 		CoverImage:       req.CoverImage,
@@ -68,6 +70,14 @@ func (l *AddArticleLogic) AddArticle(req *types.AddArticleReq) error {
 		CreatorName:      creatorName,
 	}); err != nil {
 		return err
+	}
+	for _, tagItem := range tagList {
+		if _, err := l.svcCtx.TagRpc.UpdateTag(l.ctx, &content.UpdateTagReq{
+			Id:         tagItem.Id,
+			QuoteCount: tagItem.QuoteCount + 1,
+		}); err != nil {
+			return err
+		}
 	}
 
 	return nil
