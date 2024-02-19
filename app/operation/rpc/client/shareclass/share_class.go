@@ -13,6 +13,7 @@ import (
 )
 
 type (
+	AddArticleShareReq         = operation.AddArticleShareReq
 	AddCollectionGroupReq      = operation.AddCollectionGroupReq
 	AddCollectionReq           = operation.AddCollectionReq
 	AddCommentReplyReq         = operation.AddCommentReplyReq
@@ -70,6 +71,7 @@ type (
 	ShareClass interface {
 		// group: Share
 		AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error)
+		AddArticleShare(ctx context.Context, in *AddArticleShareReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultShareClass struct {
@@ -87,4 +89,9 @@ func NewShareClass(cli zrpc.Client) ShareClass {
 func (m *defaultShareClass) AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewShareClassClient(m.cli.Conn())
 	return client.AddPostShare(ctx, in, opts...)
+}
+
+func (m *defaultShareClass) AddArticleShare(ctx context.Context, in *AddArticleShareReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewShareClassClient(m.cli.Conn())
+	return client.AddArticleShare(ctx, in, opts...)
 }

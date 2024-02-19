@@ -462,7 +462,8 @@ var CollectionClass_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ShareClass_AddPostShare_FullMethodName = "/operation.ShareClass/AddPostShare"
+	ShareClass_AddPostShare_FullMethodName    = "/operation.ShareClass/AddPostShare"
+	ShareClass_AddArticleShare_FullMethodName = "/operation.ShareClass/AddArticleShare"
 )
 
 // ShareClassClient is the client API for ShareClass service.
@@ -471,6 +472,7 @@ const (
 type ShareClassClient interface {
 	// group: Share
 	AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error)
+	AddArticleShare(ctx context.Context, in *AddArticleShareReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type shareClassClient struct {
@@ -490,12 +492,22 @@ func (c *shareClassClient) AddPostShare(ctx context.Context, in *AddPostShareReq
 	return out, nil
 }
 
+func (c *shareClassClient) AddArticleShare(ctx context.Context, in *AddArticleShareReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShareClass_AddArticleShare_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ShareClassServer is the server API for ShareClass service.
 // All implementations must embed UnimplementedShareClassServer
 // for forward compatibility
 type ShareClassServer interface {
 	// group: Share
 	AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error)
+	AddArticleShare(context.Context, *AddArticleShareReq) (*OkResp, error)
 	mustEmbedUnimplementedShareClassServer()
 }
 
@@ -505,6 +517,9 @@ type UnimplementedShareClassServer struct {
 
 func (UnimplementedShareClassServer) AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddPostShare not implemented")
+}
+func (UnimplementedShareClassServer) AddArticleShare(context.Context, *AddArticleShareReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddArticleShare not implemented")
 }
 func (UnimplementedShareClassServer) mustEmbedUnimplementedShareClassServer() {}
 
@@ -537,6 +552,24 @@ func _ShareClass_AddPostShare_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ShareClass_AddArticleShare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddArticleShareReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShareClassServer).AddArticleShare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShareClass_AddArticleShare_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShareClassServer).AddArticleShare(ctx, req.(*AddArticleShareReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ShareClass_ServiceDesc is the grpc.ServiceDesc for ShareClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -547,6 +580,10 @@ var ShareClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddPostShare",
 			Handler:    _ShareClass_AddPostShare_Handler,
+		},
+		{
+			MethodName: "AddArticleShare",
+			Handler:    _ShareClass_AddArticleShare_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

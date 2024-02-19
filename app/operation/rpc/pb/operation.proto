@@ -127,9 +127,16 @@ message AddPostShareReq {
     uint64 postId = 3;
     int32 type = 4;
 }
+message AddArticleShareReq {
+    uint64 id = 1;
+    uint64 creatorId = 2;
+    uint64 postId = 3;
+    int32 type = 4;
+}
 service ShareClass{
     // group: Share
     rpc AddPostShare(AddPostShareReq) returns(OkResp);
+    rpc AddArticleShare(AddArticleShareReq) returns(OkResp);
 }
 
 //==========================Thumb==========================

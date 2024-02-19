@@ -27,3 +27,8 @@ func (s *ShareClassServer) AddPostShare(ctx context.Context, in *operation.AddPo
 	l := shareclasslogic.NewAddPostShareLogic(ctx, s.svcCtx)
 	return l.AddPostShare(in)
 }
+
+func (s *ShareClassServer) AddArticleShare(ctx context.Context, in *operation.AddArticleShareReq) (*operation.OkResp, error) {
+	l := shareclasslogic.NewAddArticleShareLogic(ctx, s.svcCtx)
+	return l.AddArticleShare(in)
+}

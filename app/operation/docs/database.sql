@@ -55,6 +55,7 @@ CREATE TABLE `article_share` (
     `article_id` bigint(20) unsigned NOT NULL COMMENT '文章id',
     `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '1轻语,2微信,3朋友圈,4微博',
     `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `creator_name` varchar(50) NOT NULL DEFAULT '', 
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
@@ -62,7 +63,7 @@ CREATE TABLE `article_share` (
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
     PRIMARY KEY (`id`),
     KEY `idx_type` (`type`),
-    KEY `idx_creator_id` (`creator_id`)
+    KEY `idx_creator_name` (`creator_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章分享表';
 
 CREATE TABLE `post_thumb` (
@@ -81,6 +82,24 @@ CREATE TABLE `post_thumb` (
     KEY `idx_post_id` (`post_id`),
     KEY `idx_creator_id` (`creator_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子点赞和点踩表';
+
+CREATE TABLE `article_thumb` (
+    `id` bigint(20) unsigned NOT NULL,
+    `article_id` bigint(20) unsigned NOT NULL COMMENT '文章id',
+    `like` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1喜欢，0取消',
+    `dislike` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1不喜欢，0取消',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `creator_name` varchar(50) NOT NULL DEFAULT '', 
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`article_id`),
+    KEY `idx_article_id` (`article_id`),
+    KEY `idx_creator_name` (`creator_name`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章点赞和点踩表';
 
 CREATE table `post_comment` (
     `id` bigint(20) unsigned NOT NULL,
@@ -101,6 +120,28 @@ CREATE table `post_comment` (
     KEY `idx_post_comment_post_id` (`post_id`) USING BTREE,
     KEY `idx_post_comment_score` (`score`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子评论表';
+
+CREATE table `article_comment` (
+    `id` bigint(20) unsigned NOT NULL,
+    `article_id` bigint(20) unsigned NOT NULL,
+    `creator_id` bigint(20) unsigned NOT NULL,
+    `creator_name` varchar(50) NOT NULL DEFAULT '', 
+    `content` text NOT NULL COMMENT '评论内容',
+    `visibility` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否显示：1显示2隐藏',
+    `like_count` bigint(20) unsigned NOT NULL COMMENT '点赞数',
+    `dislike_count` bigint(20) unsigned NOT NULL COMMENT '点踩数',
+    `score` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '热度分数:一个点赞一分,一个点踩扣2分',
+    `location` varchar(64) NOT NULL DEFAULT '' COMMENT 'ip城市',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_article_comment_article_id` (`article_id`) USING BTREE,
+    KEY `idx_article_comment_score` (`score`) USING BTREE,
+    KEY `idx_article_comment_visibility` (`visibility`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章评论表';
 
 CREATE table `post_comment_reply` (
     `id` bigint(20) unsigned NOT NULL,
@@ -126,6 +167,32 @@ CREATE table `post_comment_reply` (
     KEY `idx_post_comment_reply_score` (`score`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子评论回复表';
 
+CREATE table `article_comment_reply` (
+    `id` bigint(20) unsigned NOT NULL,
+    `article_id` bigint(20) unsigned NOT NULL,
+    `creator_id` bigint(20) unsigned NOT NULL,
+    `creator_name` varchar(50) NOT NULL DEFAULT '', 
+    `comment_id` bigint(20) unsigned NOT NULL COMMENT '回复评论id',
+    `at_user_id` bigint(20) unsigned NOT NULL COMMENT '回复id',
+    `at_user_name` varchar(50) NOT NULL DEFAULT '' COMMENT '回复昵称',
+    `content` text NOT NULL COMMENT '评论内容',
+    `visibility` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否显示：1显示2隐藏',
+    `like_count` bigint(20) unsigned NOT NULL COMMENT '点赞数',
+    `dislike_count` bigint(20) unsigned NOT NULL COMMENT '点踩数',
+    `score` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '热度分数:一个点赞一分,一个点踩扣2分',
+    `location` varchar(64) NOT NULL DEFAULT '' COMMENT 'ip城市',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_article_comment_reply_comment_id` (`comment_id`) USING BTREE,
+    KEY `idx_article_comment_reply_article_id` (`article_id`) USING BTREE,
+    KEY `idx_article_comment_reply_score` (`score`) USING BTREE,
+    KEY `idx_article_comment_reply_visibility` (`visibility`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章评论回复表';
+
 CREATE TABLE `post_comment_thumb` (
     `id` bigint(20) unsigned NOT NULL,
     `post_id` bigint(20) unsigned NOT NULL COMMENT '帖子id',
@@ -145,24 +212,6 @@ CREATE TABLE `post_comment_thumb` (
     KEY `idx_creator_id` (`creator_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子评论点赞和点踩表';
 
-
-CREATE TABLE `article_thumb` (
-    `id` bigint(20) unsigned NOT NULL,
-    `article_id` bigint(20) unsigned NOT NULL COMMENT '文章id',
-    `like` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1喜欢，0取消',
-    `dislike` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '1不喜欢，0取消',
-    `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建人',
-    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
-    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
-    `is_del` tinyint(1) NOT NULL DEFAULT '0',
-    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY (`post_id`),
-    KEY `idx_post_id` (`post_id`),
-    KEY `idx_creator_id` (`creator_id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章点赞和点踩表';
-
 CREATE TABLE `article_comment_thumb` (
     `id` bigint(20) unsigned NOT NULL,
     `article_id` bigint(20) unsigned NOT NULL COMMENT '文章id',
@@ -170,13 +219,16 @@ CREATE TABLE `article_comment_thumb` (
     `reply_id` bigint(20) unsigned DEFAULT NULL COMMENT '评论回复ID',
     `comment_type` tinyint(3) NOT NULL DEFAULT '1' COMMENT '评论类型 1为帖子评论、2为帖子评论回复',
     `creator_id` bigint(20) unsigned NOT NULL COMMENT '创建人',
+    `creator_name` varchar(50) NOT NULL DEFAULT '', 
+    `like` tinyint(3) DEFAULT '0' COMMENT '1喜欢，0取消',
+    `dislike` tinyint(3) DEFAULT '0' COMMENT '1不喜欢，0取消',
     `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
     `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
     PRIMARY KEY (`id`),
-    KEY `idx_creator_id` (`creator_id`)
+    KEY `idx_creator_name` (`creator_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章评论点赞和点踩表';
 
 

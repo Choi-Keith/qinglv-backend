@@ -13,6 +13,7 @@ import (
 )
 
 type (
+	AddArticleShareReq         = operation.AddArticleShareReq
 	AddCollectionGroupReq      = operation.AddCollectionGroupReq
 	AddCollectionReq           = operation.AddCollectionReq
 	AddCommentReplyReq         = operation.AddCommentReplyReq
