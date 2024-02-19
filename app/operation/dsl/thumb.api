@@ -38,3 +38,33 @@ type HandlePostCommentReplyThumbDownReq {
 	ReplyId   uint64 `json:"replyId,string"`
 }
 
+type HandleArticleThumbUpReq {
+	ArticleId uint64 `json:"articleId,string"`
+}
+
+type HandleArticleThumbDownReq {
+	ArticleId uint64 `json:"articleId,string"`
+}
+
+type HandleArticleCommentThumbUpReq {
+	ArticleId uint64 `json:"articleId,string"`
+	CommentId uint64 `json:"commentId,string"`
+}
+
+type HandleArticleCommentThumbDownReq {
+	ArticleId uint64 `json:"articleId,string"`
+	CommentId uint64 `json:"commentId,string"`
+}
+
+type HandleArticleCommentReplyThumbUpReq {
+	ArticleId uint64 `json:"articleId,string"`
+	CommentId uint64 `json:"commentId,string"`
+	ReplyId   uint64 `json:"replyId,string"`
+}
+
+type HandleArticleCommentReplyThumbDownReq {
+	ArticleId uint64 `json:"articleId,string"`
+	CommentId uint64 `json:"commentId,string"`
+	ReplyId   uint64 `json:"replyId,string"`
+}
+

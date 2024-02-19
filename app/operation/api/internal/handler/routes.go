@@ -86,6 +86,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
+				Path:    "/article/comment",
+				Handler: comment.GetArticleCommentListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/article/comment/reply",
+				Handler: comment.GetArticleCommentReplyListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
 				Path:    "/post/comment",
 				Handler: comment.GetPostCommentListHandler(serverCtx),
 			},
@@ -102,6 +112,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.Authority},
 			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/comment",
+					Handler: comment.AddArticleCommentHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/article/comment/:id",
+					Handler: comment.DeleteArticleCommentHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/comment/reply",
+					Handler: comment.AddArticleCommentReplyHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/article/comment/reply/:id",
+					Handler: comment.DeleteArticleCommentReplyHandler(serverCtx),
+				},
 				{
 					Method:  http.MethodPost,
 					Path:    "/post/comment",
@@ -134,6 +164,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodPost,
+					Path:    "/article/share",
+					Handler: share.AddArticleShareHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
 					Path:    "/post/share",
 					Handler: share.AddPostShareHandler(serverCtx),
 				},
@@ -147,6 +182,36 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.Authority},
 			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/comment/reply/thumb/down",
+					Handler: thumb.HandleArticleCommentReplyThumbDownHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/comment/reply/thumb/up",
+					Handler: thumb.HandleArticleCommentReplyThumbUpHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/comment/thumb/down",
+					Handler: thumb.HandleArticleCommentThumbDownHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/comment/thumb/up",
+					Handler: thumb.HandleArticleCommentThumbUpHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/thumb/down",
+					Handler: thumb.HandleArticleThumbDownHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/article/thumb/up",
+					Handler: thumb.HandleArticleThumbUpHandler(serverCtx),
+				},
 				{
 					Method:  http.MethodPost,
 					Path:    "/post/comment/reply/thumb/down",

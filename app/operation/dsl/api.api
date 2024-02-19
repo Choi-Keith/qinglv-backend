@@ -75,9 +75,13 @@ service operation {
 	middleware: Authority
 )
 service operation {
-	@doc "分享"
+	@doc "帖子分享"
 	@handler addPostShare
 	post /post/share (AddPostShareReq)
+
+	@doc "文章分享"
+	@handler addArticleShare
+	post /article/share (AddArticleShareReq)
 }
 
 // need login
@@ -111,6 +115,30 @@ service operation {
 	@doc "帖子回复评论点踩"
 	@handler handlePostCommentReplyThumbDown
 	post /post/comment/reply/thumb/down (HandlePostCommentReplyThumbDownReq)
+
+	@doc "文章点赞"
+	@handler handleArticleThumbUp
+	post /article/thumb/up (HandleArticleThumbUpReq)
+
+	@doc "文章点踩"
+	@handler handleArticleThumbDown
+	post /article/thumb/down (HandleArticleThumbDownReq)
+
+	@doc "文章评论点赞"
+	@handler handleArticleCommentThumbUp
+	post /article/comment/thumb/up (HandleArticleCommentThumbUpReq)
+
+	@doc "文章评论点踩"
+	@handler handleArticleCommentThumbDown
+	post /article/comment/thumb/down (HandleArticleCommentThumbDownReq)
+
+	@doc "文章回复评论点赞"
+	@handler handleArticleCommentReplyThumbUp
+	post /article/comment/reply/thumb/up (HandleArticleCommentReplyThumbUpReq)
+
+	@doc "文章回复评论点踩"
+	@handler handleArticleCommentReplyThumbDown
+	post /article/comment/reply/thumb/down (HandleArticleCommentReplyThumbDownReq)
 }
 
 // no need login
@@ -119,13 +147,21 @@ service operation {
 	group:  comment
 )
 service operation {
-	@doc "帖子评论"
+	@doc "获取帖子评论"
 	@handler getPostCommentList
 	get /post/comment (GetPostCommentListReq) returns (GetPostCommentListResp)
 
-	@doc "帖子评论回复"
+	@doc "获取帖子评论回复"
 	@handler getPostCommentReplyList
 	get /post/comment/reply (GetPostCommentReplyListReq) returns (GetPostCommentReplyListResp)
+
+	@doc "获取文章评论"
+	@handler getArticleCommentList
+	get /article/comment (GetArticleCommentListReq) returns (GetArticleCommentListResp)
+
+	@doc "获取文章评论回复"
+	@handler getArticleCommentReplyList
+	get /article/comment/reply (GetArticleCommentReplyListReq) returns (GetArticleCommentReplyListResp)
 }
 
 // need login
@@ -136,20 +172,36 @@ service operation {
 	middleware: Authority
 )
 service operation {
-	@doc "添加评论"
+	@doc "添加帖子评论"
 	@handler addPostComment
 	post /post/comment (AddPostCommentReq)
 
-	@doc "删除评论"
+	@doc "删除帖子评论"
 	@handler deletePostComment
 	delete /post/comment/:id (DeletePostCommentReq)
 
-	@doc "添加评论回复"
+	@doc "添加帖子评论回复"
 	@handler addPostCommentReply
 	post /post/comment/reply (AddPostCommentReplyReq)
 
-	@doc "删除评论回复"
+	@doc "删除帖子评论回复"
 	@handler deletePostCommentReply
 	delete /post/comment/reply/:id (DeletePostCommentReplyReq)
+
+	@doc "添加文章评论"
+	@handler addArticleComment
+	post /article/comment (AddArticleCommentReq)
+
+	@doc "删除文章评论"
+	@handler deleteArticleComment
+	delete /article/comment/:id (DeleteArticleCommentReq)
+
+	@doc "添加文章评论回复"
+	@handler addArticleCommentReply
+	post /article/comment/reply (AddArticleCommentReplyReq)
+
+	@doc "删除文章评论回复"
+	@handler deleteArticleCommentReply
+	delete /article/comment/reply/:id (DeleteArticleCommentReplyReq)
 }
 

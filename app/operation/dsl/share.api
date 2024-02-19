@@ -13,3 +13,8 @@ type AddPostShareReq {
 	Type   int32  `json:"type,options=[1,2,3,4]"`
 }
 
+type AddArticleShareReq {
+	ArticleId uint64 `json:"articleId,string"`
+	Type      int32  `json:"type,options=[1,2,3,4]"`
+}
+
