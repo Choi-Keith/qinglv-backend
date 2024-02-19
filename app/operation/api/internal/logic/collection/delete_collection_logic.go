@@ -65,7 +65,19 @@ func (l *DeleteCollectionLogic) DeleteCollection(req *types.DeleteCollectionReq)
 		if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 			Id:              collectionResp.Collection.TargetId,
 			CollectionCount: postResp.Post.CollectionCount - 1,
-			Score:           postResp.Post.Score - 1,
+		}); err != nil {
+			return err
+		}
+	} else if groupResp.CollectionGroup.BizType == 2 {
+		articleResp, err := l.svcCtx.ArticleRpc.GetArticleDetail(l.ctx, &content.GetArticleDetailReq{
+			Id: collectionResp.Collection.TargetId,
+		})
+		if err != nil {
+			return err
+		}
+		if _, err := l.svcCtx.ArticleRpc.UpdateArticle(l.ctx, &content.UpdateArticleReq{
+			Id:              collectionResp.Collection.TargetId,
+			CollectionCount: articleResp.Article.CollectionCount - 1,
 		}); err != nil {
 			return err
 		}

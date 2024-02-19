@@ -64,6 +64,22 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 		}); err != nil {
 			return err
 		}
+	} else if groupResp.CollectionGroup.BizType == 2 {
+		articleResp, err := l.svcCtx.ArticleRpc.GetArticleDetail(l.ctx, &content.GetArticleDetailReq{
+			Id: req.TargetId,
+		})
+		if err != nil {
+			return err
+		}
+		score := utils.HandleScore(articleResp.Article.CreatedAt, 4, 1.5)
+		if _, err := l.svcCtx.ArticleRpc.UpdateArticle(l.ctx, &content.UpdateArticleReq{
+			Id:              req.TargetId,
+			CollectionCount: articleResp.Article.CollectionCount + 1,
+			Score:           articleResp.Article.Score + score,
+		}); err != nil {
+			return err
+		}
+
 	}
 
 	return nil

@@ -3,6 +3,7 @@ package svc
 import (
 	"net/http"
 	"net/url"
+	"qinglv-backend/app/content/rpc/client/articleclass"
 	"qinglv-backend/app/content/rpc/client/categoryclass"
 	"qinglv-backend/app/content/rpc/client/postclass"
 	"qinglv-backend/app/operation/api/internal/config"
@@ -28,6 +29,7 @@ type ServiceContext struct {
 	CommentRpc    commentclass.CommentClass
 	PostRpc       postclass.PostClass
 	CategoryRpc   categoryclass.CategoryClass
+	ArticleRpc    articleclass.ArticleClass
 	UserRpc       userclass.UserClass
 	FollowingRpc  followingclass.FollowingClass
 	CosClient     *cos.Client
@@ -52,6 +54,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		UserRpc:       userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
 		FollowingRpc:  followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
 		PostRpc:       postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
+		ArticleRpc:    articleclass.NewArticleClass(zrpc.MustNewClient(c.ContentRpc)),
 		CategoryRpc:   categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
 		CosClient:     client,
 	}

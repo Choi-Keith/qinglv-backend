@@ -65,6 +65,18 @@ func (l *GetCollectionListLogic) GetCollectionList(req *types.GetCollectionListR
 	}
 	if req.BizType == 2 {
 		// TODO: 文章收藏
+		articleList, err := l.HanldeArticle(collectionListResp)
+		if err != nil {
+			return nil, err
+		}
+		return &types.GetCollectionListResp{
+			Post: types.PostResp{},
+			Article: types.ArticleResp{
+				List:  articleList,
+				Total: collectionListResp.Total,
+				IsEnd: isEnd,
+			},
+		}, nil
 	}
 
 	return &types.GetCollectionListResp{
@@ -147,6 +159,94 @@ func (l *GetCollectionListLogic) HanldePost(collectionListResp *operation.GetCol
 	}, func(pipe <-chan types.PostItem, writer mr.Writer[[]types.PostItem], cancel func(error)) {
 		var r []types.PostItem
 		m := make(map[uint64]types.PostItem, len(collectionListResp.Data))
+		for p := range pipe {
+			m[p.Id] = p
+		}
+		for _, postItem := range collectionListResp.Data {
+			r = append(r, m[postItem.TargetId])
+		}
+		writer.Write(r)
+	})
+	if err != nil {
+		return nil, err
+	}
+	return postList, nil
+}
+
+func (l *GetCollectionListLogic) HanldeArticle(collectionListResp *operation.GetCollectionListResp) ([]types.ArticleItem, error) {
+	postList, err := mr.MapReduce(func(source chan<- operation.CollectionItem) {
+		for _, collectionItem := range collectionListResp.Data {
+			source <- *collectionItem
+		}
+	}, func(item operation.CollectionItem, writer mr.Writer[types.ArticleItem], cancel func(error)) {
+		articleResp, err := l.svcCtx.ArticleRpc.GetArticleDetail(l.ctx, &content.GetArticleDetailReq{
+			Id: item.TargetId,
+		})
+		if err != nil {
+			cancel(err)
+			return
+		}
+		articleContentResp, err := l.svcCtx.ArticleRpc.GetArticleContentByArticleId(l.ctx, &content.GetArticleContentDetailReq{
+			Id: articleResp.Article.Id,
+		})
+		if err != nil {
+			cancel(err)
+			return
+		}
+		userResp, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
+			UserId: articleResp.Article.CreatorId,
+		})
+		if err != nil {
+			cancel(err)
+			return
+		}
+		var articleItem types.ArticleItem
+		_ = copier.Copy(&articleItem, articleResp.Article)
+		_ = copier.Copy(&articleItem.Creator, userResp.User)
+
+		m, err := jwtx.ParseToken(l.r, l.svcCtx.Config.JWTAuth.AccessSecret)
+		if err == nil {
+			fmt.Printf("m: %+v\n", m)
+			userId, ok := m["userId"]
+			if ok && userId != 0 {
+				if err != nil {
+					cancel(err)
+					return
+				}
+				followingResp, err := l.svcCtx.FollowingRpc.GetFollowingList(l.ctx, &user.GetFollowingListReq{
+					UserId:      uint64(userId),
+					FollowingId: userResp.User.Id,
+				})
+				if err != nil {
+					cancel(err)
+					return
+				}
+				if len(followingResp.Data) != 0 {
+					articleItem.Creator.IsFollowing = true
+				}
+			}
+		}
+		var categoryItem types.CollectionCategory
+		if articleContentResp.ArticleContent.CategoryId != 0 {
+			categoryResp, err := l.svcCtx.CategoryRpc.GetCategoryDetail(l.ctx, &content.GetCategoryDetailReq{
+				Id: articleContentResp.ArticleContent.CategoryId,
+			})
+			if err != nil {
+				cancel(err)
+				return
+			}
+			_ = copier.Copy(&categoryItem, categoryResp.Category)
+		}
+		articleItem.Category = categoryItem
+		tags := strings.Split(articleContentResp.ArticleContent.Tags, ",")
+		articleItem.Tag = tags
+		articleItem.Content = articleContentResp.ArticleContent.Content
+		articleItem.CoverImage = articleContentResp.ArticleContent.CoverImage
+
+		writer.Write(articleItem)
+	}, func(pipe <-chan types.ArticleItem, writer mr.Writer[[]types.ArticleItem], cancel func(error)) {
+		var r []types.ArticleItem
+		m := make(map[uint64]types.ArticleItem, len(collectionListResp.Data))
 		for p := range pipe {
 			m[p.Id] = p
 		}
