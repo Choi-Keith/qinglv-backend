@@ -43,7 +43,6 @@ type UpdateProfileReq {
 type UpdateUserReq {
 	UserId     uint64 `json:"userId,string"`
 	Nickname   string `json:"nickname" validate:"max=50"`
-	Email      string `json:"email" validate:"email,max=50"`
 	Age        int    `json:"age,range=[0:120],optional"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Phone      string `json:"phone,optional"`

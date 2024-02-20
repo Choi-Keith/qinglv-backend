@@ -8,6 +8,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/client/thumbclass"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
@@ -97,6 +98,13 @@ func (l *HandleArticleThumbUpLogic) HandleArticleThumbUp(req *types.HandleArticl
 		LikeCount:    articleResp.Article.LikeCount + uint64(thumbUpCount),
 		DislikeCount: articleResp.Article.DislikeCount + uint64(thumbDownCount),
 		Score:        score,
+	}); err != nil {
+		return err
+	}
+	if _, err := l.svcCtx.UserRpc.UpdateUserScoreLevel(l.ctx, &user.UpdateUserScoreLevelReq{
+		Id:    articleResp.Article.CreatorId,
+		Score: int32(thumbUpCount) * 2,
+		Op:    "add",
 	}); err != nil {
 		return err
 	}

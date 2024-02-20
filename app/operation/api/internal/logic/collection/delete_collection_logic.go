@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -55,6 +56,7 @@ func (l *DeleteCollectionLogic) DeleteCollection(req *types.DeleteCollectionReq)
 	if err != nil {
 		return err
 	}
+	var updateUserId uint64
 	if groupResp.CollectionGroup.BizType == 1 {
 		postResp, err := l.svcCtx.PostRpc.GetPostDetail(l.ctx, &content.GetPostDetailReq{
 			Id: collectionResp.Collection.TargetId,
@@ -62,6 +64,7 @@ func (l *DeleteCollectionLogic) DeleteCollection(req *types.DeleteCollectionReq)
 		if err != nil {
 			return err
 		}
+		updateUserId = postResp.Post.CreatorId
 		if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 			Id:              collectionResp.Collection.TargetId,
 			CollectionCount: postResp.Post.CollectionCount - 1,
@@ -75,12 +78,24 @@ func (l *DeleteCollectionLogic) DeleteCollection(req *types.DeleteCollectionReq)
 		if err != nil {
 			return err
 		}
+		updateUserId = articleResp.Article.CreatorId
 		if _, err := l.svcCtx.ArticleRpc.UpdateArticle(l.ctx, &content.UpdateArticleReq{
 			Id:              collectionResp.Collection.TargetId,
 			CollectionCount: articleResp.Article.CollectionCount - 1,
 		}); err != nil {
 			return err
 		}
+	}
+	userScore := 1
+	if groupResp.CollectionGroup.BizType == 2 {
+		userScore = 2
+	}
+	if _, err := l.svcCtx.UserRpc.UpdateUserScoreLevel(l.ctx, &user.UpdateUserScoreLevelReq{
+		Id:    updateUserId,
+		Score: int32(userScore),
+		Op:    "sub",
+	}); err != nil {
+		return err
 	}
 	return nil
 }

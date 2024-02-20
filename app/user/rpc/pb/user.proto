@@ -190,6 +190,16 @@ message UpdateUserResp {
   string pong = 1;
 }
 
+message UpdateUserScoreLevelReq {
+  uint64 Id = 1;
+  int32 score = 2;
+  string op = 3; // "add" || "sub"
+}
+
+message UpdateUserScoreLevelResp {
+  string pong = 1;
+}
+
 message UpdateEmailStatusReq {
   uint64 userId = 1;
   int32 mailStatus = 2;
@@ -237,6 +247,7 @@ service UserClass {
   rpc UpdateUser(UpdateUserReq) returns(UpdateUserResp);
   rpc UpdatePassword(UpdatePasswordReq) returns(UpdatePasswordResp);
   rpc UpdateEmailStatus(UpdateEmailStatusReq) returns(UpdateEmailStatusResp);
+  rpc UpdateUserScoreLevel(UpdateUserScoreLevelReq) returns(UpdateUserScoreLevelResp);
   rpc UpdateAvatar(UpdateAvatarReq) returns(UpdateAvatarResp);
   rpc UpdateProfileBg(UpdateProfileBgReq) returns(UpdateProfileBgResp);
 }

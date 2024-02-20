@@ -87,6 +87,11 @@ func (s *UserClassServer) UpdateEmailStatus(ctx context.Context, in *user.Update
 	return l.UpdateEmailStatus(in)
 }
 
+func (s *UserClassServer) UpdateUserScoreLevel(ctx context.Context, in *user.UpdateUserScoreLevelReq) (*user.UpdateUserScoreLevelResp, error) {
+	l := userclasslogic.NewUpdateUserScoreLevelLogic(ctx, s.svcCtx)
+	return l.UpdateUserScoreLevel(in)
+}
+
 func (s *UserClassServer) UpdateAvatar(ctx context.Context, in *user.UpdateAvatarReq) (*user.UpdateAvatarResp, error) {
 	l := userclasslogic.NewUpdateAvatarLogic(ctx, s.svcCtx)
 	return l.UpdateAvatar(in)

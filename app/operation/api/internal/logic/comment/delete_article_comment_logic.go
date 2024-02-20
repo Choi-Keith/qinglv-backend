@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -67,6 +68,13 @@ func (l *DeleteArticleCommentLogic) DeleteArticleComment(req *types.DeleteArticl
 	if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 		Id:           articleResp.Article.Id,
 		CommentCount: articleResp.Article.CommentCount - 1,
+	}); err != nil {
+		return err
+	}
+	if _, err := l.svcCtx.UserRpc.UpdateUserScoreLevel(l.ctx, &user.UpdateUserScoreLevelReq{
+		Id:    articleResp.Article.CreatorId,
+		Score: 1,
+		Op:    "sub",
 	}); err != nil {
 		return err
 	}

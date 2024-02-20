@@ -8,6 +8,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -68,6 +69,13 @@ func (l *AddArticleLogic) AddArticle(req *types.AddArticleReq) error {
 		CoverImage:       req.CoverImage,
 		Content:          req.Content,
 		CreatorName:      creatorName,
+	}); err != nil {
+		return err
+	}
+	if _, err := l.svcCtx.UserRpc.UpdateUserScoreLevel(l.ctx, &user.UpdateUserScoreLevelReq{
+		Id:    uint64(userId),
+		Score: 10,
+		Op:    "add",
 	}); err != nil {
 		return err
 	}

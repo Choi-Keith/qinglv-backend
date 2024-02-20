@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
 
@@ -67,6 +68,13 @@ func (l *AddArticleCommentLogic) AddArticleComment(req *types.AddArticleCommentR
 		Id:           req.ArticleId,
 		CommentCount: articleResp.Article.CommentCount + 1,
 		Score:        articleResp.Article.Score + score,
+	}); err != nil {
+		return err
+	}
+	if _, err := l.svcCtx.UserRpc.UpdateUserScoreLevel(l.ctx, &user.UpdateUserScoreLevelReq{
+		Id:    articleResp.Article.CreatorId,
+		Score: 1,
+		Op:    "add",
 	}); err != nil {
 		return err
 	}

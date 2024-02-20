@@ -3,6 +3,7 @@ package post
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strings"
 	"time"
@@ -10,6 +11,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
 
@@ -85,6 +87,13 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 	if err != nil {
 		return err
 	}
+	if _, err := l.svcCtx.UserRpc.UpdateUserScoreLevel(l.ctx, &user.UpdateUserScoreLevelReq{
+		Id:    uint64(userId),
+		Score: 1,
+		Op:    "add",
+	}); err != nil {
+		return err
+	}
 	for _, topicItem := range topicList {
 		score := utils.HandleScore(topicItem.CreatedAt, 5, 1.5)
 		if _, err := l.svcCtx.TopicRpc.UpdateTopic(l.ctx, &content.UpdateTopicReq{
@@ -100,6 +109,9 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 
 func (l *AddPostLogic) checkAndCreateTopic(req *types.AddPostReq, userId uint64) ([]*content.TopicItem, error) {
 	var scores []*content.TopicItem
+	if len(req.Topics) > 3 {
+		return nil, errors.New("最多选三个标签")
+	}
 	for _, topic := range req.Topics {
 		topicResp, err := l.svcCtx.TopicRpc.GetTopicByName(l.ctx, &content.GetTopicByNameReq{
 			Name: topic,

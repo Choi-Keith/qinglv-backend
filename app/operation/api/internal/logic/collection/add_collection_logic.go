@@ -8,6 +8,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
 
@@ -49,6 +50,7 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 	}); err != nil {
 		return err
 	}
+	var updateUserId uint64
 	if groupResp.CollectionGroup.BizType == 1 {
 		postResp, err := l.svcCtx.PostRpc.GetPostDetail(l.ctx, &content.GetPostDetailReq{
 			Id: req.TargetId,
@@ -56,6 +58,7 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 		if err != nil {
 			return err
 		}
+		updateUserId = postResp.Post.CreatorId
 		score := utils.HandleScore(postResp.Post.CreatedAt, 2, 1.5)
 		if _, err := l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
 			Id:              req.TargetId,
@@ -71,6 +74,7 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 		if err != nil {
 			return err
 		}
+		updateUserId = articleResp.Article.CreatorId
 		score := utils.HandleScore(articleResp.Article.CreatedAt, 4, 1.5)
 		if _, err := l.svcCtx.ArticleRpc.UpdateArticle(l.ctx, &content.UpdateArticleReq{
 			Id:              req.TargetId,
@@ -80,6 +84,17 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 			return err
 		}
 
+	}
+	userScore := 1
+	if groupResp.CollectionGroup.BizType == 2 {
+		userScore = 2
+	}
+	if _, err := l.svcCtx.UserRpc.UpdateUserScoreLevel(l.ctx, &user.UpdateUserScoreLevelReq{
+		Id:    updateUserId,
+		Score: int32(userScore),
+		Op:    "add",
+	}); err != nil {
+		return err
 	}
 
 	return nil

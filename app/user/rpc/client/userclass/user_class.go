@@ -13,64 +13,66 @@ import (
 )
 
 type (
-	AddBlackItemReq        = user.AddBlackItemReq
-	AddBlackItemResp       = user.AddBlackItemResp
-	AddFollowingReq        = user.AddFollowingReq
-	AddFollowingResp       = user.AddFollowingResp
-	BanUserReq             = user.BanUserReq
-	BanUserResp            = user.BanUserResp
-	BlackItem              = user.BlackItem
-	CheckBlackItemReq      = user.CheckBlackItemReq
-	CheckBlackItemResp     = user.CheckBlackItemResp
-	CheckEmailExistReq     = user.CheckEmailExistReq
-	CheckEmailExistResp    = user.CheckEmailExistResp
-	CheckFollowingReq      = user.CheckFollowingReq
-	CheckFollowingResp     = user.CheckFollowingResp
-	CheckNicknameExistReq  = user.CheckNicknameExistReq
-	CheckNicknameExistResp = user.CheckNicknameExistResp
-	DeleteBlackItemReq     = user.DeleteBlackItemReq
-	DeleteBlackItemResp    = user.DeleteBlackItemResp
-	DeleteFollowingReq     = user.DeleteFollowingReq
-	DeleteFollowingResp    = user.DeleteFollowingResp
-	DeleteUserReq          = user.DeleteUserReq
-	DeleteUserResp         = user.DeleteUserResp
-	Empty                  = user.Empty
-	FollowingItem          = user.FollowingItem
-	GenerateCaptchaResp    = user.GenerateCaptchaResp
-	GetBlackListReq        = user.GetBlackListReq
-	GetBlackListResp       = user.GetBlackListResp
-	GetFollowingListReq    = user.GetFollowingListReq
-	GetFollowingListResp   = user.GetFollowingListResp
-	GetRoleInfoReq         = user.GetRoleInfoReq
-	GetRoleInfoResp        = user.GetRoleInfoResp
-	GetTokenReq            = user.GetTokenReq
-	GetTokenResp           = user.GetTokenResp
-	GetUserByIdReq         = user.GetUserByIdReq
-	GetUserByIdResp        = user.GetUserByIdResp
-	GetUserListReq         = user.GetUserListReq
-	GetUserListResp        = user.GetUserListResp
-	LoginReq               = user.LoginReq
-	LoginResp              = user.LoginResp
-	LogoutReq              = user.LogoutReq
-	LogoutResp             = user.LogoutResp
-	RegisterReq            = user.RegisterReq
-	RegisterResp           = user.RegisterResp
-	RoleItem               = user.RoleItem
-	UpdateAvatarReq        = user.UpdateAvatarReq
-	UpdateAvatarResp       = user.UpdateAvatarResp
-	UpdateEmailStatusReq   = user.UpdateEmailStatusReq
-	UpdateEmailStatusResp  = user.UpdateEmailStatusResp
-	UpdatePasswordReq      = user.UpdatePasswordReq
-	UpdatePasswordResp     = user.UpdatePasswordResp
-	UpdateProfileBgReq     = user.UpdateProfileBgReq
-	UpdateProfileBgResp    = user.UpdateProfileBgResp
-	UpdateUserReq          = user.UpdateUserReq
-	UpdateUserResp         = user.UpdateUserResp
-	UserItem               = user.UserItem
-	VerifyCaptchaReq       = user.VerifyCaptchaReq
-	VerifyCaptchaResp      = user.VerifyCaptchaResp
-	VerifyRegisterCodeReq  = user.VerifyRegisterCodeReq
-	VerifyRegisterCodeResp = user.VerifyRegisterCodeResp
+	AddBlackItemReq          = user.AddBlackItemReq
+	AddBlackItemResp         = user.AddBlackItemResp
+	AddFollowingReq          = user.AddFollowingReq
+	AddFollowingResp         = user.AddFollowingResp
+	BanUserReq               = user.BanUserReq
+	BanUserResp              = user.BanUserResp
+	BlackItem                = user.BlackItem
+	CheckBlackItemReq        = user.CheckBlackItemReq
+	CheckBlackItemResp       = user.CheckBlackItemResp
+	CheckEmailExistReq       = user.CheckEmailExistReq
+	CheckEmailExistResp      = user.CheckEmailExistResp
+	CheckFollowingReq        = user.CheckFollowingReq
+	CheckFollowingResp       = user.CheckFollowingResp
+	CheckNicknameExistReq    = user.CheckNicknameExistReq
+	CheckNicknameExistResp   = user.CheckNicknameExistResp
+	DeleteBlackItemReq       = user.DeleteBlackItemReq
+	DeleteBlackItemResp      = user.DeleteBlackItemResp
+	DeleteFollowingReq       = user.DeleteFollowingReq
+	DeleteFollowingResp      = user.DeleteFollowingResp
+	DeleteUserReq            = user.DeleteUserReq
+	DeleteUserResp           = user.DeleteUserResp
+	Empty                    = user.Empty
+	FollowingItem            = user.FollowingItem
+	GenerateCaptchaResp      = user.GenerateCaptchaResp
+	GetBlackListReq          = user.GetBlackListReq
+	GetBlackListResp         = user.GetBlackListResp
+	GetFollowingListReq      = user.GetFollowingListReq
+	GetFollowingListResp     = user.GetFollowingListResp
+	GetRoleInfoReq           = user.GetRoleInfoReq
+	GetRoleInfoResp          = user.GetRoleInfoResp
+	GetTokenReq              = user.GetTokenReq
+	GetTokenResp             = user.GetTokenResp
+	GetUserByIdReq           = user.GetUserByIdReq
+	GetUserByIdResp          = user.GetUserByIdResp
+	GetUserListReq           = user.GetUserListReq
+	GetUserListResp          = user.GetUserListResp
+	LoginReq                 = user.LoginReq
+	LoginResp                = user.LoginResp
+	LogoutReq                = user.LogoutReq
+	LogoutResp               = user.LogoutResp
+	RegisterReq              = user.RegisterReq
+	RegisterResp             = user.RegisterResp
+	RoleItem                 = user.RoleItem
+	UpdateAvatarReq          = user.UpdateAvatarReq
+	UpdateAvatarResp         = user.UpdateAvatarResp
+	UpdateEmailStatusReq     = user.UpdateEmailStatusReq
+	UpdateEmailStatusResp    = user.UpdateEmailStatusResp
+	UpdatePasswordReq        = user.UpdatePasswordReq
+	UpdatePasswordResp       = user.UpdatePasswordResp
+	UpdateProfileBgReq       = user.UpdateProfileBgReq
+	UpdateProfileBgResp      = user.UpdateProfileBgResp
+	UpdateUserReq            = user.UpdateUserReq
+	UpdateUserResp           = user.UpdateUserResp
+	UpdateUserScoreLevelReq  = user.UpdateUserScoreLevelReq
+	UpdateUserScoreLevelResp = user.UpdateUserScoreLevelResp
+	UserItem                 = user.UserItem
+	VerifyCaptchaReq         = user.VerifyCaptchaReq
+	VerifyCaptchaResp        = user.VerifyCaptchaResp
+	VerifyRegisterCodeReq    = user.VerifyRegisterCodeReq
+	VerifyRegisterCodeResp   = user.VerifyRegisterCodeResp
 
 	UserClass interface {
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
@@ -86,6 +88,7 @@ type (
 		UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 		UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
 		UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
+		UpdateUserScoreLevel(ctx context.Context, in *UpdateUserScoreLevelReq, opts ...grpc.CallOption) (*UpdateUserScoreLevelResp, error)
 		UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
 		UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
 	}
@@ -164,6 +167,11 @@ func (m *defaultUserClass) UpdatePassword(ctx context.Context, in *UpdatePasswor
 func (m *defaultUserClass) UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.UpdateEmailStatus(ctx, in, opts...)
+}
+
+func (m *defaultUserClass) UpdateUserScoreLevel(ctx context.Context, in *UpdateUserScoreLevelReq, opts ...grpc.CallOption) (*UpdateUserScoreLevelResp, error) {
+	client := user.NewUserClassClient(m.cli.Conn())
+	return client.UpdateUserScoreLevel(ctx, in, opts...)
 }
 
 func (m *defaultUserClass) UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error) {

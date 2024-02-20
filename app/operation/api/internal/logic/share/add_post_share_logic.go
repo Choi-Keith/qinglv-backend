@@ -8,6 +8,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
 
@@ -55,6 +56,13 @@ func (l *AddPostShareLogic) AddPostShare(req *types.AddPostShareReq) error {
 		ShareCount:      postResp.Post.ShareCount + 1,
 		Score:           postResp.Post.Score + score,
 		CollectionCount: postResp.Post.CollectionCount,
+	}); err != nil {
+		return err
+	}
+	if _, err := l.svcCtx.UserRpc.UpdateUserScoreLevel(l.ctx, &user.UpdateUserScoreLevelReq{
+		Id:    postResp.Post.CreatorId,
+		Score: 1,
+		Op:    "add",
 	}); err != nil {
 		return err
 	}

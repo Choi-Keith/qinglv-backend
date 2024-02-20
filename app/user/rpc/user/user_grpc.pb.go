@@ -334,21 +334,22 @@ var RoleClass_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	UserClass_Register_FullMethodName           = "/user.UserClass/Register"
-	UserClass_Login_FullMethodName              = "/user.UserClass/Login"
-	UserClass_Logout_FullMethodName             = "/user.UserClass/Logout"
-	UserClass_GetToken_FullMethodName           = "/user.UserClass/GetToken"
-	UserClass_CheckNicknameExist_FullMethodName = "/user.UserClass/CheckNicknameExist"
-	UserClass_CheckEmailExist_FullMethodName    = "/user.UserClass/CheckEmailExist"
-	UserClass_GetUserById_FullMethodName        = "/user.UserClass/GetUserById"
-	UserClass_GetUserList_FullMethodName        = "/user.UserClass/GetUserList"
-	UserClass_DeleteUser_FullMethodName         = "/user.UserClass/DeleteUser"
-	UserClass_BanUser_FullMethodName            = "/user.UserClass/BanUser"
-	UserClass_UpdateUser_FullMethodName         = "/user.UserClass/UpdateUser"
-	UserClass_UpdatePassword_FullMethodName     = "/user.UserClass/UpdatePassword"
-	UserClass_UpdateEmailStatus_FullMethodName  = "/user.UserClass/UpdateEmailStatus"
-	UserClass_UpdateAvatar_FullMethodName       = "/user.UserClass/UpdateAvatar"
-	UserClass_UpdateProfileBg_FullMethodName    = "/user.UserClass/UpdateProfileBg"
+	UserClass_Register_FullMethodName             = "/user.UserClass/Register"
+	UserClass_Login_FullMethodName                = "/user.UserClass/Login"
+	UserClass_Logout_FullMethodName               = "/user.UserClass/Logout"
+	UserClass_GetToken_FullMethodName             = "/user.UserClass/GetToken"
+	UserClass_CheckNicknameExist_FullMethodName   = "/user.UserClass/CheckNicknameExist"
+	UserClass_CheckEmailExist_FullMethodName      = "/user.UserClass/CheckEmailExist"
+	UserClass_GetUserById_FullMethodName          = "/user.UserClass/GetUserById"
+	UserClass_GetUserList_FullMethodName          = "/user.UserClass/GetUserList"
+	UserClass_DeleteUser_FullMethodName           = "/user.UserClass/DeleteUser"
+	UserClass_BanUser_FullMethodName              = "/user.UserClass/BanUser"
+	UserClass_UpdateUser_FullMethodName           = "/user.UserClass/UpdateUser"
+	UserClass_UpdatePassword_FullMethodName       = "/user.UserClass/UpdatePassword"
+	UserClass_UpdateEmailStatus_FullMethodName    = "/user.UserClass/UpdateEmailStatus"
+	UserClass_UpdateUserScoreLevel_FullMethodName = "/user.UserClass/UpdateUserScoreLevel"
+	UserClass_UpdateAvatar_FullMethodName         = "/user.UserClass/UpdateAvatar"
+	UserClass_UpdateProfileBg_FullMethodName      = "/user.UserClass/UpdateProfileBg"
 )
 
 // UserClassClient is the client API for UserClass service.
@@ -368,6 +369,7 @@ type UserClassClient interface {
 	UpdateUser(ctx context.Context, in *UpdateUserReq, opts ...grpc.CallOption) (*UpdateUserResp, error)
 	UpdatePassword(ctx context.Context, in *UpdatePasswordReq, opts ...grpc.CallOption) (*UpdatePasswordResp, error)
 	UpdateEmailStatus(ctx context.Context, in *UpdateEmailStatusReq, opts ...grpc.CallOption) (*UpdateEmailStatusResp, error)
+	UpdateUserScoreLevel(ctx context.Context, in *UpdateUserScoreLevelReq, opts ...grpc.CallOption) (*UpdateUserScoreLevelResp, error)
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
 	UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
 }
@@ -497,6 +499,15 @@ func (c *userClassClient) UpdateEmailStatus(ctx context.Context, in *UpdateEmail
 	return out, nil
 }
 
+func (c *userClassClient) UpdateUserScoreLevel(ctx context.Context, in *UpdateUserScoreLevelReq, opts ...grpc.CallOption) (*UpdateUserScoreLevelResp, error) {
+	out := new(UpdateUserScoreLevelResp)
+	err := c.cc.Invoke(ctx, UserClass_UpdateUserScoreLevel_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userClassClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error) {
 	out := new(UpdateAvatarResp)
 	err := c.cc.Invoke(ctx, UserClass_UpdateAvatar_FullMethodName, in, out, opts...)
@@ -532,6 +543,7 @@ type UserClassServer interface {
 	UpdateUser(context.Context, *UpdateUserReq) (*UpdateUserResp, error)
 	UpdatePassword(context.Context, *UpdatePasswordReq) (*UpdatePasswordResp, error)
 	UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error)
+	UpdateUserScoreLevel(context.Context, *UpdateUserScoreLevelReq) (*UpdateUserScoreLevelResp, error)
 	UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error)
 	UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error)
 	mustEmbedUnimplementedUserClassServer()
@@ -579,6 +591,9 @@ func (UnimplementedUserClassServer) UpdatePassword(context.Context, *UpdatePassw
 }
 func (UnimplementedUserClassServer) UpdateEmailStatus(context.Context, *UpdateEmailStatusReq) (*UpdateEmailStatusResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateEmailStatus not implemented")
+}
+func (UnimplementedUserClassServer) UpdateUserScoreLevel(context.Context, *UpdateUserScoreLevelReq) (*UpdateUserScoreLevelResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserScoreLevel not implemented")
 }
 func (UnimplementedUserClassServer) UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
@@ -833,6 +848,24 @@ func _UserClass_UpdateEmailStatus_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserClass_UpdateUserScoreLevel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserScoreLevelReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).UpdateUserScoreLevel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_UpdateUserScoreLevel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).UpdateUserScoreLevel(ctx, req.(*UpdateUserScoreLevelReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserClass_UpdateAvatar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateAvatarReq)
 	if err := dec(in); err != nil {
@@ -927,6 +960,10 @@ var UserClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateEmailStatus",
 			Handler:    _UserClass_UpdateEmailStatus_Handler,
+		},
+		{
+			MethodName: "UpdateUserScoreLevel",
+			Handler:    _UserClass_UpdateUserScoreLevel_Handler,
 		},
 		{
 			MethodName: "UpdateAvatar",

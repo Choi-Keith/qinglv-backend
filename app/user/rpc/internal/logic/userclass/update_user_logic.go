@@ -41,7 +41,6 @@ func (l *UpdateUserLogic) UpdateUser(in *user.UpdateUserReq) (*user.UpdateUserRe
 	if userItem.Email != in.Email {
 		userItem.MailStatus = 1
 	}
-	userItem.Email = in.Email
 	userItem.Nickname = in.Nickname
 	userItem.Account = in.Nickname
 	userItem.Phone = sql.NullString{String: in.Phone, Valid: true}

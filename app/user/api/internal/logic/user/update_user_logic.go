@@ -33,27 +33,27 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) error {
 	if err != nil {
 		return err
 	}
-	if req.Email != "" && userResp.User.Email != req.Email {
-		checkEmailExistResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user.CheckEmailExistReq{
-			Email: req.Email,
-		})
-		if err != nil {
-			return err
-		}
-		if checkEmailExistResp.IsExist {
-			if checkEmailExistResp.User.MailStatus == 2 {
-				return errors.New("邮箱已存在，请重新输入")
-			}
-			if checkEmailExistResp.User.MailStatus == 1 {
-				_, err := l.svcCtx.UserRpc.DeleteUser(l.ctx, &user.DeleteUserReq{
-					UserId: checkEmailExistResp.User.Id,
-				})
-				if err != nil {
-					return err
-				}
-			}
-		}
-	}
+	// if req.Email != "" && userResp.User.Email != req.Email {
+	// 	checkEmailExistResp, err := l.svcCtx.UserRpc.CheckEmailExist(l.ctx, &user.CheckEmailExistReq{
+	// 		Email: req.Email,
+	// 	})
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	if checkEmailExistResp.IsExist {
+	// 		if checkEmailExistResp.User.MailStatus == 2 {
+	// 			return errors.New("邮箱已存在，请重新输入")
+	// 		}
+	// 		if checkEmailExistResp.User.MailStatus == 1 {
+	// 			_, err := l.svcCtx.UserRpc.DeleteUser(l.ctx, &user.DeleteUserReq{
+	// 				UserId: checkEmailExistResp.User.Id,
+	// 			})
+	// 			if err != nil {
+	// 				return err
+	// 			}
+	// 		}
+	// 	}
+	// }
 	if req.Nickname != "" && userResp.User.Nickname != req.Nickname {
 		checkNicknameExistResp, err := l.svcCtx.UserRpc.CheckNicknameExist(l.ctx, &user.CheckNicknameExistReq{
 			Nickname: req.Nickname,
@@ -67,7 +67,6 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) error {
 	}
 	_, err = l.svcCtx.UserRpc.UpdateUser(l.ctx, &user.UpdateUserReq{
 		UserId:     req.UserId,
-		Email:      req.Email,
 		Phone:      req.Phone,
 		Nickname:   req.Nickname,
 		Age:        int32(req.Age),
