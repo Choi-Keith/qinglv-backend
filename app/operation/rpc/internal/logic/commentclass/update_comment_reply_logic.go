@@ -35,5 +35,15 @@ func (l *UpdateCommentReplyLogic) UpdateCommentReply(in *operation.UpdateComment
 		postReplyItem.Score = in.Score
 		l.svcCtx.PostCommentReplyModel.UpdateWithVersion(l.ctx, nil, postReplyItem)
 	}
+	if in.Type == 2 {
+		articleReplyItem, err := l.svcCtx.ArticleCommentReplyModel.FindOne(l.ctx, in.Id)
+		if err != nil {
+			return nil, err
+		}
+		articleReplyItem.LikeCount = in.LikeCount
+		articleReplyItem.DislikeCount = in.DislikeCount
+		articleReplyItem.Score = in.Score
+		l.svcCtx.ArticleCommentReplyModel.UpdateWithVersion(l.ctx, nil, articleReplyItem)
+	}
 	return &operation.OkResp{}, nil
 }

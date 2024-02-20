@@ -19,7 +19,7 @@ func AddArticleCommentHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := comment.NewAddArticleCommentLogic(r.Context(), svcCtx)
+		l := comment.NewAddArticleCommentLogic(r.Context(), svcCtx, r)
 		err := l.AddArticleComment(&req)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)

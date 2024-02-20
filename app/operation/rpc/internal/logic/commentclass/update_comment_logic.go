@@ -37,5 +37,16 @@ func (l *UpdateCommentLogic) UpdateComment(in *operation.UpdateCommentReq) (*ope
 		postResp.Score = in.Score
 		l.svcCtx.PostCommentModel.UpdateWithVersion(l.ctx, nil, postResp)
 	}
+	if in.Type == 2 {
+		articleResp, err := l.svcCtx.ArticleCommentModel.FindOne(l.ctx, in.Id)
+		if err != nil {
+			return nil, err
+		}
+		logx.Debugf("[UpdateComment] in: %+v\n", in)
+		articleResp.LikeCount = in.LikeCount
+		articleResp.DislikeCount = in.DislikeCount
+		articleResp.Score = in.Score
+		l.svcCtx.ArticleCommentModel.UpdateWithVersion(l.ctx, nil, articleResp)
+	}
 	return &operation.OkResp{}, nil
 }

@@ -46,8 +46,24 @@ func (l *AddCommentThumbLogic) AddCommentThumb(in *operation.AddCommentThumbReq)
 		if err != nil {
 			return nil, err
 		}
-	} else if in.Type == 2 {
-		// TODO: 文章点赞和点踩功能
+	}
+	if in.Type == 2 {
+		_, err := l.svcCtx.ArticleCommentThumbModel.Insert(l.ctx, nil, &thumb.ArticleCommentThumb{
+			Id:          in.Id,
+			ArticleId:   in.ArticleId,
+			CommentId:   in.CommentId,
+			CreatorId:   in.CreatorId,
+			CreatorName: in.CreatorName,
+			CommentType: int64(in.CommentType),
+			Like:        int64(in.Like),
+			Dislike:     int64(in.Dislike),
+			DeletedAt:   time.Now(),
+			Version:     1,
+			ReplyId:     sql.NullInt64{Int64: int64(in.ReplyId), Valid: true},
+		})
+		if err != nil {
+			return nil, err
+		}
 	}
 	return &operation.OkResp{}, nil
 }

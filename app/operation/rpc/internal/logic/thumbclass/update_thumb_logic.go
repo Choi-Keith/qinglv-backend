@@ -37,8 +37,18 @@ func (l *UpdateThumbLogic) UpdateThumb(in *operation.UpdateThumbReq) (*operation
 		if err != nil {
 			return nil, err
 		}
-	} else if in.Type == 2 {
-		// TODO: 更改文章点赞和点踩功能
+	}
+	if in.Type == 2 {
+		thumbResp, err := l.svcCtx.ArticleThumbModel.FindOne(l.ctx, in.Id)
+		if err != nil {
+			return nil, err
+		}
+		thumbResp.Like = uint64(in.Like)
+		thumbResp.Dislike = uint64(in.Dislike)
+		err = l.svcCtx.ArticleThumbModel.UpdateWithVersion(l.ctx, nil, thumbResp)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return &operation.OkResp{}, nil
 }

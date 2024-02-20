@@ -31,10 +31,21 @@ func (l *GetCommentByIdLogic) GetCommentById(in *operation.GetCommentByIdReq) (*
 		if err != nil {
 			return nil, err
 		}
-		commentItem := genCommentItem(commentResp)
+		commentItem := genPostCommentItem(commentResp)
 		return &operation.GetCommentByIdResp{
 			PostComment:    commentItem,
 			ArticleComment: nil,
+		}, nil
+	}
+	if in.Type == 2 {
+		commentResp, err := l.svcCtx.ArticleCommentModel.FindOne(l.ctx, in.Id)
+		if err != nil {
+			return nil, err
+		}
+		commentItem := genArticleCommentItem(commentResp)
+		return &operation.GetCommentByIdResp{
+			PostComment:    nil,
+			ArticleComment: commentItem,
 		}, nil
 	}
 	return &operation.GetCommentByIdResp{}, nil

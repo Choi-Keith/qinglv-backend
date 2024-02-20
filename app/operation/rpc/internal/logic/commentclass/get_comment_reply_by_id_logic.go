@@ -31,9 +31,19 @@ func (l *GetCommentReplyByIdLogic) GetCommentReplyById(in *operation.GetCommentR
 		if err != nil {
 			return nil, err
 		}
-		commentReplyItem := genCommentReplyItem(commentReplyResp)
+		commentReplyItem := genPostCommentReplyItem(commentReplyResp)
 		return &operation.GetCommentReplyByIdResp{
 			PostCommentReply: commentReplyItem,
+		}, nil
+	}
+	if in.Type == 2 {
+		commentReplyResp, err := l.svcCtx.ArticleCommentReplyModel.FindOne(l.ctx, in.Id)
+		if err != nil {
+			return nil, err
+		}
+		commentReplyItem := genArticleCommentReplyItem(commentReplyResp)
+		return &operation.GetCommentReplyByIdResp{
+			ArticleCommentReply: commentReplyItem,
 		}, nil
 	}
 	return &operation.GetCommentReplyByIdResp{}, nil

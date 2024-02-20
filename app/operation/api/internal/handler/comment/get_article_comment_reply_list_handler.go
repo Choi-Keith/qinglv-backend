@@ -19,7 +19,7 @@ func GetArticleCommentReplyListHandler(svcCtx *svc.ServiceContext) http.HandlerF
 			return
 		}
 
-		l := comment.NewGetArticleCommentReplyListLogic(r.Context(), svcCtx)
+		l := comment.NewGetArticleCommentReplyListLogic(r.Context(), svcCtx, r)
 		resp, err := l.GetArticleCommentReplyList(&req)
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)

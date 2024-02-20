@@ -43,5 +43,21 @@ func (l *AddCommentReplyLogic) AddCommentReply(in *operation.AddCommentReplyReq)
 			DislikeCount: 0,
 		})
 	}
+	if in.Type == 2 {
+		l.svcCtx.ArticleCommentReplyModel.Insert(l.ctx, nil, &comment.ArticleCommentReply{
+			Id:           in.Id,
+			ArticleId:    in.ArticleId,
+			CommentId:    in.CommentId,
+			CreatorId:    in.CreatorId,
+			CreatorName:  in.CreatorName,
+			AtUserId:     in.AtUserId,
+			AtUserName:   in.AtUserName,
+			Content:      in.Content,
+			Location:     in.Location,
+			Version:      1,
+			LikeCount:    0,
+			DislikeCount: 0,
+		})
+	}
 	return &operation.OkResp{}, nil
 }

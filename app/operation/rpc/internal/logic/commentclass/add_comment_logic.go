@@ -44,5 +44,22 @@ func (l *AddCommentLogic) AddComment(in *operation.AddCommentReq) (*operation.Ok
 			return nil, err
 		}
 	}
+	if in.Type == 2 {
+		_, err := l.svcCtx.ArticleCommentModel.Insert(l.ctx, nil, &comment.ArticleComment{
+			Id:           in.Id,
+			CreatorId:    in.CreatorId,
+			ArticleId:    in.ArticleId,
+			CreatorName:  in.CreatorName,
+			Location:     in.Location,
+			LikeCount:    0,
+			Content:      in.Content,
+			DislikeCount: 0,
+			Score:        0,
+			Version:      1,
+		})
+		if err != nil {
+			return nil, err
+		}
+	}
 	return &operation.OkResp{}, nil
 }

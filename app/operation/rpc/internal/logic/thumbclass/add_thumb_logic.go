@@ -41,8 +41,20 @@ func (l *AddThumbLogic) AddThumb(in *operation.AddThumbReq) (*operation.OkResp, 
 		if err != nil {
 			return nil, err
 		}
-	} else if in.Type == 2 {
-		// TODO: 文章点赞和点踩功能
+	}
+	if in.Type == 2 {
+		_, err := l.svcCtx.ArticleThumbModel.Insert(l.ctx, nil, &thumb.ArticleThumb{
+			Id:        in.Id,
+			CreatorId: in.CreatorId,
+			ArticleId: in.ArticleId,
+			Like:      uint64(in.Like),
+			Dislike:   uint64(in.Dislike),
+			DeletedAt: time.Now(),
+			Version:   1,
+		})
+		if err != nil {
+			return nil, err
+		}
 	}
 	return &operation.OkResp{}, nil
 }
