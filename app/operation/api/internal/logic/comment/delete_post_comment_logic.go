@@ -52,7 +52,7 @@ func (l *DeletePostCommentLogic) DeletePostComment(req *types.DeletePostCommentR
 		return err
 	}
 	if _, err = l.svcCtx.CommentRpc.DeleteComment(l.ctx, &operation.DeleteCommentReq{
-		Id:                   req.Id,
+		CommentId:            req.Id,
 		Type:                 1,
 		PostCommentThumbList: commentThumbResp.Post,
 	}); err != nil {

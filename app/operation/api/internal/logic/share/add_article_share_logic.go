@@ -51,7 +51,7 @@ func (l *AddArticleShareLogic) AddArticleShare(req *types.AddArticleShareReq) er
 		return err
 	}
 	score := utils.HandleScore(articleResp.Article.CreatedAt, 4, 1.5)
-	if _, err = l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
+	if _, err = l.svcCtx.ArticleRpc.UpdateArticle(l.ctx, &content.UpdateArticleReq{
 		Id:              req.ArticleId,
 		ShareCount:      articleResp.Article.ShareCount + 1,
 		Score:           articleResp.Article.Score + score,

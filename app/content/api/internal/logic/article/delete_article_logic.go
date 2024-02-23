@@ -69,16 +69,18 @@ func (l *DeleteArticleLogic) checkAndDeleteComment(articleId uint64) error {
 	if err != nil {
 		return err
 	}
-	for _, commentItem := range commentListResp.Posts {
+	logx.Debugf("[checkAndDeleteComment] commentListResp: %+v\n", commentListResp)
+	for _, commentItem := range commentListResp.Articles {
 		commentThumbResp, err := l.svcCtx.ThumbRpc.GetCommentThumbDetail(l.ctx, &operation.GetCommentThumbDetailReq{
 			CommentId: commentItem.Id,
-			Type:      1,
+			Type:      2,
 		})
 		if err != nil {
 			return err
 		}
 		if _, err := l.svcCtx.CommentRpc.DeleteComment(l.ctx, &operation.DeleteCommentReq{
-			Id:                      commentItem.Id,
+			CommentId:               commentItem.Id,
+			ArticleId:               articleId,
 			Type:                    2,
 			ArticleCommentThumbList: commentThumbResp.Article,
 		}); err != nil {

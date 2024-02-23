@@ -94,7 +94,7 @@ func (l *HandleArticleCommentReplyThumbDownLogic) HandleArticleCommentReplyThumb
 		Id:           articleCommentResp.ArticleCommentReply.Id,
 		LikeCount:    articleCommentResp.ArticleCommentReply.LikeCount + uint64(thumbUpCount),
 		DislikeCount: articleCommentResp.ArticleCommentReply.DislikeCount + uint64(thumbDownCount),
-		Type:         1,
+		Type:         2,
 	}); err != nil {
 		return err
 	}

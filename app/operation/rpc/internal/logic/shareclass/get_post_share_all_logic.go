@@ -29,7 +29,7 @@ func (l *GetPostShareAllLogic) GetPostShareAll(in *operation.GetPostShareAllReq)
 	whereBuilder := l.svcCtx.PostShareModel.SelectBuilder()
 	if in.PostId != 0 {
 		whereBuilder = whereBuilder.Where(squirrel.Eq{
-			"postId_id": in.PostId,
+			"post_id": in.PostId,
 		})
 	}
 	postShareResp, err := l.svcCtx.PostShareModel.FindAll(l.ctx, whereBuilder, "")
@@ -40,7 +40,9 @@ func (l *GetPostShareAllLogic) GetPostShareAll(in *operation.GetPostShareAllReq)
 	for idx, postShareItem := range postShareResp {
 		postShareList[idx] = genPostShareItem(postShareItem)
 	}
-	return &operation.GetPostShareAllResp{}, nil
+	return &operation.GetPostShareAllResp{
+		Data: postShareList,
+	}, nil
 }
 
 func genPostShareItem(item *shareModel.PostShare) *operation.PostShareItem {

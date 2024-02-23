@@ -29,15 +29,23 @@ func NewDeleteCommentLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 func (l *DeleteCommentLogic) DeleteComment(in *operation.DeleteCommentReq) (*operation.OkResp, error) {
 	// todo: add your logic here and delete this line
 	if in.Type == 1 {
-		whereBuilder := l.svcCtx.PostCommentReplyModel.SelectBuilder().Where(squirrel.Eq{
-			"comment_id": in.Id,
-		})
+		whereBuilder := l.svcCtx.PostCommentReplyModel.SelectBuilder()
+		if in.PostId != 0 {
+			whereBuilder = whereBuilder.Where(squirrel.Eq{
+				"post_id": in.PostId,
+			})
+		} else {
+			whereBuilder = whereBuilder.Where(squirrel.Eq{
+				"comment_id": in.CommentId,
+			})
+		}
+
 		postCommentReplyResp, err := l.svcCtx.PostCommentReplyModel.FindAll(l.ctx, whereBuilder, "")
 		if err != nil {
 			return nil, err
 		}
 		l.svcCtx.PostCommentModel.Trans(l.ctx, func(ctx context.Context, session sqlx.Session) error {
-			if err := l.svcCtx.PostCommentModel.Delete(ctx, session, in.Id); err != nil {
+			if err := l.svcCtx.PostCommentModel.Delete(ctx, session, in.CommentId); err != nil {
 				return err
 			}
 			for _, item := range postCommentReplyResp {
@@ -67,15 +75,22 @@ func (l *DeleteCommentLogic) DeleteComment(in *operation.DeleteCommentReq) (*ope
 
 	}
 	if in.Type == 2 {
-		whereBuilder := l.svcCtx.ArticleCommentReplyModel.SelectBuilder().Where(squirrel.Eq{
-			"comment_id": in.Id,
-		})
+		whereBuilder := l.svcCtx.ArticleCommentReplyModel.SelectBuilder()
+		if in.ArticleId != 0 {
+			whereBuilder = whereBuilder.Where(squirrel.Eq{
+				"article_id": in.ArticleId,
+			})
+		} else {
+			whereBuilder = whereBuilder.Where(squirrel.Eq{
+				"comment_id": in.CommentId,
+			})
+		}
 		articleCommentReplyResp, err := l.svcCtx.ArticleCommentReplyModel.FindAll(l.ctx, whereBuilder, "")
 		if err != nil {
 			return nil, err
 		}
 		l.svcCtx.ArticleCommentModel.Trans(l.ctx, func(ctx context.Context, session sqlx.Session) error {
-			if err := l.svcCtx.ArticleCommentModel.Delete(ctx, session, in.Id); err != nil {
+			if err := l.svcCtx.ArticleCommentModel.Delete(ctx, session, in.CommentId); err != nil {
 				return err
 			}
 			for _, item := range articleCommentReplyResp {

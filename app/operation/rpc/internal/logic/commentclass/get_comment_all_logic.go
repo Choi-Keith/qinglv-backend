@@ -50,7 +50,7 @@ func (l *GetCommentAllLogic) GetCommentAll(in *operation.GetCommentAllReq) (*ope
 		whereBuilder := l.svcCtx.ArticleCommentModel.SelectBuilder()
 		if in.ArticleId != 0 {
 			whereBuilder = whereBuilder.Where(squirrel.Eq{
-				"article_id": in.PostId,
+				"article_id": in.ArticleId,
 			})
 		}
 		commentListResp, err := l.svcCtx.ArticleCommentModel.FindAll(l.ctx, whereBuilder, "")

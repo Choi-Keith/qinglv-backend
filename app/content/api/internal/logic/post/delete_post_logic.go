@@ -78,6 +78,8 @@ func (l *DeletePostLogic) checkAndDeleteComment(postId uint64) error {
 		return err
 	}
 
+	logx.Debugf("[checkAndDeleteComment] commentListResp.Posts: %+v\n", commentListResp.Posts)
+
 	for _, commentItem := range commentListResp.Posts {
 		commentThumbResp, err := l.svcCtx.ThumbRpc.GetCommentThumbDetail(l.ctx, &operation.GetCommentThumbDetailReq{
 			CommentId: commentItem.Id,
@@ -87,7 +89,8 @@ func (l *DeletePostLogic) checkAndDeleteComment(postId uint64) error {
 			return err
 		}
 		if _, err := l.svcCtx.CommentRpc.DeleteComment(l.ctx, &operation.DeleteCommentReq{
-			Id:                   commentItem.Id,
+			CommentId:            commentItem.Id,
+			PostId:               postId,
 			Type:                 1,
 			PostCommentThumbList: commentThumbResp.Post,
 		}); err != nil {
@@ -104,6 +107,7 @@ func (l *DeletePostLogic) checkAndDeleteCollection(postId uint64) error {
 	if err != nil {
 		return err
 	}
+	logx.Debugf("[checkAndDeleteCollection] collectionListResp.Data: %+v\n", collectionListResp.Data)
 	for _, collectionItem := range collectionListResp.Data {
 		if _, err := l.svcCtx.CollectionRpc.DeleteCollection(l.ctx, &operation.DeleteCollectionReq{
 			Id: collectionItem.Id,
@@ -121,6 +125,7 @@ func (l *DeletePostLogic) checkAndDeletePostShare(postId uint64) error {
 	if err != nil {
 		return err
 	}
+	logx.Debugf("[checkAndDeletePostShare] postShareListResp.Data: %+v\n", postShareListResp.Data)
 	for _, postShareItem := range postShareListResp.Data {
 		if _, err := l.svcCtx.ShareRpc.DeletePostShare(l.ctx, &operation.DeletePostShareReq{
 			Id: postShareItem.Id,

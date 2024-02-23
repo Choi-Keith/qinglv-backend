@@ -29,7 +29,6 @@ CREATE TABLE `collection` (
     `is_del` tinyint(1) NOT NULL DEFAULT '0',
     `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
     PRIMARY KEY (`id`),
-    UNIQUE KEY (`target_id`),
     KEY `idx_group_id` (`group_id`),
     KEY `idx_target_id` (`target_id`),
     KEY `idx_creator_id` (`creator_id`)

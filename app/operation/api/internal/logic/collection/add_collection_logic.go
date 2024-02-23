@@ -3,6 +3,7 @@ package collection
 import (
 	"context"
 	"encoding/json"
+	"errors"
 
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/operation/api/internal/svc"
@@ -40,6 +41,16 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 	})
 	if err != nil {
 		return err
+	}
+	collectionResp, err := l.svcCtx.CollectionRpc.GetCollectionAll(l.ctx, &operation.GetCollectionAllReq{
+		CreatorId: uint64(userId),
+		TargetId:  req.TargetId,
+	})
+	if err != nil {
+		return err
+	}
+	if len(collectionResp.Data) > 0 {
+		return errors.New("收藏夹已有")
 	}
 	id := snowflake.MustID()
 	if _, err = l.svcCtx.CollectionRpc.AddCollection(l.ctx, &operation.AddCollectionReq{
