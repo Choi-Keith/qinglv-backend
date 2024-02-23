@@ -28,6 +28,7 @@ const (
 	CollectionClass_AddCollection_FullMethodName          = "/operation.CollectionClass/AddCollection"
 	CollectionClass_DeleteCollection_FullMethodName       = "/operation.CollectionClass/DeleteCollection"
 	CollectionClass_GetCollectionList_FullMethodName      = "/operation.CollectionClass/GetCollectionList"
+	CollectionClass_GetCollectionAll_FullMethodName       = "/operation.CollectionClass/GetCollectionAll"
 	CollectionClass_GetCollectionById_FullMethodName      = "/operation.CollectionClass/GetCollectionById"
 )
 
@@ -35,25 +36,16 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CollectionClassClient interface {
-	// group: Collection
 	AddCollectionGroup(ctx context.Context, in *AddCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Collection
 	GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error)
-	// group: Collection
 	GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error)
-	// group: Collection
 	CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error)
-	// group: Collection
 	UpdateCollectionGroup(ctx context.Context, in *UpdateCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Collection
 	DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Collection
 	AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Collection
 	DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: Collection
 	GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error)
-	// group: Collection
+	GetCollectionAll(ctx context.Context, in *GetCollectionAllReq, opts ...grpc.CallOption) (*GetCollectionAllResp, error)
 	GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error)
 }
 
@@ -146,6 +138,15 @@ func (c *collectionClassClient) GetCollectionList(ctx context.Context, in *GetCo
 	return out, nil
 }
 
+func (c *collectionClassClient) GetCollectionAll(ctx context.Context, in *GetCollectionAllReq, opts ...grpc.CallOption) (*GetCollectionAllResp, error) {
+	out := new(GetCollectionAllResp)
+	err := c.cc.Invoke(ctx, CollectionClass_GetCollectionAll_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *collectionClassClient) GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error) {
 	out := new(GetCollectionByIdResp)
 	err := c.cc.Invoke(ctx, CollectionClass_GetCollectionById_FullMethodName, in, out, opts...)
@@ -159,25 +160,16 @@ func (c *collectionClassClient) GetCollectionById(ctx context.Context, in *GetCo
 // All implementations must embed UnimplementedCollectionClassServer
 // for forward compatibility
 type CollectionClassServer interface {
-	// group: Collection
 	AddCollectionGroup(context.Context, *AddCollectionGroupReq) (*OkResp, error)
-	// group: Collection
 	GetCollectionGroupList(context.Context, *GetCollectionGroupListReq) (*GetCollectionGroupListResp, error)
-	// group: Collection
 	GetCollectionGroupById(context.Context, *GetCollectionGroupByIdReq) (*GetCollectionGroupByIdResp, error)
-	// group: Collection
 	CheckExistByName(context.Context, *CheckExistByNameReq) (*CheckExistByNameResp, error)
-	// group: Collection
 	UpdateCollectionGroup(context.Context, *UpdateCollectionGroupReq) (*OkResp, error)
-	// group: Collection
 	DeleteCollectionGroup(context.Context, *DeleteCollectionGroupReq) (*OkResp, error)
-	// group: Collection
 	AddCollection(context.Context, *AddCollectionReq) (*OkResp, error)
-	// group: Collection
 	DeleteCollection(context.Context, *DeleteCollectionReq) (*OkResp, error)
-	// group: Collection
 	GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error)
-	// group: Collection
+	GetCollectionAll(context.Context, *GetCollectionAllReq) (*GetCollectionAllResp, error)
 	GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error)
 	mustEmbedUnimplementedCollectionClassServer()
 }
@@ -212,6 +204,9 @@ func (UnimplementedCollectionClassServer) DeleteCollection(context.Context, *Del
 }
 func (UnimplementedCollectionClassServer) GetCollectionList(context.Context, *GetCollectionListReq) (*GetCollectionListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionList not implemented")
+}
+func (UnimplementedCollectionClassServer) GetCollectionAll(context.Context, *GetCollectionAllReq) (*GetCollectionAllResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionAll not implemented")
 }
 func (UnimplementedCollectionClassServer) GetCollectionById(context.Context, *GetCollectionByIdReq) (*GetCollectionByIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollectionById not implemented")
@@ -391,6 +386,24 @@ func _CollectionClass_GetCollectionList_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CollectionClass_GetCollectionAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCollectionAllReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionClassServer).GetCollectionAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionClass_GetCollectionAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionClassServer).GetCollectionAll(ctx, req.(*GetCollectionAllReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CollectionClass_GetCollectionById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetCollectionByIdReq)
 	if err := dec(in); err != nil {
@@ -453,6 +466,10 @@ var CollectionClass_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CollectionClass_GetCollectionList_Handler,
 		},
 		{
+			MethodName: "GetCollectionAll",
+			Handler:    _CollectionClass_GetCollectionAll_Handler,
+		},
+		{
 			MethodName: "GetCollectionById",
 			Handler:    _CollectionClass_GetCollectionById_Handler,
 		},
@@ -462,17 +479,24 @@ var CollectionClass_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ShareClass_AddPostShare_FullMethodName    = "/operation.ShareClass/AddPostShare"
-	ShareClass_AddArticleShare_FullMethodName = "/operation.ShareClass/AddArticleShare"
+	ShareClass_AddPostShare_FullMethodName       = "/operation.ShareClass/AddPostShare"
+	ShareClass_AddArticleShare_FullMethodName    = "/operation.ShareClass/AddArticleShare"
+	ShareClass_GetPostShareAll_FullMethodName    = "/operation.ShareClass/GetPostShareAll"
+	ShareClass_GetArticleShareAll_FullMethodName = "/operation.ShareClass/GetArticleShareAll"
+	ShareClass_DeletePostShare_FullMethodName    = "/operation.ShareClass/DeletePostShare"
+	ShareClass_DeleteArticleShare_FullMethodName = "/operation.ShareClass/DeleteArticleShare"
 )
 
 // ShareClassClient is the client API for ShareClass service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ShareClassClient interface {
-	// group: Share
 	AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error)
 	AddArticleShare(ctx context.Context, in *AddArticleShareReq, opts ...grpc.CallOption) (*OkResp, error)
+	GetPostShareAll(ctx context.Context, in *GetPostShareAllReq, opts ...grpc.CallOption) (*GetPostShareAllResp, error)
+	GetArticleShareAll(ctx context.Context, in *GetArticleShareAllReq, opts ...grpc.CallOption) (*GetArticleShareAllResp, error)
+	DeletePostShare(ctx context.Context, in *DeletePostShareReq, opts ...grpc.CallOption) (*OkResp, error)
+	DeleteArticleShare(ctx context.Context, in *DeleteArticleShareReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type shareClassClient struct {
@@ -501,13 +525,52 @@ func (c *shareClassClient) AddArticleShare(ctx context.Context, in *AddArticleSh
 	return out, nil
 }
 
+func (c *shareClassClient) GetPostShareAll(ctx context.Context, in *GetPostShareAllReq, opts ...grpc.CallOption) (*GetPostShareAllResp, error) {
+	out := new(GetPostShareAllResp)
+	err := c.cc.Invoke(ctx, ShareClass_GetPostShareAll_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shareClassClient) GetArticleShareAll(ctx context.Context, in *GetArticleShareAllReq, opts ...grpc.CallOption) (*GetArticleShareAllResp, error) {
+	out := new(GetArticleShareAllResp)
+	err := c.cc.Invoke(ctx, ShareClass_GetArticleShareAll_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shareClassClient) DeletePostShare(ctx context.Context, in *DeletePostShareReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShareClass_DeletePostShare_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shareClassClient) DeleteArticleShare(ctx context.Context, in *DeleteArticleShareReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ShareClass_DeleteArticleShare_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ShareClassServer is the server API for ShareClass service.
 // All implementations must embed UnimplementedShareClassServer
 // for forward compatibility
 type ShareClassServer interface {
-	// group: Share
 	AddPostShare(context.Context, *AddPostShareReq) (*OkResp, error)
 	AddArticleShare(context.Context, *AddArticleShareReq) (*OkResp, error)
+	GetPostShareAll(context.Context, *GetPostShareAllReq) (*GetPostShareAllResp, error)
+	GetArticleShareAll(context.Context, *GetArticleShareAllReq) (*GetArticleShareAllResp, error)
+	DeletePostShare(context.Context, *DeletePostShareReq) (*OkResp, error)
+	DeleteArticleShare(context.Context, *DeleteArticleShareReq) (*OkResp, error)
 	mustEmbedUnimplementedShareClassServer()
 }
 
@@ -520,6 +583,18 @@ func (UnimplementedShareClassServer) AddPostShare(context.Context, *AddPostShare
 }
 func (UnimplementedShareClassServer) AddArticleShare(context.Context, *AddArticleShareReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddArticleShare not implemented")
+}
+func (UnimplementedShareClassServer) GetPostShareAll(context.Context, *GetPostShareAllReq) (*GetPostShareAllResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostShareAll not implemented")
+}
+func (UnimplementedShareClassServer) GetArticleShareAll(context.Context, *GetArticleShareAllReq) (*GetArticleShareAllResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetArticleShareAll not implemented")
+}
+func (UnimplementedShareClassServer) DeletePostShare(context.Context, *DeletePostShareReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePostShare not implemented")
+}
+func (UnimplementedShareClassServer) DeleteArticleShare(context.Context, *DeleteArticleShareReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticleShare not implemented")
 }
 func (UnimplementedShareClassServer) mustEmbedUnimplementedShareClassServer() {}
 
@@ -570,6 +645,78 @@ func _ShareClass_AddArticleShare_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ShareClass_GetPostShareAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostShareAllReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShareClassServer).GetPostShareAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShareClass_GetPostShareAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShareClassServer).GetPostShareAll(ctx, req.(*GetPostShareAllReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShareClass_GetArticleShareAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetArticleShareAllReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShareClassServer).GetArticleShareAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShareClass_GetArticleShareAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShareClassServer).GetArticleShareAll(ctx, req.(*GetArticleShareAllReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShareClass_DeletePostShare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePostShareReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShareClassServer).DeletePostShare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShareClass_DeletePostShare_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShareClassServer).DeletePostShare(ctx, req.(*DeletePostShareReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShareClass_DeleteArticleShare_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteArticleShareReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShareClassServer).DeleteArticleShare(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShareClass_DeleteArticleShare_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShareClassServer).DeleteArticleShare(ctx, req.(*DeleteArticleShareReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ShareClass_ServiceDesc is the grpc.ServiceDesc for ShareClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -584,6 +731,22 @@ var ShareClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddArticleShare",
 			Handler:    _ShareClass_AddArticleShare_Handler,
+		},
+		{
+			MethodName: "GetPostShareAll",
+			Handler:    _ShareClass_GetPostShareAll_Handler,
+		},
+		{
+			MethodName: "GetArticleShareAll",
+			Handler:    _ShareClass_GetArticleShareAll_Handler,
+		},
+		{
+			MethodName: "DeletePostShare",
+			Handler:    _ShareClass_DeletePostShare_Handler,
+		},
+		{
+			MethodName: "DeleteArticleShare",
+			Handler:    _ShareClass_DeleteArticleShare_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -882,6 +1045,7 @@ const (
 	CommentClass_DeleteComment_FullMethodName       = "/operation.CommentClass/DeleteComment"
 	CommentClass_GetCommentById_FullMethodName      = "/operation.CommentClass/GetCommentById"
 	CommentClass_GetCommentList_FullMethodName      = "/operation.CommentClass/GetCommentList"
+	CommentClass_GetCommentAll_FullMethodName       = "/operation.CommentClass/GetCommentAll"
 	CommentClass_UpdateComment_FullMethodName       = "/operation.CommentClass/UpdateComment"
 	CommentClass_AddCommentReply_FullMethodName     = "/operation.CommentClass/AddCommentReply"
 	CommentClass_DeleteCommentReply_FullMethodName  = "/operation.CommentClass/DeleteCommentReply"
@@ -898,6 +1062,7 @@ type CommentClassClient interface {
 	DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error)
 	GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error)
 	GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
+	GetCommentAll(ctx context.Context, in *GetCommentAllReq, opts ...grpc.CallOption) (*GetCommentAllResp, error)
 	UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*OkResp, error)
 	AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
 	DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
@@ -944,6 +1109,15 @@ func (c *commentClassClient) GetCommentById(ctx context.Context, in *GetCommentB
 func (c *commentClassClient) GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error) {
 	out := new(GetCommentListResp)
 	err := c.cc.Invoke(ctx, CommentClass_GetCommentList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *commentClassClient) GetCommentAll(ctx context.Context, in *GetCommentAllReq, opts ...grpc.CallOption) (*GetCommentAllResp, error) {
+	out := new(GetCommentAllResp)
+	err := c.cc.Invoke(ctx, CommentClass_GetCommentAll_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1012,6 +1186,7 @@ type CommentClassServer interface {
 	DeleteComment(context.Context, *DeleteCommentReq) (*OkResp, error)
 	GetCommentById(context.Context, *GetCommentByIdReq) (*GetCommentByIdResp, error)
 	GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error)
+	GetCommentAll(context.Context, *GetCommentAllReq) (*GetCommentAllResp, error)
 	UpdateComment(context.Context, *UpdateCommentReq) (*OkResp, error)
 	AddCommentReply(context.Context, *AddCommentReplyReq) (*OkResp, error)
 	DeleteCommentReply(context.Context, *DeleteCommentReplyReq) (*OkResp, error)
@@ -1036,6 +1211,9 @@ func (UnimplementedCommentClassServer) GetCommentById(context.Context, *GetComme
 }
 func (UnimplementedCommentClassServer) GetCommentList(context.Context, *GetCommentListReq) (*GetCommentListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCommentList not implemented")
+}
+func (UnimplementedCommentClassServer) GetCommentAll(context.Context, *GetCommentAllReq) (*GetCommentAllResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCommentAll not implemented")
 }
 func (UnimplementedCommentClassServer) UpdateComment(context.Context, *UpdateCommentReq) (*OkResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateComment not implemented")
@@ -1136,6 +1314,24 @@ func _CommentClass_GetCommentList_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CommentClassServer).GetCommentList(ctx, req.(*GetCommentListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CommentClass_GetCommentAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCommentAllReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentClassServer).GetCommentAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentClass_GetCommentAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentClassServer).GetCommentAll(ctx, req.(*GetCommentAllReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1270,6 +1466,10 @@ var CommentClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCommentList",
 			Handler:    _CommentClass_GetCommentList_Handler,
+		},
+		{
+			MethodName: "GetCommentAll",
+			Handler:    _CommentClass_GetCommentAll_Handler,
 		},
 		{
 			MethodName: "UpdateComment",

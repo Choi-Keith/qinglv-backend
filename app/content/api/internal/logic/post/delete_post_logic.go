@@ -8,6 +8,7 @@ import (
 	"qinglv-backend/app/content/api/internal/svc"
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
+	"qinglv-backend/app/operation/rpc/operation"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -54,6 +55,78 @@ func (l *DeletePostLogic) DeletePost(req *types.DeletePostReq) error {
 	})
 	if err != nil {
 		return err
+	}
+	if err := l.checkAndDeleteComment(req.Id); err != nil {
+		return err
+	}
+	if err := l.checkAndDeleteCollection(req.Id); err != nil {
+		return err
+	}
+	if err := l.checkAndDeletePostShare(req.Id); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (l *DeletePostLogic) checkAndDeleteComment(postId uint64) error {
+	commentListResp, err := l.svcCtx.CommentRpc.GetCommentAll(l.ctx, &operation.GetCommentAllReq{
+		PostId: postId,
+		Type:   1,
+	})
+	if err != nil {
+		return err
+	}
+
+	for _, commentItem := range commentListResp.Posts {
+		commentThumbResp, err := l.svcCtx.ThumbRpc.GetCommentThumbDetail(l.ctx, &operation.GetCommentThumbDetailReq{
+			CommentId: commentItem.Id,
+			Type:      1,
+		})
+		if err != nil {
+			return err
+		}
+		if _, err := l.svcCtx.CommentRpc.DeleteComment(l.ctx, &operation.DeleteCommentReq{
+			Id:                   commentItem.Id,
+			Type:                 1,
+			PostCommentThumbList: commentThumbResp.Post,
+		}); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (l *DeletePostLogic) checkAndDeleteCollection(postId uint64) error {
+	collectionListResp, err := l.svcCtx.CollectionRpc.GetCollectionAll(l.ctx, &operation.GetCollectionAllReq{
+		TargetId: postId,
+	})
+	if err != nil {
+		return err
+	}
+	for _, collectionItem := range collectionListResp.Data {
+		if _, err := l.svcCtx.CollectionRpc.DeleteCollection(l.ctx, &operation.DeleteCollectionReq{
+			Id: collectionItem.Id,
+		}); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (l *DeletePostLogic) checkAndDeletePostShare(postId uint64) error {
+	postShareListResp, err := l.svcCtx.ShareRpc.GetPostShareAll(l.ctx, &operation.GetPostShareAllReq{
+		PostId: postId,
+	})
+	if err != nil {
+		return err
+	}
+	for _, postShareItem := range postShareListResp.Data {
+		if _, err := l.svcCtx.ShareRpc.DeletePostShare(l.ctx, &operation.DeletePostShareReq{
+			Id: postShareItem.Id,
+		}); err != nil {
+			return err
+		}
 	}
 	return nil
 }

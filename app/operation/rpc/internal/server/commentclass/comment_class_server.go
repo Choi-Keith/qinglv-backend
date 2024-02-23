@@ -42,6 +42,11 @@ func (s *CommentClassServer) GetCommentList(ctx context.Context, in *operation.G
 	return l.GetCommentList(in)
 }
 
+func (s *CommentClassServer) GetCommentAll(ctx context.Context, in *operation.GetCommentAllReq) (*operation.GetCommentAllResp, error) {
+	l := commentclasslogic.NewGetCommentAllLogic(ctx, s.svcCtx)
+	return l.GetCommentAll(in)
+}
+
 func (s *CommentClassServer) UpdateComment(ctx context.Context, in *operation.UpdateCommentReq) (*operation.OkResp, error) {
 	l := commentclasslogic.NewUpdateCommentLogic(ctx, s.svcCtx)
 	return l.UpdateComment(in)

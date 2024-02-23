@@ -37,13 +37,25 @@ func (l *DeleteCommentLogic) DeleteComment(in *operation.DeleteCommentReq) (*ope
 			return nil, err
 		}
 		l.svcCtx.PostCommentModel.Trans(l.ctx, func(ctx context.Context, session sqlx.Session) error {
+			if err := l.svcCtx.PostCommentModel.Delete(ctx, session, in.Id); err != nil {
+				return err
+			}
 			for _, item := range postCommentReplyResp {
 				if err := l.svcCtx.PostCommentReplyModel.Delete(ctx, session, item.Id); err != nil {
 					return err
 				}
-			}
-			if err := l.svcCtx.PostCommentModel.Delete(ctx, session, in.Id); err != nil {
-				return err
+				sqlBuilder := l.svcCtx.ArticleCommentThumbModel.SelectBuilder().Where(squirrel.Eq{
+					"reply_id": item.Id,
+				})
+				postReplyThumbList, err := l.svcCtx.ArticleCommentThumbModel.FindAll(ctx, sqlBuilder, "")
+				if err != nil {
+					return err
+				}
+				for _, postReplyThumbItem := range postReplyThumbList {
+					if err := l.svcCtx.PostCommentThumbModel.Delete(ctx, session, postReplyThumbItem.Id); err != nil {
+						return err
+					}
+				}
 			}
 			for _, postCommentThumbItem := range in.PostCommentThumbList {
 				if err := l.svcCtx.PostCommentThumbModel.Delete(l.ctx, session, postCommentThumbItem.Id); err != nil {
@@ -63,16 +75,29 @@ func (l *DeleteCommentLogic) DeleteComment(in *operation.DeleteCommentReq) (*ope
 			return nil, err
 		}
 		l.svcCtx.ArticleCommentModel.Trans(l.ctx, func(ctx context.Context, session sqlx.Session) error {
+			if err := l.svcCtx.ArticleCommentModel.Delete(ctx, session, in.Id); err != nil {
+				return err
+			}
 			for _, item := range articleCommentReplyResp {
 				if err := l.svcCtx.ArticleCommentReplyModel.Delete(ctx, session, item.Id); err != nil {
 					return err
 				}
-			}
-			if err := l.svcCtx.ArticleCommentModel.Delete(ctx, session, in.Id); err != nil {
-				return err
+				sqlBuilder := l.svcCtx.ArticleCommentThumbModel.SelectBuilder().Where(squirrel.Eq{
+					"reply_id": item.Id,
+				})
+				articleReplyThumbList, err := l.svcCtx.ArticleCommentThumbModel.FindAll(ctx, sqlBuilder, "")
+				if err != nil {
+					return err
+				}
+				for _, replyThumbItem := range articleReplyThumbList {
+					if err := l.svcCtx.ArticleCommentThumbModel.Delete(ctx, session, replyThumbItem.Id); err != nil {
+						return err
+					}
+				}
+
 			}
 			for _, articleCommentThumbItem := range in.ArticleCommentThumbList {
-				if err := l.svcCtx.ArticleCommentThumbModel.Delete(l.ctx, session, articleCommentThumbItem.Id); err != nil {
+				if err := l.svcCtx.ArticleCommentThumbModel.Delete(ctx, session, articleCommentThumbItem.Id); err != nil {
 					return err
 				}
 			}

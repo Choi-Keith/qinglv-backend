@@ -90,6 +90,15 @@ message GetCollectionListResp{
     repeated CollectionItem data = 1;
     uint64 total = 2;
 }
+message GetCollectionAllReq {
+    uint64 groupId = 1;
+    uint64 CreatorId = 2;
+    uint64 targetId = 3;
+}
+message GetCollectionAllResp {
+    repeated CollectionItem data = 1;
+}
+
 message GetCollectionByIdReq{
     uint64 id = 1;
 }
@@ -97,30 +106,28 @@ message GetCollectionByIdResp{
     CollectionItem collection = 1;
 }
 service CollectionClass{
-    // group: Collection
     rpc AddCollectionGroup(AddCollectionGroupReq) returns(OkResp);
-    // group: Collection
     rpc GetCollectionGroupList(GetCollectionGroupListReq) returns(GetCollectionGroupListResp);
-    // group: Collection
     rpc GetCollectionGroupById(GetCollectionGroupByIdReq) returns(GetCollectionGroupByIdResp);
-    // group: Collection
     rpc CheckExistByName(CheckExistByNameReq) returns(CheckExistByNameResp);
-    // group: Collection
     rpc UpdateCollectionGroup(UpdateCollectionGroupReq) returns(OkResp);
-    // group: Collection
     rpc DeleteCollectionGroup(DeleteCollectionGroupReq) returns(OkResp);
-    // group: Collection
     rpc AddCollection(AddCollectionReq) returns(OkResp);
-    // group: Collection
     rpc DeleteCollection(DeleteCollectionReq) returns(OkResp);
-    // group: Collection
     rpc GetCollectionList(GetCollectionListReq) returns(GetCollectionListResp);
-    // group: Collection
+    rpc GetCollectionAll(GetCollectionAllReq) returns(GetCollectionAllResp);
     rpc GetCollectionById(GetCollectionByIdReq) returns(GetCollectionByIdResp);
 }
 
 //==========================Share==========================
-
+message PostShareItem {
+    uint64 id = 1;
+    uint64 postId = 2;
+}
+message ArticleShareItem {
+    uint64 id = 1;
+    uint64 articleId = 2;
+}
 message AddPostShareReq {
     uint64 id = 1;
     uint64 creatorId = 2;
@@ -133,10 +140,31 @@ message AddArticleShareReq {
     uint64 articleId = 3;
     int32 type = 4;
 }
+message GetPostShareAllReq {
+    uint64 postId = 1;
+}
+message GetPostShareAllResp {
+    repeated PostShareItem data = 1;
+}
+message GetArticleShareAllReq {
+    uint64 articleId = 1;
+}
+message GetArticleShareAllResp {
+    repeated ArticleShareItem data = 1;
+}
+message DeletePostShareReq {
+    uint64 id = 1;
+}
+message DeleteArticleShareReq {
+    uint64 id = 1;
+}
 service ShareClass{
-    // group: Share
     rpc AddPostShare(AddPostShareReq) returns(OkResp);
     rpc AddArticleShare(AddArticleShareReq) returns(OkResp);
+    rpc GetPostShareAll(GetPostShareAllReq) returns(GetPostShareAllResp);
+    rpc GetArticleShareAll(GetArticleShareAllReq) returns(GetArticleShareAllResp);
+    rpc DeletePostShare(DeletePostShareReq) returns(OkResp);
+    rpc DeleteArticleShare(DeleteArticleShareReq) returns(OkResp);
 }
 
 //==========================Thumb==========================
@@ -321,6 +349,28 @@ message PostCommentResp {
     repeated PostCommentItem data = 1;
     uint64 total = 2;
 }
+message ArticleCommentResp {
+    repeated ArticleCommentItem data = 1;
+    uint64 total = 2;
+}
+message GetCommentListResp {
+    PostCommentResp post = 1;
+    ArticleCommentResp article = 2;
+}
+message GetCommentAllReq {
+    uint64 postId = 1;
+    uint64 articleId = 2;
+    uint64 videoId = 3;
+    uint64 creatorId = 4;
+    string sort = 5;
+    int32 type = 6; // 1帖子，2文章，3视频
+}
+message GetCommentAllResp {
+    repeated PostCommentItem posts = 1;
+    repeated ArticleCommentItem articles = 2;
+}
+
+
 message GetCommentByIdReq {
     uint64 id  = 1;
     int32 type = 2;
@@ -337,15 +387,8 @@ message GetCommentReplyByIdResp {
     ArticleCommentReplyItem articleCommentReply = 1;
     PostCommentReplyItem postCommentReply = 2;
 }
-message ArticleCommentResp {
-    repeated ArticleCommentItem data = 1;
-    uint64 total = 2;
-}
-message GetCommentListResp {
-    PostCommentResp post = 1;
-    ArticleCommentResp article = 2;
 
-}
+
 message UpdateCommentReq {
     uint64 id = 1;
     uint64 likeCount = 2;
@@ -442,6 +485,7 @@ service CommentClass {
     rpc DeleteComment(DeleteCommentReq) returns(OkResp);
     rpc GetCommentById(GetCommentByIdReq) returns(GetCommentByIdResp);
     rpc GetCommentList(GetCommentListReq) returns(GetCommentListResp);
+    rpc GetCommentAll(GetCommentAllReq) returns(GetCommentAllResp);
     rpc UpdateComment(UpdateCommentReq) returns(OkResp);
     rpc AddCommentReply(AddCommentReplyReq) returns(OkResp);
     rpc DeleteCommentReply(DeleteCommentReplyReq) returns(OkResp);

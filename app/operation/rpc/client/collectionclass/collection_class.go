@@ -26,15 +26,22 @@ type (
 	ArticleCommentReplyResp    = operation.ArticleCommentReplyResp
 	ArticleCommentResp         = operation.ArticleCommentResp
 	ArticleCommentThumbItem    = operation.ArticleCommentThumbItem
+	ArticleShareItem           = operation.ArticleShareItem
 	ArticleThumbItem           = operation.ArticleThumbItem
 	CheckExistByNameReq        = operation.CheckExistByNameReq
 	CheckExistByNameResp       = operation.CheckExistByNameResp
 	CollectionGroupItem        = operation.CollectionGroupItem
 	CollectionItem             = operation.CollectionItem
+	DeleteArticleShareReq      = operation.DeleteArticleShareReq
 	DeleteCollectionGroupReq   = operation.DeleteCollectionGroupReq
 	DeleteCollectionReq        = operation.DeleteCollectionReq
 	DeleteCommentReplyReq      = operation.DeleteCommentReplyReq
 	DeleteCommentReq           = operation.DeleteCommentReq
+	DeletePostShareReq         = operation.DeletePostShareReq
+	GetArticleShareAllReq      = operation.GetArticleShareAllReq
+	GetArticleShareAllResp     = operation.GetArticleShareAllResp
+	GetCollectionAllReq        = operation.GetCollectionAllReq
+	GetCollectionAllResp       = operation.GetCollectionAllResp
 	GetCollectionByIdReq       = operation.GetCollectionByIdReq
 	GetCollectionByIdResp      = operation.GetCollectionByIdResp
 	GetCollectionGroupByIdReq  = operation.GetCollectionGroupByIdReq
@@ -43,6 +50,8 @@ type (
 	GetCollectionGroupListResp = operation.GetCollectionGroupListResp
 	GetCollectionListReq       = operation.GetCollectionListReq
 	GetCollectionListResp      = operation.GetCollectionListResp
+	GetCommentAllReq           = operation.GetCommentAllReq
+	GetCommentAllResp          = operation.GetCommentAllResp
 	GetCommentByIdReq          = operation.GetCommentByIdReq
 	GetCommentByIdResp         = operation.GetCommentByIdResp
 	GetCommentListReq          = operation.GetCommentListReq
@@ -53,6 +62,8 @@ type (
 	GetCommentReplyListResp    = operation.GetCommentReplyListResp
 	GetCommentThumbDetailReq   = operation.GetCommentThumbDetailReq
 	GetCommentThumbDetailResp  = operation.GetCommentThumbDetailResp
+	GetPostShareAllReq         = operation.GetPostShareAllReq
+	GetPostShareAllResp        = operation.GetPostShareAllResp
 	GetThumbDetailReq          = operation.GetThumbDetailReq
 	GetThumbDetailResp         = operation.GetThumbDetailResp
 	OkResp                     = operation.OkResp
@@ -61,6 +72,7 @@ type (
 	PostCommentReplyResp       = operation.PostCommentReplyResp
 	PostCommentResp            = operation.PostCommentResp
 	PostCommentThumbItem       = operation.PostCommentThumbItem
+	PostShareItem              = operation.PostShareItem
 	PostThumbItem              = operation.PostThumbItem
 	UpdateCollectionGroupReq   = operation.UpdateCollectionGroupReq
 	UpdateCommentReplyReq      = operation.UpdateCommentReplyReq
@@ -69,25 +81,16 @@ type (
 	UpdateThumbReq             = operation.UpdateThumbReq
 
 	CollectionClass interface {
-		// group: Collection
 		AddCollectionGroup(ctx context.Context, in *AddCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Collection
 		GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error)
-		// group: Collection
 		GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error)
-		// group: Collection
 		CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error)
-		// group: Collection
 		UpdateCollectionGroup(ctx context.Context, in *UpdateCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Collection
 		DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Collection
 		AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Collection
 		DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: Collection
 		GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error)
-		// group: Collection
+		GetCollectionAll(ctx context.Context, in *GetCollectionAllReq, opts ...grpc.CallOption) (*GetCollectionAllResp, error)
 		GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error)
 	}
 
@@ -102,61 +105,56 @@ func NewCollectionClass(cli zrpc.Client) CollectionClass {
 	}
 }
 
-// group: Collection
 func (m *defaultCollectionClass) AddCollectionGroup(ctx context.Context, in *AddCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.AddCollectionGroup(ctx, in, opts...)
 }
 
-// group: Collection
 func (m *defaultCollectionClass) GetCollectionGroupList(ctx context.Context, in *GetCollectionGroupListReq, opts ...grpc.CallOption) (*GetCollectionGroupListResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.GetCollectionGroupList(ctx, in, opts...)
 }
 
-// group: Collection
 func (m *defaultCollectionClass) GetCollectionGroupById(ctx context.Context, in *GetCollectionGroupByIdReq, opts ...grpc.CallOption) (*GetCollectionGroupByIdResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.GetCollectionGroupById(ctx, in, opts...)
 }
 
-// group: Collection
 func (m *defaultCollectionClass) CheckExistByName(ctx context.Context, in *CheckExistByNameReq, opts ...grpc.CallOption) (*CheckExistByNameResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.CheckExistByName(ctx, in, opts...)
 }
 
-// group: Collection
 func (m *defaultCollectionClass) UpdateCollectionGroup(ctx context.Context, in *UpdateCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.UpdateCollectionGroup(ctx, in, opts...)
 }
 
-// group: Collection
 func (m *defaultCollectionClass) DeleteCollectionGroup(ctx context.Context, in *DeleteCollectionGroupReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.DeleteCollectionGroup(ctx, in, opts...)
 }
 
-// group: Collection
 func (m *defaultCollectionClass) AddCollection(ctx context.Context, in *AddCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.AddCollection(ctx, in, opts...)
 }
 
-// group: Collection
 func (m *defaultCollectionClass) DeleteCollection(ctx context.Context, in *DeleteCollectionReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.DeleteCollection(ctx, in, opts...)
 }
 
-// group: Collection
 func (m *defaultCollectionClass) GetCollectionList(ctx context.Context, in *GetCollectionListReq, opts ...grpc.CallOption) (*GetCollectionListResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.GetCollectionList(ctx, in, opts...)
 }
 
-// group: Collection
+func (m *defaultCollectionClass) GetCollectionAll(ctx context.Context, in *GetCollectionAllReq, opts ...grpc.CallOption) (*GetCollectionAllResp, error) {
+	client := operation.NewCollectionClassClient(m.cli.Conn())
+	return client.GetCollectionAll(ctx, in, opts...)
+}
+
 func (m *defaultCollectionClass) GetCollectionById(ctx context.Context, in *GetCollectionByIdReq, opts ...grpc.CallOption) (*GetCollectionByIdResp, error) {
 	client := operation.NewCollectionClassClient(m.cli.Conn())
 	return client.GetCollectionById(ctx, in, opts...)

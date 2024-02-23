@@ -29,6 +29,7 @@ func NewGetCommentListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 // group: Comment
 func (l *GetCommentListLogic) GetCommentList(in *operation.GetCommentListReq) (*operation.GetCommentListResp, error) {
 	// todo: add your logic here and delete this line
+
 	if in.Type == 1 {
 		whereBuilder := l.svcCtx.PostCommentModel.SelectBuilder()
 		if in.PostId != 0 {

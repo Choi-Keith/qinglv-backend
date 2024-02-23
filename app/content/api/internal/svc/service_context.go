@@ -11,6 +11,10 @@ import (
 	"qinglv-backend/app/content/rpc/client/postclass"
 	"qinglv-backend/app/content/rpc/client/tagclass"
 	"qinglv-backend/app/content/rpc/client/topicclass"
+	"qinglv-backend/app/operation/rpc/client/collectionclass"
+	"qinglv-backend/app/operation/rpc/client/commentclass"
+	"qinglv-backend/app/operation/rpc/client/shareclass"
+	"qinglv-backend/app/operation/rpc/client/thumbclass"
 	"qinglv-backend/app/user/rpc/client/followingclass"
 	"qinglv-backend/app/user/rpc/client/userclass"
 
@@ -20,21 +24,21 @@ import (
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	Authority    rest.Middleware
-	CategoryRpc  categoryclass.CategoryClass
-	MediaFileRpc mediafileclass.MediaFileClass
-	PostRpc      postclass.PostClass
-	TopicRpc     topicclass.TopicClass
-	TagRpc       tagclass.TagClass
-	ArticleRpc   articleclass.ArticleClass
-	UserRpc      userclass.UserClass
-	FollowingRpc followingclass.FollowingClass
-	// ThumbRpc      thumbclass.ThumbClass
-	// CollectionRpc collectionclass.CollectionClass
-	// CommentRpc    commentclass.CommentClass
-	// ShareRpc      shareclass.ShareClass
-	CosClient *cos.Client
+	Config        config.Config
+	Authority     rest.Middleware
+	CategoryRpc   categoryclass.CategoryClass
+	MediaFileRpc  mediafileclass.MediaFileClass
+	PostRpc       postclass.PostClass
+	TopicRpc      topicclass.TopicClass
+	TagRpc        tagclass.TagClass
+	ArticleRpc    articleclass.ArticleClass
+	UserRpc       userclass.UserClass
+	FollowingRpc  followingclass.FollowingClass
+	ThumbRpc      thumbclass.ThumbClass
+	CollectionRpc collectionclass.CollectionClass
+	CommentRpc    commentclass.CommentClass
+	ShareRpc      shareclass.ShareClass
+	CosClient     *cos.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -48,16 +52,20 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		},
 	})
 	svc := &ServiceContext{
-		Config:       c,
-		CategoryRpc:  categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
-		MediaFileRpc: mediafileclass.NewMediaFileClass(zrpc.MustNewClient(c.ContentRpc)),
-		PostRpc:      postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
-		TopicRpc:     topicclass.NewTopicClass(zrpc.MustNewClient(c.ContentRpc)),
-		TagRpc:       tagclass.NewTagClass(zrpc.MustNewClient(c.ContentRpc)),
-		ArticleRpc:   articleclass.NewArticleClass(zrpc.MustNewClient(c.ContentRpc)),
-		UserRpc:      userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
-		FollowingRpc: followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
-		CosClient:    client,
+		Config:        c,
+		CategoryRpc:   categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
+		MediaFileRpc:  mediafileclass.NewMediaFileClass(zrpc.MustNewClient(c.ContentRpc)),
+		PostRpc:       postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
+		TopicRpc:      topicclass.NewTopicClass(zrpc.MustNewClient(c.ContentRpc)),
+		TagRpc:        tagclass.NewTagClass(zrpc.MustNewClient(c.ContentRpc)),
+		ArticleRpc:    articleclass.NewArticleClass(zrpc.MustNewClient(c.ContentRpc)),
+		ThumbRpc:      thumbclass.NewThumbClass(zrpc.MustNewClient(c.OperationRpc)),
+		CollectionRpc: collectionclass.NewCollectionClass(zrpc.MustNewClient(c.OperationRpc)),
+		ShareRpc:      shareclass.NewShareClass(zrpc.MustNewClient(c.OperationRpc)),
+		CommentRpc:    commentclass.NewCommentClass(zrpc.MustNewClient(c.OperationRpc)),
+		UserRpc:       userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
+		FollowingRpc:  followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
+		CosClient:     client,
 	}
 	svc.Authority = middleware.NewAuthorityMiddleware(svc.UserRpc, &c).Handle
 	return svc

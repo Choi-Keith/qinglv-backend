@@ -26,15 +26,22 @@ type (
 	ArticleCommentReplyResp    = operation.ArticleCommentReplyResp
 	ArticleCommentResp         = operation.ArticleCommentResp
 	ArticleCommentThumbItem    = operation.ArticleCommentThumbItem
+	ArticleShareItem           = operation.ArticleShareItem
 	ArticleThumbItem           = operation.ArticleThumbItem
 	CheckExistByNameReq        = operation.CheckExistByNameReq
 	CheckExistByNameResp       = operation.CheckExistByNameResp
 	CollectionGroupItem        = operation.CollectionGroupItem
 	CollectionItem             = operation.CollectionItem
+	DeleteArticleShareReq      = operation.DeleteArticleShareReq
 	DeleteCollectionGroupReq   = operation.DeleteCollectionGroupReq
 	DeleteCollectionReq        = operation.DeleteCollectionReq
 	DeleteCommentReplyReq      = operation.DeleteCommentReplyReq
 	DeleteCommentReq           = operation.DeleteCommentReq
+	DeletePostShareReq         = operation.DeletePostShareReq
+	GetArticleShareAllReq      = operation.GetArticleShareAllReq
+	GetArticleShareAllResp     = operation.GetArticleShareAllResp
+	GetCollectionAllReq        = operation.GetCollectionAllReq
+	GetCollectionAllResp       = operation.GetCollectionAllResp
 	GetCollectionByIdReq       = operation.GetCollectionByIdReq
 	GetCollectionByIdResp      = operation.GetCollectionByIdResp
 	GetCollectionGroupByIdReq  = operation.GetCollectionGroupByIdReq
@@ -43,6 +50,8 @@ type (
 	GetCollectionGroupListResp = operation.GetCollectionGroupListResp
 	GetCollectionListReq       = operation.GetCollectionListReq
 	GetCollectionListResp      = operation.GetCollectionListResp
+	GetCommentAllReq           = operation.GetCommentAllReq
+	GetCommentAllResp          = operation.GetCommentAllResp
 	GetCommentByIdReq          = operation.GetCommentByIdReq
 	GetCommentByIdResp         = operation.GetCommentByIdResp
 	GetCommentListReq          = operation.GetCommentListReq
@@ -53,6 +62,8 @@ type (
 	GetCommentReplyListResp    = operation.GetCommentReplyListResp
 	GetCommentThumbDetailReq   = operation.GetCommentThumbDetailReq
 	GetCommentThumbDetailResp  = operation.GetCommentThumbDetailResp
+	GetPostShareAllReq         = operation.GetPostShareAllReq
+	GetPostShareAllResp        = operation.GetPostShareAllResp
 	GetThumbDetailReq          = operation.GetThumbDetailReq
 	GetThumbDetailResp         = operation.GetThumbDetailResp
 	OkResp                     = operation.OkResp
@@ -61,6 +72,7 @@ type (
 	PostCommentReplyResp       = operation.PostCommentReplyResp
 	PostCommentResp            = operation.PostCommentResp
 	PostCommentThumbItem       = operation.PostCommentThumbItem
+	PostShareItem              = operation.PostShareItem
 	PostThumbItem              = operation.PostThumbItem
 	UpdateCollectionGroupReq   = operation.UpdateCollectionGroupReq
 	UpdateCommentReplyReq      = operation.UpdateCommentReplyReq
@@ -69,9 +81,12 @@ type (
 	UpdateThumbReq             = operation.UpdateThumbReq
 
 	ShareClass interface {
-		// group: Share
 		AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error)
 		AddArticleShare(ctx context.Context, in *AddArticleShareReq, opts ...grpc.CallOption) (*OkResp, error)
+		GetPostShareAll(ctx context.Context, in *GetPostShareAllReq, opts ...grpc.CallOption) (*GetPostShareAllResp, error)
+		GetArticleShareAll(ctx context.Context, in *GetArticleShareAllReq, opts ...grpc.CallOption) (*GetArticleShareAllResp, error)
+		DeletePostShare(ctx context.Context, in *DeletePostShareReq, opts ...grpc.CallOption) (*OkResp, error)
+		DeleteArticleShare(ctx context.Context, in *DeleteArticleShareReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultShareClass struct {
@@ -85,7 +100,6 @@ func NewShareClass(cli zrpc.Client) ShareClass {
 	}
 }
 
-// group: Share
 func (m *defaultShareClass) AddPostShare(ctx context.Context, in *AddPostShareReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewShareClassClient(m.cli.Conn())
 	return client.AddPostShare(ctx, in, opts...)
@@ -94,4 +108,24 @@ func (m *defaultShareClass) AddPostShare(ctx context.Context, in *AddPostShareRe
 func (m *defaultShareClass) AddArticleShare(ctx context.Context, in *AddArticleShareReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := operation.NewShareClassClient(m.cli.Conn())
 	return client.AddArticleShare(ctx, in, opts...)
+}
+
+func (m *defaultShareClass) GetPostShareAll(ctx context.Context, in *GetPostShareAllReq, opts ...grpc.CallOption) (*GetPostShareAllResp, error) {
+	client := operation.NewShareClassClient(m.cli.Conn())
+	return client.GetPostShareAll(ctx, in, opts...)
+}
+
+func (m *defaultShareClass) GetArticleShareAll(ctx context.Context, in *GetArticleShareAllReq, opts ...grpc.CallOption) (*GetArticleShareAllResp, error) {
+	client := operation.NewShareClassClient(m.cli.Conn())
+	return client.GetArticleShareAll(ctx, in, opts...)
+}
+
+func (m *defaultShareClass) DeletePostShare(ctx context.Context, in *DeletePostShareReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewShareClassClient(m.cli.Conn())
+	return client.DeletePostShare(ctx, in, opts...)
+}
+
+func (m *defaultShareClass) DeleteArticleShare(ctx context.Context, in *DeleteArticleShareReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := operation.NewShareClassClient(m.cli.Conn())
+	return client.DeleteArticleShare(ctx, in, opts...)
 }

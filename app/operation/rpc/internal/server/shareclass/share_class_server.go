@@ -22,7 +22,6 @@ func NewShareClassServer(svcCtx *svc.ServiceContext) *ShareClassServer {
 	}
 }
 
-// group: Share
 func (s *ShareClassServer) AddPostShare(ctx context.Context, in *operation.AddPostShareReq) (*operation.OkResp, error) {
 	l := shareclasslogic.NewAddPostShareLogic(ctx, s.svcCtx)
 	return l.AddPostShare(in)
@@ -31,4 +30,24 @@ func (s *ShareClassServer) AddPostShare(ctx context.Context, in *operation.AddPo
 func (s *ShareClassServer) AddArticleShare(ctx context.Context, in *operation.AddArticleShareReq) (*operation.OkResp, error) {
 	l := shareclasslogic.NewAddArticleShareLogic(ctx, s.svcCtx)
 	return l.AddArticleShare(in)
+}
+
+func (s *ShareClassServer) GetPostShareAll(ctx context.Context, in *operation.GetPostShareAllReq) (*operation.GetPostShareAllResp, error) {
+	l := shareclasslogic.NewGetPostShareAllLogic(ctx, s.svcCtx)
+	return l.GetPostShareAll(in)
+}
+
+func (s *ShareClassServer) GetArticleShareAll(ctx context.Context, in *operation.GetArticleShareAllReq) (*operation.GetArticleShareAllResp, error) {
+	l := shareclasslogic.NewGetArticleShareAllLogic(ctx, s.svcCtx)
+	return l.GetArticleShareAll(in)
+}
+
+func (s *ShareClassServer) DeletePostShare(ctx context.Context, in *operation.DeletePostShareReq) (*operation.OkResp, error) {
+	l := shareclasslogic.NewDeletePostShareLogic(ctx, s.svcCtx)
+	return l.DeletePostShare(in)
+}
+
+func (s *ShareClassServer) DeleteArticleShare(ctx context.Context, in *operation.DeleteArticleShareReq) (*operation.OkResp, error) {
+	l := shareclasslogic.NewDeleteArticleShareLogic(ctx, s.svcCtx)
+	return l.DeleteArticleShare(in)
 }

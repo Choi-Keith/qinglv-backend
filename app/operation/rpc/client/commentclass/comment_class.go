@@ -26,15 +26,22 @@ type (
 	ArticleCommentReplyResp    = operation.ArticleCommentReplyResp
 	ArticleCommentResp         = operation.ArticleCommentResp
 	ArticleCommentThumbItem    = operation.ArticleCommentThumbItem
+	ArticleShareItem           = operation.ArticleShareItem
 	ArticleThumbItem           = operation.ArticleThumbItem
 	CheckExistByNameReq        = operation.CheckExistByNameReq
 	CheckExistByNameResp       = operation.CheckExistByNameResp
 	CollectionGroupItem        = operation.CollectionGroupItem
 	CollectionItem             = operation.CollectionItem
+	DeleteArticleShareReq      = operation.DeleteArticleShareReq
 	DeleteCollectionGroupReq   = operation.DeleteCollectionGroupReq
 	DeleteCollectionReq        = operation.DeleteCollectionReq
 	DeleteCommentReplyReq      = operation.DeleteCommentReplyReq
 	DeleteCommentReq           = operation.DeleteCommentReq
+	DeletePostShareReq         = operation.DeletePostShareReq
+	GetArticleShareAllReq      = operation.GetArticleShareAllReq
+	GetArticleShareAllResp     = operation.GetArticleShareAllResp
+	GetCollectionAllReq        = operation.GetCollectionAllReq
+	GetCollectionAllResp       = operation.GetCollectionAllResp
 	GetCollectionByIdReq       = operation.GetCollectionByIdReq
 	GetCollectionByIdResp      = operation.GetCollectionByIdResp
 	GetCollectionGroupByIdReq  = operation.GetCollectionGroupByIdReq
@@ -43,6 +50,8 @@ type (
 	GetCollectionGroupListResp = operation.GetCollectionGroupListResp
 	GetCollectionListReq       = operation.GetCollectionListReq
 	GetCollectionListResp      = operation.GetCollectionListResp
+	GetCommentAllReq           = operation.GetCommentAllReq
+	GetCommentAllResp          = operation.GetCommentAllResp
 	GetCommentByIdReq          = operation.GetCommentByIdReq
 	GetCommentByIdResp         = operation.GetCommentByIdResp
 	GetCommentListReq          = operation.GetCommentListReq
@@ -53,6 +62,8 @@ type (
 	GetCommentReplyListResp    = operation.GetCommentReplyListResp
 	GetCommentThumbDetailReq   = operation.GetCommentThumbDetailReq
 	GetCommentThumbDetailResp  = operation.GetCommentThumbDetailResp
+	GetPostShareAllReq         = operation.GetPostShareAllReq
+	GetPostShareAllResp        = operation.GetPostShareAllResp
 	GetThumbDetailReq          = operation.GetThumbDetailReq
 	GetThumbDetailResp         = operation.GetThumbDetailResp
 	OkResp                     = operation.OkResp
@@ -61,6 +72,7 @@ type (
 	PostCommentReplyResp       = operation.PostCommentReplyResp
 	PostCommentResp            = operation.PostCommentResp
 	PostCommentThumbItem       = operation.PostCommentThumbItem
+	PostShareItem              = operation.PostShareItem
 	PostThumbItem              = operation.PostThumbItem
 	UpdateCollectionGroupReq   = operation.UpdateCollectionGroupReq
 	UpdateCommentReplyReq      = operation.UpdateCommentReplyReq
@@ -73,6 +85,7 @@ type (
 		DeleteComment(ctx context.Context, in *DeleteCommentReq, opts ...grpc.CallOption) (*OkResp, error)
 		GetCommentById(ctx context.Context, in *GetCommentByIdReq, opts ...grpc.CallOption) (*GetCommentByIdResp, error)
 		GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error)
+		GetCommentAll(ctx context.Context, in *GetCommentAllReq, opts ...grpc.CallOption) (*GetCommentAllResp, error)
 		UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*OkResp, error)
 		AddCommentReply(ctx context.Context, in *AddCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
 		DeleteCommentReply(ctx context.Context, in *DeleteCommentReplyReq, opts ...grpc.CallOption) (*OkResp, error)
@@ -110,6 +123,11 @@ func (m *defaultCommentClass) GetCommentById(ctx context.Context, in *GetComment
 func (m *defaultCommentClass) GetCommentList(ctx context.Context, in *GetCommentListReq, opts ...grpc.CallOption) (*GetCommentListResp, error) {
 	client := operation.NewCommentClassClient(m.cli.Conn())
 	return client.GetCommentList(ctx, in, opts...)
+}
+
+func (m *defaultCommentClass) GetCommentAll(ctx context.Context, in *GetCommentAllReq, opts ...grpc.CallOption) (*GetCommentAllResp, error) {
+	client := operation.NewCommentClassClient(m.cli.Conn())
+	return client.GetCommentAll(ctx, in, opts...)
 }
 
 func (m *defaultCommentClass) UpdateComment(ctx context.Context, in *UpdateCommentReq, opts ...grpc.CallOption) (*OkResp, error) {

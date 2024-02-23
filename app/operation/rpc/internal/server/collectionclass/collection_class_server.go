@@ -22,61 +22,56 @@ func NewCollectionClassServer(svcCtx *svc.ServiceContext) *CollectionClassServer
 	}
 }
 
-// group: Collection
 func (s *CollectionClassServer) AddCollectionGroup(ctx context.Context, in *operation.AddCollectionGroupReq) (*operation.OkResp, error) {
 	l := collectionclasslogic.NewAddCollectionGroupLogic(ctx, s.svcCtx)
 	return l.AddCollectionGroup(in)
 }
 
-// group: Collection
 func (s *CollectionClassServer) GetCollectionGroupList(ctx context.Context, in *operation.GetCollectionGroupListReq) (*operation.GetCollectionGroupListResp, error) {
 	l := collectionclasslogic.NewGetCollectionGroupListLogic(ctx, s.svcCtx)
 	return l.GetCollectionGroupList(in)
 }
 
-// group: Collection
 func (s *CollectionClassServer) GetCollectionGroupById(ctx context.Context, in *operation.GetCollectionGroupByIdReq) (*operation.GetCollectionGroupByIdResp, error) {
 	l := collectionclasslogic.NewGetCollectionGroupByIdLogic(ctx, s.svcCtx)
 	return l.GetCollectionGroupById(in)
 }
 
-// group: Collection
 func (s *CollectionClassServer) CheckExistByName(ctx context.Context, in *operation.CheckExistByNameReq) (*operation.CheckExistByNameResp, error) {
 	l := collectionclasslogic.NewCheckExistByNameLogic(ctx, s.svcCtx)
 	return l.CheckExistByName(in)
 }
 
-// group: Collection
 func (s *CollectionClassServer) UpdateCollectionGroup(ctx context.Context, in *operation.UpdateCollectionGroupReq) (*operation.OkResp, error) {
 	l := collectionclasslogic.NewUpdateCollectionGroupLogic(ctx, s.svcCtx)
 	return l.UpdateCollectionGroup(in)
 }
 
-// group: Collection
 func (s *CollectionClassServer) DeleteCollectionGroup(ctx context.Context, in *operation.DeleteCollectionGroupReq) (*operation.OkResp, error) {
 	l := collectionclasslogic.NewDeleteCollectionGroupLogic(ctx, s.svcCtx)
 	return l.DeleteCollectionGroup(in)
 }
 
-// group: Collection
 func (s *CollectionClassServer) AddCollection(ctx context.Context, in *operation.AddCollectionReq) (*operation.OkResp, error) {
 	l := collectionclasslogic.NewAddCollectionLogic(ctx, s.svcCtx)
 	return l.AddCollection(in)
 }
 
-// group: Collection
 func (s *CollectionClassServer) DeleteCollection(ctx context.Context, in *operation.DeleteCollectionReq) (*operation.OkResp, error) {
 	l := collectionclasslogic.NewDeleteCollectionLogic(ctx, s.svcCtx)
 	return l.DeleteCollection(in)
 }
 
-// group: Collection
 func (s *CollectionClassServer) GetCollectionList(ctx context.Context, in *operation.GetCollectionListReq) (*operation.GetCollectionListResp, error) {
 	l := collectionclasslogic.NewGetCollectionListLogic(ctx, s.svcCtx)
 	return l.GetCollectionList(in)
 }
 
-// group: Collection
+func (s *CollectionClassServer) GetCollectionAll(ctx context.Context, in *operation.GetCollectionAllReq) (*operation.GetCollectionAllResp, error) {
+	l := collectionclasslogic.NewGetCollectionAllLogic(ctx, s.svcCtx)
+	return l.GetCollectionAll(in)
+}
+
 func (s *CollectionClassServer) GetCollectionById(ctx context.Context, in *operation.GetCollectionByIdReq) (*operation.GetCollectionByIdResp, error) {
 	l := collectionclasslogic.NewGetCollectionByIdLogic(ctx, s.svcCtx)
 	return l.GetCollectionById(in)
