@@ -68,17 +68,11 @@ message GetTopicListResp {
     uint64 total = 2;
 }
 service TopicClass {
-    // group: topic
     rpc AddTopic(AddTopicReq) returns(OkResp);
-    // group: topic
     rpc DeleteTopic(DeleteTopicReq) returns(OkResp);
-    // group: topic
     rpc UpdateTopic(UpdateTopicReq) returns(OkResp);
-    // group: topic
     rpc GetTopicById(GetTopicByIdReq) returns(GetTopicByIdResp);
-    // group: topic
     rpc GetTopicByName(GetTopicByNameReq) returns(GetTopicByNameResp);
-    // group: topic
     rpc GetTopicList(GetTopicListReq) returns(GetTopicListResp);
 }
 
@@ -130,15 +124,10 @@ message GetCategoryListResp {
     uint64 total = 2;
 }
 service CategoryClass {
-    // group: category
     rpc AddCategory(AddCategoryReq) returns(OkResp);
-    // group: category
     rpc DeleteCategory(DeleteCategoryReq) returns(OkResp);
-    // group: category
     rpc UpdateCategory(UpdateCategoryReq) returns(OkResp);
-    // group: category
     rpc GetCategoryDetail(GetCategoryDetailReq) returns(GetCategoryDetailResp);
-    // group: category
     rpc GetCategoryList(GetCategoryListReq) returns(GetCategoryListResp);
 }
 
@@ -298,13 +287,9 @@ message GetMediaFileListResp {
 }
 
 service MediaFileClass {
-    // group: mediaFile
     rpc AddMediaFile(AddMediaFileReq) returns(OkResp);
-    // group: mediaFile
     rpc DeleteMediaFile(DeleteMediaFileReq) returns(OkResp);
-    // group: mediaFile
     rpc GetMediaFileByContent(GetMediaFileByContentReq) returns(GetMediaFileByContentResp);
-    // group: mediaFile
     rpc GetMediaFileList(GetMediaFileListReq) returns(GetMediaFileListResp);
 }
 

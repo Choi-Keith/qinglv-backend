@@ -174,6 +174,42 @@ CREATE TABLE `article_content` (
     KEY `idx_creator_id` (`creator_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章内容表';
 
+CREATE TABLE `post_feed`(
+    `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
+    `user_id` bigint(20)  unsigned NOT NULL COMMENT '用户id',
+    `author_id` bigint(20)  unsigned NOT NULL COMMENT '作者id',
+    `post_id` bigint(20) unsigned NOT NULL COMMENT '帖子id',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
+    `creator_name` varchar(64) NOT NULL DEFAULT '',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_post_feed_user_id` (`user_id`),
+    KEY `idx_post_feed_author_id` (`author_id`),
+    KEY `idx_post_feed_post_id` (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子关注推送表';
+
+CREATE TABLE `article_feed`(
+    `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
+    `user_id` bigint(20)  unsigned NOT NULL COMMENT '用户id',
+    `author_id` bigint(20)  unsigned NOT NULL COMMENT '作者id',
+    `article_id` bigint(20) unsigned NOT NULL COMMENT '文章id',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
+    `creator_name` varchar(64) NOT NULL DEFAULT '',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_article_feed_user_id` (`user_id`),
+    KEY `idx_article_feed_author_id` (`author_id`),
+    KEY `idx_article_feed_article_id` (`article_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '帖子关注推送表';
+
 
 
 
