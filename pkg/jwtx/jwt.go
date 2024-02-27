@@ -4,10 +4,12 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 // Option describes the jwt extra data
@@ -33,6 +35,9 @@ func NewJwtToken(secretKey string, seconds int64, opt ...Option) (string, error)
 
 	for _, v := range opt {
 		claims[v.Key] = v.Val
+		if v.Key == "userId" {
+			claims["tokenId"] = strconv.FormatUint(v.Val.(uint64), 10)
+		}
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)
@@ -55,10 +60,19 @@ func ParseToken(r *http.Request, secretKey string) (map[string]uint64, error) {
 		return nil, err
 	}
 	m := make(map[string]uint64)
+	var tokenId string
 	for k, v := range token.Claims.(jwt.MapClaims) {
 		if k == "userId" || k == "roleId" {
 			m[k] = uint64(v.(float64))
 		}
+		if k == "tokenId" {
+			tokenId = v.(string)
+		}
 	}
+	newUserId, _ := strconv.ParseUint(tokenId, 10, 64)
+	if err != nil {
+		logx.Errorf("[ParseToken] failed: %+v\n", err)
+	}
+	m["userId"] = newUserId
 	return m, nil
 }

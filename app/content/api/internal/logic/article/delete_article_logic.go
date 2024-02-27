@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/pkg/event"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -57,7 +58,10 @@ func (l *DeleteArticleLogic) DeleteArticle(req *types.DeleteArticleReq) error {
 	if err := l.checkAndDeleteArticleShare(req.Id); err != nil {
 		return err
 	}
-
+	event.Send(event.ArticleDeleteEvent{
+		FollowingId: uint64(userId),
+		ArticleId:   req.Id,
+	})
 	return nil
 }
 

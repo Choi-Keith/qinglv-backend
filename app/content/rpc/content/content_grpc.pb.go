@@ -31,17 +31,11 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TopicClassClient interface {
-	// group: topic
 	AddTopic(ctx context.Context, in *AddTopicReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: topic
 	DeleteTopic(ctx context.Context, in *DeleteTopicReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: topic
 	UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: topic
 	GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error)
-	// group: topic
 	GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error)
-	// group: topic
 	GetTopicList(ctx context.Context, in *GetTopicListReq, opts ...grpc.CallOption) (*GetTopicListResp, error)
 }
 
@@ -111,17 +105,11 @@ func (c *topicClassClient) GetTopicList(ctx context.Context, in *GetTopicListReq
 // All implementations must embed UnimplementedTopicClassServer
 // for forward compatibility
 type TopicClassServer interface {
-	// group: topic
 	AddTopic(context.Context, *AddTopicReq) (*OkResp, error)
-	// group: topic
 	DeleteTopic(context.Context, *DeleteTopicReq) (*OkResp, error)
-	// group: topic
 	UpdateTopic(context.Context, *UpdateTopicReq) (*OkResp, error)
-	// group: topic
 	GetTopicById(context.Context, *GetTopicByIdReq) (*GetTopicByIdResp, error)
-	// group: topic
 	GetTopicByName(context.Context, *GetTopicByNameReq) (*GetTopicByNameResp, error)
-	// group: topic
 	GetTopicList(context.Context, *GetTopicListReq) (*GetTopicListResp, error)
 	mustEmbedUnimplementedTopicClassServer()
 }
@@ -317,15 +305,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CategoryClassClient interface {
-	// group: category
 	AddCategory(ctx context.Context, in *AddCategoryReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: category
 	DeleteCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: category
 	UpdateCategory(ctx context.Context, in *UpdateCategoryReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: category
 	GetCategoryDetail(ctx context.Context, in *GetCategoryDetailReq, opts ...grpc.CallOption) (*GetCategoryDetailResp, error)
-	// group: category
 	GetCategoryList(ctx context.Context, in *GetCategoryListReq, opts ...grpc.CallOption) (*GetCategoryListResp, error)
 }
 
@@ -386,15 +369,10 @@ func (c *categoryClassClient) GetCategoryList(ctx context.Context, in *GetCatego
 // All implementations must embed UnimplementedCategoryClassServer
 // for forward compatibility
 type CategoryClassServer interface {
-	// group: category
 	AddCategory(context.Context, *AddCategoryReq) (*OkResp, error)
-	// group: category
 	DeleteCategory(context.Context, *DeleteCategoryReq) (*OkResp, error)
-	// group: category
 	UpdateCategory(context.Context, *UpdateCategoryReq) (*OkResp, error)
-	// group: category
 	GetCategoryDetail(context.Context, *GetCategoryDetailReq) (*GetCategoryDetailResp, error)
-	// group: category
 	GetCategoryList(context.Context, *GetCategoryListReq) (*GetCategoryListResp, error)
 	mustEmbedUnimplementedCategoryClassServer()
 }
@@ -561,6 +539,9 @@ const (
 	PostClass_GetPostList_FullMethodName            = "/content.PostClass/GetPostList"
 	PostClass_AddPostContent_FullMethodName         = "/content.PostClass/AddPostContent"
 	PostClass_GetPostContentByPostId_FullMethodName = "/content.PostClass/GetPostContentByPostId"
+	PostClass_ScanPostByUser_FullMethodName         = "/content.PostClass/ScanPostByUser"
+	PostClass_AddPostFeed_FullMethodName            = "/content.PostClass/AddPostFeed"
+	PostClass_DeletePostFeedByIds_FullMethodName    = "/content.PostClass/DeletePostFeedByIds"
 )
 
 // PostClassClient is the client API for PostClass service.
@@ -574,6 +555,9 @@ type PostClassClient interface {
 	GetPostList(ctx context.Context, in *GetPostListReq, opts ...grpc.CallOption) (*GetPostListResp, error)
 	AddPostContent(ctx context.Context, in *AddPostContentReq, opts ...grpc.CallOption) (*OkResp, error)
 	GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
+	ScanPostByUser(ctx context.Context, in *ScanPostByUserReq, opts ...grpc.CallOption) (*OkResp, error)
+	AddPostFeed(ctx context.Context, in *AddPostFeedReq, opts ...grpc.CallOption) (*OkResp, error)
+	DeletePostFeedByIds(ctx context.Context, in *DeletePostFeedByIdsReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type postClassClient struct {
@@ -647,6 +631,33 @@ func (c *postClassClient) GetPostContentByPostId(ctx context.Context, in *GetPos
 	return out, nil
 }
 
+func (c *postClassClient) ScanPostByUser(ctx context.Context, in *ScanPostByUserReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, PostClass_ScanPostByUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postClassClient) AddPostFeed(ctx context.Context, in *AddPostFeedReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, PostClass_AddPostFeed_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postClassClient) DeletePostFeedByIds(ctx context.Context, in *DeletePostFeedByIdsReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, PostClass_DeletePostFeedByIds_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PostClassServer is the server API for PostClass service.
 // All implementations must embed UnimplementedPostClassServer
 // for forward compatibility
@@ -658,6 +669,9 @@ type PostClassServer interface {
 	GetPostList(context.Context, *GetPostListReq) (*GetPostListResp, error)
 	AddPostContent(context.Context, *AddPostContentReq) (*OkResp, error)
 	GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error)
+	ScanPostByUser(context.Context, *ScanPostByUserReq) (*OkResp, error)
+	AddPostFeed(context.Context, *AddPostFeedReq) (*OkResp, error)
+	DeletePostFeedByIds(context.Context, *DeletePostFeedByIdsReq) (*OkResp, error)
 	mustEmbedUnimplementedPostClassServer()
 }
 
@@ -685,6 +699,15 @@ func (UnimplementedPostClassServer) AddPostContent(context.Context, *AddPostCont
 }
 func (UnimplementedPostClassServer) GetPostContentByPostId(context.Context, *GetPostContentDetailReq) (*GetPostContentDetailResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPostContentByPostId not implemented")
+}
+func (UnimplementedPostClassServer) ScanPostByUser(context.Context, *ScanPostByUserReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ScanPostByUser not implemented")
+}
+func (UnimplementedPostClassServer) AddPostFeed(context.Context, *AddPostFeedReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPostFeed not implemented")
+}
+func (UnimplementedPostClassServer) DeletePostFeedByIds(context.Context, *DeletePostFeedByIdsReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeletePostFeedByIds not implemented")
 }
 func (UnimplementedPostClassServer) mustEmbedUnimplementedPostClassServer() {}
 
@@ -825,6 +848,60 @@ func _PostClass_GetPostContentByPostId_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PostClass_ScanPostByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ScanPostByUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).ScanPostByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_ScanPostByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).ScanPostByUser(ctx, req.(*ScanPostByUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_AddPostFeed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPostFeedReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).AddPostFeed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_AddPostFeed_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).AddPostFeed(ctx, req.(*AddPostFeedReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostClass_DeletePostFeedByIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeletePostFeedByIdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostClassServer).DeletePostFeedByIds(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostClass_DeletePostFeedByIds_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostClassServer).DeletePostFeedByIds(ctx, req.(*DeletePostFeedByIdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PostClass_ServiceDesc is the grpc.ServiceDesc for PostClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -860,6 +937,18 @@ var PostClass_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetPostContentByPostId",
 			Handler:    _PostClass_GetPostContentByPostId_Handler,
 		},
+		{
+			MethodName: "ScanPostByUser",
+			Handler:    _PostClass_ScanPostByUser_Handler,
+		},
+		{
+			MethodName: "AddPostFeed",
+			Handler:    _PostClass_AddPostFeed_Handler,
+		},
+		{
+			MethodName: "DeletePostFeedByIds",
+			Handler:    _PostClass_DeletePostFeedByIds_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "pb/content.proto",
@@ -876,13 +965,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MediaFileClassClient interface {
-	// group: mediaFile
 	AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: mediaFile
 	DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
-	// group: mediaFile
 	GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error)
-	// group: mediaFile
 	GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error)
 }
 
@@ -934,13 +1019,9 @@ func (c *mediaFileClassClient) GetMediaFileList(ctx context.Context, in *GetMedi
 // All implementations must embed UnimplementedMediaFileClassServer
 // for forward compatibility
 type MediaFileClassServer interface {
-	// group: mediaFile
 	AddMediaFile(context.Context, *AddMediaFileReq) (*OkResp, error)
-	// group: mediaFile
 	DeleteMediaFile(context.Context, *DeleteMediaFileReq) (*OkResp, error)
-	// group: mediaFile
 	GetMediaFileByContent(context.Context, *GetMediaFileByContentReq) (*GetMediaFileByContentResp, error)
-	// group: mediaFile
 	GetMediaFileList(context.Context, *GetMediaFileListReq) (*GetMediaFileListResp, error)
 	mustEmbedUnimplementedMediaFileClassServer()
 }
@@ -1357,6 +1438,9 @@ const (
 	ArticleClass_GetArticleList_FullMethodName               = "/content.ArticleClass/GetArticleList"
 	ArticleClass_UpdateArticleContent_FullMethodName         = "/content.ArticleClass/UpdateArticleContent"
 	ArticleClass_GetArticleContentByArticleId_FullMethodName = "/content.ArticleClass/GetArticleContentByArticleId"
+	ArticleClass_ScanArticleByUserId_FullMethodName          = "/content.ArticleClass/ScanArticleByUserId"
+	ArticleClass_AddArticleFeed_FullMethodName               = "/content.ArticleClass/AddArticleFeed"
+	ArticleClass_DeleteArticleFeedByIds_FullMethodName       = "/content.ArticleClass/DeleteArticleFeedByIds"
 )
 
 // ArticleClassClient is the client API for ArticleClass service.
@@ -1370,6 +1454,9 @@ type ArticleClassClient interface {
 	GetArticleList(ctx context.Context, in *GetArticleListReq, opts ...grpc.CallOption) (*GetArticleListResp, error)
 	UpdateArticleContent(ctx context.Context, in *UpdateArticleContentReq, opts ...grpc.CallOption) (*OkResp, error)
 	GetArticleContentByArticleId(ctx context.Context, in *GetArticleContentDetailReq, opts ...grpc.CallOption) (*GetArticleContentDetailResp, error)
+	ScanArticleByUserId(ctx context.Context, in *ScanArticleByUserIdReq, opts ...grpc.CallOption) (*OkResp, error)
+	AddArticleFeed(ctx context.Context, in *AddArticleFeedReq, opts ...grpc.CallOption) (*OkResp, error)
+	DeleteArticleFeedByIds(ctx context.Context, in *DeleteArticleFeedByIdsReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type articleClassClient struct {
@@ -1443,6 +1530,33 @@ func (c *articleClassClient) GetArticleContentByArticleId(ctx context.Context, i
 	return out, nil
 }
 
+func (c *articleClassClient) ScanArticleByUserId(ctx context.Context, in *ScanArticleByUserIdReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ArticleClass_ScanArticleByUserId_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleClassClient) AddArticleFeed(ctx context.Context, in *AddArticleFeedReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ArticleClass_AddArticleFeed_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *articleClassClient) DeleteArticleFeedByIds(ctx context.Context, in *DeleteArticleFeedByIdsReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, ArticleClass_DeleteArticleFeedByIds_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ArticleClassServer is the server API for ArticleClass service.
 // All implementations must embed UnimplementedArticleClassServer
 // for forward compatibility
@@ -1454,6 +1568,9 @@ type ArticleClassServer interface {
 	GetArticleList(context.Context, *GetArticleListReq) (*GetArticleListResp, error)
 	UpdateArticleContent(context.Context, *UpdateArticleContentReq) (*OkResp, error)
 	GetArticleContentByArticleId(context.Context, *GetArticleContentDetailReq) (*GetArticleContentDetailResp, error)
+	ScanArticleByUserId(context.Context, *ScanArticleByUserIdReq) (*OkResp, error)
+	AddArticleFeed(context.Context, *AddArticleFeedReq) (*OkResp, error)
+	DeleteArticleFeedByIds(context.Context, *DeleteArticleFeedByIdsReq) (*OkResp, error)
 	mustEmbedUnimplementedArticleClassServer()
 }
 
@@ -1481,6 +1598,15 @@ func (UnimplementedArticleClassServer) UpdateArticleContent(context.Context, *Up
 }
 func (UnimplementedArticleClassServer) GetArticleContentByArticleId(context.Context, *GetArticleContentDetailReq) (*GetArticleContentDetailResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetArticleContentByArticleId not implemented")
+}
+func (UnimplementedArticleClassServer) ScanArticleByUserId(context.Context, *ScanArticleByUserIdReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ScanArticleByUserId not implemented")
+}
+func (UnimplementedArticleClassServer) AddArticleFeed(context.Context, *AddArticleFeedReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddArticleFeed not implemented")
+}
+func (UnimplementedArticleClassServer) DeleteArticleFeedByIds(context.Context, *DeleteArticleFeedByIdsReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticleFeedByIds not implemented")
 }
 func (UnimplementedArticleClassServer) mustEmbedUnimplementedArticleClassServer() {}
 
@@ -1621,6 +1747,60 @@ func _ArticleClass_GetArticleContentByArticleId_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ArticleClass_ScanArticleByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ScanArticleByUserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleClassServer).ScanArticleByUserId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArticleClass_ScanArticleByUserId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleClassServer).ScanArticleByUserId(ctx, req.(*ScanArticleByUserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleClass_AddArticleFeed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddArticleFeedReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleClassServer).AddArticleFeed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArticleClass_AddArticleFeed_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleClassServer).AddArticleFeed(ctx, req.(*AddArticleFeedReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ArticleClass_DeleteArticleFeedByIds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteArticleFeedByIdsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ArticleClassServer).DeleteArticleFeedByIds(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ArticleClass_DeleteArticleFeedByIds_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ArticleClassServer).DeleteArticleFeedByIds(ctx, req.(*DeleteArticleFeedByIdsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ArticleClass_ServiceDesc is the grpc.ServiceDesc for ArticleClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1655,6 +1835,18 @@ var ArticleClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetArticleContentByArticleId",
 			Handler:    _ArticleClass_GetArticleContentByArticleId_Handler,
+		},
+		{
+			MethodName: "ScanArticleByUserId",
+			Handler:    _ArticleClass_ScanArticleByUserId_Handler,
+		},
+		{
+			MethodName: "AddArticleFeed",
+			Handler:    _ArticleClass_AddArticleFeed_Handler,
+		},
+		{
+			MethodName: "DeleteArticleFeedByIds",
+			Handler:    _ArticleClass_DeleteArticleFeedByIds_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

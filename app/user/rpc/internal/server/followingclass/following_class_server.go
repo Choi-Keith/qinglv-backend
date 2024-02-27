@@ -22,25 +22,26 @@ func NewFollowingClassServer(svcCtx *svc.ServiceContext) *FollowingClassServer {
 	}
 }
 
-// group: following
 func (s *FollowingClassServer) AddFollowing(ctx context.Context, in *user.AddFollowingReq) (*user.AddFollowingResp, error) {
 	l := followingclasslogic.NewAddFollowingLogic(ctx, s.svcCtx)
 	return l.AddFollowing(in)
 }
 
-// group: following
 func (s *FollowingClassServer) DeleteFollowing(ctx context.Context, in *user.DeleteFollowingReq) (*user.DeleteFollowingResp, error) {
 	l := followingclasslogic.NewDeleteFollowingLogic(ctx, s.svcCtx)
 	return l.DeleteFollowing(in)
 }
 
-// group: following
 func (s *FollowingClassServer) GetFollowingList(ctx context.Context, in *user.GetFollowingListReq) (*user.GetFollowingListResp, error) {
 	l := followingclasslogic.NewGetFollowingListLogic(ctx, s.svcCtx)
 	return l.GetFollowingList(in)
 }
 
-// group: following
+func (s *FollowingClassServer) GetFollowingDetail(ctx context.Context, in *user.GetFollowingDetailReq) (*user.GetFollowingDetailResp, error) {
+	l := followingclasslogic.NewGetFollowingDetailLogic(ctx, s.svcCtx)
+	return l.GetFollowingDetail(in)
+}
+
 func (s *FollowingClassServer) CheckFollowing(ctx context.Context, in *user.CheckFollowingReq) (*user.CheckFollowingResp, error) {
 	l := followingclasslogic.NewCheckFollowingLogic(ctx, s.svcCtx)
 	return l.CheckFollowing(in)

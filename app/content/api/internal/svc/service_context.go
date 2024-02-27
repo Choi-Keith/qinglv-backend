@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 	"qinglv-backend/app/content/api/internal/config"
@@ -11,14 +12,20 @@ import (
 	"qinglv-backend/app/content/rpc/client/postclass"
 	"qinglv-backend/app/content/rpc/client/tagclass"
 	"qinglv-backend/app/content/rpc/client/topicclass"
+	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/operation/rpc/client/collectionclass"
 	"qinglv-backend/app/operation/rpc/client/commentclass"
 	"qinglv-backend/app/operation/rpc/client/shareclass"
 	"qinglv-backend/app/operation/rpc/client/thumbclass"
 	"qinglv-backend/app/user/rpc/client/followingclass"
 	"qinglv-backend/app/user/rpc/client/userclass"
+	"qinglv-backend/app/user/rpc/user"
+	"qinglv-backend/pkg/event"
+	"qinglv-backend/pkg/snowflake"
+	"reflect"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 )
@@ -68,5 +75,98 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		CosClient:     client,
 	}
 	svc.Authority = middleware.NewAuthorityMiddleware(svc.UserRpc, &c).Handle
+	handleAddPostEvent(svc)
+	handleAddArticleEvent(svc)
+	handleDeletePostEvent(svc)
+	handleDeleteArticleEvent(svc)
 	return svc
+}
+
+func handleAddPostEvent(svc *ServiceContext) {
+	event.RegHandler(reflect.TypeOf(event.PostAddEvent{}), func(i interface{}) {
+		e := i.(event.PostAddEvent)
+		logx.Debugf("[handleAddPostEvent] e: %+v\n", e)
+		var pageNo int64
+		for {
+			followingListResp, err := svc.FollowingRpc.GetFollowingList(context.Background(), &user.GetFollowingListReq{
+				FollowingId: e.FollowingId,
+				PageNum:     int32(pageNo),
+				PageSize:    100,
+			})
+			if err != nil {
+				logx.Errorf("[GetFollowingList] failed: %+v\n", err)
+			}
+			if len(followingListResp.Data) == 0 {
+				break
+			}
+			pageNo += 1
+			id := snowflake.MustID()
+			for _, followItem := range followingListResp.Data {
+				if _, err := svc.PostRpc.AddPostFeed(context.Background(), &content.AddPostFeedReq{
+					Id:       id,
+					UserId:   followItem.UserId,
+					AuthorId: e.FollowingId,
+					PostId:   e.PostId,
+				}); err != nil {
+					logx.Errorf("[AddPostFeed] failed: %+v\n", err)
+				}
+			}
+
+		}
+	})
+}
+
+func handleDeletePostEvent(svc *ServiceContext) {
+	event.RegHandler(reflect.TypeOf(event.PostDeleteEvent{}), func(i interface{}) {
+		e := i.(event.PostDeleteEvent)
+		logx.Debugf("[handleDeletePostEvent] e: %+v\n", e)
+		svc.PostRpc.DeletePostFeedByIds(context.Background(), &content.DeletePostFeedByIdsReq{
+			PostId: e.PostId,
+		})
+	})
+}
+
+func handleDeleteArticleEvent(svc *ServiceContext) {
+	event.RegHandler(reflect.TypeOf(event.ArticleDeleteEvent{}), func(i interface{}) {
+		e := i.(event.ArticleDeleteEvent)
+		logx.Debugf("[handleDeleteArticleEvent] e: %+v\n", e)
+		svc.ArticleRpc.DeleteArticleFeedByIds(context.Background(), &content.DeleteArticleFeedByIdsReq{
+			ArticleId: e.ArticleId,
+		})
+	})
+}
+
+func handleAddArticleEvent(svc *ServiceContext) {
+	event.RegHandler(reflect.TypeOf(event.ArticleAddEvent{}), func(i interface{}) {
+		e := i.(event.ArticleAddEvent)
+		logx.Debugf("[handleAddArticleEvent] e: %+v\n", e)
+
+		var pageNo int64
+		for {
+			followingListResp, err := svc.FollowingRpc.GetFollowingList(context.Background(), &user.GetFollowingListReq{
+				FollowingId: e.FollowingId,
+				PageNum:     int32(pageNo),
+				PageSize:    100,
+			})
+			if err != nil {
+				logx.Errorf("[GetFollowingList] failed: %+v\n", err)
+			}
+			if len(followingListResp.Data) == 0 {
+				break
+			}
+			pageNo += 1
+			id := snowflake.MustID()
+			for _, followItem := range followingListResp.Data {
+				if _, err := svc.ArticleRpc.AddArticleFeed(context.Background(), &content.AddArticleFeedReq{
+					Id:        id,
+					UserId:    followItem.UserId,
+					AuthorId:  e.FollowingId,
+					ArticleId: e.ArticleId,
+				}); err != nil {
+					logx.Errorf("[AddArticleFeed] failed: %+v\n", err)
+				}
+			}
+
+		}
+	})
 }

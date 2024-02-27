@@ -13,19 +13,23 @@ import (
 )
 
 type (
+	AddArticleFeedReq           = content.AddArticleFeedReq
 	AddArticleReq               = content.AddArticleReq
 	AddCategoryReq              = content.AddCategoryReq
 	AddMediaFileReq             = content.AddMediaFileReq
 	AddPostContentReq           = content.AddPostContentReq
+	AddPostFeedReq              = content.AddPostFeedReq
 	AddPostReq                  = content.AddPostReq
 	AddTagReq                   = content.AddTagReq
 	AddTopicReq                 = content.AddTopicReq
 	ArticleContentItem          = content.ArticleContentItem
 	ArticleItem                 = content.ArticleItem
 	CategoryItem                = content.CategoryItem
+	DeleteArticleFeedByIdsReq   = content.DeleteArticleFeedByIdsReq
 	DeleteArticleReq            = content.DeleteArticleReq
 	DeleteCategoryReq           = content.DeleteCategoryReq
 	DeleteMediaFileReq          = content.DeleteMediaFileReq
+	DeletePostFeedByIdsReq      = content.DeletePostFeedByIdsReq
 	DeletePostReq               = content.DeletePostReq
 	DeleteTagReq                = content.DeleteTagReq
 	DeleteTopicReq              = content.DeleteTopicReq
@@ -69,6 +73,8 @@ type (
 	OkResp                      = content.OkResp
 	PostContentItem             = content.PostContentItem
 	PostItem                    = content.PostItem
+	ScanArticleByUserIdReq      = content.ScanArticleByUserIdReq
+	ScanPostByUserReq           = content.ScanPostByUserReq
 	TagItem                     = content.TagItem
 	TopicItem                   = content.TopicItem
 	UpdateArticleContentReq     = content.UpdateArticleContentReq
@@ -79,15 +85,10 @@ type (
 	UpdateTopicReq              = content.UpdateTopicReq
 
 	CategoryClass interface {
-		// group: category
 		AddCategory(ctx context.Context, in *AddCategoryReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: category
 		DeleteCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: category
 		UpdateCategory(ctx context.Context, in *UpdateCategoryReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: category
 		GetCategoryDetail(ctx context.Context, in *GetCategoryDetailReq, opts ...grpc.CallOption) (*GetCategoryDetailResp, error)
-		// group: category
 		GetCategoryList(ctx context.Context, in *GetCategoryListReq, opts ...grpc.CallOption) (*GetCategoryListResp, error)
 	}
 
@@ -102,31 +103,26 @@ func NewCategoryClass(cli zrpc.Client) CategoryClass {
 	}
 }
 
-// group: category
 func (m *defaultCategoryClass) AddCategory(ctx context.Context, in *AddCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewCategoryClassClient(m.cli.Conn())
 	return client.AddCategory(ctx, in, opts...)
 }
 
-// group: category
 func (m *defaultCategoryClass) DeleteCategory(ctx context.Context, in *DeleteCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewCategoryClassClient(m.cli.Conn())
 	return client.DeleteCategory(ctx, in, opts...)
 }
 
-// group: category
 func (m *defaultCategoryClass) UpdateCategory(ctx context.Context, in *UpdateCategoryReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewCategoryClassClient(m.cli.Conn())
 	return client.UpdateCategory(ctx, in, opts...)
 }
 
-// group: category
 func (m *defaultCategoryClass) GetCategoryDetail(ctx context.Context, in *GetCategoryDetailReq, opts ...grpc.CallOption) (*GetCategoryDetailResp, error) {
 	client := content.NewCategoryClassClient(m.cli.Conn())
 	return client.GetCategoryDetail(ctx, in, opts...)
 }
 
-// group: category
 func (m *defaultCategoryClass) GetCategoryList(ctx context.Context, in *GetCategoryListReq, opts ...grpc.CallOption) (*GetCategoryListResp, error) {
 	client := content.NewCategoryClassClient(m.cli.Conn())
 	return client.GetCategoryList(ctx, in, opts...)

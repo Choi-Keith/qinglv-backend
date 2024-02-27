@@ -22,31 +22,26 @@ func NewCategoryClassServer(svcCtx *svc.ServiceContext) *CategoryClassServer {
 	}
 }
 
-// group: category
 func (s *CategoryClassServer) AddCategory(ctx context.Context, in *content.AddCategoryReq) (*content.OkResp, error) {
 	l := categoryclasslogic.NewAddCategoryLogic(ctx, s.svcCtx)
 	return l.AddCategory(in)
 }
 
-// group: category
 func (s *CategoryClassServer) DeleteCategory(ctx context.Context, in *content.DeleteCategoryReq) (*content.OkResp, error) {
 	l := categoryclasslogic.NewDeleteCategoryLogic(ctx, s.svcCtx)
 	return l.DeleteCategory(in)
 }
 
-// group: category
 func (s *CategoryClassServer) UpdateCategory(ctx context.Context, in *content.UpdateCategoryReq) (*content.OkResp, error) {
 	l := categoryclasslogic.NewUpdateCategoryLogic(ctx, s.svcCtx)
 	return l.UpdateCategory(in)
 }
 
-// group: category
 func (s *CategoryClassServer) GetCategoryDetail(ctx context.Context, in *content.GetCategoryDetailReq) (*content.GetCategoryDetailResp, error) {
 	l := categoryclasslogic.NewGetCategoryDetailLogic(ctx, s.svcCtx)
 	return l.GetCategoryDetail(in)
 }
 
-// group: category
 func (s *CategoryClassServer) GetCategoryList(ctx context.Context, in *content.GetCategoryListReq) (*content.GetCategoryListResp, error) {
 	l := categoryclasslogic.NewGetCategoryListLogic(ctx, s.svcCtx)
 	return l.GetCategoryList(in)

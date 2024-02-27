@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/user/rpc/user"
+	"qinglv-backend/pkg/event"
 	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -87,6 +88,10 @@ func (l *AddArticleLogic) AddArticle(req *types.AddArticleReq) error {
 			return err
 		}
 	}
+	event.Send(event.ArticleAddEvent{
+		FollowingId: uint64(userId),
+		ArticleId:   id,
+	})
 
 	return nil
 }

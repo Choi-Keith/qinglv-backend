@@ -26,13 +26,15 @@ var (
 	articleFeedRowsExpectAutoSet   = strings.Join(stringx.Remove(articleFeedFieldNames, "`created_at`", "`updated_at`"), ",")
 	articleFeedRowsWithPlaceHolder = strings.Join(stringx.Remove(articleFeedFieldNames, "`id`", "`created_at`", "`updated_at`"), "=?,") + "=?"
 
-	cacheQContentArticleFeedIdPrefix = "cache:qContent:articleFeed:id:"
+	cacheQContentArticleFeedIdPrefix              = "cache:qContent:articleFeed:id:"
+	cacheQContentArticleFeedArticleIdUserIdPrefix = "cache:qContent:articleFeed:articleId:userId:"
 )
 
 type (
 	articleFeedModel interface {
 		Insert(ctx context.Context, session sqlx.Session, data *ArticleFeed) (sql.Result, error)
 		FindOne(ctx context.Context, id uint64) (*ArticleFeed, error)
+		FindOneByArticleIdUserId(ctx context.Context, articleId uint64, userId uint64) (*ArticleFeed, error)
 		Update(ctx context.Context, session sqlx.Session, data *ArticleFeed) (sql.Result, error)
 		UpdateWithVersion(ctx context.Context, session sqlx.Session, data *ArticleFeed) error
 		Trans(ctx context.Context, fn func(context context.Context, session sqlx.Session) error) error
@@ -54,17 +56,15 @@ type (
 	}
 
 	ArticleFeed struct {
-		Id          uint64    `db:"id"`         // 主键id
-		UserId      uint64    `db:"user_id"`    // 用户id
-		AuthorId    uint64    `db:"author_id"`  // 作者id
-		ArticleId   uint64    `db:"article_id"` // 文章id
-		CreatorId   uint64    `db:"creator_id"` // 发布者
-		CreatorName string    `db:"creator_name"`
-		CreatedAt   time.Time `db:"created_at"` // 创建时间
-		UpdatedAt   time.Time `db:"updated_at"` // 修改时间
-		DeletedAt   time.Time `db:"deleted_at"` // 删除时间
-		IsDel       int64     `db:"is_del"`
-		Version     int64     `db:"version"` // 版本号
+		Id        uint64    `db:"id"`         // 主键id
+		UserId    uint64    `db:"user_id"`    // 用户id
+		AuthorId  uint64    `db:"author_id"`  // 作者id
+		ArticleId uint64    `db:"article_id"` // 文章id
+		CreatedAt time.Time `db:"created_at"` // 创建时间
+		UpdatedAt time.Time `db:"updated_at"` // 修改时间
+		DeletedAt time.Time `db:"deleted_at"` // 删除时间
+		IsDel     int64     `db:"is_del"`
+		Version   int64     `db:"version"` // 版本号
 	}
 )
 
@@ -78,14 +78,15 @@ func newArticleFeedModel(conn sqlx.SqlConn, c cache.CacheConf) *defaultArticleFe
 func (m *defaultArticleFeedModel) Insert(ctx context.Context, session sqlx.Session, data *ArticleFeed) (sql.Result, error) {
 	data.DeletedAt = time.Unix(0, 0)
 	data.IsDel = globalKey.DelStateNo
+	qContentArticleFeedArticleIdUserIdKey := fmt.Sprintf("%s%v:%v", cacheQContentArticleFeedArticleIdUserIdPrefix, data.ArticleId, data.UserId)
 	qContentArticleFeedIdKey := fmt.Sprintf("%s%v", cacheQContentArticleFeedIdPrefix, data.Id)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, articleFeedRowsExpectAutoSet)
+		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?)", m.table, articleFeedRowsExpectAutoSet)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.Id, data.UserId, data.AuthorId, data.ArticleId, data.CreatorId, data.CreatorName, data.DeletedAt, data.IsDel, data.Version)
+			return session.ExecCtx(ctx, query, data.Id, data.UserId, data.AuthorId, data.ArticleId, data.DeletedAt, data.IsDel, data.Version)
 		}
-		return conn.ExecCtx(ctx, query, data.Id, data.UserId, data.AuthorId, data.ArticleId, data.CreatorId, data.CreatorName, data.DeletedAt, data.IsDel, data.Version)
-	}, qContentArticleFeedIdKey)
+		return conn.ExecCtx(ctx, query, data.Id, data.UserId, data.AuthorId, data.ArticleId, data.DeletedAt, data.IsDel, data.Version)
+	}, qContentArticleFeedArticleIdUserIdKey, qContentArticleFeedIdKey)
 }
 
 func (m *defaultArticleFeedModel) FindOne(ctx context.Context, id uint64) (*ArticleFeed, error) {
@@ -105,33 +106,63 @@ func (m *defaultArticleFeedModel) FindOne(ctx context.Context, id uint64) (*Arti
 	}
 }
 
-func (m *defaultArticleFeedModel) Update(ctx context.Context, session sqlx.Session, data *ArticleFeed) (sql.Result, error) {
+func (m *defaultArticleFeedModel) FindOneByArticleIdUserId(ctx context.Context, articleId uint64, userId uint64) (*ArticleFeed, error) {
+	qContentArticleFeedArticleIdUserIdKey := fmt.Sprintf("%s%v:%v", cacheQContentArticleFeedArticleIdUserIdPrefix, articleId, userId)
+	var resp ArticleFeed
+	err := m.QueryRowIndexCtx(ctx, &resp, qContentArticleFeedArticleIdUserIdKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v interface{}) (i interface{}, e error) {
+		query := fmt.Sprintf("select %s from %s where `article_id` = ? and `user_id` = ? and is_del = ? limit 1", articleFeedRows, m.table)
+		if err := conn.QueryRowCtx(ctx, &resp, query, articleId, userId, globalKey.DelStateNo); err != nil {
+			return nil, err
+		}
+		return resp.Id, nil
+	}, m.queryPrimary)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
+func (m *defaultArticleFeedModel) Update(ctx context.Context, session sqlx.Session, newData *ArticleFeed) (sql.Result, error) {
+	data, err := m.FindOne(ctx, newData.Id)
+	if err != nil {
+		return nil, err
+	}
+	qContentArticleFeedArticleIdUserIdKey := fmt.Sprintf("%s%v:%v", cacheQContentArticleFeedArticleIdUserIdPrefix, data.ArticleId, data.UserId)
 	qContentArticleFeedIdKey := fmt.Sprintf("%s%v", cacheQContentArticleFeedIdPrefix, data.Id)
 	return m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, articleFeedRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.UserId, data.AuthorId, data.ArticleId, data.CreatorId, data.CreatorName, data.DeletedAt, data.IsDel, data.Version, data.Id)
+			return session.ExecCtx(ctx, query, newData.UserId, newData.AuthorId, newData.ArticleId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
 		}
-		return conn.ExecCtx(ctx, query, data.UserId, data.AuthorId, data.ArticleId, data.CreatorId, data.CreatorName, data.DeletedAt, data.IsDel, data.Version, data.Id)
-	}, qContentArticleFeedIdKey)
+		return conn.ExecCtx(ctx, query, newData.UserId, newData.AuthorId, newData.ArticleId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id)
+	}, qContentArticleFeedArticleIdUserIdKey, qContentArticleFeedIdKey)
 }
 
-func (m *defaultArticleFeedModel) UpdateWithVersion(ctx context.Context, session sqlx.Session, data *ArticleFeed) error {
+func (m *defaultArticleFeedModel) UpdateWithVersion(ctx context.Context, session sqlx.Session, newData *ArticleFeed) error {
 
-	oldVersion := data.Version
-	data.Version += 1
+	oldVersion := newData.Version
+	newData.Version += 1
 
 	var sqlResult sql.Result
 	var err error
 
+	data, err := m.FindOne(ctx, newData.Id)
+	if err != nil {
+		return err
+	}
+	qContentArticleFeedArticleIdUserIdKey := fmt.Sprintf("%s%v:%v", cacheQContentArticleFeedArticleIdUserIdPrefix, data.ArticleId, data.UserId)
 	qContentArticleFeedIdKey := fmt.Sprintf("%s%v", cacheQContentArticleFeedIdPrefix, data.Id)
 	sqlResult, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, articleFeedRowsWithPlaceHolder)
 		if session != nil {
-			return session.ExecCtx(ctx, query, data.UserId, data.AuthorId, data.ArticleId, data.CreatorId, data.CreatorName, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+			return session.ExecCtx(ctx, query, newData.UserId, newData.AuthorId, newData.ArticleId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
 		}
-		return conn.ExecCtx(ctx, query, data.UserId, data.AuthorId, data.ArticleId, data.CreatorId, data.CreatorName, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
-	}, qContentArticleFeedIdKey)
+		return conn.ExecCtx(ctx, query, newData.UserId, newData.AuthorId, newData.ArticleId, newData.DeletedAt, newData.IsDel, newData.Version, newData.Id, oldVersion)
+	}, qContentArticleFeedArticleIdUserIdKey, qContentArticleFeedIdKey)
 	if err != nil {
 		return err
 	}
@@ -349,14 +380,20 @@ func (m *defaultArticleFeedModel) SelectBuilder() squirrel.SelectBuilder {
 	return squirrel.Select().From(m.table)
 }
 func (m *defaultArticleFeedModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
+	data, err := m.FindOne(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	qContentArticleFeedArticleIdUserIdKey := fmt.Sprintf("%s%v:%v", cacheQContentArticleFeedArticleIdUserIdPrefix, data.ArticleId, data.UserId)
 	qContentArticleFeedIdKey := fmt.Sprintf("%s%v", cacheQContentArticleFeedIdPrefix, id)
-	_, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+	_, err = m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		query := fmt.Sprintf("delete from %s where `id` = ?", m.table)
 		if session != nil {
 			return session.ExecCtx(ctx, query, id)
 		}
 		return conn.ExecCtx(ctx, query, id)
-	}, qContentArticleFeedIdKey)
+	}, qContentArticleFeedArticleIdUserIdKey, qContentArticleFeedIdKey)
 	return err
 }
 func (m *defaultArticleFeedModel) formatPrimary(primary interface{}) string {

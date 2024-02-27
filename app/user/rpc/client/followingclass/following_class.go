@@ -39,6 +39,8 @@ type (
 	GenerateCaptchaResp      = user.GenerateCaptchaResp
 	GetBlackListReq          = user.GetBlackListReq
 	GetBlackListResp         = user.GetBlackListResp
+	GetFollowingDetailReq    = user.GetFollowingDetailReq
+	GetFollowingDetailResp   = user.GetFollowingDetailResp
 	GetFollowingListReq      = user.GetFollowingListReq
 	GetFollowingListResp     = user.GetFollowingListResp
 	GetRoleInfoReq           = user.GetRoleInfoReq
@@ -53,6 +55,7 @@ type (
 	LoginResp                = user.LoginResp
 	LogoutReq                = user.LogoutReq
 	LogoutResp               = user.LogoutResp
+	OkResp                   = user.OkResp
 	RegisterReq              = user.RegisterReq
 	RegisterResp             = user.RegisterResp
 	RoleItem                 = user.RoleItem
@@ -75,13 +78,10 @@ type (
 	VerifyRegisterCodeResp   = user.VerifyRegisterCodeResp
 
 	FollowingClass interface {
-		// group: following
 		AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error)
-		// group: following
 		DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error)
-		// group: following
 		GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error)
-		// group: following
+		GetFollowingDetail(ctx context.Context, in *GetFollowingDetailReq, opts ...grpc.CallOption) (*GetFollowingDetailResp, error)
 		CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error)
 	}
 
@@ -96,25 +96,26 @@ func NewFollowingClass(cli zrpc.Client) FollowingClass {
 	}
 }
 
-// group: following
 func (m *defaultFollowingClass) AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error) {
 	client := user.NewFollowingClassClient(m.cli.Conn())
 	return client.AddFollowing(ctx, in, opts...)
 }
 
-// group: following
 func (m *defaultFollowingClass) DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error) {
 	client := user.NewFollowingClassClient(m.cli.Conn())
 	return client.DeleteFollowing(ctx, in, opts...)
 }
 
-// group: following
 func (m *defaultFollowingClass) GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error) {
 	client := user.NewFollowingClassClient(m.cli.Conn())
 	return client.GetFollowingList(ctx, in, opts...)
 }
 
-// group: following
+func (m *defaultFollowingClass) GetFollowingDetail(ctx context.Context, in *GetFollowingDetailReq, opts ...grpc.CallOption) (*GetFollowingDetailResp, error) {
+	client := user.NewFollowingClassClient(m.cli.Conn())
+	return client.GetFollowingDetail(ctx, in, opts...)
+}
+
 func (m *defaultFollowingClass) CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error) {
 	client := user.NewFollowingClassClient(m.cli.Conn())
 	return client.CheckFollowing(ctx, in, opts...)

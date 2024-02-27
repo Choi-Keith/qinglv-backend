@@ -56,3 +56,18 @@ func (s *PostClassServer) GetPostContentByPostId(ctx context.Context, in *conten
 	l := postclasslogic.NewGetPostContentByPostIdLogic(ctx, s.svcCtx)
 	return l.GetPostContentByPostId(in)
 }
+
+func (s *PostClassServer) ScanPostByUser(ctx context.Context, in *content.ScanPostByUserReq) (*content.OkResp, error) {
+	l := postclasslogic.NewScanPostByUserLogic(ctx, s.svcCtx)
+	return l.ScanPostByUser(in)
+}
+
+func (s *PostClassServer) AddPostFeed(ctx context.Context, in *content.AddPostFeedReq) (*content.OkResp, error) {
+	l := postclasslogic.NewAddPostFeedLogic(ctx, s.svcCtx)
+	return l.AddPostFeed(in)
+}
+
+func (s *PostClassServer) DeletePostFeedByIds(ctx context.Context, in *content.DeletePostFeedByIdsReq) (*content.OkResp, error) {
+	l := postclasslogic.NewDeletePostFeedByIdsLogic(ctx, s.svcCtx)
+	return l.DeletePostFeedByIds(in)
+}

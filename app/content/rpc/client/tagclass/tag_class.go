@@ -13,19 +13,23 @@ import (
 )
 
 type (
+	AddArticleFeedReq           = content.AddArticleFeedReq
 	AddArticleReq               = content.AddArticleReq
 	AddCategoryReq              = content.AddCategoryReq
 	AddMediaFileReq             = content.AddMediaFileReq
 	AddPostContentReq           = content.AddPostContentReq
+	AddPostFeedReq              = content.AddPostFeedReq
 	AddPostReq                  = content.AddPostReq
 	AddTagReq                   = content.AddTagReq
 	AddTopicReq                 = content.AddTopicReq
 	ArticleContentItem          = content.ArticleContentItem
 	ArticleItem                 = content.ArticleItem
 	CategoryItem                = content.CategoryItem
+	DeleteArticleFeedByIdsReq   = content.DeleteArticleFeedByIdsReq
 	DeleteArticleReq            = content.DeleteArticleReq
 	DeleteCategoryReq           = content.DeleteCategoryReq
 	DeleteMediaFileReq          = content.DeleteMediaFileReq
+	DeletePostFeedByIdsReq      = content.DeletePostFeedByIdsReq
 	DeletePostReq               = content.DeletePostReq
 	DeleteTagReq                = content.DeleteTagReq
 	DeleteTopicReq              = content.DeleteTopicReq
@@ -69,6 +73,8 @@ type (
 	OkResp                      = content.OkResp
 	PostContentItem             = content.PostContentItem
 	PostItem                    = content.PostItem
+	ScanArticleByUserIdReq      = content.ScanArticleByUserIdReq
+	ScanPostByUserReq           = content.ScanPostByUserReq
 	TagItem                     = content.TagItem
 	TopicItem                   = content.TopicItem
 	UpdateArticleContentReq     = content.UpdateArticleContentReq

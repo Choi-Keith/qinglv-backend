@@ -979,23 +979,21 @@ var UserClass_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	FollowingClass_AddFollowing_FullMethodName     = "/user.FollowingClass/AddFollowing"
-	FollowingClass_DeleteFollowing_FullMethodName  = "/user.FollowingClass/DeleteFollowing"
-	FollowingClass_GetFollowingList_FullMethodName = "/user.FollowingClass/GetFollowingList"
-	FollowingClass_CheckFollowing_FullMethodName   = "/user.FollowingClass/CheckFollowing"
+	FollowingClass_AddFollowing_FullMethodName       = "/user.FollowingClass/AddFollowing"
+	FollowingClass_DeleteFollowing_FullMethodName    = "/user.FollowingClass/DeleteFollowing"
+	FollowingClass_GetFollowingList_FullMethodName   = "/user.FollowingClass/GetFollowingList"
+	FollowingClass_GetFollowingDetail_FullMethodName = "/user.FollowingClass/GetFollowingDetail"
+	FollowingClass_CheckFollowing_FullMethodName     = "/user.FollowingClass/CheckFollowing"
 )
 
 // FollowingClassClient is the client API for FollowingClass service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FollowingClassClient interface {
-	// group: following
 	AddFollowing(ctx context.Context, in *AddFollowingReq, opts ...grpc.CallOption) (*AddFollowingResp, error)
-	// group: following
 	DeleteFollowing(ctx context.Context, in *DeleteFollowingReq, opts ...grpc.CallOption) (*DeleteFollowingResp, error)
-	// group: following
 	GetFollowingList(ctx context.Context, in *GetFollowingListReq, opts ...grpc.CallOption) (*GetFollowingListResp, error)
-	// group: following
+	GetFollowingDetail(ctx context.Context, in *GetFollowingDetailReq, opts ...grpc.CallOption) (*GetFollowingDetailResp, error)
 	CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error)
 }
 
@@ -1034,6 +1032,15 @@ func (c *followingClassClient) GetFollowingList(ctx context.Context, in *GetFoll
 	return out, nil
 }
 
+func (c *followingClassClient) GetFollowingDetail(ctx context.Context, in *GetFollowingDetailReq, opts ...grpc.CallOption) (*GetFollowingDetailResp, error) {
+	out := new(GetFollowingDetailResp)
+	err := c.cc.Invoke(ctx, FollowingClass_GetFollowingDetail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *followingClassClient) CheckFollowing(ctx context.Context, in *CheckFollowingReq, opts ...grpc.CallOption) (*CheckFollowingResp, error) {
 	out := new(CheckFollowingResp)
 	err := c.cc.Invoke(ctx, FollowingClass_CheckFollowing_FullMethodName, in, out, opts...)
@@ -1047,13 +1054,10 @@ func (c *followingClassClient) CheckFollowing(ctx context.Context, in *CheckFoll
 // All implementations must embed UnimplementedFollowingClassServer
 // for forward compatibility
 type FollowingClassServer interface {
-	// group: following
 	AddFollowing(context.Context, *AddFollowingReq) (*AddFollowingResp, error)
-	// group: following
 	DeleteFollowing(context.Context, *DeleteFollowingReq) (*DeleteFollowingResp, error)
-	// group: following
 	GetFollowingList(context.Context, *GetFollowingListReq) (*GetFollowingListResp, error)
-	// group: following
+	GetFollowingDetail(context.Context, *GetFollowingDetailReq) (*GetFollowingDetailResp, error)
 	CheckFollowing(context.Context, *CheckFollowingReq) (*CheckFollowingResp, error)
 	mustEmbedUnimplementedFollowingClassServer()
 }
@@ -1070,6 +1074,9 @@ func (UnimplementedFollowingClassServer) DeleteFollowing(context.Context, *Delet
 }
 func (UnimplementedFollowingClassServer) GetFollowingList(context.Context, *GetFollowingListReq) (*GetFollowingListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingList not implemented")
+}
+func (UnimplementedFollowingClassServer) GetFollowingDetail(context.Context, *GetFollowingDetailReq) (*GetFollowingDetailResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFollowingDetail not implemented")
 }
 func (UnimplementedFollowingClassServer) CheckFollowing(context.Context, *CheckFollowingReq) (*CheckFollowingResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckFollowing not implemented")
@@ -1141,6 +1148,24 @@ func _FollowingClass_GetFollowingList_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FollowingClass_GetFollowingDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFollowingDetailReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FollowingClassServer).GetFollowingDetail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FollowingClass_GetFollowingDetail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FollowingClassServer).GetFollowingDetail(ctx, req.(*GetFollowingDetailReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _FollowingClass_CheckFollowing_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CheckFollowingReq)
 	if err := dec(in); err != nil {
@@ -1177,6 +1202,10 @@ var FollowingClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetFollowingList",
 			Handler:    _FollowingClass_GetFollowingList_Handler,
+		},
+		{
+			MethodName: "GetFollowingDetail",
+			Handler:    _FollowingClass_GetFollowingDetail_Handler,
 		},
 		{
 			MethodName: "CheckFollowing",

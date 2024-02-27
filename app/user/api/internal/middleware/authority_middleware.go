@@ -11,6 +11,8 @@ import (
 	"qinglv-backend/common/response"
 	"qinglv-backend/pkg/jwtx"
 	"strings"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type AuthorityMiddleware struct {
@@ -42,6 +44,7 @@ func (m *AuthorityMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 		tokenString := strings.Split(r.Header.Get("Authorization"), " ")[1]
+		logx.Debugf("[middleware] userId: %d, tokenString:%s, tokenResp.Token:%s\n", tokenMap["userId"], tokenString, tokenResp.Token)
 		if strings.Compare(tokenResp.Token, tokenString) != 0 {
 			response.FailCodeMsg(w, http.StatusUnauthorized, errors.New("请重新登录"))
 			return

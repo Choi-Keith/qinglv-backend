@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"qinglv-backend/app/content/rpc/content"
-	"qinglv-backend/app/content/rpc/internal/model/post_content"
+	"qinglv-backend/app/content/rpc/internal/model/post"
 	"qinglv-backend/app/content/rpc/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -35,7 +35,7 @@ func (l *AddPostContentLogic) AddPostContent(in *content.AddPostContentReq) (*co
 		return nil, err
 	}
 	logx.Debugf("[Post] AddPostcontent images: %+v\n", images)
-	_, err = l.svcCtx.PostContentModel.Insert(l.ctx, nil, &post_content.PostContent{
+	_, err = l.svcCtx.PostContentModel.Insert(l.ctx, nil, &post.PostContent{
 		Id:         in.Id,
 		PostId:     in.PostId,
 		CreatorId:  in.CreatorId,

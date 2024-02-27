@@ -56,3 +56,18 @@ func (s *ArticleClassServer) GetArticleContentByArticleId(ctx context.Context, i
 	l := articleclasslogic.NewGetArticleContentByArticleIdLogic(ctx, s.svcCtx)
 	return l.GetArticleContentByArticleId(in)
 }
+
+func (s *ArticleClassServer) ScanArticleByUserId(ctx context.Context, in *content.ScanArticleByUserIdReq) (*content.OkResp, error) {
+	l := articleclasslogic.NewScanArticleByUserIdLogic(ctx, s.svcCtx)
+	return l.ScanArticleByUserId(in)
+}
+
+func (s *ArticleClassServer) AddArticleFeed(ctx context.Context, in *content.AddArticleFeedReq) (*content.OkResp, error) {
+	l := articleclasslogic.NewAddArticleFeedLogic(ctx, s.svcCtx)
+	return l.AddArticleFeed(in)
+}
+
+func (s *ArticleClassServer) DeleteArticleFeedByIds(ctx context.Context, in *content.DeleteArticleFeedByIdsReq) (*content.OkResp, error) {
+	l := articleclasslogic.NewDeleteArticleFeedByIdsLogic(ctx, s.svcCtx)
+	return l.DeleteArticleFeedByIds(in)
+}

@@ -22,25 +22,21 @@ func NewMediaFileClassServer(svcCtx *svc.ServiceContext) *MediaFileClassServer {
 	}
 }
 
-// group: mediaFile
 func (s *MediaFileClassServer) AddMediaFile(ctx context.Context, in *content.AddMediaFileReq) (*content.OkResp, error) {
 	l := mediafileclasslogic.NewAddMediaFileLogic(ctx, s.svcCtx)
 	return l.AddMediaFile(in)
 }
 
-// group: mediaFile
 func (s *MediaFileClassServer) DeleteMediaFile(ctx context.Context, in *content.DeleteMediaFileReq) (*content.OkResp, error) {
 	l := mediafileclasslogic.NewDeleteMediaFileLogic(ctx, s.svcCtx)
 	return l.DeleteMediaFile(in)
 }
 
-// group: mediaFile
 func (s *MediaFileClassServer) GetMediaFileByContent(ctx context.Context, in *content.GetMediaFileByContentReq) (*content.GetMediaFileByContentResp, error) {
 	l := mediafileclasslogic.NewGetMediaFileByContentLogic(ctx, s.svcCtx)
 	return l.GetMediaFileByContent(in)
 }
 
-// group: mediaFile
 func (s *MediaFileClassServer) GetMediaFileList(ctx context.Context, in *content.GetMediaFileListReq) (*content.GetMediaFileListResp, error) {
 	l := mediafileclasslogic.NewGetMediaFileListLogic(ctx, s.svcCtx)
 	return l.GetMediaFileList(in)

@@ -39,6 +39,8 @@ type (
 	GenerateCaptchaResp      = user.GenerateCaptchaResp
 	GetBlackListReq          = user.GetBlackListReq
 	GetBlackListResp         = user.GetBlackListResp
+	GetFollowingDetailReq    = user.GetFollowingDetailReq
+	GetFollowingDetailResp   = user.GetFollowingDetailResp
 	GetFollowingListReq      = user.GetFollowingListReq
 	GetFollowingListResp     = user.GetFollowingListResp
 	GetRoleInfoReq           = user.GetRoleInfoReq
@@ -53,6 +55,7 @@ type (
 	LoginResp                = user.LoginResp
 	LogoutReq                = user.LogoutReq
 	LogoutResp               = user.LogoutResp
+	OkResp                   = user.OkResp
 	RegisterReq              = user.RegisterReq
 	RegisterResp             = user.RegisterResp
 	RoleItem                 = user.RoleItem

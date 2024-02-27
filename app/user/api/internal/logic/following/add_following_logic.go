@@ -8,6 +8,7 @@ import (
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
 	"qinglv-backend/app/user/rpc/user"
+	"qinglv-backend/pkg/event"
 	"qinglv-backend/pkg/snowflake"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -53,5 +54,9 @@ func (l *AddFollowingLogic) AddFollowing(req *types.AddFollowingReq) error {
 	if err != nil {
 		return err
 	}
+	event.Send(event.FollowEvent{
+		UserId:  uint64(userId),
+		OtherId: req.FollowingId,
+	})
 	return nil
 }

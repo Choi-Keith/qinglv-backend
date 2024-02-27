@@ -13,19 +13,23 @@ import (
 )
 
 type (
+	AddArticleFeedReq           = content.AddArticleFeedReq
 	AddArticleReq               = content.AddArticleReq
 	AddCategoryReq              = content.AddCategoryReq
 	AddMediaFileReq             = content.AddMediaFileReq
 	AddPostContentReq           = content.AddPostContentReq
+	AddPostFeedReq              = content.AddPostFeedReq
 	AddPostReq                  = content.AddPostReq
 	AddTagReq                   = content.AddTagReq
 	AddTopicReq                 = content.AddTopicReq
 	ArticleContentItem          = content.ArticleContentItem
 	ArticleItem                 = content.ArticleItem
 	CategoryItem                = content.CategoryItem
+	DeleteArticleFeedByIdsReq   = content.DeleteArticleFeedByIdsReq
 	DeleteArticleReq            = content.DeleteArticleReq
 	DeleteCategoryReq           = content.DeleteCategoryReq
 	DeleteMediaFileReq          = content.DeleteMediaFileReq
+	DeletePostFeedByIdsReq      = content.DeletePostFeedByIdsReq
 	DeletePostReq               = content.DeletePostReq
 	DeleteTagReq                = content.DeleteTagReq
 	DeleteTopicReq              = content.DeleteTopicReq
@@ -69,6 +73,8 @@ type (
 	OkResp                      = content.OkResp
 	PostContentItem             = content.PostContentItem
 	PostItem                    = content.PostItem
+	ScanArticleByUserIdReq      = content.ScanArticleByUserIdReq
+	ScanPostByUserReq           = content.ScanPostByUserReq
 	TagItem                     = content.TagItem
 	TopicItem                   = content.TopicItem
 	UpdateArticleContentReq     = content.UpdateArticleContentReq
@@ -79,13 +85,9 @@ type (
 	UpdateTopicReq              = content.UpdateTopicReq
 
 	MediaFileClass interface {
-		// group: mediaFile
 		AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: mediaFile
 		DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: mediaFile
 		GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error)
-		// group: mediaFile
 		GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error)
 	}
 
@@ -100,25 +102,21 @@ func NewMediaFileClass(cli zrpc.Client) MediaFileClass {
 	}
 }
 
-// group: mediaFile
 func (m *defaultMediaFileClass) AddMediaFile(ctx context.Context, in *AddMediaFileReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewMediaFileClassClient(m.cli.Conn())
 	return client.AddMediaFile(ctx, in, opts...)
 }
 
-// group: mediaFile
 func (m *defaultMediaFileClass) DeleteMediaFile(ctx context.Context, in *DeleteMediaFileReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewMediaFileClassClient(m.cli.Conn())
 	return client.DeleteMediaFile(ctx, in, opts...)
 }
 
-// group: mediaFile
 func (m *defaultMediaFileClass) GetMediaFileByContent(ctx context.Context, in *GetMediaFileByContentReq, opts ...grpc.CallOption) (*GetMediaFileByContentResp, error) {
 	client := content.NewMediaFileClassClient(m.cli.Conn())
 	return client.GetMediaFileByContent(ctx, in, opts...)
 }
 
-// group: mediaFile
 func (m *defaultMediaFileClass) GetMediaFileList(ctx context.Context, in *GetMediaFileListReq, opts ...grpc.CallOption) (*GetMediaFileListResp, error) {
 	client := content.NewMediaFileClassClient(m.cli.Conn())
 	return client.GetMediaFileList(ctx, in, opts...)

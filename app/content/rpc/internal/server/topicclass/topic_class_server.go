@@ -22,37 +22,31 @@ func NewTopicClassServer(svcCtx *svc.ServiceContext) *TopicClassServer {
 	}
 }
 
-// group: topic
 func (s *TopicClassServer) AddTopic(ctx context.Context, in *content.AddTopicReq) (*content.OkResp, error) {
 	l := topicclasslogic.NewAddTopicLogic(ctx, s.svcCtx)
 	return l.AddTopic(in)
 }
 
-// group: topic
 func (s *TopicClassServer) DeleteTopic(ctx context.Context, in *content.DeleteTopicReq) (*content.OkResp, error) {
 	l := topicclasslogic.NewDeleteTopicLogic(ctx, s.svcCtx)
 	return l.DeleteTopic(in)
 }
 
-// group: topic
 func (s *TopicClassServer) UpdateTopic(ctx context.Context, in *content.UpdateTopicReq) (*content.OkResp, error) {
 	l := topicclasslogic.NewUpdateTopicLogic(ctx, s.svcCtx)
 	return l.UpdateTopic(in)
 }
 
-// group: topic
 func (s *TopicClassServer) GetTopicById(ctx context.Context, in *content.GetTopicByIdReq) (*content.GetTopicByIdResp, error) {
 	l := topicclasslogic.NewGetTopicByIdLogic(ctx, s.svcCtx)
 	return l.GetTopicById(in)
 }
 
-// group: topic
 func (s *TopicClassServer) GetTopicByName(ctx context.Context, in *content.GetTopicByNameReq) (*content.GetTopicByNameResp, error) {
 	l := topicclasslogic.NewGetTopicByNameLogic(ctx, s.svcCtx)
 	return l.GetTopicByName(in)
 }
 
-// group: topic
 func (s *TopicClassServer) GetTopicList(ctx context.Context, in *content.GetTopicListReq) (*content.GetTopicListResp, error) {
 	l := topicclasslogic.NewGetTopicListLogic(ctx, s.svcCtx)
 	return l.GetTopicList(in)

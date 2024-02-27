@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"qinglv-backend/app/content/rpc/content"
-	postContentModel "qinglv-backend/app/content/rpc/internal/model/post_content"
+	postContentModel "qinglv-backend/app/content/rpc/internal/model/post"
 	"qinglv-backend/app/content/rpc/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"

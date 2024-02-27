@@ -5,6 +5,10 @@ option go_package="./user";
 
 message Empty{}
 
+message OkResp{
+  string pong = 1;
+}
+
 //===========================Email============================
 message VerifyRegisterCodeReq {
     string code = 1;
@@ -287,6 +291,12 @@ message GetFollowingListResp {
   uint64 total = 1;
   repeated FollowingItem data = 2;
 }
+message GetFollowingDetailReq {
+  uint64 id = 1;
+}
+message GetFollowingDetailResp {
+  FollowingItem data = 1;
+}
 message CheckFollowingReq {
   uint64 userId = 1;
   uint64 followingId = 2;
@@ -294,14 +304,12 @@ message CheckFollowingReq {
 message CheckFollowingResp {
   bool isFollowing = 1;
 }
+
 service FollowingClass {
-  // group: following
   rpc AddFollowing(AddFollowingReq) returns(AddFollowingResp);
-  // group: following
   rpc DeleteFollowing(DeleteFollowingReq) returns(DeleteFollowingResp);
-  // group: following
   rpc GetFollowingList(GetFollowingListReq) returns(GetFollowingListResp);
-  // group: following
+  rpc GetFollowingDetail(GetFollowingDetailReq) returns(GetFollowingDetailResp);
   rpc CheckFollowing(CheckFollowingReq) returns(CheckFollowingResp);
 }
 

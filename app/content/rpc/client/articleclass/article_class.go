@@ -13,19 +13,23 @@ import (
 )
 
 type (
+	AddArticleFeedReq           = content.AddArticleFeedReq
 	AddArticleReq               = content.AddArticleReq
 	AddCategoryReq              = content.AddCategoryReq
 	AddMediaFileReq             = content.AddMediaFileReq
 	AddPostContentReq           = content.AddPostContentReq
+	AddPostFeedReq              = content.AddPostFeedReq
 	AddPostReq                  = content.AddPostReq
 	AddTagReq                   = content.AddTagReq
 	AddTopicReq                 = content.AddTopicReq
 	ArticleContentItem          = content.ArticleContentItem
 	ArticleItem                 = content.ArticleItem
 	CategoryItem                = content.CategoryItem
+	DeleteArticleFeedByIdsReq   = content.DeleteArticleFeedByIdsReq
 	DeleteArticleReq            = content.DeleteArticleReq
 	DeleteCategoryReq           = content.DeleteCategoryReq
 	DeleteMediaFileReq          = content.DeleteMediaFileReq
+	DeletePostFeedByIdsReq      = content.DeletePostFeedByIdsReq
 	DeletePostReq               = content.DeletePostReq
 	DeleteTagReq                = content.DeleteTagReq
 	DeleteTopicReq              = content.DeleteTopicReq
@@ -69,6 +73,8 @@ type (
 	OkResp                      = content.OkResp
 	PostContentItem             = content.PostContentItem
 	PostItem                    = content.PostItem
+	ScanArticleByUserIdReq      = content.ScanArticleByUserIdReq
+	ScanPostByUserReq           = content.ScanPostByUserReq
 	TagItem                     = content.TagItem
 	TopicItem                   = content.TopicItem
 	UpdateArticleContentReq     = content.UpdateArticleContentReq
@@ -86,6 +92,9 @@ type (
 		GetArticleList(ctx context.Context, in *GetArticleListReq, opts ...grpc.CallOption) (*GetArticleListResp, error)
 		UpdateArticleContent(ctx context.Context, in *UpdateArticleContentReq, opts ...grpc.CallOption) (*OkResp, error)
 		GetArticleContentByArticleId(ctx context.Context, in *GetArticleContentDetailReq, opts ...grpc.CallOption) (*GetArticleContentDetailResp, error)
+		ScanArticleByUserId(ctx context.Context, in *ScanArticleByUserIdReq, opts ...grpc.CallOption) (*OkResp, error)
+		AddArticleFeed(ctx context.Context, in *AddArticleFeedReq, opts ...grpc.CallOption) (*OkResp, error)
+		DeleteArticleFeedByIds(ctx context.Context, in *DeleteArticleFeedByIdsReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultArticleClass struct {
@@ -132,4 +141,19 @@ func (m *defaultArticleClass) UpdateArticleContent(ctx context.Context, in *Upda
 func (m *defaultArticleClass) GetArticleContentByArticleId(ctx context.Context, in *GetArticleContentDetailReq, opts ...grpc.CallOption) (*GetArticleContentDetailResp, error) {
 	client := content.NewArticleClassClient(m.cli.Conn())
 	return client.GetArticleContentByArticleId(ctx, in, opts...)
+}
+
+func (m *defaultArticleClass) ScanArticleByUserId(ctx context.Context, in *ScanArticleByUserIdReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := content.NewArticleClassClient(m.cli.Conn())
+	return client.ScanArticleByUserId(ctx, in, opts...)
+}
+
+func (m *defaultArticleClass) AddArticleFeed(ctx context.Context, in *AddArticleFeedReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := content.NewArticleClassClient(m.cli.Conn())
+	return client.AddArticleFeed(ctx, in, opts...)
+}
+
+func (m *defaultArticleClass) DeleteArticleFeedByIds(ctx context.Context, in *DeleteArticleFeedByIdsReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := content.NewArticleClassClient(m.cli.Conn())
+	return client.DeleteArticleFeedByIds(ctx, in, opts...)
 }

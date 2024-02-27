@@ -12,6 +12,7 @@ import (
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/user/rpc/user"
+	"qinglv-backend/pkg/event"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
 
@@ -104,6 +105,10 @@ func (l *AddPostLogic) AddPost(req *types.AddPostReq, r *http.Request) error {
 			return err
 		}
 	}
+	event.Send(event.PostAddEvent{
+		FollowingId: uint64(userId),
+		PostId:      id,
+	})
 	return nil
 }
 

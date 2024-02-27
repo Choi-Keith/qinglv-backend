@@ -1,4 +1,4 @@
-package post_content
+package post
 
 import (
 	"github.com/zeromicro/go-zero/core/stores/cache"

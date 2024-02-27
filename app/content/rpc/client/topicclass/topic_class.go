@@ -13,19 +13,23 @@ import (
 )
 
 type (
+	AddArticleFeedReq           = content.AddArticleFeedReq
 	AddArticleReq               = content.AddArticleReq
 	AddCategoryReq              = content.AddCategoryReq
 	AddMediaFileReq             = content.AddMediaFileReq
 	AddPostContentReq           = content.AddPostContentReq
+	AddPostFeedReq              = content.AddPostFeedReq
 	AddPostReq                  = content.AddPostReq
 	AddTagReq                   = content.AddTagReq
 	AddTopicReq                 = content.AddTopicReq
 	ArticleContentItem          = content.ArticleContentItem
 	ArticleItem                 = content.ArticleItem
 	CategoryItem                = content.CategoryItem
+	DeleteArticleFeedByIdsReq   = content.DeleteArticleFeedByIdsReq
 	DeleteArticleReq            = content.DeleteArticleReq
 	DeleteCategoryReq           = content.DeleteCategoryReq
 	DeleteMediaFileReq          = content.DeleteMediaFileReq
+	DeletePostFeedByIdsReq      = content.DeletePostFeedByIdsReq
 	DeletePostReq               = content.DeletePostReq
 	DeleteTagReq                = content.DeleteTagReq
 	DeleteTopicReq              = content.DeleteTopicReq
@@ -69,6 +73,8 @@ type (
 	OkResp                      = content.OkResp
 	PostContentItem             = content.PostContentItem
 	PostItem                    = content.PostItem
+	ScanArticleByUserIdReq      = content.ScanArticleByUserIdReq
+	ScanPostByUserReq           = content.ScanPostByUserReq
 	TagItem                     = content.TagItem
 	TopicItem                   = content.TopicItem
 	UpdateArticleContentReq     = content.UpdateArticleContentReq
@@ -79,17 +85,11 @@ type (
 	UpdateTopicReq              = content.UpdateTopicReq
 
 	TopicClass interface {
-		// group: topic
 		AddTopic(ctx context.Context, in *AddTopicReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: topic
 		DeleteTopic(ctx context.Context, in *DeleteTopicReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: topic
 		UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error)
-		// group: topic
 		GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error)
-		// group: topic
 		GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error)
-		// group: topic
 		GetTopicList(ctx context.Context, in *GetTopicListReq, opts ...grpc.CallOption) (*GetTopicListResp, error)
 	}
 
@@ -104,37 +104,31 @@ func NewTopicClass(cli zrpc.Client) TopicClass {
 	}
 }
 
-// group: topic
 func (m *defaultTopicClass) AddTopic(ctx context.Context, in *AddTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewTopicClassClient(m.cli.Conn())
 	return client.AddTopic(ctx, in, opts...)
 }
 
-// group: topic
 func (m *defaultTopicClass) DeleteTopic(ctx context.Context, in *DeleteTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewTopicClassClient(m.cli.Conn())
 	return client.DeleteTopic(ctx, in, opts...)
 }
 
-// group: topic
 func (m *defaultTopicClass) UpdateTopic(ctx context.Context, in *UpdateTopicReq, opts ...grpc.CallOption) (*OkResp, error) {
 	client := content.NewTopicClassClient(m.cli.Conn())
 	return client.UpdateTopic(ctx, in, opts...)
 }
 
-// group: topic
 func (m *defaultTopicClass) GetTopicById(ctx context.Context, in *GetTopicByIdReq, opts ...grpc.CallOption) (*GetTopicByIdResp, error) {
 	client := content.NewTopicClassClient(m.cli.Conn())
 	return client.GetTopicById(ctx, in, opts...)
 }
 
-// group: topic
 func (m *defaultTopicClass) GetTopicByName(ctx context.Context, in *GetTopicByNameReq, opts ...grpc.CallOption) (*GetTopicByNameResp, error) {
 	client := content.NewTopicClassClient(m.cli.Conn())
 	return client.GetTopicByName(ctx, in, opts...)
 }
 
-// group: topic
 func (m *defaultTopicClass) GetTopicList(ctx context.Context, in *GetTopicListReq, opts ...grpc.CallOption) (*GetTopicListResp, error) {
 	client := content.NewTopicClassClient(m.cli.Conn())
 	return client.GetTopicList(ctx, in, opts...)

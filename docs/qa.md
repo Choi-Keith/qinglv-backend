@@ -16,3 +16,8 @@ return uint64(uid.(float64)), nil
 userId, err := l.ctx.Value("userId").(json.Number).Int64()
 
 ```
+
+## 在将int64数字类型unmarshal 转化为interface{} 的时候，默认会先使用浮点数转换，这样，可能会丢失精度
+解决的方法是将int64类型转为string类型后存到interface{}中，取的时候再用strconv.ParseUint(tokenId, 10, 64), 见pkg下的jwt包
+
+## 可不可以服务A引用服务B, 服务B引用服务A 

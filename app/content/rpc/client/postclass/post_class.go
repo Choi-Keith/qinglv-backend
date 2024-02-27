@@ -13,19 +13,23 @@ import (
 )
 
 type (
+	AddArticleFeedReq           = content.AddArticleFeedReq
 	AddArticleReq               = content.AddArticleReq
 	AddCategoryReq              = content.AddCategoryReq
 	AddMediaFileReq             = content.AddMediaFileReq
 	AddPostContentReq           = content.AddPostContentReq
+	AddPostFeedReq              = content.AddPostFeedReq
 	AddPostReq                  = content.AddPostReq
 	AddTagReq                   = content.AddTagReq
 	AddTopicReq                 = content.AddTopicReq
 	ArticleContentItem          = content.ArticleContentItem
 	ArticleItem                 = content.ArticleItem
 	CategoryItem                = content.CategoryItem
+	DeleteArticleFeedByIdsReq   = content.DeleteArticleFeedByIdsReq
 	DeleteArticleReq            = content.DeleteArticleReq
 	DeleteCategoryReq           = content.DeleteCategoryReq
 	DeleteMediaFileReq          = content.DeleteMediaFileReq
+	DeletePostFeedByIdsReq      = content.DeletePostFeedByIdsReq
 	DeletePostReq               = content.DeletePostReq
 	DeleteTagReq                = content.DeleteTagReq
 	DeleteTopicReq              = content.DeleteTopicReq
@@ -69,6 +73,8 @@ type (
 	OkResp                      = content.OkResp
 	PostContentItem             = content.PostContentItem
 	PostItem                    = content.PostItem
+	ScanArticleByUserIdReq      = content.ScanArticleByUserIdReq
+	ScanPostByUserReq           = content.ScanPostByUserReq
 	TagItem                     = content.TagItem
 	TopicItem                   = content.TopicItem
 	UpdateArticleContentReq     = content.UpdateArticleContentReq
@@ -86,6 +92,9 @@ type (
 		GetPostList(ctx context.Context, in *GetPostListReq, opts ...grpc.CallOption) (*GetPostListResp, error)
 		AddPostContent(ctx context.Context, in *AddPostContentReq, opts ...grpc.CallOption) (*OkResp, error)
 		GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error)
+		ScanPostByUser(ctx context.Context, in *ScanPostByUserReq, opts ...grpc.CallOption) (*OkResp, error)
+		AddPostFeed(ctx context.Context, in *AddPostFeedReq, opts ...grpc.CallOption) (*OkResp, error)
+		DeletePostFeedByIds(ctx context.Context, in *DeletePostFeedByIdsReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultPostClass struct {
@@ -132,4 +141,19 @@ func (m *defaultPostClass) AddPostContent(ctx context.Context, in *AddPostConten
 func (m *defaultPostClass) GetPostContentByPostId(ctx context.Context, in *GetPostContentDetailReq, opts ...grpc.CallOption) (*GetPostContentDetailResp, error) {
 	client := content.NewPostClassClient(m.cli.Conn())
 	return client.GetPostContentByPostId(ctx, in, opts...)
+}
+
+func (m *defaultPostClass) ScanPostByUser(ctx context.Context, in *ScanPostByUserReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := content.NewPostClassClient(m.cli.Conn())
+	return client.ScanPostByUser(ctx, in, opts...)
+}
+
+func (m *defaultPostClass) AddPostFeed(ctx context.Context, in *AddPostFeedReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := content.NewPostClassClient(m.cli.Conn())
+	return client.AddPostFeed(ctx, in, opts...)
+}
+
+func (m *defaultPostClass) DeletePostFeedByIds(ctx context.Context, in *DeletePostFeedByIdsReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := content.NewPostClassClient(m.cli.Conn())
+	return client.DeletePostFeedByIds(ctx, in, opts...)
 }

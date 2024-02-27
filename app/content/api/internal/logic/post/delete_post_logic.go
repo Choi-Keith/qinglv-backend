@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/content/api/internal/types"
 	"qinglv-backend/app/content/rpc/content"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/pkg/event"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -65,7 +66,10 @@ func (l *DeletePostLogic) DeletePost(req *types.DeletePostReq) error {
 	if err := l.checkAndDeletePostShare(req.Id); err != nil {
 		return err
 	}
-
+	event.Send(event.PostDeleteEvent{
+		FollowingId: postResp.Post.CreatorId,
+		PostId:      req.Id,
+	})
 	return nil
 }
 
