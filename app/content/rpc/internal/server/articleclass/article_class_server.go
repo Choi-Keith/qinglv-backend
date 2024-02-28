@@ -71,3 +71,8 @@ func (s *ArticleClassServer) DeleteArticleFeedByIds(ctx context.Context, in *con
 	l := articleclasslogic.NewDeleteArticleFeedByIdsLogic(ctx, s.svcCtx)
 	return l.DeleteArticleFeedByIds(in)
 }
+
+func (s *ArticleClassServer) GetArticleFeedList(ctx context.Context, in *content.GetArticleFeedListReq) (*content.GetArticleFeedListResp, error) {
+	l := articleclasslogic.NewGetArticleFeedListLogic(ctx, s.svcCtx)
+	return l.GetArticleFeedList(in)
+}

@@ -197,6 +197,14 @@ message GetPostListResp {
     repeated PostItem data = 1;
     uint64 total = 2;
 }
+message PostFeedItem {
+    uint64 id = 1;
+    uint64 userId = 2;
+    uint64 authorId = 3;
+    uint64 postId = 4;
+    uint64 createdAt = 5;
+    uint64 updatedAt = 6;
+}
 message ScanPostByUserReq {
     uint64 userId = 1;
     uint64 followingId = 2;
@@ -212,6 +220,17 @@ message DeletePostFeedByIdsReq {
     uint64 authorId = 2;
     uint64 postId = 3;
 }
+message GetPostFeedListReq {
+    uint64 userId = 1;
+    uint64 authorId = 2;
+    uint64 postId = 3;
+    uint64 pageNum = 4;
+    uint64 pageSize = 5;
+}
+message GetPostFeedListResp {
+    repeated PostFeedItem Data = 1;
+    uint64 total = 2;
+}
 service PostClass {
     rpc AddPost(AddPostReq) returns(OkResp);
     rpc DeletePost(DeletePostReq) returns(OkResp);
@@ -223,6 +242,7 @@ service PostClass {
     rpc ScanPostByUser(ScanPostByUserReq) returns(OkResp);
     rpc AddPostFeed(AddPostFeedReq) returns(OkResp);
     rpc DeletePostFeedByIds(DeletePostFeedByIdsReq) returns(OkResp);
+    rpc GetPostFeedList(GetPostFeedListReq) returns(GetPostFeedListResp);
 }
 
 
@@ -498,6 +518,14 @@ message ScanArticleByUserIdReq{
     uint64 userId = 1;
     uint64 followingId = 2;
 }
+message ArticleFeedItem {
+    uint64 id = 1;
+    uint64 userId = 2;
+    uint64 authorId = 3;
+    uint64 articleId = 4;
+    uint64 createdAt = 5;
+    uint64 updatedAt = 6;
+}
 message AddArticleFeedReq {
     uint64 id = 1;
     uint64 userId = 2;
@@ -508,6 +536,17 @@ message DeleteArticleFeedByIdsReq {
     uint64 userId = 1;
     uint64 authorId = 2;
     uint64 articleId = 3;
+}
+message GetArticleFeedListReq {
+    uint64 userId = 1;
+    uint64 authorId = 2;
+    uint64 articleId = 3;
+    uint64 pageNum = 4;
+    uint64 pageSize = 5;
+}
+message GetArticleFeedListResp {
+    repeated ArticleFeedItem data = 1;
+    uint64 total = 2;
 }
 service ArticleClass {
     rpc AddArticle(AddArticleReq) returns(OkResp);
@@ -520,4 +559,5 @@ service ArticleClass {
     rpc ScanArticleByUserId(ScanArticleByUserIdReq) returns(OkResp);
     rpc AddArticleFeed(AddArticleFeedReq) returns(OkResp);
     rpc DeleteArticleFeedByIds(DeleteArticleFeedByIdsReq) returns(OkResp);
+    rpc GetArticleFeedList(GetArticleFeedListReq) returns(GetArticleFeedListResp);
 }

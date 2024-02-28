@@ -56,6 +56,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/article/:id",
 					Handler: article.DeleteArticleHandler(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/article/following",
+					Handler: article.GetFollowingArticleListHandler(serverCtx),
+				},
 			}...,
 		),
 		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
@@ -137,6 +142,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodDelete,
 					Path:    "/post/:id",
 					Handler: post.DeletePostHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/post/following",
+					Handler: post.GetFollowingPostListHandler(serverCtx),
 				},
 			}...,
 		),

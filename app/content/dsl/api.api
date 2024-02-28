@@ -126,6 +126,12 @@ service content {
 	)
 	@handler deletePost
 	delete /post/:id (DeletePostReq)
+
+	@doc (
+		summary: "我关注的帖子列表"
+	)
+	@handler getFollowingPostList
+	get /post/following (GetPostListReq) returns (GetPostListResp)
 }
 
 // need login
@@ -235,5 +241,11 @@ service content {
 	)
 	@handler deleteArticle
 	delete /article/:id (DeleteArticleReq)
+
+	@doc (
+		summary: "我关注的文章列表"
+	)
+	@handler getFollowingArticleList
+	get /article/following (GetArticleListReq) returns (GetArticleListResp)
 }
 

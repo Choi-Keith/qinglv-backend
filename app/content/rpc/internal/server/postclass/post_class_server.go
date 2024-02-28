@@ -71,3 +71,8 @@ func (s *PostClassServer) DeletePostFeedByIds(ctx context.Context, in *content.D
 	l := postclasslogic.NewDeletePostFeedByIdsLogic(ctx, s.svcCtx)
 	return l.DeletePostFeedByIds(in)
 }
+
+func (s *PostClassServer) GetPostFeedList(ctx context.Context, in *content.GetPostFeedListReq) (*content.GetPostFeedListResp, error) {
+	l := postclasslogic.NewGetPostFeedListLogic(ctx, s.svcCtx)
+	return l.GetPostFeedList(in)
+}

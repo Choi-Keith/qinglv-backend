@@ -23,6 +23,7 @@ type (
 	AddTagReq                   = content.AddTagReq
 	AddTopicReq                 = content.AddTopicReq
 	ArticleContentItem          = content.ArticleContentItem
+	ArticleFeedItem             = content.ArticleFeedItem
 	ArticleItem                 = content.ArticleItem
 	CategoryItem                = content.CategoryItem
 	DeleteArticleFeedByIdsReq   = content.DeleteArticleFeedByIdsReq
@@ -39,6 +40,8 @@ type (
 	GetArticleContentListResp   = content.GetArticleContentListResp
 	GetArticleDetailReq         = content.GetArticleDetailReq
 	GetArticleDetailResp        = content.GetArticleDetailResp
+	GetArticleFeedListReq       = content.GetArticleFeedListReq
+	GetArticleFeedListResp      = content.GetArticleFeedListResp
 	GetArticleListReq           = content.GetArticleListReq
 	GetArticleListResp          = content.GetArticleListResp
 	GetCategoryDetailReq        = content.GetCategoryDetailReq
@@ -55,6 +58,8 @@ type (
 	GetPostContentListResp      = content.GetPostContentListResp
 	GetPostDetailReq            = content.GetPostDetailReq
 	GetPostDetailResp           = content.GetPostDetailResp
+	GetPostFeedListReq          = content.GetPostFeedListReq
+	GetPostFeedListResp         = content.GetPostFeedListResp
 	GetPostListReq              = content.GetPostListReq
 	GetPostListResp             = content.GetPostListResp
 	GetTagByIdReq               = content.GetTagByIdReq
@@ -72,6 +77,7 @@ type (
 	MediaFile                   = content.MediaFile
 	OkResp                      = content.OkResp
 	PostContentItem             = content.PostContentItem
+	PostFeedItem                = content.PostFeedItem
 	PostItem                    = content.PostItem
 	ScanArticleByUserIdReq      = content.ScanArticleByUserIdReq
 	ScanPostByUserReq           = content.ScanPostByUserReq
