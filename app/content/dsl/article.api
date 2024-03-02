@@ -9,7 +9,7 @@ info (
 )
 
 type ArticleUser {
-	Id          uint64 `json:"id"`
+	Id          uint64 `json:"id,string"`
 	IsFollowing bool   `json:"isFollowing"`
 	Nickname    string `json:"nickname"`
 	Motto       string `json:"motto"`

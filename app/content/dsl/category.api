@@ -9,7 +9,7 @@ info (
 )
 
 type CategoryUser {
-	Id         uint64 `json:"id"`
+	Id         uint64 `json:"id,string"`
 	Nickname   string `json:"nickname"`
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`

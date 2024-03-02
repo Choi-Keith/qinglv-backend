@@ -9,9 +9,8 @@ info (
 )
 
 type PostUser {
-	Id            uint64 `json:"id"`
+	Id            uint64 `json:"id,string"`
 	IsFollowing   bool   `json:"isFollowing"`
-	RoleId        uint64 `json:"roleId"`
 	Nickname      string `json:"nickname"`
 	Email         string `json:"-"`
 	WeChat        string `json:"-"`

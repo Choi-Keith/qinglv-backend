@@ -71,7 +71,7 @@ type ArticleItem struct {
 }
 
 type ArticleUser struct {
-	Id          uint64 `json:"id"`
+	Id          uint64 `json:"id,string"`
 	IsFollowing bool   `json:"isFollowing"`
 	Nickname    string `json:"nickname"`
 	Motto       string `json:"motto"`
@@ -95,7 +95,7 @@ type CategoryItem struct {
 }
 
 type CategoryUser struct {
-	Id         uint64 `json:"id"`
+	Id         uint64 `json:"id,string"`
 	Nickname   string `json:"nickname"`
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
@@ -321,9 +321,8 @@ type PostItem struct {
 }
 
 type PostUser struct {
-	Id            uint64 `json:"id"`
+	Id            uint64 `json:"id,string"`
 	IsFollowing   bool   `json:"isFollowing"`
-	RoleId        uint64 `json:"roleId"`
 	Nickname      string `json:"nickname"`
 	Email         string `json:"-"`
 	WeChat        string `json:"-"`
@@ -362,7 +361,7 @@ type TagItem struct {
 }
 
 type TagUser struct {
-	Id         uint64 `json:"id"`
+	Id         uint64 `json:"id,string"`
 	Nickname   string `json:"nickname"`
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
@@ -386,7 +385,7 @@ type TopicItem struct {
 }
 
 type TopicUser struct {
-	Id         uint64 `json:"id"`
+	Id         uint64 `json:"id,string"`
 	Nickname   string `json:"nickname"`
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
