@@ -4,6 +4,7 @@ import (
 	"user.api"
 	"following.api"
 	"blacklist.api"
+	"notify.api"
 )
 
 // no need login
@@ -156,5 +157,26 @@ service user {
 	@doc "是否黑名单"
 	@handler isBlackItem
 	get /blacklist/is (IsBlackItemReq) returns (IsBlackItemResp)
+}
+
+// need login
+@server (
+	prefix:     /user/v1
+	group:      notification
+	jwt:        JWTAuth
+	middleware: Authority
+)
+service user {
+	@doc "标记已读"
+	@handler readAllMessageReq
+	get /message/read/all (ReadAllMessageReq)
+
+	@doc "消息列表"
+	@handler getMessageList
+	get /message (GetMessageListReq) returns (GetMessageListResp)
+
+	@doc "消息条数"
+	@handler getUnreadMessageCount
+	get /message/unread/count returns (GetMessageCountResp)
 }
 

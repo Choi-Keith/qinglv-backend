@@ -64,11 +64,11 @@ type (
 
 type User {
 	Id            uint64 `json:"id"`
-	Role          Role   `json:"role"`
-	RoleId        uint64 `json:"roleId"`
+	Role          Role   `json:"-"`
+	RoleId        uint64 `json:"-"`
 	Nickname      string `json:"nickname"`
-	Email         string `json:"email"`
-	WeChat        string `json:"weChat"`
+	Email         string `json:"-"`
+	WeChat        string `json:"-"`
 	Motto         string `json:"motto"`
 	Avatar        string `json:"avatar"`
 	Profession    string `json:"profession"`

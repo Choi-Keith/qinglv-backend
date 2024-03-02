@@ -20,12 +20,12 @@ type BlackItemUser {
 }
 
 type BlackItem {
-	Id          uint64        `json:"id,string"`
-	BlackItemUser        BlackItemUser `json:"blackItemUser"`
-	UserId      uint64        `json:"userId,string"`
-	BlackItemId uint64        `json:"blackItemId,string"`
-	CreatedAt   uint64        `json:"createdAt"`
-	UpdatedAt   uint64        `json:"updatedAt"`
+	Id            uint64        `json:"id,string"`
+	BlackItemUser BlackItemUser `json:"blackItemUser"`
+	UserId        uint64        `json:"userId,string"`
+	BlackItemId   uint64        `json:"blackItemId,string"`
+	CreatedAt     uint64        `json:"createdAt"`
+	UpdatedAt     uint64        `json:"updatedAt"`
 }
 
 type AddBlackItemReq {

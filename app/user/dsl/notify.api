@@ -1,0 +1,65 @@
+syntax = "v1"
+
+info (
+	title:   "通知服务"
+	desc:    "包括评论通知、新增粉丝通知、点赞和收藏等通知"
+	author:  "choi"
+	email:   "1278028801@qq.com"
+	version: "v1"
+)
+
+type MessageUser {
+	Id         uint64 `json:"id,string"`
+	Nickname   string `json:"nickname"`
+	Motto      string `json:"motto"`
+	Avatar     string `json:"avatar"`
+	Profession string `json:"profession"`
+	Age        int    `json:"age,range=[0:120]"`
+	Gender     int    `json:"gender,options=[1,2],default=1"`
+	Level      int    `json:"level"`
+	Score      int    `json:"score"`
+}
+
+type MessageItem {
+	Id             uint64 `json:"id,string"`
+	SenderUserId   uint64 `json:"senderId,string"`
+	SenderUser     MessageUser
+	ReceiverUserId uint64 `json:"receiverId,string"`
+	CommentId      uint64 `json:"commentId,string"`
+	CommentContent string `json:"commentContent"`
+	Message        string `json:"message"`
+	ReplyId        uint64 `json:"replyId,string"`
+	ReplyContent   string `json:"replyContent"`
+	TargetId       uint64 `json:"targetId,string"`
+	TargetTitle    string `json:"targetTitle"`
+	Type           int32  `json:"type"`
+	IsRead         int32  `json:"isRead"`
+	CreatedAt      uint64 `json:"createdAt"`
+	UpdatedAt      uint64 `json:"updated"`
+}
+
+type ReadAllMessageReq {
+	Type int32 `json:"type,options=[1,2,3,4,5]"` // 1表示评论通知，2表示点赞和收藏通知，3表示新增粉丝通知，4表示系统通知
+}
+
+type (
+	GetMessageListReq {
+		Type     int32 `json:"type,options=[1,2,3,4,5]"` // 1表示评论通知，2表示点赞和收藏通知，3表示新增粉丝通知，4表示系统通知
+		PageNum  int   `form:"pageNum" validate:"required,gt=0"`
+		PageSize int   `form:"pageSize" validate:"required,gt=0"`
+	}
+	GetMessageListResp {
+		List  []MessageItem `json:"list"`
+		IsEnd bool          `json:"isEnd"`
+		Total uint64        `json:"total"`
+	}
+)
+
+type GetMessageCountResp {
+	Comment uint64 `json:"comment"`
+	Like    uint64 `json:"like"`
+	Follow  uint64 `json:"follow"`
+	Os      uint64 `json:"os"`
+	Total   uint64 `json:"total"`
+}
+

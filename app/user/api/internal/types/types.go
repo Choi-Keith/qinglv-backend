@@ -114,6 +114,26 @@ type FollowingListResp struct {
 	Total uint64      `json:"total"`
 }
 
+type GetMessageCountResp struct {
+	Comment uint64 `json:"comment"`
+	Like    uint64 `json:"like"`
+	Follow  uint64 `json:"follow"`
+	Os      uint64 `json:"os"`
+	Total   uint64 `json:"total"`
+}
+
+type GetMessageListReq struct {
+	Type     int32 `json:"type,options=[1,2,3,4,5]"` // 1表示评论通知，2表示点赞和收藏通知，3表示新增粉丝通知，4表示系统通知
+	PageNum  int   `form:"pageNum" validate:"required,gt=0"`
+	PageSize int   `form:"pageSize" validate:"required,gt=0"`
+}
+
+type GetMessageListResp struct {
+	List  []MessageItem `json:"list"`
+	IsEnd bool          `json:"isEnd"`
+	Total uint64        `json:"total"`
+}
+
 type IsBlackItemReq struct {
 	BlackId uint64 `form:"blackId,string"`
 }
@@ -148,10 +168,44 @@ type LoginResp struct {
 	ExpireAt     uint64 `json:"refreshAt"`
 }
 
+type MessageItem struct {
+	Id             uint64 `json:"id,string"`
+	SenderUserId   uint64 `json:"senderId,string"`
+	SenderUser     MessageUser
+	ReceiverUserId uint64 `json:"receiverId,string"`
+	CommentId      uint64 `json:"commentId,string"`
+	CommentContent string `json:"commentContent"`
+	Message        string `json:"message"`
+	ReplyId        uint64 `json:"replyId,string"`
+	ReplyContent   string `json:"replyContent"`
+	TargetId       uint64 `json:"targetId,string"`
+	TargetTitle    string `json:"targetTitle"`
+	Type           int32  `json:"type"`
+	IsRead         int32  `json:"isRead"`
+	CreatedAt      uint64 `json:"createdAt"`
+	UpdatedAt      uint64 `json:"updated"`
+}
+
+type MessageUser struct {
+	Id         uint64 `json:"id,string"`
+	Nickname   string `json:"nickname"`
+	Motto      string `json:"motto"`
+	Avatar     string `json:"avatar"`
+	Profession string `json:"profession"`
+	Age        int    `json:"age,range=[0:120]"`
+	Gender     int    `json:"gender,options=[1,2],default=1"`
+	Level      int    `json:"level"`
+	Score      int    `json:"score"`
+}
+
 type PasswordReq struct {
 	OldPassword string `json:"oldPassword" validate:"required,min=6,max=24"`
 	NewPassword string `json:"newPassword" validate:"required,min=6,max=24,nefield=OldPassword"`
 	RePassword  string `json:"rePassword" validate:"required,min=6,max=24,eqfield=NewPassword"`
+}
+
+type ReadAllMessageReq struct {
+	Type int32 `json:"type,options=[1,2,3,4,5]"` // 1表示评论通知，2表示点赞和收藏通知，3表示新增粉丝通知，4表示系统通知
 }
 
 type RegisterReq struct {
@@ -203,11 +257,11 @@ type UpdateUserReq struct {
 
 type User struct {
 	Id            uint64 `json:"id"`
-	Role          Role   `json:"role"`
-	RoleId        uint64 `json:"roleId"`
+	Role          Role   `json:"-"`
+	RoleId        uint64 `json:"-"`
 	Nickname      string `json:"nickname"`
-	Email         string `json:"email"`
-	WeChat        string `json:"weChat"`
+	Email         string `json:"-"`
+	WeChat        string `json:"-"`
 	Motto         string `json:"motto"`
 	Avatar        string `json:"avatar"`
 	Profession    string `json:"profession"`

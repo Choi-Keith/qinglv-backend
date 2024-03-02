@@ -6,6 +6,7 @@ import (
 
 	blacklist "qinglv-backend/app/user/api/internal/handler/blacklist"
 	following "qinglv-backend/app/user/api/internal/handler/following"
+	notification "qinglv-backend/app/user/api/internal/handler/notification"
 	role "qinglv-backend/app/user/api/internal/handler/role"
 	user "qinglv-backend/app/user/api/internal/handler/user"
 	"qinglv-backend/app/user/api/internal/svc"
@@ -72,6 +73,31 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/following/is",
 					Handler: following.IsFollowingHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/user/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/message",
+					Handler: notification.GetMessageListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/message/read/all",
+					Handler: notification.ReadAllMessageReqHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/message/unread/count",
+					Handler: notification.GetUnreadMessageCountHandler(serverCtx),
 				},
 			}...,
 		),

@@ -89,3 +89,78 @@ CREATE TABLE `blacklist` (
     PRIMARY KEY (`id`),
     KEY `idx_black_user` (`user_id`,`black_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '黑名单表';
+
+CREATE TABLE `comment_notify` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '消息通知Id',
+    `sender_user_id` bigint(20) unsigned NOT NULL COMMENT '发送方用户id',
+    `receiver_user_id` bigint(20) unsigned NOT NULL COMMENT '接收方用户id',
+    `comment_id` bigint(20) unsigned NOT NULL COMMENT '评论id',
+    `comment_content`  varchar(512) NOT NULL DEFAULT '' COMMENT '评论内容',
+    `reply_id` bigint(20) unsigned NOT NULL COMMENT '回复id',
+    `reply_content` varchar(512) NOT NULL DEFAULT '' COMMENT '回复内容',
+    `target_id` bigint(20) unsigned NOT NULL COMMENT '内容id,可能是文章或其它',
+    `target_title` varchar(60) NOT NULL DEFAULT '' COMMENT '内容标题,可能是文章或其它',
+    `type` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT '内容类型:1动态，2文章，3其它',
+    `is_read` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT '是否已读：0否，1是',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_comment_notify_is_read` (`is_read`) USING BTREE,
+    KEY `idx_comment_notify_receiver_user_id` (`receiver_user_id`) USING BTREE,
+    KEY `idx_comment_notify_target_id` (`target_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '评论通知';
+
+
+CREATE TABLE `like_notify` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '消息通知Id',
+    `sender_user_id` bigint(20) unsigned NOT NULL COMMENT '发送方用户id',
+    `receiver_user_id` bigint(20) unsigned NOT NULL COMMENT '接收方用户id',
+    `target_id` bigint(20) unsigned NOT NULL COMMENT '内容id,可能是文章或其它',
+    `type` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT '内容类型:1文章，2其它',
+    `is_read` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT '是否已读：0否，1是',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_like_notify_is_read` (`is_read`) USING BTREE,
+    KEY `idx_like_notify_receiver_user_id` (`receiver_user_id`) USING BTREE,
+    KEY `idx_like_notify_target_id` (`target_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '点赞和收藏通知';
+
+
+CREATE TABLE `follow_notify` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '消息通知Id',
+    `sender_user_id` bigint(20) unsigned NOT NULL COMMENT '发送方用户id',
+    `receiver_user_id` bigint(20) unsigned NOT NULL COMMENT '接收方用户id',
+    `is_read` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT '是否已读：0否，1是',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_follow_notify_is_read` (`is_read`) USING BTREE,
+    KEY `idx_follow_notify_receiver_user_id` (`receiver_user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '新增粉丝通知';
+
+
+CREATE TABLE `os_notify` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '消息通知Id',
+    `sender_user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '发送方用户id',
+    `receiver_user_id` bigint(20) unsigned NOT NULL DEFAULT 0 COMMENT '接收方用户id',
+    `message` varchar(512) NOT NULL DEFAULT '' COMMENT '消息内容', 
+    `is_read` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT '是否已读：0否，1是',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+    KEY `idx_os_notify_is_read` (`is_read`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '系统通知';
+
