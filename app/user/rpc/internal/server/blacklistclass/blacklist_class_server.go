@@ -22,25 +22,21 @@ func NewBlacklistClassServer(svcCtx *svc.ServiceContext) *BlacklistClassServer {
 	}
 }
 
-// group: blacklist
 func (s *BlacklistClassServer) AddBlackItem(ctx context.Context, in *user.AddBlackItemReq) (*user.AddBlackItemResp, error) {
 	l := blacklistclasslogic.NewAddBlackItemLogic(ctx, s.svcCtx)
 	return l.AddBlackItem(in)
 }
 
-// group: blacklist
 func (s *BlacklistClassServer) DeleteBlackItem(ctx context.Context, in *user.DeleteBlackItemReq) (*user.DeleteBlackItemResp, error) {
 	l := blacklistclasslogic.NewDeleteBlackItemLogic(ctx, s.svcCtx)
 	return l.DeleteBlackItem(in)
 }
 
-// group: blacklist
 func (s *BlacklistClassServer) GetBlackList(ctx context.Context, in *user.GetBlackListReq) (*user.GetBlackListResp, error) {
 	l := blacklistclasslogic.NewGetBlackListLogic(ctx, s.svcCtx)
 	return l.GetBlackList(in)
 }
 
-// group: blacklist
 func (s *BlacklistClassServer) CheckBlackItem(ctx context.Context, in *user.CheckBlackItemReq) (*user.CheckBlackItemResp, error) {
 	l := blacklistclasslogic.NewCheckBlackItemLogic(ctx, s.svcCtx)
 	return l.CheckBlackItem(in)

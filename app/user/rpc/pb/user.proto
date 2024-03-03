@@ -356,14 +356,74 @@ message CheckBlackItemResp {
   bool isBlackItem = 1;
 }
 service BlacklistClass {
-  // group: blacklist
   rpc AddBlackItem(AddBlackItemReq) returns(AddBlackItemResp);
-  // group: blacklist
   rpc DeleteBlackItem(DeleteBlackItemReq) returns(DeleteBlackItemResp);
-  // group: blacklist
   rpc GetBlackList(GetBlackListReq) returns(GetBlackListResp);
-  // group: blacklist
   rpc CheckBlackItem(CheckBlackItemReq) returns(CheckBlackItemResp);
 }
 
+// =================Notification=================
+message NotificationItem {
+  uint64 Id = 1;
+  uint64 senderUserId = 2;
+  uint64 receiverUserId = 3;
+  uint64 commentId = 4;
+  string commentContent = 5;
+  uint64 replyId = 6;
+  string replyContent = 7;
+  string message = 8;
+  uint64 targetId = 9;
+  string targetTitle = 10;
+  int32 bizType = 11;
+  int32 isRead = 12;
+  int32 actionType = 13;
+  uint64 CreatedAt = 14;
+  uint64 UpdatedAt = 15;
+}
 
+message AddNotificationReq {
+  uint64 Id = 1;
+  uint64 senderUserId = 2;
+  uint64 receiverUserId = 3;
+  uint64 commentId = 4;
+  string commentContent = 5;
+  uint64 replyId = 6;
+  string replyContent = 7;
+  string message = 8;
+  uint64 targetId = 9;
+  string targetTitle = 10;
+  int32 bizType = 11;
+  int32 isRead = 12;
+  int32 type = 13; // 1表示评论通知，2表示点赞和收藏通知，3表示新增粉丝通知，4表示系统通知
+  int32 actionType = 14; // 1点赞，2收藏，3分享
+}
+message SetAllReadNotificationReq {
+  int32 type = 1;  
+}
+message GetUnreadsNotificationCountReq{
+  uint64 receiverUserId = 1;
+}
+message GetUnreadsNotificationCountResp{
+  uint64 commentCount = 1;
+  uint64 followCount = 2;
+  uint64 likeCount = 3;
+  uint64 osCount = 4;
+  uint64 total = 5;
+}
+message GetNotificationListReq {
+  int32 type = 1;
+  uint64 receiverUserId = 2;
+  int64 pageNum = 3;
+  int64 pageSize = 4;
+}
+message GetNotificationListResp {
+  repeated NotificationItem data = 1;
+  uint64 total = 2;
+}
+
+service NotificationClass {
+  rpc AddNotification(AddNotificationReq) returns(OkResp);
+  rpc SetAllReadNotification(SetAllReadNotificationReq) returns(OkResp);
+  rpc GetUnreadsNotificationCount(GetUnreadsNotificationCountReq) returns(GetUnreadsNotificationCountResp);
+  rpc GetNotificationList(GetNotificationListReq) returns(GetNotificationListResp);
+}

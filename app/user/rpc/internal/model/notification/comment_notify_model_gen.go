@@ -60,7 +60,7 @@ type (
 		ReplyContent   string    `db:"reply_content"`    // 回复内容
 		TargetId       uint64    `db:"target_id"`        // 内容id,可能是文章或其它
 		TargetTitle    string    `db:"target_title"`     // 内容标题,可能是文章或其它
-		Type           uint64    `db:"type"`             // 内容类型:1动态，2文章，3其它
+		BizType        uint64    `db:"biz_type"`         // 内容类型:1动态，2文章，3其它
 		IsRead         uint64    `db:"is_read"`          // 是否已读：0否，1是
 		CreatedAt      time.Time `db:"created_at"`       // 创建时间
 		UpdatedAt      time.Time `db:"updated_at"`       // 修改时间
@@ -83,9 +83,9 @@ func (m *defaultCommentNotifyModel) Insert(ctx context.Context, session sqlx.Ses
 
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, commentNotifyRowsExpectAutoSet)
 	if session != nil {
-		return session.ExecCtx(ctx, query, data.Id, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.Type, data.IsRead, data.DeletedAt, data.IsDel, data.Version)
+		return session.ExecCtx(ctx, query, data.Id, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version)
 	}
-	return m.conn.ExecCtx(ctx, query, data.Id, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.Type, data.IsRead, data.DeletedAt, data.IsDel, data.Version)
+	return m.conn.ExecCtx(ctx, query, data.Id, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version)
 }
 
 func (m *defaultCommentNotifyModel) FindOne(ctx context.Context, id uint64) (*CommentNotify, error) {
@@ -105,9 +105,9 @@ func (m *defaultCommentNotifyModel) FindOne(ctx context.Context, id uint64) (*Co
 func (m *defaultCommentNotifyModel) Update(ctx context.Context, session sqlx.Session, data *CommentNotify) (sql.Result, error) {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, commentNotifyRowsWithPlaceHolder)
 	if session != nil {
-		return session.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.Type, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id)
+		return session.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id)
 	}
-	return m.conn.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.Type, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id)
+	return m.conn.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id)
 }
 
 func (m *defaultCommentNotifyModel) UpdateWithVersion(ctx context.Context, session sqlx.Session, data *CommentNotify) error {
@@ -120,9 +120,9 @@ func (m *defaultCommentNotifyModel) UpdateWithVersion(ctx context.Context, sessi
 
 	query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, commentNotifyRowsWithPlaceHolder)
 	if session != nil {
-		sqlResult, err = session.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.Type, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+		sqlResult, err = session.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 	} else {
-		sqlResult, err = m.conn.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.Type, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+		sqlResult, err = m.conn.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.CommentId, data.CommentContent, data.ReplyId, data.ReplyContent, data.TargetId, data.TargetTitle, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 	}
 
 	if err != nil {

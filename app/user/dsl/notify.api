@@ -32,7 +32,8 @@ type MessageItem {
 	ReplyContent   string `json:"replyContent"`
 	TargetId       uint64 `json:"targetId,string"`
 	TargetTitle    string `json:"targetTitle"`
-	Type           int32  `json:"type"`
+	BizType        int32  `json:"bizType"` // 1文章，2其它
+	ActionType     int32 `json:"actionType"` // 1点赞，2收藏，3分享
 	IsRead         int32  `json:"isRead"`
 	CreatedAt      uint64 `json:"createdAt"`
 	UpdatedAt      uint64 `json:"updated"`

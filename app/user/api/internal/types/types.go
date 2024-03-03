@@ -180,7 +180,7 @@ type MessageItem struct {
 	ReplyContent   string `json:"replyContent"`
 	TargetId       uint64 `json:"targetId,string"`
 	TargetTitle    string `json:"targetTitle"`
-	Type           int32  `json:"type"`
+	BizType        int32  `json:"bizType"`
 	IsRead         int32  `json:"isRead"`
 	CreatedAt      uint64 `json:"createdAt"`
 	UpdatedAt      uint64 `json:"updated"`

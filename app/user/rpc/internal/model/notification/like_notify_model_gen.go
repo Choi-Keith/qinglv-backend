@@ -55,7 +55,9 @@ type (
 		SenderUserId   uint64    `db:"sender_user_id"`   // 发送方用户id
 		ReceiverUserId uint64    `db:"receiver_user_id"` // 接收方用户id
 		TargetId       uint64    `db:"target_id"`        // 内容id,可能是文章或其它
+		TargetTitle    string    `db:"target_title"`     // 内容标题,可能是文章或其它
 		BizType        uint64    `db:"biz_type"`         // 内容类型:1文章，2其它
+		ActionType     uint64    `db:"action_type"`      // 动作类型:1点赞，2收藏，3分享
 		IsRead         uint64    `db:"is_read"`          // 是否已读：0否，1是
 		CreatedAt      time.Time `db:"created_at"`       // 创建时间
 		UpdatedAt      time.Time `db:"updated_at"`       // 修改时间
@@ -76,11 +78,11 @@ func (m *defaultLikeNotifyModel) Insert(ctx context.Context, session sqlx.Sessio
 	data.DeletedAt = time.Unix(0, 0)
 	data.IsDel = globalKey.DelStateNo
 
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, likeNotifyRowsExpectAutoSet)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, likeNotifyRowsExpectAutoSet)
 	if session != nil {
-		return session.ExecCtx(ctx, query, data.Id, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version)
+		return session.ExecCtx(ctx, query, data.Id, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.TargetTitle, data.BizType, data.ActionType, data.IsRead, data.DeletedAt, data.IsDel, data.Version)
 	}
-	return m.conn.ExecCtx(ctx, query, data.Id, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version)
+	return m.conn.ExecCtx(ctx, query, data.Id, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.TargetTitle, data.BizType, data.ActionType, data.IsRead, data.DeletedAt, data.IsDel, data.Version)
 }
 
 func (m *defaultLikeNotifyModel) FindOne(ctx context.Context, id uint64) (*LikeNotify, error) {
@@ -100,9 +102,9 @@ func (m *defaultLikeNotifyModel) FindOne(ctx context.Context, id uint64) (*LikeN
 func (m *defaultLikeNotifyModel) Update(ctx context.Context, session sqlx.Session, data *LikeNotify) (sql.Result, error) {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, likeNotifyRowsWithPlaceHolder)
 	if session != nil {
-		return session.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id)
+		return session.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.TargetTitle, data.BizType, data.ActionType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id)
 	}
-	return m.conn.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id)
+	return m.conn.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.TargetTitle, data.BizType, data.ActionType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id)
 }
 
 func (m *defaultLikeNotifyModel) UpdateWithVersion(ctx context.Context, session sqlx.Session, data *LikeNotify) error {
@@ -115,9 +117,9 @@ func (m *defaultLikeNotifyModel) UpdateWithVersion(ctx context.Context, session 
 
 	query := fmt.Sprintf("update %s set %s where `id` = ? and version = ? ", m.table, likeNotifyRowsWithPlaceHolder)
 	if session != nil {
-		sqlResult, err = session.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+		sqlResult, err = session.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.TargetTitle, data.BizType, data.ActionType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 	} else {
-		sqlResult, err = m.conn.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.BizType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
+		sqlResult, err = m.conn.ExecCtx(ctx, query, data.SenderUserId, data.ReceiverUserId, data.TargetId, data.TargetTitle, data.BizType, data.ActionType, data.IsRead, data.DeletedAt, data.IsDel, data.Version, data.Id, oldVersion)
 	}
 
 	if err != nil {

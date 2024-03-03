@@ -14,7 +14,7 @@ type (
 	// and implement the added methods in customFollowNotifyModel.
 	FollowNotifyModel interface {
 		followNotifyModel
-		UpdateAllUneads(ctx context.Context) error
+		UpdateAllUnreads(ctx context.Context) error
 	}
 
 	customFollowNotifyModel struct {
@@ -29,7 +29,7 @@ func NewFollowNotifyModel(conn sqlx.SqlConn) FollowNotifyModel {
 	}
 }
 
-func (m *defaultFollowNotifyModel) UpdateAllUneads(ctx context.Context) error {
+func (m *defaultFollowNotifyModel) UpdateAllUnreads(ctx context.Context) error {
 	query := fmt.Sprintf("update %s set %s where is_read=0", m.table, "is_read=?")
 	sqlResult, err := m.conn.ExecCtx(ctx, query, 1)
 	if err != nil {

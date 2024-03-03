@@ -1227,13 +1227,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BlacklistClassClient interface {
-	// group: blacklist
 	AddBlackItem(ctx context.Context, in *AddBlackItemReq, opts ...grpc.CallOption) (*AddBlackItemResp, error)
-	// group: blacklist
 	DeleteBlackItem(ctx context.Context, in *DeleteBlackItemReq, opts ...grpc.CallOption) (*DeleteBlackItemResp, error)
-	// group: blacklist
 	GetBlackList(ctx context.Context, in *GetBlackListReq, opts ...grpc.CallOption) (*GetBlackListResp, error)
-	// group: blacklist
 	CheckBlackItem(ctx context.Context, in *CheckBlackItemReq, opts ...grpc.CallOption) (*CheckBlackItemResp, error)
 }
 
@@ -1285,13 +1281,9 @@ func (c *blacklistClassClient) CheckBlackItem(ctx context.Context, in *CheckBlac
 // All implementations must embed UnimplementedBlacklistClassServer
 // for forward compatibility
 type BlacklistClassServer interface {
-	// group: blacklist
 	AddBlackItem(context.Context, *AddBlackItemReq) (*AddBlackItemResp, error)
-	// group: blacklist
 	DeleteBlackItem(context.Context, *DeleteBlackItemReq) (*DeleteBlackItemResp, error)
-	// group: blacklist
 	GetBlackList(context.Context, *GetBlackListReq) (*GetBlackListResp, error)
-	// group: blacklist
 	CheckBlackItem(context.Context, *CheckBlackItemReq) (*CheckBlackItemResp, error)
 	mustEmbedUnimplementedBlacklistClassServer()
 }
@@ -1419,6 +1411,207 @@ var BlacklistClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CheckBlackItem",
 			Handler:    _BlacklistClass_CheckBlackItem_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/user.proto",
+}
+
+const (
+	NotificationClass_AddNotification_FullMethodName             = "/user.NotificationClass/AddNotification"
+	NotificationClass_SetAllReadNotification_FullMethodName      = "/user.NotificationClass/SetAllReadNotification"
+	NotificationClass_GetUnreadsNotificationCount_FullMethodName = "/user.NotificationClass/GetUnreadsNotificationCount"
+	NotificationClass_GetNotificationList_FullMethodName         = "/user.NotificationClass/GetNotificationList"
+)
+
+// NotificationClassClient is the client API for NotificationClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type NotificationClassClient interface {
+	AddNotification(ctx context.Context, in *AddNotificationReq, opts ...grpc.CallOption) (*OkResp, error)
+	SetAllReadNotification(ctx context.Context, in *SetAllReadNotificationReq, opts ...grpc.CallOption) (*OkResp, error)
+	GetUnreadsNotificationCount(ctx context.Context, in *GetUnreadsNotificationCountReq, opts ...grpc.CallOption) (*GetUnreadsNotificationCountResp, error)
+	GetNotificationList(ctx context.Context, in *GetNotificationListReq, opts ...grpc.CallOption) (*GetNotificationListResp, error)
+}
+
+type notificationClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewNotificationClassClient(cc grpc.ClientConnInterface) NotificationClassClient {
+	return &notificationClassClient{cc}
+}
+
+func (c *notificationClassClient) AddNotification(ctx context.Context, in *AddNotificationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, NotificationClass_AddNotification_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *notificationClassClient) SetAllReadNotification(ctx context.Context, in *SetAllReadNotificationReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, NotificationClass_SetAllReadNotification_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *notificationClassClient) GetUnreadsNotificationCount(ctx context.Context, in *GetUnreadsNotificationCountReq, opts ...grpc.CallOption) (*GetUnreadsNotificationCountResp, error) {
+	out := new(GetUnreadsNotificationCountResp)
+	err := c.cc.Invoke(ctx, NotificationClass_GetUnreadsNotificationCount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *notificationClassClient) GetNotificationList(ctx context.Context, in *GetNotificationListReq, opts ...grpc.CallOption) (*GetNotificationListResp, error) {
+	out := new(GetNotificationListResp)
+	err := c.cc.Invoke(ctx, NotificationClass_GetNotificationList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// NotificationClassServer is the server API for NotificationClass service.
+// All implementations must embed UnimplementedNotificationClassServer
+// for forward compatibility
+type NotificationClassServer interface {
+	AddNotification(context.Context, *AddNotificationReq) (*OkResp, error)
+	SetAllReadNotification(context.Context, *SetAllReadNotificationReq) (*OkResp, error)
+	GetUnreadsNotificationCount(context.Context, *GetUnreadsNotificationCountReq) (*GetUnreadsNotificationCountResp, error)
+	GetNotificationList(context.Context, *GetNotificationListReq) (*GetNotificationListResp, error)
+	mustEmbedUnimplementedNotificationClassServer()
+}
+
+// UnimplementedNotificationClassServer must be embedded to have forward compatible implementations.
+type UnimplementedNotificationClassServer struct {
+}
+
+func (UnimplementedNotificationClassServer) AddNotification(context.Context, *AddNotificationReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddNotification not implemented")
+}
+func (UnimplementedNotificationClassServer) SetAllReadNotification(context.Context, *SetAllReadNotificationReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetAllReadNotification not implemented")
+}
+func (UnimplementedNotificationClassServer) GetUnreadsNotificationCount(context.Context, *GetUnreadsNotificationCountReq) (*GetUnreadsNotificationCountResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUnreadsNotificationCount not implemented")
+}
+func (UnimplementedNotificationClassServer) GetNotificationList(context.Context, *GetNotificationListReq) (*GetNotificationListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationList not implemented")
+}
+func (UnimplementedNotificationClassServer) mustEmbedUnimplementedNotificationClassServer() {}
+
+// UnsafeNotificationClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to NotificationClassServer will
+// result in compilation errors.
+type UnsafeNotificationClassServer interface {
+	mustEmbedUnimplementedNotificationClassServer()
+}
+
+func RegisterNotificationClassServer(s grpc.ServiceRegistrar, srv NotificationClassServer) {
+	s.RegisterService(&NotificationClass_ServiceDesc, srv)
+}
+
+func _NotificationClass_AddNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddNotificationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationClassServer).AddNotification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationClass_AddNotification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationClassServer).AddNotification(ctx, req.(*AddNotificationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NotificationClass_SetAllReadNotification_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetAllReadNotificationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationClassServer).SetAllReadNotification(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationClass_SetAllReadNotification_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationClassServer).SetAllReadNotification(ctx, req.(*SetAllReadNotificationReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NotificationClass_GetUnreadsNotificationCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUnreadsNotificationCountReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationClassServer).GetUnreadsNotificationCount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationClass_GetUnreadsNotificationCount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationClassServer).GetUnreadsNotificationCount(ctx, req.(*GetUnreadsNotificationCountReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NotificationClass_GetNotificationList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNotificationListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotificationClassServer).GetNotificationList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: NotificationClass_GetNotificationList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotificationClassServer).GetNotificationList(ctx, req.(*GetNotificationListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// NotificationClass_ServiceDesc is the grpc.ServiceDesc for NotificationClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var NotificationClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.NotificationClass",
+	HandlerType: (*NotificationClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddNotification",
+			Handler:    _NotificationClass_AddNotification_Handler,
+		},
+		{
+			MethodName: "SetAllReadNotification",
+			Handler:    _NotificationClass_SetAllReadNotification_Handler,
+		},
+		{
+			MethodName: "GetUnreadsNotificationCount",
+			Handler:    _NotificationClass_GetUnreadsNotificationCount_Handler,
+		},
+		{
+			MethodName: "GetNotificationList",
+			Handler:    _NotificationClass_GetNotificationList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

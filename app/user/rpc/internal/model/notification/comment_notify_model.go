@@ -14,7 +14,7 @@ type (
 	// and implement the added methods in customCommentNotifyModel.
 	CommentNotifyModel interface {
 		commentNotifyModel
-		UpdateAllUneads(ctx context.Context) error
+		UpdateAllUnreads(ctx context.Context) error
 	}
 
 	customCommentNotifyModel struct {
@@ -29,7 +29,7 @@ func NewCommentNotifyModel(conn sqlx.SqlConn) CommentNotifyModel {
 	}
 }
 
-func (m *defaultCommentNotifyModel) UpdateAllUneads(ctx context.Context) error {
+func (m *defaultCommentNotifyModel) UpdateAllUnreads(ctx context.Context) error {
 	query := fmt.Sprintf("update %s set %s where is_read=0", m.table, "is_read=?")
 	sqlResult, err := m.conn.ExecCtx(ctx, query, 1)
 	if err != nil {
