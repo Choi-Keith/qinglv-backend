@@ -46,6 +46,12 @@ func (l *HandleArticleThumbUpLogic) HandleArticleThumbUp(req *types.HandleArticl
 	if err != nil {
 		return err
 	}
+	articleContentResp, err := l.svcCtx.ArticleRpc.GetArticleContentByArticleId(l.ctx, &content.GetArticleContentDetailReq{
+		Id: articleResp.Article.Id,
+	})
+	if err != nil {
+		return err
+	}
 	thumbResp, err := l.svcCtx.ThumbRpc.GetThumbDetail(l.ctx, &thumbclass.GetThumbDetailReq{
 		CreatorId: uint64(userId),
 		ArticleId: req.ArticleId,
@@ -54,7 +60,6 @@ func (l *HandleArticleThumbUpLogic) HandleArticleThumbUp(req *types.HandleArticl
 	if err != nil {
 		return err
 	}
-	logx.Debugf("thumbResp: %+v\n", thumbResp)
 	if len(thumbResp.Article) != 0 {
 		switch {
 		case thumbResp.Article[0].Like == globalKey.ThumbYes && thumbResp.Article[0].Dislike == globalKey.ThumbNo:
@@ -108,6 +113,15 @@ func (l *HandleArticleThumbUpLogic) HandleArticleThumbUp(req *types.HandleArticl
 	}); err != nil {
 		return err
 	}
-
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		Type:           2,
+		ActionType:     1,
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: articleResp.Article.CreatorId,
+		BizType:        2,
+		TargetId:       articleResp.Article.Id,
+		TargetTitle:    articleContentResp.ArticleContent.Title,
+	})
 	return nil
 }

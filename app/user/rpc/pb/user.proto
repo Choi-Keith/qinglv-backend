@@ -392,13 +392,14 @@ message AddNotificationReq {
   string message = 8;
   uint64 targetId = 9;
   string targetTitle = 10;
-  int32 bizType = 11;
+  int32 bizType = 11; // 1表示动态，2表示文章,3表示其它
   int32 isRead = 12;
   int32 type = 13; // 1表示评论通知，2表示点赞和收藏通知，3表示新增粉丝通知，4表示系统通知
   int32 actionType = 14; // 1点赞，2收藏，3分享
 }
 message SetAllReadNotificationReq {
   int32 type = 1;  
+  uint64 receiverUserId = 2;
 }
 message GetUnreadsNotificationCountReq{
   uint64 receiverUserId = 1;

@@ -9,6 +9,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/svc"
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/pkg/snowflake"
 	"qinglv-backend/pkg/utils"
 
@@ -70,5 +71,15 @@ func (l *AddPostCommentLogic) AddPostComment(req *types.AddPostCommentReq) error
 	}); err != nil {
 		return err
 	}
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: postResp.Post.CreatorId,
+		CommentId:      id,
+		CommentContent: req.Content,
+		Type:           1,
+		BizType:        1,
+		TargetId:       postResp.Post.Id,
+	})
 	return nil
 }

@@ -51,6 +51,13 @@ func (l *AddArticleCommentReplyLogic) AddArticleCommentReply(req *types.AddArtic
 	if err != nil {
 		return err
 	}
+	commentResp, err := l.svcCtx.CommentRpc.GetCommentById(l.ctx, &operation.GetCommentByIdReq{
+		Id:   req.CommentId,
+		Type: 2,
+	})
+	if err != nil {
+		return err
+	}
 	if _, err = l.svcCtx.CommentRpc.AddCommentReply(l.ctx, &operation.AddCommentReplyReq{
 		Id:          id,
 		ArticleId:   req.ArticleId,
@@ -65,5 +72,17 @@ func (l *AddArticleCommentReplyLogic) AddArticleCommentReply(req *types.AddArtic
 	}); err != nil {
 		return err
 	}
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: commentResp.ArticleComment.CreatorId,
+		CommentId:      commentResp.ArticleComment.Id,
+		CommentContent: commentResp.ArticleComment.Content,
+		ReplyId:        id,
+		ReplyContent:   req.Content,
+		Type:           1,
+		BizType:        2,
+		TargetId:       commentResp.ArticleComment.ArticleId,
+	})
 	return nil
 }

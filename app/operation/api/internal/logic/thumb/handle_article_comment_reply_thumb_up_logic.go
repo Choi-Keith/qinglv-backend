@@ -8,6 +8,7 @@ import (
 	"qinglv-backend/app/operation/api/internal/types"
 	"qinglv-backend/app/operation/rpc/client/thumbclass"
 	"qinglv-backend/app/operation/rpc/operation"
+	"qinglv-backend/app/user/rpc/user"
 	"qinglv-backend/common/globalKey"
 	"qinglv-backend/pkg/snowflake"
 
@@ -101,6 +102,15 @@ func (l *HandleArticleCommentReplyThumbUpLogic) HandleArticleCommentReplyThumbUp
 	}); err != nil {
 		return err
 	}
-
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		Type:           2,
+		ActionType:     1,
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: articleCommentResp.ArticleCommentReply.CreatorId,
+		BizType:        2,
+		TargetId:       req.ArticleId,
+		TargetTitle:    articleCommentResp.ArticleCommentReply.Content,
+	})
 	return nil
 }

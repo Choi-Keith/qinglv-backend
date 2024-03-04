@@ -78,5 +78,15 @@ func (l *AddArticleCommentLogic) AddArticleComment(req *types.AddArticleCommentR
 	}); err != nil {
 		return err
 	}
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: articleResp.Article.CreatorId,
+		CommentId:      id,
+		CommentContent: req.Content,
+		Type:           1,
+		BizType:        2,
+		TargetId:       articleResp.Article.Id,
+	})
 	return nil
 }

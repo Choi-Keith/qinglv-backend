@@ -41,6 +41,12 @@ func (l *AddArticleShareLogic) AddArticleShare(req *types.AddArticleShareReq) er
 	if err != nil {
 		return err
 	}
+	articleContentResp, err := l.svcCtx.ArticleRpc.GetArticleContentByArticleId(l.ctx, &content.GetArticleContentDetailReq{
+		Id: req.ArticleId,
+	})
+	if err != nil {
+		return err
+	}
 	id := snowflake.MustID()
 	if _, err = l.svcCtx.ShareRpc.AddArticleShare(l.ctx, &operation.AddArticleShareReq{
 		Id:        id,
@@ -66,5 +72,15 @@ func (l *AddArticleShareLogic) AddArticleShare(req *types.AddArticleShareReq) er
 	}); err != nil {
 		return err
 	}
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		Type:           2,
+		ActionType:     3,
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: articleResp.Article.CreatorId,
+		BizType:        2,
+		TargetId:       articleResp.Article.Id,
+		TargetTitle:    articleContentResp.ArticleContent.Title,
+	})
 	return nil
 }

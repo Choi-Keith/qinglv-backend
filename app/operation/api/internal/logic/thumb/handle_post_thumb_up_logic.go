@@ -46,6 +46,12 @@ func (l *HandlePostThumbUpLogic) HandlePostThumbUp(req *types.HandlePostThumbUpR
 	if err != nil {
 		return err
 	}
+	postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
+		Id: postResp.Post.Id,
+	})
+	if err != nil {
+		return err
+	}
 	thumbResp, err := l.svcCtx.ThumbRpc.GetThumbDetail(l.ctx, &thumbclass.GetThumbDetailReq{
 		CreatorId: uint64(userId),
 		PostId:    req.PostId,
@@ -108,6 +114,15 @@ func (l *HandlePostThumbUpLogic) HandlePostThumbUp(req *types.HandlePostThumbUpR
 	}); err != nil {
 		return err
 	}
-
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		Type:           2,
+		ActionType:     1,
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: postResp.Post.CreatorId,
+		BizType:        1,
+		TargetId:       postResp.Post.Id,
+		TargetTitle:    postContentResp.PostContent.Content,
+	})
 	return nil
 }

@@ -13,6 +13,7 @@ import (
 	"qinglv-backend/app/operation/rpc/client/shareclass"
 	"qinglv-backend/app/operation/rpc/client/thumbclass"
 	"qinglv-backend/app/user/rpc/client/followingclass"
+	"qinglv-backend/app/user/rpc/client/notificationclass"
 	"qinglv-backend/app/user/rpc/client/userclass"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
@@ -21,18 +22,19 @@ import (
 )
 
 type ServiceContext struct {
-	Config        config.Config
-	Authority     rest.Middleware
-	CollectionRpc collectionclass.CollectionClass
-	ShareRpc      shareclass.ShareClass
-	ThumbRpc      thumbclass.ThumbClass
-	CommentRpc    commentclass.CommentClass
-	PostRpc       postclass.PostClass
-	CategoryRpc   categoryclass.CategoryClass
-	ArticleRpc    articleclass.ArticleClass
-	UserRpc       userclass.UserClass
-	FollowingRpc  followingclass.FollowingClass
-	CosClient     *cos.Client
+	Config          config.Config
+	Authority       rest.Middleware
+	CollectionRpc   collectionclass.CollectionClass
+	ShareRpc        shareclass.ShareClass
+	ThumbRpc        thumbclass.ThumbClass
+	CommentRpc      commentclass.CommentClass
+	PostRpc         postclass.PostClass
+	CategoryRpc     categoryclass.CategoryClass
+	ArticleRpc      articleclass.ArticleClass
+	UserRpc         userclass.UserClass
+	FollowingRpc    followingclass.FollowingClass
+	NotificationRpc notificationclass.NotificationClass
+	CosClient       *cos.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -46,17 +48,18 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		},
 	})
 	svc := &ServiceContext{
-		Config:        c,
-		CollectionRpc: collectionclass.NewCollectionClass(zrpc.MustNewClient(c.OperationRpc)),
-		ShareRpc:      shareclass.NewShareClass(zrpc.MustNewClient(c.OperationRpc)),
-		ThumbRpc:      thumbclass.NewThumbClass(zrpc.MustNewClient(c.OperationRpc)),
-		CommentRpc:    commentclass.NewCommentClass(zrpc.MustNewClient(c.OperationRpc)),
-		UserRpc:       userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
-		FollowingRpc:  followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
-		PostRpc:       postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
-		ArticleRpc:    articleclass.NewArticleClass(zrpc.MustNewClient(c.ContentRpc)),
-		CategoryRpc:   categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
-		CosClient:     client,
+		Config:          c,
+		CollectionRpc:   collectionclass.NewCollectionClass(zrpc.MustNewClient(c.OperationRpc)),
+		ShareRpc:        shareclass.NewShareClass(zrpc.MustNewClient(c.OperationRpc)),
+		ThumbRpc:        thumbclass.NewThumbClass(zrpc.MustNewClient(c.OperationRpc)),
+		CommentRpc:      commentclass.NewCommentClass(zrpc.MustNewClient(c.OperationRpc)),
+		UserRpc:         userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
+		FollowingRpc:    followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
+		NotificationRpc: notificationclass.NewNotificationClass(zrpc.MustNewClient(c.UserRpc)),
+		PostRpc:         postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
+		ArticleRpc:      articleclass.NewArticleClass(zrpc.MustNewClient(c.ContentRpc)),
+		CategoryRpc:     categoryclass.NewCategoryClass(zrpc.MustNewClient(c.ContentRpc)),
+		CosClient:       client,
 	}
 	svc.Authority = middleware.NewAuthorityMiddleware(svc.UserRpc, &c).Handle
 

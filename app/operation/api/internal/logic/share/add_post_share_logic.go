@@ -41,6 +41,12 @@ func (l *AddPostShareLogic) AddPostShare(req *types.AddPostShareReq) error {
 	if err != nil {
 		return err
 	}
+	postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
+		Id: req.PostId,
+	})
+	if err != nil {
+		return err
+	}
 	id := snowflake.MustID()
 	if _, err = l.svcCtx.ShareRpc.AddPostShare(l.ctx, &operation.AddPostShareReq{
 		Id:        id,
@@ -66,5 +72,15 @@ func (l *AddPostShareLogic) AddPostShare(req *types.AddPostShareReq) error {
 	}); err != nil {
 		return err
 	}
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		Type:           2,
+		ActionType:     3,
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: postResp.Post.CreatorId,
+		BizType:        1,
+		TargetId:       postResp.Post.Id,
+		TargetTitle:    postContentResp.PostContent.Content,
+	})
 	return nil
 }

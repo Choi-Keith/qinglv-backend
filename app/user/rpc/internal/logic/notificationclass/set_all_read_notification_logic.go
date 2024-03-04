@@ -26,22 +26,22 @@ func NewSetAllReadNotificationLogic(ctx context.Context, svcCtx *svc.ServiceCont
 func (l *SetAllReadNotificationLogic) SetAllReadNotification(in *user.SetAllReadNotificationReq) (*user.OkResp, error) {
 	// todo: add your logic here and delete this line
 	if in.Type == 1 {
-		if err := l.svcCtx.CommentNotifyModel.UpdateAllUnreads(l.ctx); err != nil {
+		if err := l.svcCtx.CommentNotifyModel.UpdateAllUnreads(l.ctx, in.ReceiverUserId); err != nil {
 			return nil, err
 		}
 	}
 	if in.Type == 2 {
-		if err := l.svcCtx.LikeNotifyModel.UpdateAllUnreads(l.ctx); err != nil {
+		if err := l.svcCtx.LikeNotifyModel.UpdateAllUnreads(l.ctx, in.ReceiverUserId); err != nil {
 			return nil, err
 		}
 	}
 	if in.Type == 3 {
-		if err := l.svcCtx.FollowNotifyModel.UpdateAllUnreads(l.ctx); err != nil {
+		if err := l.svcCtx.FollowNotifyModel.UpdateAllUnreads(l.ctx, in.ReceiverUserId); err != nil {
 			return nil, err
 		}
 	}
 	if in.Type == 4 {
-		if err := l.svcCtx.OsNotifyModel.UpdateAllUnreads(l.ctx); err != nil {
+		if err := l.svcCtx.OsNotifyModel.UpdateAllUnreads(l.ctx, in.ReceiverUserId); err != nil {
 			return nil, err
 		}
 	}

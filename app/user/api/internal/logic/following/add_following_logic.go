@@ -58,5 +58,11 @@ func (l *AddFollowingLogic) AddFollowing(req *types.AddFollowingReq) error {
 		UserId:  uint64(userId),
 		OtherId: req.FollowingId,
 	})
+	go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+		Id:             snowflake.MustID(),
+		SenderUserId:   uint64(userId),
+		ReceiverUserId: req.FollowingId,
+		Type:           3,
+	})
 	return nil
 }

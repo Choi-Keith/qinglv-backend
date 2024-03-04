@@ -69,6 +69,12 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 		if err != nil {
 			return err
 		}
+		postContentResp, err := l.svcCtx.PostRpc.GetPostContentByPostId(l.ctx, &content.GetPostContentDetailReq{
+			Id: postResp.Post.Id,
+		})
+		if err != nil {
+			return err
+		}
 		updateUserId = postResp.Post.CreatorId
 		score := utils.HandleScore(postResp.Post.CreatedAt, 2, 1.5)
 		if _, err := l.svcCtx.PostRpc.UpdatePost(l.ctx, &content.UpdatePostReq{
@@ -78,9 +84,25 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 		}); err != nil {
 			return err
 		}
+		go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+			Id:             snowflake.MustID(),
+			Type:           2,
+			ActionType:     2,
+			SenderUserId:   uint64(userId),
+			ReceiverUserId: postResp.Post.CreatorId,
+			BizType:        1,
+			TargetId:       postResp.Post.Id,
+			TargetTitle:    postContentResp.PostContent.Content,
+		})
 	} else if groupResp.CollectionGroup.BizType == 2 {
 		articleResp, err := l.svcCtx.ArticleRpc.GetArticleDetail(l.ctx, &content.GetArticleDetailReq{
 			Id: req.TargetId,
+		})
+		if err != nil {
+			return err
+		}
+		articleContentResp, err := l.svcCtx.ArticleRpc.GetArticleContentByArticleId(l.ctx, &content.GetArticleContentDetailReq{
+			Id: articleResp.Article.Id,
 		})
 		if err != nil {
 			return err
@@ -94,7 +116,16 @@ func (l *AddCollectionLogic) AddCollection(req *types.AddCollectionReq) error {
 		}); err != nil {
 			return err
 		}
-
+		go l.svcCtx.NotificationRpc.AddNotification(l.ctx, &user.AddNotificationReq{
+			Id:             snowflake.MustID(),
+			Type:           2,
+			ActionType:     2,
+			SenderUserId:   uint64(userId),
+			ReceiverUserId: articleResp.Article.CreatorId,
+			BizType:        2,
+			TargetId:       articleResp.Article.Id,
+			TargetTitle:    articleContentResp.ArticleContent.Title,
+		})
 	}
 	userScore := 1
 	if groupResp.CollectionGroup.BizType == 2 {

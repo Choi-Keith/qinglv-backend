@@ -13,6 +13,7 @@ import (
 	"qinglv-backend/app/user/rpc/client/captchaclass"
 	"qinglv-backend/app/user/rpc/client/emailclass"
 	"qinglv-backend/app/user/rpc/client/followingclass"
+	"qinglv-backend/app/user/rpc/client/notificationclass"
 	"qinglv-backend/app/user/rpc/client/roleclass"
 	"qinglv-backend/app/user/rpc/client/userclass"
 	"qinglv-backend/pkg/event"
@@ -25,17 +26,18 @@ import (
 )
 
 type ServiceContext struct {
-	Config       config.Config
-	Authority    rest.Middleware
-	UserRpc      userclass.UserClass
-	RoleRpc      roleclass.RoleClass
-	EmailRpc     emailclass.EmailClass
-	CaptchaRpc   captchaclass.CaptchaClass
-	FollowingRpc followingclass.FollowingClass
-	BlacklistRpc blacklistclass.BlacklistClass
-	PostRpc      postclass.PostClass
-	ArticleRpc   articleclass.ArticleClass
-	CosClient    *cos.Client
+	Config          config.Config
+	Authority       rest.Middleware
+	UserRpc         userclass.UserClass
+	RoleRpc         roleclass.RoleClass
+	EmailRpc        emailclass.EmailClass
+	CaptchaRpc      captchaclass.CaptchaClass
+	FollowingRpc    followingclass.FollowingClass
+	BlacklistRpc    blacklistclass.BlacklistClass
+	NotificationRpc notificationclass.NotificationClass
+	PostRpc         postclass.PostClass
+	ArticleRpc      articleclass.ArticleClass
+	CosClient       *cos.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -49,16 +51,17 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		},
 	})
 	svc := &ServiceContext{
-		Config:       c,
-		UserRpc:      userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
-		RoleRpc:      roleclass.NewRoleClass(zrpc.MustNewClient(c.UserRpc)),
-		EmailRpc:     emailclass.NewEmailClass(zrpc.MustNewClient(c.UserRpc)),
-		CaptchaRpc:   captchaclass.NewCaptchaClass(zrpc.MustNewClient(c.UserRpc)),
-		FollowingRpc: followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
-		BlacklistRpc: blacklistclass.NewBlacklistClass(zrpc.MustNewClient(c.UserRpc)),
-		PostRpc:      postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
-		ArticleRpc:   articleclass.NewArticleClass(zrpc.MustNewClient(c.ContentRpc)),
-		CosClient:    client,
+		Config:          c,
+		UserRpc:         userclass.NewUserClass(zrpc.MustNewClient(c.UserRpc)),
+		RoleRpc:         roleclass.NewRoleClass(zrpc.MustNewClient(c.UserRpc)),
+		EmailRpc:        emailclass.NewEmailClass(zrpc.MustNewClient(c.UserRpc)),
+		CaptchaRpc:      captchaclass.NewCaptchaClass(zrpc.MustNewClient(c.UserRpc)),
+		FollowingRpc:    followingclass.NewFollowingClass(zrpc.MustNewClient(c.UserRpc)),
+		BlacklistRpc:    blacklistclass.NewBlacklistClass(zrpc.MustNewClient(c.UserRpc)),
+		NotificationRpc: notificationclass.NewNotificationClass(zrpc.MustNewClient(c.UserRpc)),
+		PostRpc:         postclass.NewPostClass(zrpc.MustNewClient(c.ContentRpc)),
+		ArticleRpc:      articleclass.NewArticleClass(zrpc.MustNewClient(c.ContentRpc)),
+		CosClient:       client,
 	}
 	svc.Authority = middleware.NewAuthorityMiddleware(svc.UserRpc, &c).Handle
 	event.RegHandler(reflect.TypeOf(event.FollowEvent{}), func(i interface{}) {

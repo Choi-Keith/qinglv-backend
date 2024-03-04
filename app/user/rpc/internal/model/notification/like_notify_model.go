@@ -14,7 +14,7 @@ type (
 	// and implement the added methods in customLikeNotifyModel.
 	LikeNotifyModel interface {
 		likeNotifyModel
-		UpdateAllUnreads(ctx context.Context) error
+		UpdateAllUnreads(ctx context.Context, receiverUserId uint64) error
 	}
 
 	customLikeNotifyModel struct {
@@ -29,9 +29,9 @@ func NewLikeNotifyModel(conn sqlx.SqlConn) LikeNotifyModel {
 	}
 }
 
-func (m *defaultLikeNotifyModel) UpdateAllUnreads(ctx context.Context) error {
-	query := fmt.Sprintf("update %s set %s where is_read=0", m.table, "is_read=?")
-	sqlResult, err := m.conn.ExecCtx(ctx, query, 1)
+func (m *defaultLikeNotifyModel) UpdateAllUnreads(ctx context.Context, receiverUserId uint64) error {
+	query := fmt.Sprintf("update %s set %s where receiver_user_id=? ", m.table, "is_read=?")
+	sqlResult, err := m.conn.ExecCtx(ctx, query, 1, receiverUserId)
 	if err != nil {
 		return err
 	}
