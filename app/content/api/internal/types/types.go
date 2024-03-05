@@ -17,6 +17,11 @@ type AddCategoryReq struct {
 	Description string `json:"description,optional",validate:"max=200"`
 }
 
+type AddDraftReq struct {
+	Title   string `json:"title" validate:"max=40"`
+	Content string `json:"content"`
+}
+
 type AddPostReq struct {
 	CategoryId uint64   `json:"categoryId,string,optional"`
 	Topics     []string `json:"topics,optional"`
@@ -114,6 +119,10 @@ type DeleteCategoryReq struct {
 	Id uint64 `path:"id,string"`
 }
 
+type DeleteDraftReq struct {
+	Id uint64 `path:"id,string"`
+}
+
 type DeletePostReq struct {
 	Id uint64 `path:"id,string"`
 }
@@ -124,6 +133,27 @@ type DeleteTagReq struct {
 
 type DeleteTopicReq struct {
 	Id uint64 `path:"id,string"`
+}
+
+type DraftItem struct {
+	Id        uint64    `json:"id,string"`
+	Title     string    `json:"title"`
+	Content   string    `json:"content"`
+	Creator   DraftUser `json:"creator"`
+	CreatedAt uint64    `json:"createdAt"`
+	UpdatedAt uint64    `json:"updatedAt"`
+}
+
+type DraftUser struct {
+	Id         uint64 `json:"id,string"`
+	Nickname   string `json:"nickname"`
+	Motto      string `json:"motto"`
+	Avatar     string `json:"avatar"`
+	Profession string `json:"profession"`
+	Age        int    `json:"age,range=[0:120]"`
+	Gender     int    `json:"gender,options=[1,2],default=1"`
+	Level      int    `json:"level"`
+	Score      int    `json:"score"`
 }
 
 type GetArticleByIdReq struct {
@@ -171,6 +201,27 @@ type GetCategoryListResp struct {
 	List  []CategoryItem `json:"list"`
 	IsEnd bool           `json:"isEnd"`
 	Total uint64         `json:"total"`
+}
+
+type GetDraftByIdReq struct {
+	Id uint64 `path:"id,string"`
+}
+
+type GetDraftByIdResp struct {
+	Draft DraftItem `json:"draft"`
+}
+
+type GetDraftListReq struct {
+	Creator  string `form:"creator,optional"`
+	Title    string `form:"title,optional"`
+	PageNum  int32  `form:"pageNum" validate:"required,gt=0"`
+	PageSize int32  `form:"pageSize" validate:"required,gt=0"`
+}
+
+type GetDraftListResp struct {
+	List  []DraftItem `json:"list"`
+	IsEnd bool        `json:"isEnd"`
+	Total uint64      `json:"total"`
 }
 
 type GetPostByIdReq struct {
@@ -411,6 +462,12 @@ type UpdateCategoryReq struct {
 	Id          uint64 `json:"id,string"`
 	Image       string `json:"image,optional",validate:"max=200"`
 	Description string `json:"description,optional",validate:"max=200"`
+}
+
+type UpdateDraftReq struct {
+	Id      uint64 `json:"id,string"`
+	Title   string `json:"title,optional" validate:"max=40"`
+	Content string `json:"content,optional"`
 }
 
 type UpdateTagReq struct {

@@ -8,6 +8,7 @@ import (
 	"qinglv-backend/app/content/api/internal/middleware"
 	"qinglv-backend/app/content/rpc/client/articleclass"
 	"qinglv-backend/app/content/rpc/client/categoryclass"
+	"qinglv-backend/app/content/rpc/client/draftclass"
 	"qinglv-backend/app/content/rpc/client/mediafileclass"
 	"qinglv-backend/app/content/rpc/client/postclass"
 	"qinglv-backend/app/content/rpc/client/tagclass"
@@ -39,6 +40,7 @@ type ServiceContext struct {
 	TopicRpc      topicclass.TopicClass
 	TagRpc        tagclass.TagClass
 	ArticleRpc    articleclass.ArticleClass
+	DraftRpc      draftclass.DraftClass
 	UserRpc       userclass.UserClass
 	FollowingRpc  followingclass.FollowingClass
 	ThumbRpc      thumbclass.ThumbClass
@@ -66,6 +68,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TopicRpc:      topicclass.NewTopicClass(zrpc.MustNewClient(c.ContentRpc)),
 		TagRpc:        tagclass.NewTagClass(zrpc.MustNewClient(c.ContentRpc)),
 		ArticleRpc:    articleclass.NewArticleClass(zrpc.MustNewClient(c.ContentRpc)),
+		DraftRpc:      draftclass.NewDraftClass(zrpc.MustNewClient(c.ContentRpc)),
 		ThumbRpc:      thumbclass.NewThumbClass(zrpc.MustNewClient(c.OperationRpc)),
 		CollectionRpc: collectionclass.NewCollectionClass(zrpc.MustNewClient(c.OperationRpc)),
 		ShareRpc:      shareclass.NewShareClass(zrpc.MustNewClient(c.OperationRpc)),

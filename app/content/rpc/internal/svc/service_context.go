@@ -4,6 +4,7 @@ import (
 	"qinglv-backend/app/content/rpc/internal/config"
 	"qinglv-backend/app/content/rpc/internal/model/article"
 	"qinglv-backend/app/content/rpc/internal/model/category"
+	"qinglv-backend/app/content/rpc/internal/model/draft"
 	"qinglv-backend/app/content/rpc/internal/model/media_file"
 	"qinglv-backend/app/content/rpc/internal/model/post"
 	"qinglv-backend/app/content/rpc/internal/model/tag"
@@ -25,6 +26,7 @@ type ServiceContext struct {
 	ArticleModel        article.ArticleModel
 	ArticleContentModel article.ArticleContentModel
 	ArticleFeedModel    article.ArticleFeedModel
+	DraftModel          draft.ArticleDraftModel
 	RedisClient         *redis.Redis
 }
 
@@ -42,6 +44,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ArticleModel:        article.NewArticleModel(sqlConn, c.Cache),
 		ArticleContentModel: article.NewArticleContentModel(sqlConn, c.Cache),
 		ArticleFeedModel:    article.NewArticleFeedModel(sqlConn, c.Cache),
+		DraftModel:          draft.NewArticleDraftModel(sqlConn),
 		RedisClient: redis.New(c.Redis.Host, func(r *redis.Redis) {
 			r.Pass = c.Redis.Pass
 			r.Type = c.Redis.Type

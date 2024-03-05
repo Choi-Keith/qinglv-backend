@@ -561,3 +561,61 @@ service ArticleClass {
     rpc DeleteArticleFeedByIds(DeleteArticleFeedByIdsReq) returns(OkResp);
     rpc GetArticleFeedList(GetArticleFeedListReq) returns(GetArticleFeedListResp);
 }
+
+//==========================Draft==========================
+
+message DraftItem {
+    uint64 id = 1;
+    string title = 2;
+    string content = 3;
+    uint64 creatorId = 4;
+    string creatorName = 5;
+    uint64 createdAt = 6;
+    uint64 updatedAt = 7;
+}
+
+message AddDraftReq {
+    uint64 id = 1;
+    string title = 2;
+    string content = 3;
+    uint64 creatorId = 4;
+    string creatorName = 5;
+}
+
+message UpdateDraftReq{
+    uint64 id = 1;
+    string title = 2;
+    string content = 3;
+}
+
+message DeleteDraftReq {
+    uint64 id = 1;
+}
+
+message GetDraftListReq {
+    string title = 1;
+    string creatorName = 2;
+    int64 pageNum = 3;
+    int64 pageSize = 4;
+}
+
+message GetDraftListResp {
+    repeated DraftItem data = 1;
+    int64 total = 2;
+}
+
+message GetDraftByIdReq {
+    uint64 id = 1;
+}
+
+message GetDraftByIdResp {
+    DraftItem draft = 1;
+}
+
+service DraftClass {
+    rpc AddDraft(AddDraftReq) returns(OkResp);
+    rpc UpdateDraft(UpdateDraftReq) returns(OkResp);
+    rpc deleteDraft(DeleteDraftReq) returns(OkResp);
+    rpc GetDraftById(GetDraftByIdReq) returns(GetDraftByIdResp);
+    rpc GetDraftList(GetDraftListReq) returns(GetDraftListResp);
+}

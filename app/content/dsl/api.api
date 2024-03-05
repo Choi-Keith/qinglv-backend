@@ -7,6 +7,7 @@ import (
 	"post.api"
 	"tag.api"
 	"article.api"
+	"draft.api"
 )
 
 // ===========================Topic==============================
@@ -247,5 +248,44 @@ service content {
 	)
 	@handler getFollowingArticleList
 	get /article/following (GetArticleListReq) returns (GetArticleListResp)
+}
+
+// need login
+@server (
+	prefix:     /content/v1
+	group:      draft
+	jwt:        JWTAuth
+	middleware: Authority
+)
+service content {
+	@doc (
+		summary: "新建草稿"
+	)
+	@handler addDraft
+	post /draft (AddDraftReq)
+
+	@doc (
+		summary: "修改草稿"
+	)
+	@handler updateDraft
+	put /draft (UpdateDraftReq)
+
+	@doc (
+		summary: "删除草稿"
+	)
+	@handler deleteDraft
+	delete /draft/:id (DeleteDraftReq)
+
+	@doc (
+		summary: "草稿列表"
+	)
+	@handler getDraftList
+	get /draft (GetDraftListReq) returns (GetDraftListResp)
+
+	@doc (
+		summary: "草稿详情"
+	)
+	@handler getDrafById
+	get /draft/:id (GetDraftByIdReq) returns (GetDraftByIdResp)
 }
 

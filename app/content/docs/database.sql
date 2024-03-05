@@ -124,6 +124,24 @@ CREATE TABLE `tag` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章标签';
 
 
+CREATE TABLE `article_draft` (
+    `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
+    `title` varchar(40) NOT NULL DEFAULT '' COMMENT '文章标题',
+    `content` text NOT NULL COMMENT '内容',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    `creator_id` bigint(20) unsigned NOT NULL COMMENT '发布者',
+    `creator_name` varchar(64) NOT NULL DEFAULT '',
+    PRIMARY KEY (`id`),
+    KEY `idx_draft_title` (`title`),
+    KEY `idx_draft_creator_id` (`creator_id`),
+    KEY `idx_draft_creator_name` (`creator_name`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '文章草稿表';
+
+
 CREATE TABLE `article` (
     `id` bigint(20) unsigned NOT NULL COMMENT '主键id',
     `status` tinyint(3) unsigned NOT NULL DEFAULT 1 COMMENT '审核状态：1已通过,2正在审核中，3不通过',

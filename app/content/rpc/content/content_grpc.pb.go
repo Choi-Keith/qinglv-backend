@@ -1926,3 +1926,241 @@ var ArticleClass_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "pb/content.proto",
 }
+
+const (
+	DraftClass_AddDraft_FullMethodName     = "/content.DraftClass/AddDraft"
+	DraftClass_UpdateDraft_FullMethodName  = "/content.DraftClass/UpdateDraft"
+	DraftClass_DeleteDraft_FullMethodName  = "/content.DraftClass/deleteDraft"
+	DraftClass_GetDraftById_FullMethodName = "/content.DraftClass/GetDraftById"
+	DraftClass_GetDraftList_FullMethodName = "/content.DraftClass/GetDraftList"
+)
+
+// DraftClassClient is the client API for DraftClass service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type DraftClassClient interface {
+	AddDraft(ctx context.Context, in *AddDraftReq, opts ...grpc.CallOption) (*OkResp, error)
+	UpdateDraft(ctx context.Context, in *UpdateDraftReq, opts ...grpc.CallOption) (*OkResp, error)
+	DeleteDraft(ctx context.Context, in *DeleteDraftReq, opts ...grpc.CallOption) (*OkResp, error)
+	GetDraftById(ctx context.Context, in *GetDraftByIdReq, opts ...grpc.CallOption) (*GetDraftByIdResp, error)
+	GetDraftList(ctx context.Context, in *GetDraftListReq, opts ...grpc.CallOption) (*GetDraftListResp, error)
+}
+
+type draftClassClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewDraftClassClient(cc grpc.ClientConnInterface) DraftClassClient {
+	return &draftClassClient{cc}
+}
+
+func (c *draftClassClient) AddDraft(ctx context.Context, in *AddDraftReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, DraftClass_AddDraft_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *draftClassClient) UpdateDraft(ctx context.Context, in *UpdateDraftReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, DraftClass_UpdateDraft_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *draftClassClient) DeleteDraft(ctx context.Context, in *DeleteDraftReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, DraftClass_DeleteDraft_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *draftClassClient) GetDraftById(ctx context.Context, in *GetDraftByIdReq, opts ...grpc.CallOption) (*GetDraftByIdResp, error) {
+	out := new(GetDraftByIdResp)
+	err := c.cc.Invoke(ctx, DraftClass_GetDraftById_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *draftClassClient) GetDraftList(ctx context.Context, in *GetDraftListReq, opts ...grpc.CallOption) (*GetDraftListResp, error) {
+	out := new(GetDraftListResp)
+	err := c.cc.Invoke(ctx, DraftClass_GetDraftList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// DraftClassServer is the server API for DraftClass service.
+// All implementations must embed UnimplementedDraftClassServer
+// for forward compatibility
+type DraftClassServer interface {
+	AddDraft(context.Context, *AddDraftReq) (*OkResp, error)
+	UpdateDraft(context.Context, *UpdateDraftReq) (*OkResp, error)
+	DeleteDraft(context.Context, *DeleteDraftReq) (*OkResp, error)
+	GetDraftById(context.Context, *GetDraftByIdReq) (*GetDraftByIdResp, error)
+	GetDraftList(context.Context, *GetDraftListReq) (*GetDraftListResp, error)
+	mustEmbedUnimplementedDraftClassServer()
+}
+
+// UnimplementedDraftClassServer must be embedded to have forward compatible implementations.
+type UnimplementedDraftClassServer struct {
+}
+
+func (UnimplementedDraftClassServer) AddDraft(context.Context, *AddDraftReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddDraft not implemented")
+}
+func (UnimplementedDraftClassServer) UpdateDraft(context.Context, *UpdateDraftReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDraft not implemented")
+}
+func (UnimplementedDraftClassServer) DeleteDraft(context.Context, *DeleteDraftReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDraft not implemented")
+}
+func (UnimplementedDraftClassServer) GetDraftById(context.Context, *GetDraftByIdReq) (*GetDraftByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDraftById not implemented")
+}
+func (UnimplementedDraftClassServer) GetDraftList(context.Context, *GetDraftListReq) (*GetDraftListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDraftList not implemented")
+}
+func (UnimplementedDraftClassServer) mustEmbedUnimplementedDraftClassServer() {}
+
+// UnsafeDraftClassServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DraftClassServer will
+// result in compilation errors.
+type UnsafeDraftClassServer interface {
+	mustEmbedUnimplementedDraftClassServer()
+}
+
+func RegisterDraftClassServer(s grpc.ServiceRegistrar, srv DraftClassServer) {
+	s.RegisterService(&DraftClass_ServiceDesc, srv)
+}
+
+func _DraftClass_AddDraft_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddDraftReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DraftClassServer).AddDraft(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DraftClass_AddDraft_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DraftClassServer).AddDraft(ctx, req.(*AddDraftReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DraftClass_UpdateDraft_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDraftReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DraftClassServer).UpdateDraft(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DraftClass_UpdateDraft_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DraftClassServer).UpdateDraft(ctx, req.(*UpdateDraftReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DraftClass_DeleteDraft_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDraftReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DraftClassServer).DeleteDraft(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DraftClass_DeleteDraft_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DraftClassServer).DeleteDraft(ctx, req.(*DeleteDraftReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DraftClass_GetDraftById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDraftByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DraftClassServer).GetDraftById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DraftClass_GetDraftById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DraftClassServer).GetDraftById(ctx, req.(*GetDraftByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DraftClass_GetDraftList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDraftListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DraftClassServer).GetDraftList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DraftClass_GetDraftList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DraftClassServer).GetDraftList(ctx, req.(*GetDraftListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// DraftClass_ServiceDesc is the grpc.ServiceDesc for DraftClass service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var DraftClass_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "content.DraftClass",
+	HandlerType: (*DraftClassServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddDraft",
+			Handler:    _DraftClass_AddDraft_Handler,
+		},
+		{
+			MethodName: "UpdateDraft",
+			Handler:    _DraftClass_UpdateDraft_Handler,
+		},
+		{
+			MethodName: "deleteDraft",
+			Handler:    _DraftClass_DeleteDraft_Handler,
+		},
+		{
+			MethodName: "GetDraftById",
+			Handler:    _DraftClass_GetDraftById_Handler,
+		},
+		{
+			MethodName: "GetDraftList",
+			Handler:    _DraftClass_GetDraftList_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pb/content.proto",
+}

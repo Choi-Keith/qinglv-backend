@@ -16,6 +16,7 @@ type (
 	AddArticleFeedReq           = content.AddArticleFeedReq
 	AddArticleReq               = content.AddArticleReq
 	AddCategoryReq              = content.AddCategoryReq
+	AddDraftReq                 = content.AddDraftReq
 	AddMediaFileReq             = content.AddMediaFileReq
 	AddPostContentReq           = content.AddPostContentReq
 	AddPostFeedReq              = content.AddPostFeedReq
@@ -29,11 +30,13 @@ type (
 	DeleteArticleFeedByIdsReq   = content.DeleteArticleFeedByIdsReq
 	DeleteArticleReq            = content.DeleteArticleReq
 	DeleteCategoryReq           = content.DeleteCategoryReq
+	DeleteDraftReq              = content.DeleteDraftReq
 	DeleteMediaFileReq          = content.DeleteMediaFileReq
 	DeletePostFeedByIdsReq      = content.DeletePostFeedByIdsReq
 	DeletePostReq               = content.DeletePostReq
 	DeleteTagReq                = content.DeleteTagReq
 	DeleteTopicReq              = content.DeleteTopicReq
+	DraftItem                   = content.DraftItem
 	GetArticleContentDetailReq  = content.GetArticleContentDetailReq
 	GetArticleContentDetailResp = content.GetArticleContentDetailResp
 	GetArticleContentListReq    = content.GetArticleContentListReq
@@ -48,6 +51,10 @@ type (
 	GetCategoryDetailResp       = content.GetCategoryDetailResp
 	GetCategoryListReq          = content.GetCategoryListReq
 	GetCategoryListResp         = content.GetCategoryListResp
+	GetDraftByIdReq             = content.GetDraftByIdReq
+	GetDraftByIdResp            = content.GetDraftByIdResp
+	GetDraftListReq             = content.GetDraftListReq
+	GetDraftListResp            = content.GetDraftListResp
 	GetMediaFileByContentReq    = content.GetMediaFileByContentReq
 	GetMediaFileByContentResp   = content.GetMediaFileByContentResp
 	GetMediaFileListReq         = content.GetMediaFileListReq
@@ -86,6 +93,7 @@ type (
 	UpdateArticleContentReq     = content.UpdateArticleContentReq
 	UpdateArticleReq            = content.UpdateArticleReq
 	UpdateCategoryReq           = content.UpdateCategoryReq
+	UpdateDraftReq              = content.UpdateDraftReq
 	UpdatePostReq               = content.UpdatePostReq
 	UpdateTagReq                = content.UpdateTagReq
 	UpdateTopicReq              = content.UpdateTopicReq

@@ -6,6 +6,7 @@ import (
 
 	article "qinglv-backend/app/content/api/internal/handler/article"
 	category "qinglv-backend/app/content/api/internal/handler/category"
+	draft "qinglv-backend/app/content/api/internal/handler/draft"
 	post "qinglv-backend/app/content/api/internal/handler/post"
 	tag "qinglv-backend/app/content/api/internal/handler/tag"
 	topic "qinglv-backend/app/content/api/internal/handler/topic"
@@ -101,6 +102,41 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPut,
 					Path:    "/category/:id",
 					Handler: category.UpdateCategoryHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.JWTAuth.AccessSecret),
+		rest.WithPrefix("/content/v1"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/draft",
+					Handler: draft.AddDraftHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPut,
+					Path:    "/draft",
+					Handler: draft.UpdateDraftHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/draft",
+					Handler: draft.GetDraftListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/draft/:id",
+					Handler: draft.DeleteDraftHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/draft/:id",
+					Handler: draft.GetDrafByIdHandler(serverCtx),
 				},
 			}...,
 		),
