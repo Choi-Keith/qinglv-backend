@@ -46,10 +46,10 @@ type UpdateUserReq {
 	Age        int    `json:"age,range=[0:120],optional"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Phone      string `json:"phone,optional"`
-	Motto      string `json:"motto,optional", validate:"max=200"`
-	Address    string `json:"address,optional", validate:"max=200"`
-	Location   string `json:"location,optional", validate:"max=200"`
-	Profession string `json:"profession,optional",validate:"max=200"`
+	Motto      string `json:"motto,optional" validate:"max=200"`
+	Address    string `json:"address,optional" validate:"max=200"`
+	Location   string `json:"location,optional" validate:"max=200"`
+	Profession string `json:"profession,optional" validate:"max=200"`
 }
 
 type (

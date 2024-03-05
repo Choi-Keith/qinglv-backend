@@ -75,7 +75,7 @@ type FollowUser struct {
 type Follower struct {
 	Id           uint64     `json:"id,string"`
 	UserId       uint64     `json:"userId,string"`
-	FollowerUser FollowUser `json:"followerUser`
+	FollowerUser FollowUser `json:"followerUser"`
 	FollowingId  uint64     `json:"followingId,string"`
 	CreatedAt    uint64     `json:"createdAt"`
 	UpdatedAt    uint64     `json:"updatedAt"`
@@ -97,7 +97,7 @@ type Following struct {
 	Id            uint64     `json:"id,string"`
 	UserId        uint64     `json:"userId,string"`
 	FollowingId   uint64     `json:"followingId,string"`
-	FollowingUser FollowUser `json:"followingUser`
+	FollowingUser FollowUser `json:"followingUser"`
 	CreatedAt     uint64     `json:"createdAt"`
 	UpdatedAt     uint64     `json:"updatedAt"`
 }
@@ -180,7 +180,8 @@ type MessageItem struct {
 	ReplyContent   string `json:"replyContent"`
 	TargetId       uint64 `json:"targetId,string"`
 	TargetTitle    string `json:"targetTitle"`
-	BizType        int32  `json:"bizType"`
+	BizType        int32  `json:"bizType"`    // 1文章，2其它
+	ActionType     int32  `json:"actionType"` // 1点赞，2收藏，3分享
 	IsRead         int32  `json:"isRead"`
 	CreatedAt      uint64 `json:"createdAt"`
 	UpdatedAt      uint64 `json:"updated"`
@@ -249,10 +250,10 @@ type UpdateUserReq struct {
 	Age        int    `json:"age,range=[0:120],optional"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Phone      string `json:"phone,optional"`
-	Motto      string `json:"motto,optional", validate:"max=200"`
-	Address    string `json:"address,optional", validate:"max=200"`
-	Location   string `json:"location,optional", validate:"max=200"`
-	Profession string `json:"profession,optional",validate:"max=200"`
+	Motto      string `json:"motto,optional" validate:"max=200"`
+	Address    string `json:"address,optional" validate:"max=200"`
+	Location   string `json:"location,optional" validate:"max=200"`
+	Profession string `json:"profession,optional" validate:"max=200"`
 }
 
 type User struct {
