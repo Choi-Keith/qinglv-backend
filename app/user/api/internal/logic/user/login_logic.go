@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
@@ -68,6 +69,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 
 	secretKey := l.svcCtx.Config.JWTAuth.AccessSecret
 	seconds := l.svcCtx.Config.JWTAuth.AccessExpire
+	now := time.Now().Unix()
 	token, err := jwtx.NewJwtToken(
 		secretKey,
 		seconds,
@@ -88,7 +90,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	}
 	return &types.LoginResp{
 		AccessToken:  token,
-		ExpireAt:     uint64(seconds),
-		RefreshAfter: uint64(seconds / 2),
+		ExpireAt:     uint64(now) + uint64(seconds),
+		RefreshAfter: uint64(now) + uint64(seconds/2),
 	}, nil
 }

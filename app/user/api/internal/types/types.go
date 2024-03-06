@@ -164,8 +164,8 @@ type LoginReq struct {
 
 type LoginResp struct {
 	AccessToken  string `json:"accessToken"`
+	ExpireAt     uint64 `json:"accessExpire"`
 	RefreshAfter uint64 `json:"refreshAfter"`
-	ExpireAt     uint64 `json:"refreshAt"`
 }
 
 type MessageItem struct {
