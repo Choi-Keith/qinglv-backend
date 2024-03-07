@@ -169,7 +169,7 @@ service user {
 service user {
 	@doc "标记已读"
 	@handler readAllMessageReq
-	get /message/read/all (ReadAllMessageReq)
+	put /message/read/all (ReadAllMessageReq)
 
 	@doc "消息列表"
 	@handler getMessageList

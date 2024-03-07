@@ -2,7 +2,6 @@ package following
 
 import (
 	"context"
-	"encoding/json"
 
 	"qinglv-backend/app/user/api/internal/svc"
 	"qinglv-backend/app/user/api/internal/types"
@@ -29,15 +28,10 @@ func NewGetFollowingListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 func (l *GetFollowingListLogic) GetFollowingList(req *types.FollowingListReq) (resp *types.FollowingListResp, err error) {
 	// todo: add your logic here and delete this line
-	userId, err := l.ctx.Value("userId").(json.Number).Int64()
-	if err != nil {
-		return nil, err
-	}
 	followingListResp, err := l.svcCtx.FollowingRpc.GetFollowingList(l.ctx, &user.GetFollowingListReq{
-		UserId:      uint64(userId),
-		FollowingId: req.FollowingId,
-		PageNum:     int32(req.PageNum),
-		PageSize:    int32(req.PageSize),
+		UserId:   req.UserId,
+		PageNum:  int32(req.PageNum),
+		PageSize: int32(req.PageSize),
 	})
 	if err != nil {
 		return nil, err

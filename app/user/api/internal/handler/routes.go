@@ -90,7 +90,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: notification.GetMessageListHandler(serverCtx),
 				},
 				{
-					Method:  http.MethodGet,
+					Method:  http.MethodPut,
 					Path:    "/message/read/all",
 					Handler: notification.ReadAllMessageReqHandler(serverCtx),
 				},

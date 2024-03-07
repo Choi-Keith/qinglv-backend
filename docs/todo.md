@@ -17,5 +17,31 @@
 - [] 优化数据库查询
 
 
+## 缺失的接口
+1. 关注和粉丝的总数量
+2. 忘记密码接口
+3. 点赞与收藏总数量
+
+4. 新增用户数据表
+```sql
+CREATE table `user_article_count`(
+    `id` bigint(20) unsigned NOT NULL COMMENT '用户数据表id',
+    `user_id` bigint(20) unsigned NOT NULL COMMENT '用户id',
+    `level` int(6) DEFAULT 0 COMMENT '等级',
+    `score` int(10) DEFAULT 0 COMMENT '积分',
+    `like_count` int(10) DEFAULT 0 COMMENT '点赞数',
+    `collect_count` int(10) DEFAULT 0 COMMENT '收藏数',
+    `share_count` int(10) DEFAULT 0 COMMENT '转发数',
+    `view_count` int(10) DEFAULT 0 COMMENT '观看数',
+    `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  COMMENT '修改时间',
+    `deleted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '删除时间',
+    `is_del` tinyint(1) NOT NULL DEFAULT '0',
+    `version` bigint NOT NULL DEFAULT '1' COMMENT '版本号',
+    PRIMARY KEY (`id`),
+)
+```
+
+
 
 

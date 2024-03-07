@@ -56,7 +56,7 @@ type (
 
 type (
 	FollowingListReq {
-		FollowingId uint64 `form:"followingId,string,optional"`
+		userId uint64 `form:"userId,string,optional"`
 		PageNum     int    `form:"pageNum" validate:"required,gt=0"`
 		PageSize    int    `form:"pageSize" validate:"required,gt=0"`
 	}
@@ -66,7 +66,7 @@ type (
 		Total uint64      `json:"total"`
 	}
 	FollowerListReq {
-		FollowerId uint64 `form:"followerId,string,optional"`
+		userId uint64 `form:"userId,string,optional"`
 		PageNum    int    `form:"pageNum" validate:"required,gt=0"`
 		PageSize   int    `form:"pageSize" validate:"required,gt=0"`
 	}

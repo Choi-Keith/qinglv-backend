@@ -82,9 +82,9 @@ type Follower struct {
 }
 
 type FollowerListReq struct {
-	FollowerId uint64 `form:"followerId,string,optional"`
-	PageNum    int    `form:"pageNum" validate:"required,gt=0"`
-	PageSize   int    `form:"pageSize" validate:"required,gt=0"`
+	UserId   uint64 `form:"userId,string,optional"`
+	PageNum  int    `form:"pageNum" validate:"required,gt=0"`
+	PageSize int    `form:"pageSize" validate:"required,gt=0"`
 }
 
 type FollowerListResp struct {
@@ -103,9 +103,9 @@ type Following struct {
 }
 
 type FollowingListReq struct {
-	FollowingId uint64 `form:"followingId,string,optional"`
-	PageNum     int    `form:"pageNum" validate:"required,gt=0"`
-	PageSize    int    `form:"pageSize" validate:"required,gt=0"`
+	UserId   uint64 `form:"userId,string,optional"`
+	PageNum  int    `form:"pageNum" validate:"required,gt=0"`
+	PageSize int    `form:"pageSize" validate:"required,gt=0"`
 }
 
 type FollowingListResp struct {
