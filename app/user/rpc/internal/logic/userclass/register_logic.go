@@ -2,20 +2,13 @@ package userclasslogic
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"time"
 
 	userModel "qinglv-backend/app/user/rpc/internal/model/user"
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
-	"qinglv-backend/common/globalKey"
-	"qinglv-backend/common/schema"
-	"qinglv-backend/pkg/email"
 	"qinglv-backend/pkg/gavatar"
-	"qinglv-backend/pkg/template"
 
-	"github.com/google/uuid"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -59,7 +52,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 		logx.Errorf("register user failed: %v", err)
 		return nil, err
 	}
-	go l.SendAndSaveRegisterCode(in.Id, in.Email)
+	go sendAndSaveRegisterCode(l.svcCtx, in.Id, in.Email)
 	userItem, err := l.svcCtx.UserModel.FindOne(l.ctx, uint64(in.Id))
 	if err != nil {
 		logx.Errorf("register FindOne user failed: %v", err)
@@ -89,31 +82,4 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	return &user.RegisterResp{
 		User: item,
 	}, nil
-}
-
-func (l *RegisterLogic) SendAndSaveRegisterCode(userId uint64, toUser string) {
-	host := l.svcCtx.Config.Website.Host
-	port := l.svcCtx.Config.Website.Port
-	smtp := l.svcCtx.Config.SMTP
-	code := uuid.New()
-	verifyEmailURL := fmt.Sprintf("http://%s:%d/email/verify?code=%s", host, port, code)
-	body, err := template.GenerateVerifyBody(verifyEmailURL, "verify_email.html")
-	if err != nil {
-		logx.Errorf("[User SendAndSaveRegisterCode] GenerateVerifyBody failed: %+v\n", err)
-	}
-	if err := email.Send(smtp, toUser, "欢迎注册轻旅社区-请确认邮件地址", body); err != nil {
-		logx.Errorf("[User SendAndSaveRegisterCode] email Send failed: %+v\n", err)
-	}
-
-	key := fmt.Sprintf("%s%s", globalKey.VerifyEmailCodePrefixKey, code)
-	codeContent := &schema.EmailContent{
-		UserId: userId,
-		Email:  toUser,
-	}
-	codeContentStr, _ := json.Marshal(codeContent)
-	expireAt := 10 * 60
-	if err := l.svcCtx.RedisClient.Setex(key, string(codeContentStr), int(expireAt)); err != nil {
-		logx.Errorf("[User SendAndSaveRegisterCode] Setex failed: %+v\n", err)
-	}
-
 }
