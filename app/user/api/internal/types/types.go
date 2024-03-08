@@ -114,6 +114,20 @@ type FollowingListResp struct {
 	Total uint64      `json:"total"`
 }
 
+type ForgotPasswordReq struct {
+	Email string `json:"email" validate:"required,email,max=50"`
+}
+
+type GetFollowBlackCountReq struct {
+	UserId uint64 `json:"userId,string"`
+}
+
+type GetFollowBlackCountResp struct {
+	FollowerCount  int64 `json:"followerCount"`
+	FollowingCount int64 `json:"followingCount"`
+	BlacklistCount int64 `json:"blacklistCount"`
+}
+
 type GetMessageCountResp struct {
 	Comment uint64 `json:"comment"`
 	Like    uint64 `json:"like"`
@@ -210,11 +224,15 @@ type ReadAllMessageReq struct {
 }
 
 type RegisterReq struct {
-	RoleId     uint64 `json:"roleId,string"`
-	Nickname   string `json:"nickname" validate:"required,max=50"`
-	Email      string `json:"email" validate:"required,email,max=50"`
-	Password   string `json:"password" validate:"required,min=6,max=50"`
-	RePassword string `json:"rePassword" validate:"required,min=6,max=50,eqfield=Password"`
+	RoleId   uint64 `json:"roleId,string"`
+	Nickname string `json:"nickname" validate:"required,max=50"`
+	Email    string `json:"email" validate:"required,email,max=50"`
+	Password string `json:"password" validate:"required,min=6,max=50"`
+}
+
+type ResetPasswordReq struct {
+	Code     string `json:"code"`
+	Password string `json:"password" validate:"required,min=6,max=50"`
 }
 
 type Role struct {

@@ -37,6 +37,7 @@ type (
 	DeleteUserResp                  = user.DeleteUserResp
 	Empty                           = user.Empty
 	FollowingItem                   = user.FollowingItem
+	ForgotPasswordReq               = user.ForgotPasswordReq
 	GenerateCaptchaResp             = user.GenerateCaptchaResp
 	GetBlackListReq                 = user.GetBlackListReq
 	GetBlackListResp                = user.GetBlackListResp
@@ -81,12 +82,13 @@ type (
 	UserItem                        = user.UserItem
 	VerifyCaptchaReq                = user.VerifyCaptchaReq
 	VerifyCaptchaResp               = user.VerifyCaptchaResp
+	VerifyForgotEemailCodeReq       = user.VerifyForgotEemailCodeReq
 	VerifyRegisterCodeReq           = user.VerifyRegisterCodeReq
 	VerifyRegisterCodeResp          = user.VerifyRegisterCodeResp
 
 	EmailClass interface {
-		// group: email
 		VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
+		VerifyForgotEemailCode(ctx context.Context, in *VerifyForgotEemailCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
 	}
 
 	defaultEmailClass struct {
@@ -100,8 +102,12 @@ func NewEmailClass(cli zrpc.Client) EmailClass {
 	}
 }
 
-// group: email
 func (m *defaultEmailClass) VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
 	client := user.NewEmailClassClient(m.cli.Conn())
 	return client.VerifyRegisterCode(ctx, in, opts...)
+}
+
+func (m *defaultEmailClass) VerifyForgotEemailCode(ctx context.Context, in *VerifyForgotEemailCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
+	client := user.NewEmailClassClient(m.cli.Conn())
+	return client.VerifyForgotEemailCode(ctx, in, opts...)
 }

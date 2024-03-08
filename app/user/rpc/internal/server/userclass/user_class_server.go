@@ -101,3 +101,8 @@ func (s *UserClassServer) UpdateProfileBg(ctx context.Context, in *user.UpdatePr
 	l := userclasslogic.NewUpdateProfileBgLogic(ctx, s.svcCtx)
 	return l.UpdateProfileBg(in)
 }
+
+func (s *UserClassServer) ForgotPassword(ctx context.Context, in *user.ForgotPasswordReq) (*user.OkResp, error) {
+	l := userclasslogic.NewForgotPasswordLogic(ctx, s.svcCtx)
+	return l.ForgotPassword(in)
+}

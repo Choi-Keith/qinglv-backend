@@ -37,6 +37,7 @@ type (
 	DeleteUserResp                  = user.DeleteUserResp
 	Empty                           = user.Empty
 	FollowingItem                   = user.FollowingItem
+	ForgotPasswordReq               = user.ForgotPasswordReq
 	GenerateCaptchaResp             = user.GenerateCaptchaResp
 	GetBlackListReq                 = user.GetBlackListReq
 	GetBlackListResp                = user.GetBlackListResp
@@ -81,6 +82,7 @@ type (
 	UserItem                        = user.UserItem
 	VerifyCaptchaReq                = user.VerifyCaptchaReq
 	VerifyCaptchaResp               = user.VerifyCaptchaResp
+	VerifyForgotEemailCodeReq       = user.VerifyForgotEemailCodeReq
 	VerifyRegisterCodeReq           = user.VerifyRegisterCodeReq
 	VerifyRegisterCodeResp          = user.VerifyRegisterCodeResp
 

@@ -37,6 +37,7 @@ type (
 	DeleteUserResp                  = user.DeleteUserResp
 	Empty                           = user.Empty
 	FollowingItem                   = user.FollowingItem
+	ForgotPasswordReq               = user.ForgotPasswordReq
 	GenerateCaptchaResp             = user.GenerateCaptchaResp
 	GetBlackListReq                 = user.GetBlackListReq
 	GetBlackListResp                = user.GetBlackListResp
@@ -81,6 +82,7 @@ type (
 	UserItem                        = user.UserItem
 	VerifyCaptchaReq                = user.VerifyCaptchaReq
 	VerifyCaptchaResp               = user.VerifyCaptchaResp
+	VerifyForgotEemailCodeReq       = user.VerifyForgotEemailCodeReq
 	VerifyRegisterCodeReq           = user.VerifyRegisterCodeReq
 	VerifyRegisterCodeResp          = user.VerifyRegisterCodeResp
 
@@ -101,6 +103,7 @@ type (
 		UpdateUserScoreLevel(ctx context.Context, in *UpdateUserScoreLevelReq, opts ...grpc.CallOption) (*UpdateUserScoreLevelResp, error)
 		UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
 		UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
+		ForgotPassword(ctx context.Context, in *ForgotPasswordReq, opts ...grpc.CallOption) (*OkResp, error)
 	}
 
 	defaultUserClass struct {
@@ -192,4 +195,9 @@ func (m *defaultUserClass) UpdateAvatar(ctx context.Context, in *UpdateAvatarReq
 func (m *defaultUserClass) UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error) {
 	client := user.NewUserClassClient(m.cli.Conn())
 	return client.UpdateProfileBg(ctx, in, opts...)
+}
+
+func (m *defaultUserClass) ForgotPassword(ctx context.Context, in *ForgotPasswordReq, opts ...grpc.CallOption) (*OkResp, error) {
+	client := user.NewUserClassClient(m.cli.Conn())
+	return client.ForgotPassword(ctx, in, opts...)
 }

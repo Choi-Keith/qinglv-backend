@@ -13,12 +13,15 @@ message OkResp{
 message VerifyRegisterCodeReq {
     string code = 1;
 }
+message VerifyForgotEemailCodeReq{
+  string code = 1;
+}
 message VerifyRegisterCodeResp {
     string codeContent = 1;
 }
 service EmailClass {
-  // group: email
   rpc VerifyRegisterCode(VerifyRegisterCodeReq) returns(VerifyRegisterCodeResp);
+  rpc VerifyForgotEemailCode(VerifyForgotEemailCodeReq) returns(VerifyRegisterCodeResp);
 }
 
 //===========================Captcha============================
@@ -97,6 +100,11 @@ message RegisterReq {
 
 message RegisterResp {
   UserItem user = 1;
+}
+
+message ForgotPasswordReq{
+  string email = 1;
+  uint64 userId = 2;
 }
 
 message LoginReq {
@@ -254,6 +262,7 @@ service UserClass {
   rpc UpdateUserScoreLevel(UpdateUserScoreLevelReq) returns(UpdateUserScoreLevelResp);
   rpc UpdateAvatar(UpdateAvatarReq) returns(UpdateAvatarResp);
   rpc UpdateProfileBg(UpdateProfileBgReq) returns(UpdateProfileBgResp);
+  rpc ForgotPassword(ForgotPasswordReq) returns(OkResp);
 }
 
 // =================Following=================

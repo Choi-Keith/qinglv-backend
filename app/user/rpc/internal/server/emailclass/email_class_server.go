@@ -22,8 +22,12 @@ func NewEmailClassServer(svcCtx *svc.ServiceContext) *EmailClassServer {
 	}
 }
 
-// group: email
 func (s *EmailClassServer) VerifyRegisterCode(ctx context.Context, in *user.VerifyRegisterCodeReq) (*user.VerifyRegisterCodeResp, error) {
 	l := emailclasslogic.NewVerifyRegisterCodeLogic(ctx, s.svcCtx)
 	return l.VerifyRegisterCode(in)
+}
+
+func (s *EmailClassServer) VerifyForgotEemailCode(ctx context.Context, in *user.VerifyForgotEemailCodeReq) (*user.VerifyRegisterCodeResp, error) {
+	l := emailclasslogic.NewVerifyForgotEemailCodeLogic(ctx, s.svcCtx)
+	return l.VerifyForgotEemailCode(in)
 }

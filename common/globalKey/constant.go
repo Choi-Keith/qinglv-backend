@@ -14,6 +14,7 @@ var DateTimeFormatTplStandardDate = "Y-m-d"
 var DateTimeFormatTplStandardTime = "H:i:s"
 
 var VerifyEmailCodePrefixKey = "cache:qUser:email:verify:code:"
+var VerifyForgotPasswordEmailCodePrefixKey = "cache:qUser:email:verify:code:forgot:"
 var TokenPrefixKey = "cache:qUser:token:id:"
 
 const (

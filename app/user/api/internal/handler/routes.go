@@ -46,6 +46,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/follow/blacklist/count",
+				Handler: following.GetFollowBlackCountHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/user/v1"),
+	)
+
+	server.AddRoutes(
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.Authority},
 			[]rest.Route{
@@ -171,6 +182,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/user/:id",
 				Handler: user.GetUserByIdHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/password/forgot",
+				Handler: user.ForgotPasswordHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/password/reset",
+				Handler: user.ResetPasswordHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/user/v1"),

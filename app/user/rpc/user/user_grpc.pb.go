@@ -19,15 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	EmailClass_VerifyRegisterCode_FullMethodName = "/user.EmailClass/VerifyRegisterCode"
+	EmailClass_VerifyRegisterCode_FullMethodName     = "/user.EmailClass/VerifyRegisterCode"
+	EmailClass_VerifyForgotEemailCode_FullMethodName = "/user.EmailClass/VerifyForgotEemailCode"
 )
 
 // EmailClassClient is the client API for EmailClass service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EmailClassClient interface {
-	// group: email
 	VerifyRegisterCode(ctx context.Context, in *VerifyRegisterCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
+	VerifyForgotEemailCode(ctx context.Context, in *VerifyForgotEemailCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error)
 }
 
 type emailClassClient struct {
@@ -47,12 +48,21 @@ func (c *emailClassClient) VerifyRegisterCode(ctx context.Context, in *VerifyReg
 	return out, nil
 }
 
+func (c *emailClassClient) VerifyForgotEemailCode(ctx context.Context, in *VerifyForgotEemailCodeReq, opts ...grpc.CallOption) (*VerifyRegisterCodeResp, error) {
+	out := new(VerifyRegisterCodeResp)
+	err := c.cc.Invoke(ctx, EmailClass_VerifyForgotEemailCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EmailClassServer is the server API for EmailClass service.
 // All implementations must embed UnimplementedEmailClassServer
 // for forward compatibility
 type EmailClassServer interface {
-	// group: email
 	VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error)
+	VerifyForgotEemailCode(context.Context, *VerifyForgotEemailCodeReq) (*VerifyRegisterCodeResp, error)
 	mustEmbedUnimplementedEmailClassServer()
 }
 
@@ -62,6 +72,9 @@ type UnimplementedEmailClassServer struct {
 
 func (UnimplementedEmailClassServer) VerifyRegisterCode(context.Context, *VerifyRegisterCodeReq) (*VerifyRegisterCodeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyRegisterCode not implemented")
+}
+func (UnimplementedEmailClassServer) VerifyForgotEemailCode(context.Context, *VerifyForgotEemailCodeReq) (*VerifyRegisterCodeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyForgotEemailCode not implemented")
 }
 func (UnimplementedEmailClassServer) mustEmbedUnimplementedEmailClassServer() {}
 
@@ -94,6 +107,24 @@ func _EmailClass_VerifyRegisterCode_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _EmailClass_VerifyForgotEemailCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyForgotEemailCodeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EmailClassServer).VerifyForgotEemailCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: EmailClass_VerifyForgotEemailCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EmailClassServer).VerifyForgotEemailCode(ctx, req.(*VerifyForgotEemailCodeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // EmailClass_ServiceDesc is the grpc.ServiceDesc for EmailClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -104,6 +135,10 @@ var EmailClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyRegisterCode",
 			Handler:    _EmailClass_VerifyRegisterCode_Handler,
+		},
+		{
+			MethodName: "VerifyForgotEemailCode",
+			Handler:    _EmailClass_VerifyForgotEemailCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -350,6 +385,7 @@ const (
 	UserClass_UpdateUserScoreLevel_FullMethodName = "/user.UserClass/UpdateUserScoreLevel"
 	UserClass_UpdateAvatar_FullMethodName         = "/user.UserClass/UpdateAvatar"
 	UserClass_UpdateProfileBg_FullMethodName      = "/user.UserClass/UpdateProfileBg"
+	UserClass_ForgotPassword_FullMethodName       = "/user.UserClass/ForgotPassword"
 )
 
 // UserClassClient is the client API for UserClass service.
@@ -372,6 +408,7 @@ type UserClassClient interface {
 	UpdateUserScoreLevel(ctx context.Context, in *UpdateUserScoreLevelReq, opts ...grpc.CallOption) (*UpdateUserScoreLevelResp, error)
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarReq, opts ...grpc.CallOption) (*UpdateAvatarResp, error)
 	UpdateProfileBg(ctx context.Context, in *UpdateProfileBgReq, opts ...grpc.CallOption) (*UpdateProfileBgResp, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordReq, opts ...grpc.CallOption) (*OkResp, error)
 }
 
 type userClassClient struct {
@@ -526,6 +563,15 @@ func (c *userClassClient) UpdateProfileBg(ctx context.Context, in *UpdateProfile
 	return out, nil
 }
 
+func (c *userClassClient) ForgotPassword(ctx context.Context, in *ForgotPasswordReq, opts ...grpc.CallOption) (*OkResp, error) {
+	out := new(OkResp)
+	err := c.cc.Invoke(ctx, UserClass_ForgotPassword_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserClassServer is the server API for UserClass service.
 // All implementations must embed UnimplementedUserClassServer
 // for forward compatibility
@@ -546,6 +592,7 @@ type UserClassServer interface {
 	UpdateUserScoreLevel(context.Context, *UpdateUserScoreLevelReq) (*UpdateUserScoreLevelResp, error)
 	UpdateAvatar(context.Context, *UpdateAvatarReq) (*UpdateAvatarResp, error)
 	UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error)
+	ForgotPassword(context.Context, *ForgotPasswordReq) (*OkResp, error)
 	mustEmbedUnimplementedUserClassServer()
 }
 
@@ -600,6 +647,9 @@ func (UnimplementedUserClassServer) UpdateAvatar(context.Context, *UpdateAvatarR
 }
 func (UnimplementedUserClassServer) UpdateProfileBg(context.Context, *UpdateProfileBgReq) (*UpdateProfileBgResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProfileBg not implemented")
+}
+func (UnimplementedUserClassServer) ForgotPassword(context.Context, *ForgotPasswordReq) (*OkResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
 }
 func (UnimplementedUserClassServer) mustEmbedUnimplementedUserClassServer() {}
 
@@ -902,6 +952,24 @@ func _UserClass_UpdateProfileBg_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserClass_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForgotPasswordReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserClassServer).ForgotPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserClass_ForgotPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserClassServer).ForgotPassword(ctx, req.(*ForgotPasswordReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserClass_ServiceDesc is the grpc.ServiceDesc for UserClass service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -972,6 +1040,10 @@ var UserClass_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateProfileBg",
 			Handler:    _UserClass_UpdateProfileBg_Handler,
+		},
+		{
+			MethodName: "ForgotPassword",
+			Handler:    _UserClass_ForgotPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

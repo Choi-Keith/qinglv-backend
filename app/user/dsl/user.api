@@ -58,7 +58,6 @@ type (
 		Nickname   string `json:"nickname" validate:"required,max=50"`
 		Email      string `json:"email" validate:"required,email,max=50"`
 		Password   string `json:"password" validate:"required,min=6,max=50"`
-		RePassword string `json:"rePassword" validate:"required,min=6,max=50,eqfield=Password"`
 	}
 )
 
@@ -166,3 +165,12 @@ type (
 	}
 )
 
+
+type ForgotPasswordReq {
+	Email string `json:"email" validate:"required,email,max=50"`
+}
+
+type ResetPasswordReq{
+	Code string `json:"code"`
+	Password string `json:"password" validate:"required,min=6,max=50"`
+}

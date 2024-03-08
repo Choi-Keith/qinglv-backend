@@ -77,3 +77,15 @@ type (
 	}
 )
 
+
+type (
+	GetFollowBlackCountReq {
+		UserId uint64 `json:"userId,string"`
+	}
+	GetFollowBlackCountResp {
+		FollowerCount int64 `json:"followerCount"`
+		FollowingCount int64 `json:"followingCount"`
+		BlacklistCount int64 `json:"blacklistCount"`
+
+	}
+)

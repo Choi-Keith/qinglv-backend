@@ -12,7 +12,7 @@
 
 在dsl中生成ts接口
 `goctl api ts --api *.api --dir=../docs/`
-
+ 
 在rpc internal下生成model
 `goctl model mysql datasource -url="root:xxx@tcp(43.139.228.81:3306)/q_user" -table="user"  -dir="./model/user" -cache=true --style=go_zero --strict=true --home /home/ubuntu/backend/qinglv-backend/goctl/1.5.6`
 

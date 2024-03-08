@@ -36,6 +36,14 @@ service user {
 	@doc "用户详情"
 	@handler getUserById
 	get /user/:id (getUserByIdReq) returns (User)
+
+	@doc "忘记密码"
+	@handler forgotPassword
+	post /user/password/forgot (ForgotPasswordReq)
+
+	@doc "重置密码"
+	@handler resetPassword
+	post /user/password/reset (ResetPasswordReq)
 }
 
 // need login
@@ -105,6 +113,16 @@ service user {
 	@doc "删除角色"
 	@handler delRole
 	delete /role/:id
+}
+
+@server (
+	prefix: /user/v1
+	group:  following
+)
+service user {
+	@doc "关注信息数据"
+	@handler getFollowBlackCount
+	get /follow/blacklist/count (GetFollowBlackCountReq) returns (GetFollowBlackCountResp)
 }
 
 @server (
