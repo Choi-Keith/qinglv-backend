@@ -2,13 +2,13 @@ package user
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
 	"qinglv-backend/app/user/api/internal/svc"
-	"qinglv-backend/app/user/api/internal/types"
 	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,8 +34,12 @@ func NewUpdateAvatarLogic(ctx context.Context, svcCtx *svc.ServiceContext, r *ht
 	}
 }
 
-func (l *UpdateAvatarLogic) UpdateAvatar(req *types.AvatarReq) error {
+func (l *UpdateAvatarLogic) UpdateAvatar() error {
 	// todo: add your logic here and delete this line
+	userId, err := l.ctx.Value("userId").(json.Number).Int64()
+	if err != nil {
+		return err
+	}
 	file, header, err := l.r.FormFile(avatar)
 	logx.Debugf("[User] UpdateAvatar file: %+v, header: %+v\n", file, header)
 	if err != nil {
@@ -50,7 +54,7 @@ func (l *UpdateAvatarLogic) UpdateAvatar(req *types.AvatarReq) error {
 	}
 	_, err = l.svcCtx.UserRpc.UpdateAvatar(l.ctx, &user.UpdateAvatarReq{
 		Avatar: fmt.Sprintf("%s%s", l.svcCtx.Config.Cos.Endpoint, key),
-		UserId: req.Id,
+		UserId: uint64(userId),
 	})
 	if err != nil {
 		return err

@@ -9,10 +9,6 @@ type AddFollowingReq struct {
 	FollowingId uint64 `json:"followingId,string"`
 }
 
-type AvatarReq struct {
-	Id uint64 `path:"id,string"`
-}
-
 type BanUserReq struct {
 	Id uint64 `path:"id,string"`
 }
@@ -119,7 +115,7 @@ type ForgotPasswordReq struct {
 }
 
 type GetFollowBlackCountReq struct {
-	UserId uint64 `json:"userId,string"`
+	UserId uint64 `form:"userId,string"`
 }
 
 type GetFollowBlackCountResp struct {
@@ -256,10 +252,6 @@ type RoleListResp struct {
 
 type RoleReq struct {
 	Name string `json:"name" validate:"required,max=50"`
-}
-
-type UpdateProfileReq struct {
-	Id uint64 `path:"id,string"`
 }
 
 type UpdateUserReq struct {

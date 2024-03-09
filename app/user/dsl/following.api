@@ -80,7 +80,7 @@ type (
 
 type (
 	GetFollowBlackCountReq {
-		UserId uint64 `json:"userId,string"`
+		UserId uint64 `form:"userId,string"`
 	}
 	GetFollowBlackCountResp {
 		FollowerCount int64 `json:"followerCount"`

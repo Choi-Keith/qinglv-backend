@@ -5,22 +5,13 @@ import (
 
 	"qinglv-backend/app/user/api/internal/logic/user"
 	"qinglv-backend/app/user/api/internal/svc"
-	"qinglv-backend/app/user/api/internal/types"
 	"qinglv-backend/common/response"
-
-	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 func UpdateAvatarHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.AvatarReq
-		if err := httpx.Parse(r, &req); err != nil {
-			response.ParamsFail(w, err)
-			return
-		}
-
 		l := user.NewUpdateAvatarLogic(r.Context(), svcCtx, r)
-		err := l.UpdateAvatar(&req)
+		err := l.UpdateAvatar()
 		if err != nil {
 			response.FailCodeMsg(w, http.StatusBadRequest, err)
 		} else {

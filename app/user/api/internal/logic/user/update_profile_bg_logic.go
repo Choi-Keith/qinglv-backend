@@ -2,13 +2,13 @@ package user
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
 	"qinglv-backend/app/user/api/internal/svc"
-	"qinglv-backend/app/user/api/internal/types"
 	"qinglv-backend/app/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,8 +34,12 @@ func NewUpdateProfileBgLogic(ctx context.Context, svcCtx *svc.ServiceContext, r 
 	}
 }
 
-func (l *UpdateProfileBgLogic) UpdateProfileBg(req *types.UpdateProfileReq) error {
+func (l *UpdateProfileBgLogic) UpdateProfileBg() error {
 	// todo: add your logic here and delete this line
+	userId, err := l.ctx.Value("userId").(json.Number).Int64()
+	if err != nil {
+		return err
+	}
 	file, header, err := l.r.FormFile(profileBg)
 	if err != nil {
 		return err
@@ -49,7 +53,7 @@ func (l *UpdateProfileBgLogic) UpdateProfileBg(req *types.UpdateProfileReq) erro
 	}
 	_, err = l.svcCtx.UserRpc.UpdateProfileBg(l.ctx, &user.UpdateProfileBgReq{
 		ProfileBg: fmt.Sprintf("%s%s", l.svcCtx.Config.Cos.Endpoint, key),
-		UserId:    req.Id,
+		UserId:    uint64(userId),
 	})
 	if err != nil {
 		return err

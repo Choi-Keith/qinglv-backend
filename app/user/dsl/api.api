@@ -72,11 +72,11 @@ service user {
 
 	@doc "修改用户头像"
 	@handler updateAvatar
-	put /user/:id/avatar (AvatarReq)
+	put /user/avatar
 
 	@doc "修改个人主页背景"
 	@handler updateProfileBg
-	put /user/:id/background/image (UpdateProfileReq)
+	put /user/background/image
 
 	@doc "更改个人信息"
 	@handler updateUser

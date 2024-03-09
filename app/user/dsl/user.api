@@ -32,13 +32,6 @@ type (
 	}
 )
 
-type AvatarReq {
-	Id uint64 `path:"id,string"`
-}
-
-type UpdateProfileReq {
-	Id uint64 `path:"id,string"`
-}
 
 type UpdateUserReq {
 	UserId     uint64 `json:"userId,string"`

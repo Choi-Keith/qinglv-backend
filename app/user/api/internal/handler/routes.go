@@ -223,12 +223,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodPut,
-					Path:    "/user/:id/avatar",
+					Path:    "/user/avatar",
 					Handler: user.UpdateAvatarHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodPut,
-					Path:    "/user/:id/background/image",
+					Path:    "/user/background/image",
 					Handler: user.UpdateProfileBgHandler(serverCtx),
 				},
 				{
