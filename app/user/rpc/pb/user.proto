@@ -73,7 +73,7 @@ message UserItem {
   string motto = 7;
   string avatar = 8;
   string profileBg = 9;
-  int32 age = 10;
+  string birthday = 10;
   int32 gender = 11;
   int32 status = 12;
   string location = 13;
@@ -192,7 +192,7 @@ message UpdateUserReq{
   string motto = 5;
   string address = 6;
   string location = 7;
-  int32 age = 8;
+  string birthday = 8;
   int32 gender = 9;
   string profession = 10;
   int32 mailStatus = 11;

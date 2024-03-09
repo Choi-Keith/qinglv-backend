@@ -28,7 +28,7 @@ type BlackItemUser struct {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   string `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 }
@@ -63,7 +63,7 @@ type FollowUser struct {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   string `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 }
@@ -203,7 +203,7 @@ type MessageUser struct {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   string `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 	Score      int    `json:"score"`
@@ -257,7 +257,7 @@ type RoleReq struct {
 type UpdateUserReq struct {
 	UserId     uint64 `json:"userId,string"`
 	Nickname   string `json:"nickname" validate:"max=50"`
-	Age        int    `json:"age,range=[0:120],optional"`
+	Birthday   string `json:"birthday,optional"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Phone      string `json:"phone,optional"`
 	Motto      string `json:"motto,optional" validate:"max=200"`
@@ -271,13 +271,13 @@ type User struct {
 	Role          Role   `json:"-"`
 	RoleId        uint64 `json:"-"`
 	Nickname      string `json:"nickname"`
-	Email         string `json:"-"`
+	Email         string `json:"email"`
 	WeChat        string `json:"-"`
 	Motto         string `json:"motto"`
 	Avatar        string `json:"avatar"`
 	Profession    string `json:"profession"`
 	ProfileBg     string `json:"profileBg"`
-	Age           int    `json:"age,range=[0:120]"`
+	Birthday      string `json:"birthday"`
 	Gender        int    `json:"gender,options=[1,2],default=1"`
 	Location      string `json:"location"`
 	Address       string `json:"address"`
@@ -312,7 +312,7 @@ type UserReq struct {
 	Nickname string `json:"nickname" validate:"max=50"`
 	RoldId   uint64 `json:"roleId,string"`
 	Motto    string `json:"motto" validate:"max=200"`
-	Age      int    `json:"age,range=[0:120]" validate:"number,gt=0,lt=130"`
+	Birhtday string `json:"birthday"`
 	Gender   int    `json:"gender,options=[0,1],default=0" validate:"oneof=0,1"`
 	Location string `json:"location" validate:"max=200"`
 	Status   int    `json:"status,options=[0,1,2]" validate:"oneof=0,1,2"`

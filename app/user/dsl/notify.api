@@ -14,7 +14,7 @@ type MessageUser {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   string `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 	Score      int    `json:"score"`
@@ -33,7 +33,7 @@ type MessageItem {
 	TargetId       uint64 `json:"targetId,string"`
 	TargetTitle    string `json:"targetTitle"`
 	BizType        int32  `json:"bizType"` // 1文章，2其它
-	ActionType     int32 `json:"actionType"` // 1点赞，2收藏，3分享
+	ActionType     int32  `json:"actionType"` // 1点赞，2收藏，3分享
 	IsRead         int32  `json:"isRead"`
 	CreatedAt      uint64 `json:"createdAt"`
 	UpdatedAt      uint64 `json:"updated"`

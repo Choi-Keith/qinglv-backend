@@ -59,7 +59,7 @@ func genUserItem(userItem *userModel.User) *user.UserItem {
 		Motto:         userItem.Motto.String,
 		Avatar:        userItem.Avatar,
 		ProfileBg:     userItem.ProfileBg,
-		Age:           int32(userItem.Age.Int64),
+		Birthday:      userItem.Birthday.Format("2006-01-02"),
 		Gender:        int32(userItem.Gender),
 		Location:      userItem.Location.String,
 		Level:         int32(userItem.Level),

@@ -14,7 +14,7 @@ type TagUser {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   int    `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 	Score      int    `json:"score"`

@@ -69,7 +69,7 @@ func (l *UpdateUserLogic) UpdateUser(req *types.UpdateUserReq) error {
 		UserId:     req.UserId,
 		Phone:      req.Phone,
 		Nickname:   req.Nickname,
-		Age:        int32(req.Age),
+		Birthday:   req.Birthday,
 		Gender:     int32(req.Gender),
 		Profession: req.Profession,
 		Motto:      req.Motto,

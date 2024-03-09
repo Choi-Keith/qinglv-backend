@@ -15,7 +15,7 @@ type ArticleUser {
 	Motto       string `json:"motto"`
 	Avatar      string `json:"avatar"`
 	Profession  string `json:"profession"`
-	Age         int    `json:"age,range=[0:120]"`
+	Birthday    string `json:"birthday"`
 	Gender      int    `json:"gender,options=[1,2],default=1"`
 	Level       int    `json:"level"`
 	Score       int    `json:"score"`
@@ -52,13 +52,13 @@ type ArticleItem {
 }
 
 type AddArticleReq {
-	CategoryId uint64   `json:"categoryId,string,optional"`
-	Tag        []string `json:"tag,optional"`
-	Title      string   `json:"title" validate:"max=40"`
-	Introduction       string   `json:"introduction,optional" validate:"max=200"`
-	Content    string   `json:"content"`
-	CoverImage string   `json:"coverImage,optional"`
-	Visibility int      `json:"visibility,optional"`
+	CategoryId   uint64   `json:"categoryId,string,optional"`
+	Tag          []string `json:"tag,optional"`
+	Title        string   `json:"title" validate:"max=40"`
+	Introduction string   `json:"introduction,optional" validate:"max=200"`
+	Content      string   `json:"content"`
+	CoverImage   string   `json:"coverImage,optional"`
+	Visibility   int      `json:"visibility,optional"`
 }
 
 type UpdateArticleReq {

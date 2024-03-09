@@ -3,6 +3,7 @@ package userclasslogic
 import (
 	"context"
 	"database/sql"
+	"time"
 
 	"qinglv-backend/app/user/rpc/internal/svc"
 	"qinglv-backend/app/user/rpc/user"
@@ -34,10 +35,15 @@ func (l *UpdateUserLogic) UpdateUser(in *user.UpdateUserReq) (*user.UpdateUserRe
 	if userItem.Email != in.Email {
 		userItem.MailStatus = 1
 	}
-	userItem.Nickname = in.Nickname
-	userItem.Account = in.Nickname
+	nickname := userItem.Nickname
+	if in.Nickname != "" {
+		nickname = in.Nickname
+	}
+	userItem.Nickname = nickname
+	userItem.Account = nickname
+	userItem.Profession = sql.NullString{String: in.Profession, Valid: true}
 	userItem.Phone = sql.NullString{String: in.Phone, Valid: true}
-	userItem.Age = sql.NullInt64{Int64: int64(in.Age), Valid: true}
+	userItem.Birthday, _ = time.ParseInLocation("2006-01-02", in.Birthday, time.Local)
 	userItem.Gender = int64(in.Gender)
 	userItem.Motto = sql.NullString{String: in.Motto, Valid: true}
 	userItem.Location = sql.NullString{String: in.Location, Valid: true}

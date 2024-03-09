@@ -82,7 +82,7 @@ type ArticleUser struct {
 	Motto       string `json:"motto"`
 	Avatar      string `json:"avatar"`
 	Profession  string `json:"profession"`
-	Age         int    `json:"age,range=[0:120]"`
+	Birthday    string `json:"birthday"`
 	Gender      int    `json:"gender,options=[1,2],default=1"`
 	Level       int    `json:"level"`
 	Score       int    `json:"score"`
@@ -105,7 +105,7 @@ type CategoryUser struct {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   int    `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 	Score      int    `json:"score"`
@@ -150,7 +150,7 @@ type DraftUser struct {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   string `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 	Score      int    `json:"score"`
@@ -372,26 +372,16 @@ type PostItem struct {
 }
 
 type PostUser struct {
-	Id            uint64 `json:"id,string"`
-	IsFollowing   bool   `json:"isFollowing"`
-	Nickname      string `json:"nickname"`
-	Email         string `json:"-"`
-	WeChat        string `json:"-"`
-	Motto         string `json:"motto"`
-	Avatar        string `json:"avatar"`
-	Profession    string `json:"profession"`
-	ProfileBg     string `json:"profileBg"`
-	Age           int    `json:"age,range=[0:120]"`
-	Gender        int    `json:"gender,options=[1,2],default=1"`
-	Location      string `json:"location"`
-	Address       string `json:"address"`
-	Status        int    `json:"status"`
-	Level         int    `json:"level"`
-	Score         int    `json:"score"`
-	MailStatus    int    `json:"mailStatus"`
-	LastLoginTime uint64 `json:"lastLoginTime"`
-	CreatedAt     uint64 `json:"createdAt"`
-	UpdatedAt     uint64 `json:"updatedAt"`
+	Id          uint64 `json:"id,string"`
+	IsFollowing bool   `json:"isFollowing"`
+	Nickname    string `json:"nickname"`
+	Motto       string `json:"motto"`
+	Avatar      string `json:"avatar"`
+	Profession  string `json:"profession"`
+	Birthday    string `json:"birthday"`
+	Gender      int    `json:"gender,options=[1,2],default=1"`
+	Level       int    `json:"level"`
+	Score       int    `json:"score"`
 }
 
 type RemoveImagesReq struct {
@@ -417,7 +407,7 @@ type TagUser struct {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   int    `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 	Score      int    `json:"score"`
@@ -441,7 +431,7 @@ type TopicUser struct {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   int    `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 	Score      int    `json:"score"`

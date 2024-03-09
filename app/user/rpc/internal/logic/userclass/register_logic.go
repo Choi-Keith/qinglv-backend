@@ -58,6 +58,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 		logx.Errorf("register FindOne user failed: %v", err)
 		return nil, err
 	}
+	// birthday, _ := time.ParseInLocation("2006-01-02", userItem.Birthday, time.Local)
 	item := &user.UserItem{
 		Id:            userItem.Id,
 		RoleId:        userItem.RoleId,
@@ -69,7 +70,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 		Motto:         userItem.Motto.String,
 		Avatar:        userItem.Avatar,
 		ProfileBg:     userItem.ProfileBg,
-		Age:           int32(userItem.Age.Int64),
+		Birthday:      userItem.Birthday.Format("2006-01-02"),
 		Gender:        int32(userItem.Gender),
 		Location:      userItem.Location.String,
 		Level:         int32(userItem.Level),

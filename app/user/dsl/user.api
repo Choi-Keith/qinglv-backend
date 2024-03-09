@@ -32,11 +32,10 @@ type (
 	}
 )
 
-
 type UpdateUserReq {
 	UserId     uint64 `json:"userId,string"`
 	Nickname   string `json:"nickname" validate:"max=50"`
-	Age        int    `json:"age,range=[0:120],optional"`
+	Birthday   string `json:"birthday,optional"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Phone      string `json:"phone,optional"`
 	Motto      string `json:"motto,optional" validate:"max=200"`
@@ -47,10 +46,10 @@ type UpdateUserReq {
 
 type (
 	RegisterReq {
-		RoleId     uint64 `json:"roleId,string"`
-		Nickname   string `json:"nickname" validate:"required,max=50"`
-		Email      string `json:"email" validate:"required,email,max=50"`
-		Password   string `json:"password" validate:"required,min=6,max=50"`
+		RoleId   uint64 `json:"roleId,string"`
+		Nickname string `json:"nickname" validate:"required,max=50"`
+		Email    string `json:"email" validate:"required,email,max=50"`
+		Password string `json:"password" validate:"required,min=6,max=50"`
 	}
 )
 
@@ -59,13 +58,13 @@ type User {
 	Role          Role   `json:"-"`
 	RoleId        uint64 `json:"-"`
 	Nickname      string `json:"nickname"`
-	Email         string `json:"-"`
+	Email         string `json:"email"`
 	WeChat        string `json:"-"`
 	Motto         string `json:"motto"`
 	Avatar        string `json:"avatar"`
 	Profession    string `json:"profession"`
 	ProfileBg     string `json:"profileBg"`
-	Age           int    `json:"age,range=[0:120]"`
+	Birthday      string `json:"birthday"`
 	Gender        int    `json:"gender,options=[1,2],default=1"`
 	Location      string `json:"location"`
 	Address       string `json:"address"`
@@ -149,7 +148,7 @@ type (
 		Nickname string `json:"nickname" validate:"max=50"`
 		RoldId   uint64 `json:"roleId,string"`
 		Motto    string `json:"motto" validate:"max=200"`
-		Age      int    `json:"age,range=[0:120]" validate:"number,gt=0,lt=130"`
+		Birhtday string `json:"birthday"`
 		Gender   int    `json:"gender,options=[0,1],default=0" validate:"oneof=0,1"`
 		Location string `json:"location" validate:"max=200"`
 		Status   int    `json:"status,options=[0,1,2]" validate:"oneof=0,1,2"`
@@ -158,12 +157,12 @@ type (
 	}
 )
 
-
 type ForgotPasswordReq {
 	Email string `json:"email" validate:"required,email,max=50"`
 }
 
-type ResetPasswordReq{
-	Code string `json:"code"`
+type ResetPasswordReq {
+	Code     string `json:"code"`
 	Password string `json:"password" validate:"required,min=6,max=50"`
 }
+

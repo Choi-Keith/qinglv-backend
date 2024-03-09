@@ -14,7 +14,7 @@ type FollowUser {
 	Motto      string `json:"motto"`
 	Avatar     string `json:"avatar"`
 	Profession string `json:"profession"`
-	Age        int    `json:"age,range=[0:120]"`
+	Birthday   string `json:"birthday"`
 	Gender     int    `json:"gender,options=[1,2],default=1"`
 	Level      int    `json:"level"`
 }
@@ -56,9 +56,9 @@ type (
 
 type (
 	FollowingListReq {
-		userId uint64 `form:"userId,string,optional"`
-		PageNum     int    `form:"pageNum" validate:"required,gt=0"`
-		PageSize    int    `form:"pageSize" validate:"required,gt=0"`
+		userId   uint64 `form:"userId,string,optional"`
+		PageNum  int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	FollowingListResp {
 		List  []Following `json:"list"`
@@ -66,9 +66,9 @@ type (
 		Total uint64      `json:"total"`
 	}
 	FollowerListReq {
-		userId uint64 `form:"userId,string,optional"`
-		PageNum    int    `form:"pageNum" validate:"required,gt=0"`
-		PageSize   int    `form:"pageSize" validate:"required,gt=0"`
+		userId   uint64 `form:"userId,string,optional"`
+		PageNum  int    `form:"pageNum" validate:"required,gt=0"`
+		PageSize int    `form:"pageSize" validate:"required,gt=0"`
 	}
 	FollowerListResp {
 		List  []Follower `json:"list"`
@@ -77,15 +77,14 @@ type (
 	}
 )
 
-
 type (
 	GetFollowBlackCountReq {
 		UserId uint64 `form:"userId,string"`
 	}
 	GetFollowBlackCountResp {
-		FollowerCount int64 `json:"followerCount"`
+		FollowerCount  int64 `json:"followerCount"`
 		FollowingCount int64 `json:"followingCount"`
 		BlacklistCount int64 `json:"blacklistCount"`
-
 	}
 )
+
