@@ -86,6 +86,7 @@ message UserItem {
   int32 mailStatus = 20;
   string password = 21;
   string address = 22;
+  string profession = 23;
 }
 
 message RegisterReq {

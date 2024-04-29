@@ -46,6 +46,7 @@ func (l *CheckEmailExistLogic) CheckEmailExist(in *user.CheckEmailExistReq) (*us
 	}, nil
 }
 func genUserItem(userItem *userModel.User) *user.UserItem {
+	logx.Debugf("birthday: %v, newBirthday: %v\n", userItem.Birthday, userItem.Birthday.Format("2006-01-02"))
 	return &user.UserItem{
 		Id:            userItem.Id,
 		RoleId:        userItem.RoleId,
@@ -59,6 +60,7 @@ func genUserItem(userItem *userModel.User) *user.UserItem {
 		Motto:         userItem.Motto.String,
 		Avatar:        userItem.Avatar,
 		ProfileBg:     userItem.ProfileBg,
+		Profession:    userItem.Profession.String,
 		Birthday:      userItem.Birthday.Format("2006-01-02"),
 		Gender:        int32(userItem.Gender),
 		Location:      userItem.Location.String,

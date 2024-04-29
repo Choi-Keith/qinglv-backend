@@ -44,6 +44,7 @@ func (l *UpdateUserLogic) UpdateUser(in *user.UpdateUserReq) (*user.UpdateUserRe
 	userItem.Profession = sql.NullString{String: in.Profession, Valid: true}
 	userItem.Phone = sql.NullString{String: in.Phone, Valid: true}
 	userItem.Birthday, _ = time.ParseInLocation("2006-01-02", in.Birthday, time.Local)
+	logx.Debugf("[UpdateUser] in.Birthday: %v, userItem.birthday: %v\n", in.Birthday, userItem.Birthday)
 	userItem.Gender = int64(in.Gender)
 	userItem.Motto = sql.NullString{String: in.Motto, Valid: true}
 	userItem.Location = sql.NullString{String: in.Location, Valid: true}
